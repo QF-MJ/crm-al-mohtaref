@@ -1,6 +1,7 @@
 # Al-Muhtaref CRM — Customer Relationship Management System
 
 > Semester project — Al-Sham Private University, Faculty of Informatics Engineering — Academic Year 2025–2026
+> And real project in the same time it's for Almohtaref startup 
 
 A web-based Customer Relationship Management (CRM) system built specifically for **"Al-Muhtaref"**, a startup in the digital education sector for children. The system provides a single, unified record for every customer (parent / student) and connects the Marketing, Sales, Customer Service, and Educational Guidance departments on one platform, replacing the scattered manual tools currently in use (Google Sheets, Excel, paper notebooks, and unstructured WhatsApp conversations).
 
