@@ -1,16 +1,37 @@
-/* هوية «المحترف»: غيّر الألوان والخط من هذا الملف فقط.
-   القيم الحالية مؤقتة لحين اعتماد الهوية. */
+/* هوية المحترف: الألوان والخط */
+
 @import "@fontsource-variable/cairo";
 
 :root {
   --font-sans: "Cairo Variable", ui-sans-serif, system-ui, sans-serif;
-  --primary: #0b6e6e;
+
+  /* Brand colors */
+  --primary: #315E68;
   --primary-foreground: #ffffff;
-  --ring: #0b6e6e;
+  --ring: #315E68;
+
+  --secondary: #51C1B6;
+  --accent: #FFD142;
+  --destructive: #F16548;
+
+  /* General UI colors */
+  --background: #FAFAFA;
+  --foreground: #4D4D4D;
+  --card: #ffffff;
+  --border: #D9E1E3;
 }
 
 .dark {
-  --primary: #4fd1c5;
-  --primary-foreground: #0f171d;
-  --ring: #4fd1c5;
+  --primary: #51C1B6;
+  --primary-foreground: #0F171D;
+  --ring: #51C1B6;
+
+  --secondary: #315E68;
+  --accent: #FFD142;
+  --destructive: #F16548;
+
+  --background: #0F171D;
+  --foreground: #FAFAFA;
+  --card: #17252B;
+  --border: #34464D;
 }
