@@ -1,0 +1,46 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "oxc"],
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }],
+    "no-restricted-imports": [
+      "error",
+      { "paths": [{ "name": "axios", "message": "axios يُستخدم داخل src/api فقط. استخدم ملفات *.queries.ts" }] }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["src/api/**"],
+      "rules": { "no-restricted-imports": "off" }
+    },
+    {
+      "files": ["src/components/**", "src/hooks/**", "src/lib/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "paths": [{ "name": "axios", "message": "axios يُستخدم داخل src/api فقط" }],
+            "patterns": [
+              { "group": ["@/features/*", "@/features/**"], "message": "المكونات المشتركة لا تستورد من features" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/features/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "paths": [{ "name": "axios", "message": "axios يُستخدم داخل src/api فقط" }],
+            "patterns": [
+              { "group": ["@/features/*/**"], "message": "استورد من index.ts للميزة فقط. وملفات ميزتك الداخلية استوردها بمسار نسبي (./ أو ../)" }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "appName": "Al-Mohtaref CRM",
+  "nav": {
+    "clients": "Clients",
+    "campaigns": "Campaigns",
+    "academic": "Academic guidance",
+    "issues": "Issues",
+    "users": "Users",
+    "notifications": "Notifications"
+  },
+  "actions": {
+    "logout": "Log out",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "errors": {
+    "forbidden": "You do not have access to this page",
+    "notFound": "Page not found",
+    "backHome": "Back to home"
+  }
+}
