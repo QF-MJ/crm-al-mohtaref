@@ -55,4 +55,5 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
-.vs/
+.vs/node_modules/
+**/node_modules/
