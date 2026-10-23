@@ -1,0 +1,1 @@
+export { academicRoutes } from './routes'

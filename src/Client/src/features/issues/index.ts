@@ -1,0 +1,1 @@
+export { issuesRoutes } from './routes'

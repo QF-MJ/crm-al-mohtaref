@@ -1,0 +1,21 @@
+{
+  "appName": "CRM المحترف",
+  "nav": {
+    "clients": "العملاء",
+    "campaigns": "الحملات",
+    "academic": "التوجيه الأكاديمي",
+    "issues": "المشاكل",
+    "users": "المستخدمون",
+    "notifications": "الإشعارات"
+  },
+  "actions": {
+    "logout": "تسجيل الخروج",
+    "save": "حفظ",
+    "cancel": "إلغاء"
+  },
+  "errors": {
+    "forbidden": "لا تملك صلاحية الوصول لهذه الصفحة",
+    "notFound": "الصفحة غير موجودة",
+    "backHome": "العودة للرئيسية"
+  }
+}

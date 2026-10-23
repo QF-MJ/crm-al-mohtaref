@@ -1,0 +1,22 @@
+// كل المسارات كثوابت. لا تكتب مساراً نصياً داخل المكونات
+export const paths = {
+  login: '/login',
+  home: '/',
+  forbidden: '/403',
+  accountPassword: '/account/password',
+  notifications: '/notifications',
+  users: '/users',
+  usersNew: '/users/new',
+  clients: '/clients',
+  clientsImport: '/clients/import',
+  client: (id: string) => `/clients/${id}`,
+  clientCommunications: (id: string) => `/clients/${id}/communications`,
+  campaigns: '/campaigns',
+  campaignsNew: '/campaigns/new',
+  campaignsReports: '/campaigns/reports',
+  academicSubscribed: '/academic/subscribed-clients',
+  academicRecord: (studentId: string) => `/academic/records/${studentId}`,
+  issues: '/issues',
+  issuesNew: '/issues/new',
+  issue: (id: string) => `/issues/${id}`,
+} as const
