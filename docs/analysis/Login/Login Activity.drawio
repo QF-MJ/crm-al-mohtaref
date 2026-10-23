@@ -1,0 +1,150 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
+  <diagram name="تسجيل الدخول - Activity Diagram" id="login_activity">
+    <mxGraphModel dx="3247" dy="1409" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="1654" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="pool" parent="1" style="swimlane;html=1;whiteSpace=wrap;startSize=36;horizontal=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontStyle=1;fontFamily=Arial;fontSize=15;fontColor=#000000;" value="مخطط النشاط – تسجيل الدخول (Login)" vertex="1">
+          <mxGeometry height="1370" width="1170" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_sys" parent="pool" style="swimlane;html=1;whiteSpace=wrap;startSize=30;horizontal=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontStyle=1;fontFamily=Arial;fontSize=14;fontColor=#000000;" value="النظام (System)" vertex="1">
+          <mxGeometry height="1334" width="850" x="-10" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يعرض النظام نموذج تسجيل الدخول (اسم المستخدم، كلمة المرور)" vertex="1">
+          <mxGeometry height="60" width="240" x="580" y="204" as="geometry" />
+        </mxCell>
+        <mxCell id="d1" parent="lane_sys" style="rhombus;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="هل الحقلان معبآن؟" vertex="1">
+          <mxGeometry height="110" width="220" x="590" y="434" as="geometry" />
+        </mxCell>
+        <mxCell id="s5" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يتحقق النظام من وجود المستخدم وصحة كلمة المرور، وأن الحساب غير مجمّد وغير مقفل" vertex="1">
+          <mxGeometry height="80" width="240" x="580" y="594" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" parent="lane_sys" style="rhombus;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="هل التحقق ناجح؟" vertex="1">
+          <mxGeometry height="110" width="220" x="590" y="724" as="geometry" />
+        </mxCell>
+        <mxCell id="s6" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يصدر النظام توكن مرتبطاً بأدوار المستخدم وصلاحياته" vertex="1">
+          <mxGeometry height="70" width="240" x="580" y="884" as="geometry" />
+        </mxCell>
+        <mxCell id="s7" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يسجل النظام محاولة الدخول الناجحة ويعيد ضبط محدّد معدل المحاولات (Rate Limiting)" vertex="1">
+          <mxGeometry height="90" width="240" x="580" y="994" as="geometry" />
+        </mxCell>
+        <mxCell id="s8" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يتيح النظام للمستخدم الدخول إلى النظام" vertex="1">
+          <mxGeometry height="60" width="240" x="580" y="1124" as="geometry" />
+        </mxCell>
+        <mxCell id="end1" parent="lane_sys" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="36" width="36" x="682" y="1224" as="geometry" />
+        </mxCell>
+        <mxCell id="a_empty" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يعرض النظام رسالة تطلب إدخال البيانات المطلوبة" vertex="1">
+          <mxGeometry height="60" width="200" x="290" y="459" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يسجل النظام المحاولة الفاشلة ويحتسبها ضمن محدّد معدل المحاولات (Rate Limiting)" vertex="1">
+          <mxGeometry height="90" width="200" x="290" y="734" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" parent="lane_sys" style="rhombus;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="هل تجاوز عدد المحاولات الحد المسموح؟" vertex="1">
+          <mxGeometry height="120" width="240" x="270" y="869" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يقفل النظام تسجيل الدخول لهذا الحساب مؤقتاً ويسجل الحدث" vertex="1">
+          <mxGeometry height="70" width="200" x="290" y="1034" as="geometry" />
+        </mxCell>
+        <mxCell id="a4" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يعرض النظام رسالة عامة تفيد بتعذر تسجيل الدخول حالياً" vertex="1">
+          <mxGeometry height="70" width="200" x="290" y="1144" as="geometry" />
+        </mxCell>
+        <mxCell id="end2" parent="lane_sys" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="36" width="36" x="372" y="1254" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يعرض النظام الرسالة الموحدة: «اسم المستخدم أو كلمة المرور غير صحيحة»" vertex="1">
+          <mxGeometry height="80" width="200" x="20" y="889" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_usr" parent="pool" style="swimlane;html=1;whiteSpace=wrap;startSize=30;horizontal=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontStyle=1;fontFamily=Arial;fontSize=14;fontColor=#000000;" value="المستخدم (User)" vertex="1">
+          <mxGeometry height="1334" width="320" x="850" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="start" parent="lane_usr" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="28" width="28" x="146" y="54" as="geometry" />
+        </mxCell>
+        <mxCell id="u1" parent="lane_usr" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يفتح صفحة تسجيل الدخول" vertex="1">
+          <mxGeometry height="60" width="240" x="40" y="104" as="geometry" />
+        </mxCell>
+        <mxCell id="u3" parent="lane_usr" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يدخل اسم المستخدم وكلمة المرور ويضغط «دخول»" vertex="1">
+          <mxGeometry height="70" width="240" x="40" y="314" as="geometry" />
+        </mxCell>
+        <mxCell id="e0" edge="1" parent="1" source="start" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="u1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="u1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="s2" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="s2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="u3" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1010" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="u3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="d1" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1010" y="525" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="d1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="a_empty" value="لا">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="a_empty" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="u3" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="390" y="385" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="d1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="s5" value="نعم">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="s5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="d2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="d2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="s6" value="نعم">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="s6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="s7" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="s7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="s8" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="s8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="end1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="d2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="a1" value="لا">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="a1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="d3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="d3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="a2" value="لا">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="d3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="a3" value="نعم">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="1" source="a3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="a4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="1" source="a4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="end2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="1" source="a2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="u3" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="120" y="385" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
