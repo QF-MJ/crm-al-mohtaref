@@ -55,5 +55,7 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
-.vs/node_modules/
+
+# Visual Studio cache/options directory
+.vs/
 **/node_modules/
