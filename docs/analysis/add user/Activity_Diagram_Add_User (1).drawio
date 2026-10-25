@@ -1,6 +1,6 @@
 <mxfile host="Electron">
   <diagram name="Add User - Activity" id="act_add_user">
-    <mxGraphModel dx="1835" dy="1006" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1560" math="0" shadow="0">
+    <mxGraphModel dx="1239" dy="679" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1560" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -24,12 +24,6 @@
         </mxCell>
         <mxCell id="a3" parent="lane_a" style="fontSize=13;html=1;whiteSpace=wrap;rounded=1;arcSize=25;" value="تحديد دور المستخدم وصلاحياته والضغط على «حفظ»" vertex="1">
           <mxGeometry height="60" width="180" x="150" y="940" as="geometry" />
-        </mxCell>
-        <mxCell id="n1" parent="lane_a" style="shape=note;size=12;html=1;whiteSpace=wrap;align=right;fontSize=12;dashed=1;" value="يمكن للـ Admin إلغاء العملية في أي خطوة قبل الحفظ، فيتجاهل النظام المدخلات ويعود إلى قائمة المستخدمين (A1)" vertex="1">
-          <mxGeometry height="60" width="440" x="20" y="1160" as="geometry" />
-        </mxCell>
-        <mxCell id="n2" parent="lane_a" style="shape=note;size=12;html=1;whiteSpace=wrap;align=right;fontSize=12;dashed=1;" value="عند انتهاء الجلسة في أي خطوة يحوّل النظام الـ Admin إلى صفحة تسجيل الدخول ولا يُحفظ أي شيء (E1)" vertex="1">
-          <mxGeometry height="60" width="440" x="20" y="1250" as="geometry" />
         </mxCell>
         <mxCell id="lane_s" parent="1" style="swimlane;startSize=30;html=1;fontSize=14;fontStyle=1;swimlaneFillColor=#ffffff;" value="النظام (System)" vertex="1">
           <mxGeometry height="1440" width="640" x="520" y="40" as="geometry" />
