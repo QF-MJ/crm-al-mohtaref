@@ -723,7 +723,7 @@
     </mxGraphModel>
   </diagram>
   <diagram name="1-المستخدمون والصلاحيات" id="p1">
-    <mxGraphModel dx="1462" dy="1044" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1400" math="0" shadow="0">
+    <mxGraphModel dx="858" dy="605" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1400" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -746,16 +746,13 @@
           <mxGeometry height="56" width="170" x="249" y="272" as="geometry" />
         </mxCell>
         <mxCell id="p1_notif" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" value="عرض الإشعارات" vertex="1">
-          <mxGeometry height="56" width="170" x="249" y="351" as="geometry" />
+          <mxGeometry height="56" width="170" x="249" y="337" as="geometry" />
         </mxCell>
         <mxCell id="p1_ulist" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="عرض قائمة المستخدمين" vertex="1">
           <mxGeometry height="56" width="170" x="240" y="489" as="geometry" />
         </mxCell>
         <mxCell id="p1_uadd" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="إضافة مستخدم" vertex="1">
           <mxGeometry height="56" width="170" x="240" y="560" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_role" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="تحديد الدور والصلاحيات" vertex="1">
-          <mxGeometry height="56" width="170" x="520" y="600" as="geometry" />
         </mxCell>
         <mxCell id="p1_uedit" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="تعديل بيانات مستخدم" vertex="1">
           <mxGeometry height="56" width="170" x="240" y="629" as="geometry" />
@@ -801,14 +798,8 @@
         <mxCell id="p1_e10" edge="1" parent="1" source="p1_ad" style="endArrow=none;html=1;rounded=0;exitX=0.75;exitY=0.1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="p1_perms" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="p1_e11" edge="1" parent="1" source="p1_uadd" style="endArrow=open;endSize=10;dashed=1;html=1;rounded=0;fontSize=9;labelBackgroundColor=default;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="p1_role" value="«include»">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="p1_e12" edge="1" parent="1" source="p1_role" style="endArrow=open;endSize=10;dashed=1;html=1;rounded=0;fontSize=9;labelBackgroundColor=default;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="p1_uedit" value="«extend»">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
         <mxCell id="CXzlx9g_N00pbAYkwcWY-5" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;" value="عرض مهام" vertex="1">
-          <mxGeometry height="56" width="170" x="424" y="223" as="geometry" />
+          <mxGeometry height="56" width="170" x="453" y="223" as="geometry" />
         </mxCell>
         <mxCell id="CXzlx9g_N00pbAYkwcWY-7" edge="1" parent="1" source="p1_u" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.75;exitY=0.1;exitDx=0;exitDy=0;exitPerimeter=0;" target="CXzlx9g_N00pbAYkwcWY-5" value="">
           <mxGeometry relative="1" as="geometry">
@@ -817,9 +808,9 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="CXzlx9g_N00pbAYkwcWY-8" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;" value="تغير حالة مهمة" vertex="1">
-          <mxGeometry height="56" width="170" x="424" y="117" as="geometry" />
+          <mxGeometry height="56" width="170" x="448" y="323" as="geometry" />
         </mxCell>
-        <mxCell id="CXzlx9g_N00pbAYkwcWY-9" edge="1" parent="1" source="CXzlx9g_N00pbAYkwcWY-8" style="endArrow=open;endSize=10;dashed=1;html=1;rounded=0;fontSize=9;labelBackgroundColor=default;" target="CXzlx9g_N00pbAYkwcWY-5" value="«extend»">
+        <mxCell id="CXzlx9g_N00pbAYkwcWY-9" edge="1" parent="1" source="CXzlx9g_N00pbAYkwcWY-8" style="endArrow=open;endSize=10;dashed=1;html=1;rounded=0;fontSize=9;labelBackgroundColor=default;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="CXzlx9g_N00pbAYkwcWY-5" value="«extend»">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="614" y="580" as="sourcePoint" />
             <mxPoint x="490" y="598" as="targetPoint" />
@@ -849,11 +840,26 @@
         <mxCell id="vh82J5Rl0248F7UKNl_x-9" parent="vh82J5Rl0248F7UKNl_x-15" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 32px;&quot; face=&quot;Verdana&quot;&gt;إدارة المهام&lt;/font&gt;" vertex="1">
           <mxGeometry height="30" width="220" x="34" y="183" as="geometry" />
         </mxCell>
+        <mxCell id="BDgGgs4MN615dn5rW0gJ-1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;" value="عرض مهمة" vertex="1">
+          <mxGeometry height="56" width="170" x="240" y="413" as="geometry" />
+        </mxCell>
+        <mxCell id="d3ci7NEBkzbjFmNKya6w-3" edge="1" parent="1" source="p1_u" style="endArrow=none;html=1;rounded=0;exitX=0.75;exitY=0.1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="BDgGgs4MN615dn5rW0gJ-1" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="222" y="328" as="sourcePoint" />
+            <mxPoint x="368" y="447" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="d3ci7NEBkzbjFmNKya6w-5" edge="1" parent="1" source="CXzlx9g_N00pbAYkwcWY-8" style="endArrow=open;endSize=10;dashed=1;html=1;rounded=0;fontSize=9;labelBackgroundColor=default;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="BDgGgs4MN615dn5rW0gJ-1" value="«extend»">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="536" y="362" as="sourcePoint" />
+            <mxPoint x="543" y="314" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
   <diagram name="2-إدارة العملاء" id="p2">
-    <mxGraphModel dx="738" dy="527" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1400" math="0" shadow="0">
+    <mxGraphModel dx="1030" dy="726" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1400" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -869,32 +875,23 @@
         <mxCell id="p2_w" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="واتساب" vertex="1">
           <mxGeometry height="60" width="30" x="790" y="760" as="geometry" />
         </mxCell>
-        <mxCell id="p2_add" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" value="إضافة عميل (أول تواصل)" vertex="1">
-          <mxGeometry height="56" width="170" x="302" y="176" as="geometry" />
-        </mxCell>
-        <mxCell id="p2_link" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" value="ربط طالب بولي الأمر" vertex="1">
-          <mxGeometry height="56" width="170" x="520" y="176" as="geometry" />
+        <mxCell id="p2_add" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" value="إضافة عميل" vertex="1">
+          <mxGeometry height="56" width="170" x="297" y="163" as="geometry" />
         </mxCell>
         <mxCell id="p2_edit" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" value="تعديل بيانات العميل" vertex="1">
           <mxGeometry height="56" width="170" x="294" y="417" as="geometry" />
         </mxCell>
         <mxCell id="2" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" value="إضافة ملاحظة على العميل" vertex="1">
-          <mxGeometry height="56" width="170" x="292" y="351" as="geometry" />
-        </mxCell>
-        <mxCell id="p2_list" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" value="عرض العملاء والبحث" vertex="1">
-          <mxGeometry height="56" width="170" x="304" y="244" as="geometry" />
+          <mxGeometry height="56" width="170" x="294" y="336" as="geometry" />
         </mxCell>
         <mxCell id="p2_file" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" value="عرض الملف الموحد للعميل" vertex="1">
           <mxGeometry height="56" width="170" x="294" y="487" as="geometry" />
         </mxCell>
         <mxCell id="p2_tl" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" value="عرض سجل رحلة العميل (Timeline)" vertex="1">
-          <mxGeometry height="56" width="170" x="530" y="487" as="geometry" />
+          <mxGeometry height="56" width="170" x="530" y="496" as="geometry" />
         </mxCell>
         <mxCell id="p2_chg" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fad7ac;strokeColor=#b46504;" value="تغيير حالة العميل" vertex="1">
-          <mxGeometry height="56" width="170" x="238" y="109" as="geometry" />
-        </mxCell>
-        <mxCell id="p2_log" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fad7ac;strokeColor=#b46504;" value="تسجيل تغيير الحالة (المستخدم والتاريخ)" vertex="1">
-          <mxGeometry height="56" width="170" x="474" y="102" as="geometry" />
+          <mxGeometry height="56" width="170" x="297" y="90" as="geometry" />
         </mxCell>
         <mxCell id="p2_contact" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fad7ac;strokeColor=#b46504;" value="تسجيل تواصل مع العميل" vertex="1">
           <mxGeometry height="56" width="170" x="297" y="552" as="geometry" />
@@ -912,9 +909,6 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="p2_e3" edge="1" parent="1" source="p2_s" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.75;exitY=0.1;exitDx=0;exitDy=0;exitPerimeter=0;" target="2" value="">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="p2_e4" edge="1" parent="1" source="p2_s" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.75;exitY=0.1;exitDx=0;exitDy=0;exitPerimeter=0;" target="p2_list" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="p2_e5" edge="1" parent="1" source="p2_s" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.75;exitY=0.1;exitDx=0;exitDy=0;exitPerimeter=0;" target="p2_file" value="">
@@ -944,12 +938,6 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="p2_e17" edge="1" parent="1" source="p2_w" style="endArrow=none;html=1;rounded=0;exitX=0.25;exitY=0.1;exitDx=0;exitDy=0;exitPerimeter=0;" target="p2_wa_st" value="">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="p2_e20" edge="1" parent="1" source="p2_chg" style="endArrow=open;endSize=10;dashed=1;html=1;rounded=0;fontSize=9;labelBackgroundColor=default;" target="p2_log" value="«include»">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="p2_e21" edge="1" parent="1" source="p2_link" style="endArrow=none;endSize=10;dashed=1;html=1;rounded=0;fontSize=9;labelBackgroundColor=default;startArrow=classicThin;startFill=0;endFill=0;" target="p2_add" value="&amp;lt;include&amp;gt;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="p2_e22" edge="1" parent="1" source="p2_tl" style="endArrow=open;endSize=10;dashed=1;html=1;rounded=0;fontSize=9;labelBackgroundColor=default;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" target="p2_file" value="«extend»">
@@ -994,16 +982,25 @@
         <mxCell id="rrvTKuit3mlphZHPCbZ--9" parent="rrvTKuit3mlphZHPCbZ--2" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 32px;&quot; face=&quot;Verdana&quot;&gt;إدارة مبيعات&lt;/font&gt;" vertex="1">
           <mxGeometry height="30" width="220" x="34" y="183" as="geometry" />
         </mxCell>
+        <mxCell id="zAiiUSXZlmwzIiBAjBtg-3" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" value="إضافة طالب" vertex="1">
+          <mxGeometry height="56" width="170" x="530" y="424" as="geometry" />
+        </mxCell>
+        <mxCell id="zAiiUSXZlmwzIiBAjBtg-5" edge="1" parent="1" source="zAiiUSXZlmwzIiBAjBtg-3" style="endArrow=open;endSize=10;dashed=1;html=1;rounded=0;fontSize=9;labelBackgroundColor=default;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" target="p2_edit" value="«extend»">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="591" y="505" as="sourcePoint" />
+            <mxPoint x="525" y="505" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
   <diagram name="3-المبيعات والتوزيع" id="p3">
-    <mxGraphModel dx="1027" dy="734" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1400" math="0" shadow="0">
+    <mxGraphModel dx="1030" dy="674" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1400" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="ZYsoT9Bp8JrzFOEhKJee-42" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=260;height=30;fontSize=11;" value="المبيعات والتوزيع والمتابعة - CRM" vertex="1">
-          <mxGeometry height="840" width="501" x="348" y="151" as="geometry" />
+          <mxGeometry height="730" width="501" x="348" y="151" as="geometry" />
         </mxCell>
         <mxCell id="ZYsoT9Bp8JrzFOEhKJee-43" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=11;" value="موظف مبيعات" vertex="1">
           <mxGeometry height="60" width="30" x="206" y="261" as="geometry" />
@@ -1012,75 +1009,45 @@
           <mxGeometry height="60" width="30" x="211" y="571" as="geometry" />
         </mxCell>
         <mxCell id="ZYsoT9Bp8JrzFOEhKJee-45" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=11;" value="Google Sheets" vertex="1">
-          <mxGeometry height="60" width="30" x="916" y="721" as="geometry" />
+          <mxGeometry height="60" width="30" x="917" y="600" as="geometry" />
         </mxCell>
         <mxCell id="ZYsoT9Bp8JrzFOEhKJee-46" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=11;" value="المؤقّت (النظام)" vertex="1">
-          <mxGeometry height="60" width="30" x="923" y="931" as="geometry" />
+          <mxGeometry height="60" width="30" x="921.5" y="801" as="geometry" />
         </mxCell>
-        <mxCell id="ZYsoT9Bp8JrzFOEhKJee-47" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" value="عرض مواعيد المتابعة" vertex="1">
-          <mxGeometry height="60" width="170" x="369" y="196" as="geometry" />
-        </mxCell>
-        <mxCell id="ZYsoT9Bp8JrzFOEhKJee-48" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" value="تسجيل دفعة واشتراك بكورس" vertex="1">
-          <mxGeometry height="46" width="171" x="363" y="291" as="geometry" />
+        <mxCell id="ZYsoT9Bp8JrzFOEhKJee-48" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" value="اشتراك بكورس" vertex="1">
+          <mxGeometry height="46" width="171" x="362" y="236" as="geometry" />
         </mxCell>
         <mxCell id="ZYsoT9Bp8JrzFOEhKJee-49" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" value="نقل بيانات العميل إلى فريق التوجيه" vertex="1">
-          <mxGeometry height="46" width="167" x="636" y="291" as="geometry" />
-        </mxCell>
-        <mxCell id="ZYsoT9Bp8JrzFOEhKJee-50" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" value="جدولة موعد متابعة" vertex="1">
-          <mxGeometry height="75" width="168" x="376" y="431" as="geometry" />
+          <mxGeometry height="46" width="167" x="642" y="242" as="geometry" />
         </mxCell>
         <mxCell id="ZYsoT9Bp8JrzFOEhKJee-51" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" value="توزيع العملاء تلقائيا" vertex="1">
-          <mxGeometry height="47" width="169" x="369" y="549" as="geometry" />
-        </mxCell>
-        <mxCell id="ZYsoT9Bp8JrzFOEhKJee-52" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" value="فلترة العملاء قبل التوزيع" vertex="1">
-          <mxGeometry height="50" width="169" x="659" y="549" as="geometry" />
+          <mxGeometry height="47" width="169" x="616" y="398" as="geometry" />
         </mxCell>
         <mxCell id="ZYsoT9Bp8JrzFOEhKJee-53" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" value="تخصيص عملاء يدويا" vertex="1">
-          <mxGeometry height="45" width="168" x="371" y="641" as="geometry" />
+          <mxGeometry height="45" width="168" x="624" y="501" as="geometry" />
         </mxCell>
-        <mxCell id="ZYsoT9Bp8JrzFOEhKJee-54" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" value="إعادة تخصيص عميل" vertex="1">
-          <mxGeometry height="47" width="169" x="659" y="639" as="geometry" />
-        </mxCell>
-        <mxCell id="ZYsoT9Bp8JrzFOEhKJee-55" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;fontSize=11;" value="استيراد بيانات العملاء يدويا" vertex="1">
-          <mxGeometry height="55" width="190" x="366" y="726" as="geometry" />
+        <mxCell id="ZYsoT9Bp8JrzFOEhKJee-55" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" value="استيراد بيانات العملاء يدويا" vertex="1">
+          <mxGeometry height="55" width="190" x="371" y="597" as="geometry" />
         </mxCell>
         <mxCell id="ZYsoT9Bp8JrzFOEhKJee-56" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffff88;strokeColor=#36393d;fontSize=11;" value="قراءة بيانات Google Sheets" vertex="1">
-          <mxGeometry height="55" width="170" x="631" y="726" as="geometry" />
+          <mxGeometry height="55" width="170" x="639" y="597" as="geometry" />
         </mxCell>
         <mxCell id="ZYsoT9Bp8JrzFOEhKJee-57" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#eeeeee;strokeColor=#36393d;fontSize=11;" value="إشعار مدير المبيعات بنتيجة الاستيراد" vertex="1">
-          <mxGeometry height="60" width="170" x="631" y="816" as="geometry" />
+          <mxGeometry height="60" width="170" x="671" y="700" as="geometry" />
         </mxCell>
         <mxCell id="ZYsoT9Bp8JrzFOEhKJee-58" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffff88;strokeColor=#36393d;fontSize=11;" value="التحقق الدوري من وجود بيانات جديدة" vertex="1">
-          <mxGeometry height="60" width="190" x="371" y="854" as="geometry" />
+          <mxGeometry height="60" width="190" x="422" y="735" as="geometry" />
         </mxCell>
         <mxCell id="ZYsoT9Bp8JrzFOEhKJee-59" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-44" style="endArrow=block;endFill=0;endSize=12;html=1;" target="ZYsoT9Bp8JrzFOEhKJee-43">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ZYsoT9Bp8JrzFOEhKJee-60" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-43" style="endArrow=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" target="ZYsoT9Bp8JrzFOEhKJee-47">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
         <mxCell id="ZYsoT9Bp8JrzFOEhKJee-61" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-43" style="endArrow=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" target="ZYsoT9Bp8JrzFOEhKJee-48">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="ZYsoT9Bp8JrzFOEhKJee-62" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-44" style="endArrow=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" target="ZYsoT9Bp8JrzFOEhKJee-50">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="ZYsoT9Bp8JrzFOEhKJee-63" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-44" style="endArrow=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" target="ZYsoT9Bp8JrzFOEhKJee-51">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="ZYsoT9Bp8JrzFOEhKJee-64" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-44" style="endArrow=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" target="ZYsoT9Bp8JrzFOEhKJee-53">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="ZYsoT9Bp8JrzFOEhKJee-65" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-44" style="endArrow=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" target="ZYsoT9Bp8JrzFOEhKJee-55">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="ZYsoT9Bp8JrzFOEhKJee-66" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-48" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=8;labelBackgroundColor=none;" target="ZYsoT9Bp8JrzFOEhKJee-49" value="«include»">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="ZYsoT9Bp8JrzFOEhKJee-67" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-52" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=8;labelBackgroundColor=none;" target="ZYsoT9Bp8JrzFOEhKJee-51" value="«extend»">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="ZYsoT9Bp8JrzFOEhKJee-68" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-54" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=8;labelBackgroundColor=none;" target="ZYsoT9Bp8JrzFOEhKJee-53" value="«extend»">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="ZYsoT9Bp8JrzFOEhKJee-69" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-56" style="endArrow=none;html=1;entryX=0.25;entryY=0.1;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="ZYsoT9Bp8JrzFOEhKJee-45">
@@ -1092,14 +1059,11 @@
         <mxCell id="ZYsoT9Bp8JrzFOEhKJee-71" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-55" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=8;labelBackgroundColor=none;" target="ZYsoT9Bp8JrzFOEhKJee-56" value="«include»">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ZYsoT9Bp8JrzFOEhKJee-72" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-58" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=8;labelBackgroundColor=none;entryX=0;entryY=1;entryDx=0;entryDy=0;" target="ZYsoT9Bp8JrzFOEhKJee-56" value="«include»">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
         <mxCell id="ZYsoT9Bp8JrzFOEhKJee-73" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-58" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=8;labelBackgroundColor=none;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ZYsoT9Bp8JrzFOEhKJee-57" value="«include»">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="M8LRu1sD99J0gOMwGPmy-1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="&lt;div&gt;خدمة الإشعارات&lt;/div&gt;" vertex="1">
-          <mxGeometry height="60" width="30" x="920" y="826" as="geometry" />
+          <mxGeometry height="60" width="30" x="921.5" y="707" as="geometry" />
         </mxCell>
         <mxCell id="M8LRu1sD99J0gOMwGPmy-2" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-57" style="endArrow=none;html=1;entryX=0.25;entryY=0.1;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="M8LRu1sD99J0gOMwGPmy-1">
           <mxGeometry relative="1" as="geometry">
@@ -1131,16 +1095,57 @@
         <mxCell id="6yRz9vtNbugYeUfAC1Ck-8" parent="6yRz9vtNbugYeUfAC1Ck-1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 32px;&quot; face=&quot;Verdana&quot;&gt;إدارة مبيعات&lt;/font&gt;" vertex="1">
           <mxGeometry height="30" width="220" x="34" y="183" as="geometry" />
         </mxCell>
+        <mxCell id="lo77KseZBwqExO0fsofc-1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" value="&lt;div style=&quot;text-align: start;&quot;&gt;تسجيل دفعة&lt;/div&gt;" vertex="1">
+          <mxGeometry height="46" width="171" x="371" y="304" as="geometry" />
+        </mxCell>
+        <mxCell id="lo77KseZBwqExO0fsofc-2" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-43" style="endArrow=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="lo77KseZBwqExO0fsofc-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="308" as="sourcePoint" />
+            <mxPoint x="453" y="346" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NTE1zTIC-E0X0crZppsX-1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" value="عرض العملاء والبحث" vertex="1">
+          <mxGeometry height="56" width="170" x="376" y="445" as="geometry" />
+        </mxCell>
+        <mxCell id="NTE1zTIC-E0X0crZppsX-2" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-44" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" target="NTE1zTIC-E0X0crZppsX-1" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="187" y="561" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NTE1zTIC-E0X0crZppsX-3" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-51" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=8;labelBackgroundColor=none;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" target="NTE1zTIC-E0X0crZppsX-1" value="«extend»">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="715" y="575" as="sourcePoint" />
+            <mxPoint x="604" y="575" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NTE1zTIC-E0X0crZppsX-4" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-53" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=8;labelBackgroundColor=none;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" value="«extend»">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="669" y="498" as="sourcePoint" />
+            <mxPoint x="540" y="473.33" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JsYsPeuZ0PXLUNj-SGUN-1" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-58" style="endArrow=none;html=1;entryX=0.25;entryY=0.1;entryDx=0;entryDy=0;exitX=0.729;exitY=0.043;exitDx=0;exitDy=0;entryPerimeter=0;exitPerimeter=0;" target="ZYsoT9Bp8JrzFOEhKJee-45">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="691.5" y="642" as="sourcePoint" />
+            <mxPoint x="836.5" y="692" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JsYsPeuZ0PXLUNj-SGUN-2" edge="1" parent="1" source="ZYsoT9Bp8JrzFOEhKJee-56" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=8;labelBackgroundColor=none;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="ZYsoT9Bp8JrzFOEhKJee-58" value="«extend»">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="662" y="707.0000000000001" as="sourcePoint" />
+            <mxPoint x="578" y="656.33" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
   <diagram name="4-التسويق" id="p4">
-    <mxGraphModel dx="1206" dy="862" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1400" math="0" shadow="0">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1100" pageHeight="1400" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="p4_frame" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=260;height=30;" value="CRM - التسويق" vertex="1">
-          <mxGeometry height="576" width="260" x="220" y="40" as="geometry" />
+          <mxGeometry height="576" width="400" x="220" y="40" as="geometry" />
         </mxCell>
         <mxCell id="p4_e" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="موظف تسويق" vertex="1">
           <mxGeometry height="60" width="30" x="80" y="160" as="geometry" />
@@ -1149,16 +1154,16 @@
           <mxGeometry height="60" width="30" x="80" y="400" as="geometry" />
         </mxCell>
         <mxCell id="p4_view" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f9f7ed;strokeColor=#36393d;" value="عرض الحملات الإعلانية" vertex="1">
-          <mxGeometry height="56" width="170" x="250" y="140" as="geometry" />
+          <mxGeometry height="56" width="170" x="280" y="140" as="geometry" />
         </mxCell>
-        <mxCell id="p4_reg" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f9f7ed;strokeColor=#36393d;" value="تسجيل حملة إعلانية" vertex="1">
-          <mxGeometry height="56" width="170" x="250" y="320" as="geometry" />
+        <mxCell id="p4_reg" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f9f7ed;strokeColor=#36393d;" value="اضافة حملة إعلانية" vertex="1">
+          <mxGeometry height="56" width="170" x="250" y="305" as="geometry" />
         </mxCell>
         <mxCell id="p4_edit" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f9f7ed;strokeColor=#36393d;" value="تعديل بيانات الحملة" vertex="1">
-          <mxGeometry height="56" width="170" x="250" y="390" as="geometry" />
+          <mxGeometry height="56" width="170" x="290" y="420" as="geometry" />
         </mxCell>
         <mxCell id="p4_status" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f9f7ed;strokeColor=#36393d;" value="تحديث حالة الحملة" vertex="1">
-          <mxGeometry height="56" width="170" x="265" y="460" as="geometry" />
+          <mxGeometry height="56" width="170" x="290" y="515" as="geometry" />
         </mxCell>
         <mxCell id="p4_e1" edge="1" parent="1" source="p4_mg" style="endArrow=block;endFill=0;endSize=14;html=1;rounded=0;" target="p4_e" value="">
           <mxGeometry relative="1" as="geometry" />
@@ -1176,7 +1181,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="5-TSWvOpfzDromLDJp5b-1" connectable="0" parent="1" style="group" value="" vertex="1">
-          <mxGeometry height="220" width="335" x="167.5" y="640" as="geometry" />
+          <mxGeometry height="220" width="335" x="240" y="640" as="geometry" />
         </mxCell>
         <mxCell id="5-TSWvOpfzDromLDJp5b-2" parent="5-TSWvOpfzDromLDJp5b-1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="" vertex="1">
           <mxGeometry height="90" width="324.5" x="18" as="geometry" />
@@ -1187,55 +1192,64 @@
         <mxCell id="5-TSWvOpfzDromLDJp5b-4" parent="5-TSWvOpfzDromLDJp5b-1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 32px;&quot; face=&quot;Verdana&quot;&gt;إدارة التنبيهات&lt;/font&gt;" vertex="1">
           <mxGeometry height="25.78125" width="241" x="32.5" y="31.796875" as="geometry" />
         </mxCell>
+        <mxCell id="NXvdHjRVsfrJZL4jH8qn-1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=11;" value="Google Sheets" vertex="1">
+          <mxGeometry height="60" width="30" x="660" y="245" as="geometry" />
+        </mxCell>
+        <mxCell id="bk1wKxSloYrUryR6nHQ1-1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffff88;strokeColor=#36393d;fontSize=11;" value="ربط الحملة ب Google sheets" vertex="1">
+          <mxGeometry height="55" width="170" x="435" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="ZqNcK6Abo66NmGH0P0Vm-1" edge="1" parent="1" source="p4_reg" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=8;labelBackgroundColor=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=1;entryDx=0;entryDy=0;" target="bk1wKxSloYrUryR6nHQ1-1" value="«include»">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="428.5" y="350" as="sourcePoint" />
+            <mxPoint x="506.5" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ZqNcK6Abo66NmGH0P0Vm-2" edge="1" parent="1" source="bk1wKxSloYrUryR6nHQ1-1" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.25;entryY=0.1;entryDx=0;entryDy=0;entryPerimeter=0;" target="NXvdHjRVsfrJZL4jH8qn-1" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="520" y="418" as="sourcePoint" />
+            <mxPoint x="667" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
   <diagram name="5-خدمة العملاء والمشاكل" id="p5">
-    <mxGraphModel dx="1246" dy="890" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1400" math="0" shadow="0">
+    <mxGraphModel dx="2146" dy="1404" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1400" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="p5_frame" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=260;height=30;" value="CRM - خدمة العملاء وإدارة المشاكل" vertex="1">
-          <mxGeometry height="776" width="500" x="220" y="40" as="geometry" />
+          <mxGeometry height="776" width="335" x="370" y="20" as="geometry" />
         </mxCell>
         <mxCell id="p5_e" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="موظف خدمة العملاء" vertex="1">
-          <mxGeometry height="60" width="30" x="80" y="330" as="geometry" />
+          <mxGeometry height="60" width="30" x="230" y="310" as="geometry" />
         </mxCell>
         <mxCell id="p5_mg" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="مدير خدمة العملاء" vertex="1">
-          <mxGeometry height="60" width="30" x="80" y="600" as="geometry" />
+          <mxGeometry height="60" width="30" x="230" y="580" as="geometry" />
         </mxCell>
         <mxCell id="p5_t" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="مدير&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
-          <mxGeometry height="60" width="30" x="780" y="670" as="geometry" />
+          <mxGeometry height="60" width="30" x="750" y="690" as="geometry" />
         </mxCell>
         <mxCell id="p5_create" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" value="إنشاء مشكلة (Ticket)" vertex="1">
-          <mxGeometry height="56" width="170" x="240" y="97" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_typ" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" value="تحديد نوع المشكلة وأولويتها" vertex="1">
-          <mxGeometry height="56" width="170" x="520" y="97" as="geometry" />
+          <mxGeometry height="56" width="170" x="450" y="80" as="geometry" />
         </mxCell>
         <mxCell id="p5_follow" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" value="متابعة مشكلة" vertex="1">
-          <mxGeometry height="56" width="170" x="240" y="200" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_esc" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" value="تصعيد المشكلة" vertex="1">
-          <mxGeometry height="56" width="170" x="520" y="190" as="geometry" />
+          <mxGeometry height="56" width="170" x="440" y="180" as="geometry" />
         </mxCell>
         <mxCell id="p5_act" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" value="تسجيل إجراء متخذ على المشكلة" vertex="1">
-          <mxGeometry height="56" width="170" x="250" y="290" as="geometry" />
+          <mxGeometry height="56" width="170" x="440" y="270" as="geometry" />
         </mxCell>
-        <mxCell id="p5_close" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" value="إغلاق المشكلة" vertex="1">
-          <mxGeometry height="56" width="170" x="240" y="380" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_final" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" value="تسجيل الحل النهائي" vertex="1">
-          <mxGeometry height="56" width="170" x="520" y="380" as="geometry" />
+        <mxCell id="p5_close" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" value="تغيير حالة مهمة" vertex="1">
+          <mxGeometry height="56" width="170" x="440" y="370" as="geometry" />
         </mxCell>
         <mxCell id="p5_hist" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" value="عرض المشاكل السابقة للعميل" vertex="1">
-          <mxGeometry height="56" width="170" x="240" y="460" as="geometry" />
+          <mxGeometry height="56" width="170" x="450" y="460" as="geometry" />
         </mxCell>
-        <mxCell id="p5_all" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" value="عرض جميع المشاكل ومتابعتها" vertex="1">
-          <mxGeometry height="56" width="170" x="240" y="580" as="geometry" />
+        <mxCell id="p5_all" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" value="عرض جميع المشاكل" vertex="1">
+          <mxGeometry height="56" width="170" x="460" y="560" as="geometry" />
         </mxCell>
         <mxCell id="p5_handle" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" value="معالجة مشكلة مصعّدة" vertex="1">
-          <mxGeometry height="56" width="170" x="240" y="650" as="geometry" />
+          <mxGeometry height="56" width="170" x="460" y="670" as="geometry" />
         </mxCell>
         <mxCell id="p5_e1" edge="1" parent="1" source="p5_mg" style="endArrow=block;endFill=0;endSize=14;html=1;rounded=0;" target="p5_e" value="">
           <mxGeometry relative="1" as="geometry" />
@@ -1264,55 +1278,43 @@
         <mxCell id="p5_e9" edge="1" parent="1" source="p5_t" style="endArrow=none;html=1;rounded=0;exitX=0.25;exitY=0.1;exitDx=0;exitDy=0;exitPerimeter=0;" target="p5_handle" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="p5_e10" edge="1" parent="1" source="p5_create" style="endArrow=open;endSize=10;dashed=1;html=1;rounded=0;fontSize=9;labelBackgroundColor=default;" target="p5_typ" value="«include»">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_e11" edge="1" parent="1" source="p5_close" style="endArrow=open;endSize=10;dashed=1;html=1;rounded=0;fontSize=9;labelBackgroundColor=default;" target="p5_final" value="«include»">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_e12" edge="1" parent="1" source="p5_esc" style="endArrow=open;endSize=10;dashed=1;html=1;rounded=0;fontSize=9;labelBackgroundColor=default;" target="p5_follow" value="«extend»">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
         <mxCell id="yV7GF7aj1WP45PaJfpqd-1" connectable="0" parent="1" style="group" value="" vertex="1">
-          <mxGeometry height="220" width="335" x="302.5" y="850" as="geometry" />
+          <mxGeometry height="220" width="335" x="207.5" y="830" as="geometry" />
         </mxCell>
         <mxCell id="yV7GF7aj1WP45PaJfpqd-2" parent="yV7GF7aj1WP45PaJfpqd-1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="" vertex="1">
-          <mxGeometry height="90" width="324.5" x="18" as="geometry" />
+          <mxGeometry height="90" width="324.5" x="168" y="-20" as="geometry" />
         </mxCell>
         <mxCell id="yV7GF7aj1WP45PaJfpqd-3" parent="yV7GF7aj1WP45PaJfpqd-1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffcccc;strokeColor=#36393d;" value="" vertex="1">
-          <mxGeometry height="27.5" width="39" x="261" y="30.9375" as="geometry" />
+          <mxGeometry height="27.5" width="39" x="411" y="10.9375" as="geometry" />
         </mxCell>
         <mxCell id="yV7GF7aj1WP45PaJfpqd-4" parent="yV7GF7aj1WP45PaJfpqd-1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font face=&quot;Verdana&quot;&gt;&lt;span style=&quot;font-size: 32px;&quot;&gt;خدمة العملاء&lt;/span&gt;&lt;/font&gt;" vertex="1">
-          <mxGeometry height="25.78" width="207.5" x="32.5" y="31.8" as="geometry" />
+          <mxGeometry height="25.78" width="207.5" x="182.5" y="11.8" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
   <diagram name="6-التوجيه الأكاديمي" id="p6">
-    <mxGraphModel dx="1206" dy="862" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1400" math="0" shadow="0">
+    <mxGraphModel dx="1609" dy="1053" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1400" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="p6_frame" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=260;height=30;" value="CRM - التوجيه الأكاديمي (Tracking Student)" vertex="1">
-          <mxGeometry height="516" width="530" x="190" y="40" as="geometry" />
+          <mxGeometry height="400" width="308" x="359" y="55" as="geometry" />
         </mxCell>
         <mxCell id="p6_e" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="موجه أكاديمي" vertex="1">
-          <mxGeometry height="60" width="30" x="80" y="250" as="geometry" />
+          <mxGeometry height="60" width="30" x="249" y="175" as="geometry" />
         </mxCell>
         <mxCell id="p6_mg" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="مدير التوجيه الأكاديمي" vertex="1">
-          <mxGeometry height="60" width="30" x="80" y="430" as="geometry" />
+          <mxGeometry height="60" width="30" x="245" y="345" as="geometry" />
         </mxCell>
         <mxCell id="p6_list" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#fad7ac;strokeColor=#b46504;" value="عرض العملاء المشتركين" vertex="1">
-          <mxGeometry height="56" width="170" x="240" y="120" as="geometry" />
+          <mxGeometry height="56" width="170" x="409" y="135" as="geometry" />
         </mxCell>
         <mxCell id="p6_place" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" value="تسكين طالب في مجموعة" vertex="1">
-          <mxGeometry height="56" width="170" x="240" y="220" as="geometry" />
+          <mxGeometry height="56" width="170" x="409" y="235" as="geometry" />
         </mxCell>
-        <mxCell id="p6_rec" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" value="متابعة السجل الأكاديمي للطالب" vertex="1">
-          <mxGeometry height="56" width="170" x="240" y="320" as="geometry" />
-        </mxCell>
-        <mxCell id="p6_courses" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" value="عرض الكورسات المسجل بها" vertex="1">
-          <mxGeometry height="56" width="170" x="519" y="320" as="geometry" />
+        <mxCell id="p6_courses" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" value="عرض ملف الطالب" vertex="1">
+          <mxGeometry height="56" width="170" x="415" y="345" as="geometry" />
         </mxCell>
         <mxCell id="p6_e1" edge="1" parent="1" source="p6_mg" style="endArrow=block;endFill=0;endSize=14;html=1;rounded=0;" target="p6_e" value="">
           <mxGeometry relative="1" as="geometry" />
@@ -1323,14 +1325,13 @@
         <mxCell id="p6_e3" edge="1" parent="1" source="p6_e" style="endArrow=none;html=1;rounded=0;exitX=0.75;exitY=0.1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="p6_place" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="p6_e4" edge="1" parent="1" source="p6_e" style="endArrow=none;html=1;rounded=0;exitX=0.75;exitY=0.1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="p6_rec" value="">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="p6_e6" edge="1" parent="1" source="p6_rec" style="endArrow=open;endSize=10;dashed=1;html=1;rounded=0;fontSize=9;labelBackgroundColor=default;" target="p6_courses" value="«include»">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="p6_e4" edge="1" parent="1" source="p6_e" style="endArrow=none;html=1;rounded=0;exitX=0.75;exitY=0.1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="p6_courses" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="413" y="367.9999999999999" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="2WcmwL4vqM_V9F3498hW-1" connectable="0" parent="1" style="group" value="" vertex="1">
-          <mxGeometry height="220" width="342.5" x="684" y="590" as="geometry" />
+          <mxGeometry height="220" width="342.5" x="674" y="526" as="geometry" />
         </mxCell>
         <mxCell id="2WcmwL4vqM_V9F3498hW-2" parent="2WcmwL4vqM_V9F3498hW-1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="" vertex="1">
           <mxGeometry height="165" width="324.5" x="18" as="geometry" />
@@ -1351,7 +1352,7 @@
     </mxGraphModel>
   </diagram>
   <diagram name="التقارير والمهام" id="p7">
-    <mxGraphModel dx="2252" dy="823" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1400" math="0" shadow="0">
+    <mxGraphModel dx="2341" dy="812" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1400" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1371,7 +1372,7 @@
           <mxGeometry height="60" width="30" x="-40" y="600" as="geometry" />
         </mxCell>
         <mxCell id="p7_stages" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" value="عرض عدد العملاء في كل مرحلة" vertex="1">
-          <mxGeometry height="56" width="170" x="230" y="214" as="geometry" />
+          <mxGeometry height="56" width="170" x="227" y="210" as="geometry" />
         </mxCell>
         <mxCell id="p7_conv" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" value="عرض معدل التحويل" vertex="1">
           <mxGeometry height="56" width="170" x="230" y="277" as="geometry" />
@@ -1490,12 +1491,6 @@
         <mxCell id="4S3xkdGRYMS4WvQE1fru-1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=12;fillColor=#eeeeee;strokeColor=#36393d;" value="تنبيه الموظف صاحب المهمة" vertex="1">
           <mxGeometry height="56" width="170" x="520" y="56" as="geometry" />
         </mxCell>
-        <mxCell id="8SErZWoqKC1dV0mAnDL1-4" edge="1" parent="1" source="4S3xkdGRYMS4WvQE1fru-1" style="endArrow=open;endSize=10;dashed=1;html=1;rounded=0;fontSize=9;labelBackgroundColor=default;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" target="2wgt1_27Ar1y1AyVE5r5-1" value="«extend»">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="621" y="388" as="sourcePoint" />
-            <mxPoint x="471" y="286" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="07BFF9UZ0CLDLNDPkC-e-1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="&lt;div&gt;خدمة الإشعارات&lt;/div&gt;" vertex="1">
           <mxGeometry height="60" width="30" x="801" y="76" as="geometry" />
         </mxCell>
@@ -1528,6 +1523,18 @@
         </mxCell>
         <mxCell id="Kqghit5Z8E9FHZJ5vcUo-8" parent="Kqghit5Z8E9FHZJ5vcUo-1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 32px;&quot; face=&quot;Verdana&quot;&gt;إدارة المهام&lt;/font&gt;" vertex="1">
           <mxGeometry height="30" width="220" x="34" y="183" as="geometry" />
+        </mxCell>
+        <mxCell id="dCvjaML5MK1XlvaErkS5-1" edge="1" parent="1" source="2wgt1_27Ar1y1AyVE5r5-1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=8;labelBackgroundColor=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=1;entryDx=0;entryDy=0;" value="«include»">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="120" as="sourcePoint" />
+            <mxPoint x="519" y="84" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dCvjaML5MK1XlvaErkS5-2" edge="1" parent="1" source="kLD_2wXscCYrVsTZIKmQ-1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;fontSize=8;labelBackgroundColor=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="4S3xkdGRYMS4WvQE1fru-1" value="«include»">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="465" y="178" as="sourcePoint" />
+            <mxPoint x="504" y="142" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
