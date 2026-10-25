@@ -1,0 +1,146 @@
+<mxfile host="Electron">
+  <diagram id="read-google-sheets" name="قراءة بيانات Google Sheets">
+    <mxGraphModel dx="1493" dy="2631" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1654" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c2" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontStyle=1;fontSize=18;textDirection=rtl;fontColor=#000000;" value="مخطط النشاط (Activity Diagram) – قراءة بيانات Google Sheets" vertex="1">
+          <mxGeometry height="36" width="860" x="154" y="-1600" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" parent="1" style="swimlane;html=1;horizontal=1;startSize=30;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=15;fontStyle=1;textDirection=rtl;" value="النظام" vertex="1">
+          <mxGeometry height="1300" width="560" x="154" y="-1550" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" parent="1" style="swimlane;html=1;horizontal=1;startSize=30;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontSize=15;fontStyle=1;textDirection=rtl;" value="Google Sheets" vertex="1">
+          <mxGeometry height="1300" width="300" x="714" y="-1550" as="geometry" />
+        </mxCell>
+        <mxCell id="c5" parent="1" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="569" y="-1500" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" parent="1" style="html=1;whiteSpace=wrap;textDirection=rtl;fontColor=#000000;strokeColor=#000000;fontSize=13;rounded=1;arcSize=30;fillColor=#FFFFFF;" value="يُستدعى من الاستيراد اليدوي أو التحقق الدوري مع تحديد الحملة" vertex="1">
+          <mxGeometry height="70" width="220" x="474" y="-1450" as="geometry" />
+        </mxCell>
+        <mxCell id="c7" parent="1" style="html=1;whiteSpace=wrap;textDirection=rtl;fontColor=#000000;strokeColor=#000000;fontSize=13;rounded=1;arcSize=30;fillColor=#FFFFFF;" value="يحدد ملف Google Sheets الخاص بالحملة ويقرأ آخر علامة معالجة" vertex="1">
+          <mxGeometry height="70" width="220" x="474" y="-1350" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" parent="1" style="html=1;whiteSpace=wrap;textDirection=rtl;fontColor=#000000;strokeColor=#000000;fontSize=13;rounded=1;arcSize=30;fillColor=#FFFFFF;" value="يطلب رؤوس الأعمدة والصفوف المضافة بعد آخر معالجة عبر API" vertex="1">
+          <mxGeometry height="70" width="220" x="474" y="-1250" as="geometry" />
+        </mxCell>
+        <mxCell id="c9" parent="1" style="html=1;whiteSpace=wrap;textDirection=rtl;fontColor=#000000;strokeColor=#000000;fontSize=13;rounded=1;arcSize=30;fillColor=#FFFFFF;" value="يتحقق من الاتصال والصلاحية ووجود الملف" vertex="1">
+          <mxGeometry height="70" width="220" x="754" y="-1250" as="geometry" />
+        </mxCell>
+        <mxCell id="c10" parent="1" style="html=1;whiteSpace=wrap;textDirection=rtl;fontColor=#000000;strokeColor=#000000;fontSize=13;rhombus;fillColor=#FFFFFF;fontSize=12;" value="هل الطلب ناجح؟" vertex="1">
+          <mxGeometry height="100" width="200" x="764" y="-1145" as="geometry" />
+        </mxCell>
+        <mxCell id="c11" parent="1" style="html=1;whiteSpace=wrap;textDirection=rtl;fontColor=#000000;strokeColor=#000000;fontSize=13;rounded=1;arcSize=30;fillColor=#FFFFFF;" value="يعيد رؤوس الأعمدة والصفوف الجديدة" vertex="1">
+          <mxGeometry height="70" width="220" x="754" y="-1005" as="geometry" />
+        </mxCell>
+        <mxCell id="c12" parent="1" style="html=1;whiteSpace=wrap;textDirection=rtl;fontColor=#000000;strokeColor=#000000;fontSize=13;rounded=1;arcSize=30;fillColor=#FFFFFF;" value="يطابق رؤوس الأعمدة مع الأسئلة المرتبطة عند تسجيل الحملة" vertex="1">
+          <mxGeometry height="70" width="220" x="474" y="-1005" as="geometry" />
+        </mxCell>
+        <mxCell id="c13" parent="1" style="html=1;whiteSpace=wrap;textDirection=rtl;fontColor=#000000;strokeColor=#000000;fontSize=13;rhombus;fillColor=#FFFFFF;fontSize=12;" value="هل الأعمدة مطابقة؟" vertex="1">
+          <mxGeometry height="90" width="200" x="484" y="-895" as="geometry" />
+        </mxCell>
+        <mxCell id="c14" parent="1" style="html=1;whiteSpace=wrap;textDirection=rtl;fontColor=#000000;strokeColor=#000000;fontSize=13;rhombus;fillColor=#FFFFFF;fontSize=12;" value="هل توجد صفوف جديدة؟" vertex="1">
+          <mxGeometry height="90" width="200" x="484" y="-765" as="geometry" />
+        </mxCell>
+        <mxCell id="c15" parent="1" style="html=1;whiteSpace=wrap;textDirection=rtl;fontColor=#000000;strokeColor=#000000;fontSize=13;rounded=1;arcSize=30;fillColor=#FFFFFF;" value="يتحقق من صحة كل صف ويتجاهل الصفوف المعطوبة" vertex="1">
+          <mxGeometry height="70" width="220" x="474" y="-635" as="geometry" />
+        </mxCell>
+        <mxCell id="c16" parent="1" style="html=1;whiteSpace=wrap;textDirection=rtl;fontColor=#000000;strokeColor=#000000;fontSize=13;rounded=1;arcSize=30;fillColor=#FFFFFF;" value="يسجل عملية القراءة في سجل القراءة" vertex="1">
+          <mxGeometry height="70" width="220" x="474" y="-535" as="geometry" />
+        </mxCell>
+        <mxCell id="c17" parent="1" style="html=1;whiteSpace=wrap;textDirection=rtl;fontColor=#000000;strokeColor=#000000;fontSize=13;rounded=1;arcSize=30;fillColor=#FFFFFF;" value="يعيد البيانات الخام الصحيحة ورؤوس الأعمدة وعدد الصفوف" vertex="1">
+          <mxGeometry height="70" width="220" x="474" y="-435" as="geometry" />
+        </mxCell>
+        <mxCell id="c18" parent="1" style="ellipse;shape=endState;html=1;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="569" y="-335" as="geometry" />
+        </mxCell>
+        <mxCell id="c19" parent="1" style="html=1;whiteSpace=wrap;textDirection=rtl;fontColor=#000000;strokeColor=#000000;fontSize=13;rounded=1;arcSize=30;fillColor=#FFFFFF;" value="يحدد سبب الفشل (ملف محذوف أو فشل اتصال أو فقدان صلاحية) ويعرض الرسالة المناسبة" vertex="1">
+          <mxGeometry height="70" width="220" x="194" y="-1130" as="geometry" />
+        </mxCell>
+        <mxCell id="c20" parent="1" style="html=1;whiteSpace=wrap;textDirection=rtl;fontColor=#000000;strokeColor=#000000;fontSize=13;rounded=1;arcSize=30;fillColor=#FFFFFF;" value="يعرض خطأ بالأعمدة الناقصة والزائدة ويطلب تعديل الربط (Mapping)" vertex="1">
+          <mxGeometry height="70" width="220" x="194" y="-885" as="geometry" />
+        </mxCell>
+        <mxCell id="c21" parent="1" style="html=1;whiteSpace=wrap;textDirection=rtl;fontColor=#000000;strokeColor=#000000;fontSize=13;rounded=1;arcSize=30;fillColor=#FFFFFF;" value="يسجل الفشل في سجل القراءة" vertex="1">
+          <mxGeometry height="60" width="220" x="194" y="-750" as="geometry" />
+        </mxCell>
+        <mxCell id="c22" parent="1" style="html=1;whiteSpace=wrap;textDirection=rtl;fontColor=#000000;strokeColor=#000000;fontSize=13;rounded=1;arcSize=30;fillColor=#FFFFFF;" value="يُخطر مدير المبيعات بفشل العملية (دون إعادة محاولة تلقائية)" vertex="1">
+          <mxGeometry height="70" width="220" x="194" y="-660" as="geometry" />
+        </mxCell>
+        <mxCell id="c23" parent="1" style="ellipse;shape=endState;html=1;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="289" y="-550" as="geometry" />
+        </mxCell>
+        <mxCell id="c24" edge="1" parent="1" source="c5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;" target="c6" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c25" edge="1" parent="1" source="c6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;" target="c7" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c26" edge="1" parent="1" source="c7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;" target="c8" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c27" edge="1" parent="1" source="c8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="c9" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c28" edge="1" parent="1" source="c9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;" target="c10" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c29" edge="1" parent="1" source="c10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="c19" value="لا">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c30" edge="1" parent="1" source="c10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="c11" value="نعم">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c31" edge="1" parent="1" source="c11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="c12" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c32" edge="1" parent="1" source="c12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;" target="c13" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c33" edge="1" parent="1" source="c13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="c20" value="لا">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c34" edge="1" parent="1" source="c13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;" target="c14" value="نعم">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c35" edge="1" parent="1" source="c14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;" target="c15" value="نعم">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c36" edge="1" parent="1" source="c14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=1;entryY=0.5;" target="c16" value="لا (لا صفوف جديدة)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="729" y="-720" />
+              <mxPoint x="729" y="-500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c37" edge="1" parent="1" source="c15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;" target="c16" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c38" edge="1" parent="1" source="c16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;" target="c17" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c39" edge="1" parent="1" source="c17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;" target="c18" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c40" edge="1" parent="1" source="c20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="c21" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c41" edge="1" parent="1" source="c19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;entryX=0;entryY=0.5;" target="c21" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="174" y="-1095" />
+              <mxPoint x="174" y="-720" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c42" edge="1" parent="1" source="c21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;" target="c22" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c43" edge="1" parent="1" source="c22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;textDirection=rtl;fontSize=12;labelBackgroundColor=#FFFFFF;" target="c23" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
