@@ -1,13 +1,13 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
   <diagram name="تسجيل الدخول - Activity Diagram" id="login_activity">
-    <mxGraphModel dx="3247" dy="1409" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="1654" math="0" shadow="0">
+    <mxGraphModel dx="1315" dy="453" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="1654" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="pool" parent="1" style="swimlane;html=1;whiteSpace=wrap;startSize=36;horizontal=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontStyle=1;fontFamily=Arial;fontSize=15;fontColor=#000000;" value="مخطط النشاط – تسجيل الدخول (Login)" vertex="1">
+        <mxCell id="pool" parent="1" style="swimlane;html=1;whiteSpace=wrap;startSize=36;horizontal=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontStyle=1;fontFamily=Arial;fontSize=15;fontColor=#000000;" value="مخطط النشاط – تسجيل الدخول" vertex="1">
           <mxGeometry height="1370" width="1170" as="geometry" />
         </mxCell>
-        <mxCell id="lane_sys" parent="pool" style="swimlane;html=1;whiteSpace=wrap;startSize=30;horizontal=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontStyle=1;fontFamily=Arial;fontSize=14;fontColor=#000000;" value="النظام (System)" vertex="1">
+        <mxCell id="lane_sys" parent="pool" style="swimlane;html=1;whiteSpace=wrap;startSize=30;horizontal=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontStyle=1;fontFamily=Arial;fontSize=14;fontColor=#000000;" value="النظام" vertex="1">
           <mxGeometry height="1334" width="850" x="-10" y="36" as="geometry" />
         </mxCell>
         <mxCell id="s2" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يعرض النظام نموذج تسجيل الدخول (اسم المستخدم، كلمة المرور)" vertex="1">
@@ -22,10 +22,10 @@
         <mxCell id="d2" parent="lane_sys" style="rhombus;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="هل التحقق ناجح؟" vertex="1">
           <mxGeometry height="110" width="220" x="590" y="724" as="geometry" />
         </mxCell>
-        <mxCell id="s6" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يصدر النظام توكن مرتبطاً بأدوار المستخدم وصلاحياته" vertex="1">
+        <mxCell id="s6" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يسمح النظام للمستخدم بالدخول بحسب أدواره وصلاحياته" vertex="1">
           <mxGeometry height="70" width="240" x="580" y="884" as="geometry" />
         </mxCell>
-        <mxCell id="s7" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يسجل النظام محاولة الدخول الناجحة ويعيد ضبط محدّد معدل المحاولات (Rate Limiting)" vertex="1">
+        <mxCell id="s7" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يسجل النظام محاولة الدخول الناجحة ويعيد احتساب المحاولات الفاشلة من الصفر" vertex="1">
           <mxGeometry height="90" width="240" x="580" y="994" as="geometry" />
         </mxCell>
         <mxCell id="s8" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يتيح النظام للمستخدم الدخول إلى النظام" vertex="1">
@@ -37,13 +37,13 @@
         <mxCell id="a_empty" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يعرض النظام رسالة تطلب إدخال البيانات المطلوبة" vertex="1">
           <mxGeometry height="60" width="200" x="290" y="459" as="geometry" />
         </mxCell>
-        <mxCell id="a1" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يسجل النظام المحاولة الفاشلة ويحتسبها ضمن محدّد معدل المحاولات (Rate Limiting)" vertex="1">
+        <mxCell id="a1" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يسجل النظام المحاولة الفاشلة ويحتسبها ضمن الحد المسموح به من المحاولات" vertex="1">
           <mxGeometry height="90" width="200" x="290" y="734" as="geometry" />
         </mxCell>
         <mxCell id="d3" parent="lane_sys" style="rhombus;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="هل تجاوز عدد المحاولات الحد المسموح؟" vertex="1">
           <mxGeometry height="120" width="240" x="270" y="869" as="geometry" />
         </mxCell>
-        <mxCell id="a3" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يقفل النظام تسجيل الدخول لهذا الحساب مؤقتاً ويسجل الحدث" vertex="1">
+        <mxCell id="a3" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يوقف النظام تسجيل الدخول لهذا الحساب مؤقتاً ويسجل الحدث" vertex="1">
           <mxGeometry height="70" width="200" x="290" y="1034" as="geometry" />
         </mxCell>
         <mxCell id="a4" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يعرض النظام رسالة عامة تفيد بتعذر تسجيل الدخول حالياً" vertex="1">
@@ -55,7 +55,7 @@
         <mxCell id="a2" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يعرض النظام الرسالة الموحدة: «اسم المستخدم أو كلمة المرور غير صحيحة»" vertex="1">
           <mxGeometry height="80" width="200" x="20" y="889" as="geometry" />
         </mxCell>
-        <mxCell id="lane_usr" parent="pool" style="swimlane;html=1;whiteSpace=wrap;startSize=30;horizontal=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontStyle=1;fontFamily=Arial;fontSize=14;fontColor=#000000;" value="المستخدم (User)" vertex="1">
+        <mxCell id="lane_usr" parent="pool" style="swimlane;html=1;whiteSpace=wrap;startSize=30;horizontal=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontStyle=1;fontFamily=Arial;fontSize=14;fontColor=#000000;" value="المستخدم" vertex="1">
           <mxGeometry height="1334" width="320" x="850" y="36" as="geometry" />
         </mxCell>
         <mxCell id="start" parent="lane_usr" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
@@ -73,7 +73,7 @@
         <mxCell id="e1" edge="1" parent="1" source="u1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=1.5;labelBackgroundColor=#FFFFFF;fontFamily=Arial;fontSize=12;fontColor=#000000;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="s2" value="">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="700" y="170" />
+              <mxPoint x="690" y="170" />
             </Array>
           </mxGeometry>
         </mxCell>
