@@ -4,16 +4,16 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="pool" parent="1" style="swimlane;html=1;whiteSpace=wrap;startSize=36;horizontal=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontStyle=1;fontFamily=Arial;fontSize=15;fontColor=#000000;" value="مخطط النشاط – استيراد بيانات العملاء يدوياً (Import Customers Manually)" vertex="1">
+        <mxCell id="pool" parent="1" style="swimlane;html=1;whiteSpace=wrap;startSize=36;horizontal=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontStyle=1;fontFamily=Arial;fontSize=15;fontColor=#000000;" value="مخطط النشاط – استيراد بيانات العملاء يدوياً" vertex="1">
           <mxGeometry height="1760" width="1590" as="geometry" />
         </mxCell>
-        <mxCell id="lane_g" parent="pool" style="swimlane;html=1;whiteSpace=wrap;startSize=30;horizontal=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontStyle=1;fontFamily=Arial;fontSize=14;fontColor=#000000;" value="Google Sheets (ممثل ثانوي)" vertex="1">
+        <mxCell id="lane_g" parent="pool" style="swimlane;html=1;whiteSpace=wrap;startSize=30;horizontal=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontStyle=1;fontFamily=Arial;fontSize=14;fontColor=#000000;" value="ملف Google Sheets (ثانوي)" vertex="1">
           <mxGeometry height="1724" width="300" x="0" y="36" as="geometry" />
         </mxCell>
-        <mxCell id="lane_sys" parent="pool" style="swimlane;html=1;whiteSpace=wrap;startSize=30;horizontal=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontStyle=1;fontFamily=Arial;fontSize=14;fontColor=#000000;" value="النظام (System)" vertex="1">
+        <mxCell id="lane_sys" parent="pool" style="swimlane;html=1;whiteSpace=wrap;startSize=30;horizontal=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontStyle=1;fontFamily=Arial;fontSize=14;fontColor=#000000;" value="النظام" vertex="1">
           <mxGeometry height="1724" width="950" x="300" y="36" as="geometry" />
         </mxCell>
-        <mxCell id="lane_usr" parent="pool" style="swimlane;html=1;whiteSpace=wrap;startSize=30;horizontal=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontStyle=1;fontFamily=Arial;fontSize=14;fontColor=#000000;" value="مدير المبيعات / مدير (Admin)" vertex="1">
+        <mxCell id="lane_usr" parent="pool" style="swimlane;html=1;whiteSpace=wrap;startSize=30;horizontal=1;fillColor=#FFFFFF;swimlaneFillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontStyle=1;fontFamily=Arial;fontSize=14;fontColor=#000000;" value="مدير المبيعات / مدير النظام" vertex="1">
           <mxGeometry height="1724" width="340" x="1250" y="36" as="geometry" />
         </mxCell>
         <mxCell id="start" parent="lane_usr" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
@@ -22,31 +22,31 @@
         <mxCell id="u1" parent="lane_usr" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يختار الحملة المطلوب استيراد بياناتها ويطلب الاستيراد" vertex="1">
           <mxGeometry height="60" width="240" x="50" y="114" as="geometry" />
         </mxCell>
-        <mxCell id="s1" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يتحقق النظام من أن الحملة مرتبطة برابط Google Sheet وبقواعد Mapper" vertex="1">
+        <mxCell id="s1" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يتحقق النظام من أن الحملة مرتبطة برابط ملف Google Sheets وبقواعد ربط الأعمدة" vertex="1">
           <mxGeometry height="70" width="240" x="680" y="214" as="geometry" />
         </mxCell>
-        <mxCell id="d1" parent="lane_sys" style="rhombus;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="هل رابط الشيت وقواعد Mapper موجودان؟" vertex="1">
+        <mxCell id="d1" parent="lane_sys" style="rhombus;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="هل رابط الملف وقواعد ربط الأعمدة موجودان؟" vertex="1">
           <mxGeometry height="110" width="240" x="680" y="324" as="geometry" />
         </mxCell>
-        <mxCell id="e1" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يرمي النظام استثناءً خاصاً ويعرض رسالة توضح السبب" vertex="1">
+        <mxCell id="e1" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يعرض النظام رسالة توضح السبب" vertex="1">
           <mxGeometry height="80" width="200" x="380" y="339" as="geometry" />
         </mxCell>
         <mxCell id="end2" parent="lane_sys" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;strokeWidth=1.5;" value="" vertex="1">
           <mxGeometry height="36" width="36" x="242" y="361" as="geometry" />
         </mxCell>
-        <mxCell id="s2" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="ينفّذ النظام حالة الاستخدام «قراءة بيانات Google Sheets» (Include)" vertex="1">
+        <mxCell id="s2" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="ينفّذ النظام عملية «قراءة بيانات ملف Google Sheets‏»" vertex="1">
           <mxGeometry height="80" width="240" x="680" y="484" as="geometry" />
         </mxCell>
         <mxCell id="g1" parent="lane_g" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يوفّر سجلات الملف للنظام" vertex="1">
           <mxGeometry height="60" width="200" x="50" y="484" as="geometry" />
         </mxCell>
-        <mxCell id="s3" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يطبّق النظام قواعد الـ Mapper على أعمدة الملف" vertex="1">
+        <mxCell id="s3" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يطبّق النظام قواعد ربط الأعمدة على أعمدة الملف" vertex="1">
           <mxGeometry height="60" width="240" x="680" y="604" as="geometry" />
         </mxCell>
-        <mxCell id="d2" parent="lane_sys" style="rhombus;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="هل أعمدة الملف مطابقة لقواعد الـ Mapper؟" vertex="1">
+        <mxCell id="d2" parent="lane_sys" style="rhombus;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="هل أعمدة الملف مطابقة لقواعد ربط الأعمدة؟" vertex="1">
           <mxGeometry height="110" width="240" x="680" y="699" as="geometry" />
         </mxCell>
-        <mxCell id="e2" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="ينبّه النظام مدير المبيعات بوجود مشكلة في الـ Mapper" vertex="1">
+        <mxCell id="e2" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="ينبّه النظام مدير المبيعات بوجود مشكلة في قواعد ربط الأعمدة" vertex="1">
           <mxGeometry height="80" width="200" x="380" y="714" as="geometry" />
         </mxCell>
         <mxCell id="end3" parent="lane_sys" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;strokeWidth=1.5;" value="" vertex="1">
@@ -85,7 +85,7 @@
         <mxCell id="b6" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يتجاهل النظام العميل وينتقل إلى السجل التالي" vertex="1">
           <mxGeometry height="70" width="200" x="380" y="1584" as="geometry" />
         </mxCell>
-        <mxCell id="s9" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يوجّه النظام المستخدم إلى واجهة العملاء مع فلتر بمعرّف الحملة" vertex="1">
+        <mxCell id="s9" parent="lane_sys" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="ينقل النظام المستخدم إلى صفحة العملاء مع عرض عملاء هذه الحملة فقط" vertex="1">
           <mxGeometry height="80" width="240" x="680" y="1074" as="geometry" />
         </mxCell>
         <mxCell id="u2" parent="lane_usr" style="rounded=1;arcSize=30;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1.5;fontFamily=Arial;fontSize=12;fontColor=#000000;" value="يستعرض العملاء المستوردين" vertex="1">
