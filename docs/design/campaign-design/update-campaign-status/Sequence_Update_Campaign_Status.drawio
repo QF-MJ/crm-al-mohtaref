@@ -1,0 +1,130 @@
+<mxfile host="Electron">
+  <diagram id="seq-update-status" name="Update Campaign Status">
+    <mxGraphModel dx="3121" dy="5549" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="s2" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontStyle=1;fontSize=18;fontColor=#000000;" value="Sequence Diagram – Update Campaign Status" vertex="1">
+          <mxGeometry height="36" width="1200" x="227" y="-3360" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontStyle=1;fontSize=12;" value="Admin / Marketing Manager" vertex="1">
+          <mxGeometry height="790" width="150" x="262" y="-3300" as="geometry" />
+        </mxCell>
+        <mxCell id="s4" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontStyle=1;fontSize=12;" value="Campaign System" vertex="1">
+          <mxGeometry height="790" width="150" x="532" y="-3300" as="geometry" />
+        </mxCell>
+        <mxCell id="s5" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontStyle=1;fontSize=12;" value="Notification Service" vertex="1">
+          <mxGeometry height="790" width="150" x="972" y="-3300" as="geometry" />
+        </mxCell>
+        <mxCell id="s6" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;collapsible=0;recursiveResize=0;outlineConnect=0;size=40;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontStyle=1;fontSize=12;" value="Other Party (Marketing Manager / Admin)" vertex="1">
+          <mxGeometry height="790" width="150" x="1232" y="-3300" as="geometry" />
+        </mxCell>
+        <mxCell id="s7" parent="1" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#FFFFFF;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="650" width="10" x="602" y="-3220" as="geometry" />
+        </mxCell>
+        <mxCell id="s8" parent="1" style="html=1;points=[];perimeter=orthogonalPerimeter;fillColor=#FFFFFF;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="70" width="10" x="1042" y="-2700" as="geometry" />
+        </mxCell>
+        <mxCell id="s9" edge="1" parent="1" style="html=1;verticalAlign=bottom;strokeColor=#000000;fontColor=#000000;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;" value="1: openCampaignList()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="337" y="-3200" as="sourcePoint" />
+            <mxPoint x="602" y="-3200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s10" edge="1" parent="1" style="html=1;verticalAlign=bottom;strokeColor=#000000;fontColor=#000000;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;endFill=0;" value="2: showCampaigns(campaigns, statuses)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="602" y="-3150" as="sourcePoint" />
+            <mxPoint x="337" y="-3150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s11" edge="1" parent="1" style="html=1;verticalAlign=bottom;strokeColor=#000000;fontColor=#000000;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;" value="3: requestStatusUpdate(campaignId)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="337" y="-3100" as="sourcePoint" />
+            <mxPoint x="602" y="-3100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s12" edge="1" parent="1" style="html=1;rounded=0;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="667" y="-3075" />
+              <mxPoint x="667" y="-3047" />
+            </Array>
+            <mxPoint x="612" y="-3075" as="sourcePoint" />
+            <mxPoint x="612" y="-3047" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s13" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontColor=#000000;" value="4: getAllowedTransitions(currentStatus, userRole)" vertex="1">
+          <mxGeometry height="28" width="300" x="675" y="-3075" as="geometry" />
+        </mxCell>
+        <mxCell id="s14" edge="1" parent="1" style="html=1;verticalAlign=bottom;strokeColor=#000000;fontColor=#000000;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;endFill=0;" value="5: showAllowedStatuses(currentStatus, allowedStatuses)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="602" y="-2990" as="sourcePoint" />
+            <mxPoint x="337" y="-2990" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s15" edge="1" parent="1" style="html=1;verticalAlign=bottom;strokeColor=#000000;fontColor=#000000;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;" value="6: selectNewStatus(newStatus)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="337" y="-2940" as="sourcePoint" />
+            <mxPoint x="602" y="-2940" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s16" edge="1" parent="1" style="html=1;verticalAlign=bottom;strokeColor=#000000;fontColor=#000000;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;endFill=0;" value="7: showConfirmation(currentStatus, newStatus)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="602" y="-2890" as="sourcePoint" />
+            <mxPoint x="337" y="-2890" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s17" edge="1" parent="1" style="html=1;verticalAlign=bottom;strokeColor=#000000;fontColor=#000000;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;" value="8: confirmStatusChange()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="337" y="-2840" as="sourcePoint" />
+            <mxPoint x="602" y="-2840" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s18" edge="1" parent="1" style="html=1;rounded=0;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="667" y="-2810" />
+              <mxPoint x="667" y="-2782" />
+            </Array>
+            <mxPoint x="612" y="-2810" as="sourcePoint" />
+            <mxPoint x="612" y="-2782" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s19" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontColor=#000000;" value="9: validateTransition(currentStatus, newStatus, userRole)" vertex="1">
+          <mxGeometry height="28" width="300" x="675" y="-2810" as="geometry" />
+        </mxCell>
+        <mxCell id="s20" edge="1" parent="1" style="html=1;rounded=0;endArrow=block;endFill=1;strokeColor=#000000;fontColor=#000000;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="667" y="-2755" />
+              <mxPoint x="667" y="-2727" />
+            </Array>
+            <mxPoint x="612" y="-2755" as="sourcePoint" />
+            <mxPoint x="612" y="-2727" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s21" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontColor=#000000;" value="10: updateCampaignStatus(campaignId, newStatus)" vertex="1">
+          <mxGeometry height="28" width="300" x="675" y="-2755" as="geometry" />
+        </mxCell>
+        <mxCell id="s22" edge="1" parent="1" style="html=1;verticalAlign=bottom;strokeColor=#000000;fontColor=#000000;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;" value="11: sendNotification(campaignId, newStatus)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="612" y="-2680" as="sourcePoint" />
+            <mxPoint x="1042" y="-2680" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s23" edge="1" parent="1" style="html=1;verticalAlign=bottom;strokeColor=#000000;fontColor=#000000;fontSize=12;labelBackgroundColor=#FFFFFF;endArrow=block;endFill=1;" value="12: notifyOtherParty(campaignId, newStatus)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1052" y="-2640" as="sourcePoint" />
+            <mxPoint x="1307" y="-2640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s24" edge="1" parent="1" style="html=1;verticalAlign=bottom;strokeColor=#000000;fontColor=#000000;fontSize=12;labelBackgroundColor=#FFFFFF;dashed=1;endArrow=open;endFill=0;" value="13: showSuccessMessage()">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="602" y="-2590" as="sourcePoint" />
+            <mxPoint x="337" y="-2590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
