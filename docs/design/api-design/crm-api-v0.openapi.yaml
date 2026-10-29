@@ -1,0 +1,832 @@
+openapi: 3.0.3
+info:
+  title: CRM المحترف API
+  version: 0.2.0
+  description: |
+    APIs for stories UM-01, CM-05, IN-02, CP-03, UM-07.
+
+    Conventions:
+    - Paged lists return `HasNextPage` instead of a total count (the server fetches PageSize + 1 rows).
+    - All dropdown lists come from a single endpoint: `GET /lookups`.
+    - Everything except login and refresh requires a JWT bearer token.
+    - Every request body AND every query-string set is bound to a schema named `*Request`.
+      Query-string requests are sent flattened (`?PageNumber=1&PageSize=20&Name=ali`);
+      arrays are sent as repeated keys (`?TagIds=1&TagIds=2`).
+    - Calls that return no data answer `204 No Content` (no body).
+    - Every error (400, 401, 403, 404, 423, 500) uses the single `ErrorDto` JSON: `{ "Status": 400, "Message": "..." }`.
+servers:
+  - url: /api
+security:
+  - bearerAuth: []
+tags:
+  - name: Auth
+  - name: Lookups
+  - name: Contacts
+  - name: Campaigns
+  - name: Questions
+  - name: Users
+
+paths:
+  /auth/login:
+    post:
+      tags: [Auth]
+      operationId: login
+      summary: Log in (UM-01)
+      description: Any failed login returns the same generic 401 message. A locked account returns 423.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/LoginRequest' }
+      responses:
+        '200':
+          description: Logged in
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/LoginDto' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '423':
+          description: Account locked after repeated failed attempts
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorDto' }
+
+  /auth/refresh:
+    post:
+      tags: [Auth]
+      operationId: refreshToken
+      summary: Exchange a refresh token for a new token pair
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RefreshRequest' }
+      responses:
+        '200':
+          description: New tokens
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TokenDto' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /auth/logout:
+    post:
+      tags: [Auth]
+      operationId: logout
+      summary: Revoke a refresh token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RefreshRequest' }
+      responses:
+        '204': { $ref: '#/components/responses/NoContent' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /lookups:
+    get:
+      tags: [Lookups]
+      operationId: getLookups
+      summary: All dropdown lists in one call
+      description: |
+        `Include` is optional. Without it every list is returned.
+        Campaigns are intentionally not included (too many); use `GET /campaigns?Title=`.
+      parameters:
+        - name: request
+          in: query
+          required: false
+          style: form
+          explode: true
+          schema: { $ref: '#/components/schemas/GetLookupsRequest' }
+      responses:
+        '200':
+          description: Requested lists
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/LookupsDto' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /contacts:
+    get:
+      tags: [Contacts]
+      operationId: getContacts
+      summary: View and search contacts (CM-05)
+      description: |
+        A contact can be a student's guardian, so `StudentName` and `ContactName` are separate filters.
+        `StudentName` returns the contacts that have a student with a matching name.
+        `CampaignTitle` matches any of the contact's leads (partial match); the response shows the last campaign.
+      parameters:
+        - name: request
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema: { $ref: '#/components/schemas/GetContactsRequest' }
+      responses:
+        '200':
+          description: A page of contacts
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ContactsPageDto' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /campaigns:
+    get:
+      tags: [Campaigns]
+      operationId: searchCampaigns
+      summary: Search campaigns
+      description: |
+        Every filter is optional and filters are combined with AND.
+        - `Title`: partial, case-insensitive match on the campaign title.
+        - `Status`: campaign status id (from `GET /lookups`, list `CampaignStatuses`).
+        - `TrackId`: track id (from `GET /lookups`, list `Tracks`).
+        - `PlatformId`: campaigns that run on this platform (from `GET /lookups`, list `Platforms`).
+      parameters:
+        - name: request
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema: { $ref: '#/components/schemas/SearchCampaignsRequest' }
+      responses:
+        '200':
+          description: A page of campaigns
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CampaignsPageDto' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /campaigns/{id}:
+    parameters:
+      - $ref: '#/components/parameters/IdPath'
+    get:
+      tags: [Campaigns]
+      operationId: getCampaign
+      summary: Get a campaign with its platforms and questions
+      description: '`Questions` are only the questions currently linked to the campaign. To see everything in the Google Sheet use `GET /campaigns/{id}/questions`.'
+      responses:
+        '200':
+          description: Campaign details
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CampaignDetailDto' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    put:
+      tags: [Campaigns]
+      operationId: updateCampaign
+      summary: Edit campaign data (CP-03)
+      description: |
+        `PlatformIds` replaces the campaign's platforms.
+        `QuestionIds` replaces the campaign's questions: the questions in the array are kept, any question
+        not in the array is unlinked from the campaign (this is how the user drops a question that came from the sheet).
+        Omit `QuestionIds` to leave the campaign's questions unchanged.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateCampaignRequest' }
+      responses:
+        '204': { $ref: '#/components/responses/NoContent' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /campaigns/{id}/questions:
+    parameters:
+      - $ref: '#/components/parameters/IdPath'
+    get:
+      tags: [Campaigns]
+      operationId: getCampaignQuestions
+      summary: Get the campaign's questions from its Google Sheet
+      description: |
+        Called when the user presses "Edit" on a campaign. The server reads the Google Sheet from the
+        campaign's `Url` and returns its questions. This call only reads: it creates and changes nothing.
+        Questions are created in the DB at import time (`POST /campaigns/{id}/import`), so every returned question
+        already has an `Id`. A question that was imported but not configured yet has `Type` null until the user
+        sets it with `PUT /questions/{id}`.
+        A question can be shared by several campaigns, so `IsSelected` is relative to this campaign only: true when
+        the question is linked to this campaign, false when it is not (even if another campaign uses it).
+        The user picks the ones to keep and sends their ids in `QuestionIds` of `PUT /campaigns/{id}`.
+        A sheet question that has no DB record yet (the import never ran) is not returned.
+        Returns 400 if the campaign has no url or the sheet cannot be read.
+      responses:
+        '200':
+          description: Questions found in the sheet
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CampaignQuestionsDto' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /campaigns/{id}/import:
+    parameters:
+      - $ref: '#/components/parameters/IdPath'
+    post:
+      tags: [Campaigns]
+      operationId: importCampaignData
+      summary: Trigger a customer import on demand (IN-02)
+      description: |
+        Reads the Google Sheet from the campaign's `Url`. Returns 400 if the campaign has no url.
+        The import is also where questions are created: a sheet question that does not exist yet is created
+        (unconfigured, `Type` null). An existing question is reused, not duplicated, so one question can be shared
+        by several campaigns.
+      responses:
+        '200':
+          description: Import result
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ImportResultDto' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /questions/{id}:
+    parameters:
+      - $ref: '#/components/parameters/IdPath'
+    put:
+      tags: [Questions]
+      operationId: updateQuestion
+      summary: Configure a question that came from the Google Sheet
+      description: |
+        Questions are created by the import from the Google Sheet (`POST /campaigns/{id}/import`).
+        This call sets what the sheet cannot provide:
+        the type, the DB field, and the answers linked to tags. See `QuestionRequest` for the rules of each type.
+        A question can be shared by several campaigns, so the change applies to all of them.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/QuestionRequest' }
+            examples:
+              field:
+                summary: Type 1, linked to a DB field
+                value:
+                  Question: What is the child's name?
+                  Type: 1
+                  FieldId: 3
+              boolean:
+                summary: Type 2, yes/no linked to a tag
+                value:
+                  Question: Do you have a laptop?
+                  Type: 2
+                  Answers:
+                    - { TagId: 7, Answer: 'Yes' }
+              choice:
+                summary: Type 3, multiple choice
+                value:
+                  Question: Which course are you interested in?
+                  Type: 3
+                  Answers:
+                    - { TagId: 11, Answer: Programming }
+                    - { TagId: 12, Answer: Design }
+      responses:
+        '204': { $ref: '#/components/responses/NoContent' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /users:
+    get:
+      tags: [Users]
+      operationId: getUsers
+      summary: List and search users
+      description: |
+        Every filter is optional and filters are combined with AND. Without any filter all users are returned.
+        - `Name`: partial, case-insensitive match on the full name (`FullName`).
+        - `AccountName`: partial, case-insensitive match on the login name.
+        - `Email`: partial, case-insensitive match on the email.
+        - `IsActive`: `true` active users only, `false` disabled users only.
+        - `DepartmentId` / `RoleId`: users that have this department / role in their permissions.
+          If both are sent they must be in the same permission pair (e.g. role X inside department Y).
+      parameters:
+        - name: request
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema: { $ref: '#/components/schemas/GetUsersRequest' }
+      responses:
+        '200':
+          description: A page of users
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UsersPageDto' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /users/{id}:
+    parameters:
+      - $ref: '#/components/parameters/IdPath'
+    get:
+      tags: [Users]
+      operationId: getUser
+      summary: Get one user with department/role permissions
+      responses:
+        '200':
+          description: User details
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UserDetailDto' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    put:
+      tags: [Users]
+      operationId: updateUser
+      summary: Edit user data (UM-07)
+      description: '`Permissions` replaces the user''s department/role pairs.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateUserRequest' }
+      responses:
+        '204': { $ref: '#/components/responses/NoContent' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    IdPath:
+      name: id
+      in: path
+      required: true
+      schema: { type: integer }
+
+  responses:
+    NoContent:
+      description: Done, no body
+    BadRequest:
+      description: Validation error
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorDto' }
+    Unauthorized:
+      description: Missing or invalid token
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorDto' }
+    Forbidden:
+      description: The user's role does not allow this action
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorDto' }
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorDto' }
+
+  schemas:
+    # ---------- Errors ----------
+    ErrorDto:
+      type: object
+      description: The single JSON shape returned for every error response.
+      required: [Status, Message]
+      properties:
+        Status: { type: integer, example: 400 }
+        Message: { type: string, example: Campaign has no url }
+
+    # ---------- Common ----------
+    TagItemDto:
+      type: object
+      required: [Id, Tag]
+      properties:
+        Id: { type: integer }
+        Tag: { type: string }
+
+    PermissionDto:
+      type: object
+      required: [DepartmentId, RoleId]
+      properties:
+        DepartmentId: { type: integer }
+        RoleId: { type: integer }
+
+    # ---------- Requests ----------
+    PagedRequest:
+      type: object
+      required: [PageNumber, PageSize]
+      properties:
+        PageNumber: { type: integer, minimum: 1, default: 1 }
+        PageSize: { type: integer, minimum: 1, maximum: 100, default: 20 }
+
+    LoginRequest:
+      type: object
+      required: [AccountName, Password]
+      properties:
+        AccountName: { type: string }
+        Password: { type: string, format: password }
+
+    RefreshRequest:
+      type: object
+      required: [RefreshToken]
+      properties:
+        RefreshToken: { type: string }
+
+    GetLookupsRequest:
+      type: object
+      properties:
+        Include:
+          type: array
+          description: Repeated key, e.g. `Include=Tracks&Include=Tags`. Omit to get every list.
+          items:
+            type: string
+            enum: [Tracks, LeadStatuses, Tags, Platforms, Fields, CampaignStatuses, QuestionTypes, Departments, Roles]
+
+    GetContactsRequest:
+      allOf:
+        - $ref: '#/components/schemas/PagedRequest'
+        - type: object
+          properties:
+            CampaignTitle: { type: string }
+            TrackId: { type: integer }
+            LeadStatusId: { type: integer }
+            TagIds:
+              type: array
+              description: Repeated key, e.g. `TagIds=1&TagIds=2`
+              items: { type: integer }
+            StudentName: { type: string }
+            ContactName: { type: string }
+            PhoneNumber: { type: string }
+
+    SearchCampaignsRequest:
+      allOf:
+        - $ref: '#/components/schemas/PagedRequest'
+        - type: object
+          properties:
+            Title:
+              type: string
+              description: Partial, case-insensitive match on the campaign title.
+            Status:
+              type: integer
+              description: Campaign status id (lookups `CampaignStatuses`).
+            TrackId:
+              type: integer
+              description: Track id (lookups `Tracks`).
+            PlatformId:
+              type: integer
+              description: Campaigns that run on this platform (lookups `Platforms`).
+
+    GetUsersRequest:
+      allOf:
+        - $ref: '#/components/schemas/PagedRequest'
+        - type: object
+          properties:
+            Name:
+              type: string
+              description: Partial, case-insensitive match on the full name.
+            AccountName:
+              type: string
+              description: Partial, case-insensitive match on the login name.
+            Email:
+              type: string
+              description: Partial, case-insensitive match on the email.
+            IsActive:
+              type: boolean
+              description: true = active users only, false = disabled users only.
+            DepartmentId:
+              type: integer
+              description: Users that have this department in their permissions (lookups `Departments`).
+            RoleId:
+              type: integer
+              description: Users that have this role in their permissions (lookups `Roles`).
+
+    UpdateCampaignRequest:
+      type: object
+      required: [Title, Status, TrackId]
+      properties:
+        Title: { type: string }
+        Description: { type: string }
+        Status: { type: integer }
+        TrackId: { type: integer }
+        Url: { type: string }
+        Budget: { type: number, format: double }
+        PlatformIds:
+          type: array
+          items: { type: integer }
+        QuestionIds:
+          type: array
+          description: The questions to keep on the campaign (replaces the current list). Omit to leave unchanged.
+          items: { type: integer }
+
+    QuestionRequest:
+      type: object
+      required: [Question, Type]
+      description: |
+        Validation by type:
+        - type 1: `FieldId` required, `Answers` must be empty.
+        - type 2: `FieldId` null, `Answers` has exactly one item.
+        - type 3: `FieldId` null, `Answers` has two or more items.
+      properties:
+        Question: { type: string }
+        Type: { $ref: '#/components/schemas/QuestionType' }
+        FieldId: { type: integer, nullable: true }
+        Answers:
+          type: array
+          items: { $ref: '#/components/schemas/QuestionAnswerDto' }
+
+    UpdateUserRequest:
+      type: object
+      required: [AccountName, FullName, Email]
+      properties:
+        AccountName: { type: string }
+        FullName: { type: string }
+        Email: { type: string, format: email }
+        IsActive: { type: boolean }
+        Permissions:
+          type: array
+          items: { $ref: '#/components/schemas/PermissionDto' }
+
+    # ---------- Responses ----------
+    LoginDto:
+      type: object
+      required: [Token, RefreshToken, UserId]
+      properties:
+        Token: { type: string }
+        RefreshToken: { type: string }
+        ExpiresIn: { type: integer, description: Token lifetime in seconds }
+        UserId: { type: integer }
+        FullName: { type: string }
+        Permissions:
+          type: array
+          items: { $ref: '#/components/schemas/PermissionDto' }
+
+    TokenDto:
+      type: object
+      required: [Token, RefreshToken]
+      properties:
+        Token: { type: string }
+        RefreshToken: { type: string }
+
+    LookupsDto:
+      type: object
+      description: Only the lists requested through `Include` are present.
+      properties:
+        Tracks:
+          type: array
+          items:
+            type: object
+            required: [Id, Name]
+            properties:
+              Id: { type: integer }
+              Name: { type: string }
+        LeadStatuses:
+          type: array
+          items:
+            type: object
+            required: [Id, Name]
+            properties:
+              Id: { type: integer }
+              Name: { type: string }
+        Tags:
+          type: array
+          items: { $ref: '#/components/schemas/TagItemDto' }
+        Platforms:
+          type: array
+          items:
+            type: object
+            required: [Id, Name]
+            properties:
+              Id: { type: integer }
+              Name: { type: string }
+        Fields:
+          type: array
+          items:
+            type: object
+            required: [Id, Name]
+            properties:
+              Id: { type: integer }
+              Name: { type: string }
+        QuestionTypes:
+          type: array
+          description: 'Expected values: 1 = Field, 2 = Boolean, 3 = Choice'
+          items:
+            type: object
+            required: [Id, Name]
+            properties:
+              Id: { type: integer }
+              Name: { type: string }
+        CampaignStatuses:
+          type: array
+          items:
+            type: object
+            required: [Id, Name]
+            properties:
+              Id: { type: integer }
+              Name: { type: string }
+        Departments:
+          type: array
+          items:
+            type: object
+            required: [Id, Name]
+            properties:
+              Id: { type: integer }
+              Name: { type: string }
+        Roles:
+          type: array
+          items:
+            type: object
+            required: [Id, Name]
+            properties:
+              Id: { type: integer }
+              Name: { type: string }
+
+    ContactItemDto:
+      type: object
+      required: [Id, Name]
+      properties:
+        Id: { type: integer }
+        Name: { type: string }
+        PhoneNumber: { type: string }
+        Tags:
+          type: array
+          items: { $ref: '#/components/schemas/TagItemDto' }
+        Students:
+          type: array
+          description: Students linked to this contact (when the contact is a guardian)
+          items:
+            type: object
+            required: [Id, Name]
+            properties:
+              Id: { type: integer }
+              Name: { type: string }
+        LastCampaign:
+          type: object
+          nullable: true
+          properties:
+            Id: { type: integer }
+            Title: { type: string }
+            LeadStatus:
+              type: object
+              required: [Id, Name]
+              properties:
+                Id: { type: integer }
+                Name: { type: string }
+
+    ContactsPageDto:
+      type: object
+      required: [Items, PageNumber, PageSize, HasNextPage]
+      properties:
+        Items:
+          type: array
+          items: { $ref: '#/components/schemas/ContactItemDto' }
+        PageNumber: { type: integer }
+        PageSize: { type: integer }
+        HasNextPage: { type: boolean }
+
+    CampaignListItemDto:
+      type: object
+      required: [Id, Title]
+      properties:
+        Id: { type: integer }
+        Title: { type: string }
+        Status: { type: integer }
+        TrackId: { type: integer }
+
+    CampaignsPageDto:
+      type: object
+      required: [Items, PageNumber, PageSize, HasNextPage]
+      properties:
+        Items:
+          type: array
+          items: { $ref: '#/components/schemas/CampaignListItemDto' }
+        PageNumber: { type: integer }
+        PageSize: { type: integer }
+        HasNextPage: { type: boolean }
+
+    CampaignDetailDto:
+      type: object
+      required: [Id, Title]
+      properties:
+        Id: { type: integer }
+        Title: { type: string }
+        Description: { type: string }
+        Status: { type: integer }
+        TrackId: { type: integer }
+        Url: { type: string, description: Google Sheet link used by the import and by the questions endpoint }
+        Budget: { type: number, format: double }
+        Platforms:
+          type: array
+          items:
+            type: object
+            required: [Id, Name]
+            properties:
+              Id: { type: integer }
+              Name: { type: string }
+        Questions:
+          type: array
+          items: { $ref: '#/components/schemas/QuestionDto' }
+
+    QuestionType:
+      type: integer
+      enum: [1, 2, 3]
+      description: |
+        1 = Field: the client's free-text answer is stored in a DB field (e.g. Student.Name).
+        2 = Boolean: yes/no. A "yes" answer is linked to a tag and creates the link between the student/contact and that tag.
+        3 = Choice: several answers, each linked to a tag. The client's chosen answer attaches its tag.
+
+    QuestionAnswerDto:
+      type: object
+      required: [TagId, Answer]
+      properties:
+        TagId: { type: integer }
+        Answer: { type: string }
+
+    QuestionDto:
+      type: object
+      required: [Id, Question]
+      properties:
+        Id: { type: integer }
+        Question: { type: string }
+        Type:
+          allOf:
+            - $ref: '#/components/schemas/QuestionType'
+          nullable: true
+          description: null until the question is configured with `PUT /questions/{id}`.
+        FieldId: { type: integer, nullable: true }
+        Answers:
+          type: array
+          items: { $ref: '#/components/schemas/QuestionAnswerDto' }
+
+    CampaignQuestionItemDto:
+      allOf:
+        - $ref: '#/components/schemas/QuestionDto'
+        - type: object
+          required: [IsSelected]
+          properties:
+            IsSelected:
+              type: boolean
+              description: Whether the question is linked to this campaign (a question can be linked to several campaigns).
+
+    CampaignQuestionsDto:
+      type: object
+      required: [CampaignId, Questions]
+      properties:
+        CampaignId: { type: integer }
+        Questions:
+          type: array
+          items: { $ref: '#/components/schemas/CampaignQuestionItemDto' }
+
+    ImportResultDto:
+      type: object
+      required: [ImportedCount, SkippedCount]
+      description: Row-level problems are listed in `Errors`; a failed import as a whole returns an ErrorDto.
+      properties:
+        ImportedCount: { type: integer }
+        SkippedCount: { type: integer }
+        Errors:
+          type: array
+          items:
+            type: object
+            properties:
+              Row: { type: integer }
+              Message: { type: string }
+
+    UserListItemDto:
+      type: object
+      required: [Id, AccountName]
+      properties:
+        Id: { type: integer }
+        AccountName: { type: string }
+        FullName: { type: string }
+        Email: { type: string, format: email }
+        IsActive: { type: boolean }
+
+    UsersPageDto:
+      type: object
+      required: [Items, PageNumber, PageSize, HasNextPage]
+      properties:
+        Items:
+          type: array
+          items: { $ref: '#/components/schemas/UserListItemDto' }
+        PageNumber: { type: integer }
+        PageSize: { type: integer }
+        HasNextPage: { type: boolean }
+
+    UserDetailDto:
+      allOf:
+        - $ref: '#/components/schemas/UserListItemDto'
+        - type: object
+          properties:
+            Permissions:
+              type: array
+              items: { $ref: '#/components/schemas/PermissionDto' }
