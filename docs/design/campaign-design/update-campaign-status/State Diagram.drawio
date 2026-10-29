@@ -1,0 +1,132 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
+  <diagram id="state-campaign" name="State Diagram - حالات الحملة">
+    <mxGraphModel dx="3484" dy="2168" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontStyle=1;fontSize=18;textDirection=rtl;labelBackgroundColor=none;" value="مخطط الحالات (State Diagram) – حالات الحملة الإعلانية" vertex="1">
+          <mxGeometry height="36" width="900" x="160" y="-50" as="geometry" />
+        </mxCell>
+        <mxCell id="init" parent="1" style="ellipse;html=1;labelBackgroundColor=none;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="965" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="sNew" parent="1" style="rounded=1;arcSize=30;whiteSpace=wrap;html=1;fontSize=15;textDirection=rtl;labelBackgroundColor=none;" value="&lt;b&gt;جديدة&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="160" x="900" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="sApp" parent="1" style="rounded=1;arcSize=30;whiteSpace=wrap;html=1;fontSize=15;textDirection=rtl;labelBackgroundColor=none;" value="&lt;b&gt;مثبتة&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="160" x="560" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="sDone" parent="1" style="rounded=1;arcSize=30;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=15;textDirection=rtl;labelBackgroundColor=none;" value="&lt;b&gt;مكتملة&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="160" x="-170" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="sEdit" parent="1" style="rounded=1;arcSize=30;whiteSpace=wrap;html=1;fontSize=15;textDirection=rtl;labelBackgroundColor=none;" value="&lt;b&gt;تحتاج تعديل&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="160" x="900" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="sCancel" parent="1" style="rounded=1;arcSize=30;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=15;textDirection=rtl;labelBackgroundColor=none;" value="&lt;b&gt;ملغاة&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="160" x="900" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="endDone" parent="1" style="ellipse;shape=endState;html=1;labelBackgroundColor=none;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="-105" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="endCancel" parent="1" style="ellipse;shape=endState;html=1;labelBackgroundColor=none;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="965" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="t0" edge="1" parent="1" source="init" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;fontColor=default;textDirection=rtl;fontSize=12;labelBackgroundColor=none;" target="sNew" value="إنشاء حملة (مدير التسويق / الأدمن)&lt;br&gt;/ ربط ملف Google Sheets">
+          <mxGeometry relative="1" x="0.0909" y="80" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t1" edge="1" parent="1" source="sNew" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;fontColor=default;textDirection=rtl;fontSize=12;labelBackgroundColor=none;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="sApp" value="[الأدمن] اعتماد&lt;br&gt;/ إشعار مدير التسويق">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t3" edge="1" parent="1" source="sDone" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;fontColor=default;textDirection=rtl;fontSize=12;labelBackgroundColor=none;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="endDone" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t4" edge="1" parent="1" source="sNew" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;fontColor=default;textDirection=rtl;fontSize=12;labelBackgroundColor=none;exitX=0.8;exitY=1;entryX=0.8;entryY=0;" target="sEdit" value="[الأدمن] طلب تعديل&lt;br&gt;/ إشعار مدير التسويق">
+          <mxGeometry relative="1" x="0.0667" y="42" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t5" edge="1" parent="1" source="sEdit" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;fontColor=default;textDirection=rtl;fontSize=12;labelBackgroundColor=none;exitX=0.2;exitY=0;entryX=0.2;entryY=1;" target="sNew" value="[مدير التسويق] تعديل الحملة&lt;br&gt;وإعادة إرسالها&lt;br&gt;/ إشعار الأدمن">
+          <mxGeometry relative="1" x="-0.0667" y="62" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t6" edge="1" parent="1" source="sEdit" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;fontColor=default;textDirection=rtl;fontSize=12;labelBackgroundColor=none;exitX=0;exitY=0.5;entryX=0.75;entryY=1;" target="sApp" value="[الأدمن] تعديل بنفسه&lt;br&gt;ثم اعتماد">
+          <mxGeometry relative="1" x="-0.25" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="680" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t7" edge="1" parent="1" source="sNew" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;fontColor=default;textDirection=rtl;fontSize=12;labelBackgroundColor=none;exitX=1;exitY=0.5;entryX=0.438;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;exitDx=0;exitDy=0;" value="[الأدمن] رفض الحملة&lt;br&gt;/ إشعار مدير التسويق">
+          <mxGeometry relative="1" x="-0.0463" y="50" as="geometry">
+            <mxPoint y="1" as="offset" />
+            <Array as="points">
+              <mxPoint x="1191" y="180" />
+            </Array>
+            <mxPoint x="1071" y="179.99999999999977" as="sourcePoint" />
+            <mxPoint x="1191.08" y="560.0000000000002" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t8" edge="1" parent="1" source="sEdit" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;fontColor=default;textDirection=rtl;fontSize=12;labelBackgroundColor=none;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="sCancel" value="[الأدمن] إلغاء&lt;br&gt;/ إشعار مدير التسويق">
+          <mxGeometry relative="1" y="50" as="geometry">
+            <mxPoint y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t9" edge="1" parent="1" source="sApp" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;fontColor=default;textDirection=rtl;fontSize=12;labelBackgroundColor=none;exitX=0.25;exitY=1;entryX=0;entryY=0.5;" target="sCancel" value="[الأدمن] إلغاء قبل الاكتمال&lt;br&gt;/ إشعار مدير التسويق">
+          <mxGeometry relative="1" x="-0.4412" y="-60" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="600" y="590" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t10" edge="1" parent="1" source="sCancel" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;fontColor=default;textDirection=rtl;fontSize=12;labelBackgroundColor=none;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="endCancel" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="2rtbVI3o6zPRrwC-FDTb-1" parent="1" style="rounded=1;arcSize=30;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=15;textDirection=rtl;labelBackgroundColor=none;" value="&lt;b&gt;قيد التنفيذ&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="160" x="160" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="2rtbVI3o6zPRrwC-FDTb-3" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;fontColor=default;textDirection=rtl;fontSize=12;labelBackgroundColor=none;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="2rtbVI3o6zPRrwC-FDTb-1" value="[النظام] بدء المهمة المرتبطة&lt;br&gt;بالحملة (تلقائي)">
+          <mxGeometry relative="1" x="0.0075" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points" />
+            <mxPoint x="560" y="180" as="sourcePoint" />
+            <mxPoint x="410" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2rtbVI3o6zPRrwC-FDTb-6" edge="1" parent="1" source="2rtbVI3o6zPRrwC-FDTb-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;fontColor=default;textDirection=rtl;fontSize=12;labelBackgroundColor=none;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="sDone" value="[النظام] انتهاء المهمة المرتبطة&lt;br&gt;بالحملة (تلقائي)">
+          <mxGeometry relative="1" x="0.0588" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points" />
+            <mxPoint x="15.080000000000155" y="32" as="sourcePoint" />
+            <mxPoint x="15" y="182" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2rtbVI3o6zPRrwC-FDTb-9" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=none;endFill=0;fontColor=default;textDirection=rtl;fontSize=12;labelBackgroundColor=none;exitX=0.25;exitY=1;curved=0;startArrow=none;startFill=0;" value="[الأدمن] إلغاء قبل الاكتمال&lt;br&gt;/ إشعار مدير التسويق">
+          <mxGeometry relative="1" x="-0.4879" y="-58" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="238" y="590" />
+            </Array>
+            <mxPoint x="238" y="210" as="sourcePoint" />
+            <mxPoint x="600" y="590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="k0lGO1M8jeGGOw9b2gpk-1" parent="1" style="rounded=1;arcSize=30;whiteSpace=wrap;html=1;strokeWidth=2;fontSize=15;textDirection=rtl;labelBackgroundColor=none;" value="&lt;b&gt;مرفوضة&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="160" x="1110" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="k0lGO1M8jeGGOw9b2gpk-3" parent="1" style="ellipse;shape=endState;html=1;labelBackgroundColor=none;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="1175" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="k0lGO1M8jeGGOw9b2gpk-4" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;fontColor=default;textDirection=rtl;fontSize=12;labelBackgroundColor=none;entryX=0.5;entryY=0;" target="k0lGO1M8jeGGOw9b2gpk-3" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1190" y="620" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
