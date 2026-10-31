@@ -414,12 +414,26 @@ components:
         Id: { type: integer }
         Tag: { type: string }
 
+    DepartmentDto:
+      type: object
+      required: [Id, Name]
+      properties:
+        Id: { type: integer }
+        Name: { type: string }
+
+    RoleDto:
+      type: object
+      required: [Id, Name]
+      properties:
+        Id: { type: integer }
+        Name: { type: string }
+
     PermissionDto:
       type: object
-      required: [DepartmentId, RoleId]
+      required: [Department, Role]
       properties:
-        DepartmentId: { type: integer }
-        RoleId: { type: integer }
+        Department: { $ref: '#/components/schemas/DepartmentDto' }
+        Role: { $ref: '#/components/schemas/RoleDto' }
 
     # ---------- Requests ----------
     PagedRequest:
@@ -428,6 +442,12 @@ components:
       properties:
         PageNumber: { type: integer, minimum: 1, default: 1 }
         PageSize: { type: integer, minimum: 1, maximum: 100, default: 20 }
+
+    PermissionRequest:
+      type: object
+      required: [PermissionId]
+      properties:
+        PermissionId: { type: integer }
 
     LoginRequest:
       type: object
@@ -503,12 +523,9 @@ components:
             IsActive:
               type: boolean
               description: true = active users only, false = disabled users only.
-            DepartmentId:
+            PermissionId:
               type: integer
-              description: Users that have this department in their permissions (lookups `Departments`).
-            RoleId:
-              type: integer
-              description: Users that have this role in their permissions (lookups `Roles`).
+              description: Users that have this permission (lookups `Permissions`).
 
     UpdateCampaignRequest:
       type: object
@@ -554,7 +571,7 @@ components:
         IsActive: { type: boolean }
         Permissions:
           type: array
-          items: { $ref: '#/components/schemas/PermissionDto' }
+          items: { $ref: '#/components/schemas/PermissionRequest' }
 
     # ---------- Responses ----------
     LoginDto:
@@ -633,22 +650,9 @@ components:
             properties:
               Id: { type: integer }
               Name: { type: string }
-        Departments:
+        Permissions:
           type: array
-          items:
-            type: object
-            required: [Id, Name]
-            properties:
-              Id: { type: integer }
-              Name: { type: string }
-        Roles:
-          type: array
-          items:
-            type: object
-            required: [Id, Name]
-            properties:
-              Id: { type: integer }
-              Name: { type: string }
+          items: { $ref: '#/components/schemas/PermissionDto' }
 
     ContactItemDto:
       type: object
