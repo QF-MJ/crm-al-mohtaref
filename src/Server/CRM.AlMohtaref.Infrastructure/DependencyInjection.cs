@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Infrastructure.Services;
+
 namespace CRM.AlMohtaref.Infrastructure;
 
 public static class DependencyInjection
@@ -17,6 +20,8 @@ public static class DependencyInjection
                 sql => sql.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName))
             );
 
+        services.AddHttpContextAccessor();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
         return services;
     }
 }
