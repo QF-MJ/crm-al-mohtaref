@@ -538,6 +538,13 @@ components:
           description: The questions to keep on the campaign (replaces the current list). Omit to leave unchanged.
           items: { type: integer }
 
+    UpdateQuestionAnswerRequest:
+      type: object
+      required: [TagId, Answer]
+      properties:
+        TagId: { type: integer }
+        Answer: { type: string }
+
     UpdateQuestionRequest:
       type: object
       required: [Question, Type]
@@ -552,7 +559,7 @@ components:
         FieldId: { type: integer, nullable: true }
         Answers:
           type: array
-          items: { $ref: "#/components/schemas/QuestionAnswerDto" }
+          items: { $ref: "#/components/schemas/UpdateQuestionAnswerRequest" }
 
     UpdateUserRequest:
       type: object
@@ -658,7 +665,7 @@ components:
         Permissions:
           type: array
           items: { $ref: "#/components/schemas/PermissionDto" }
- 
+
     StudentDto:
       type: object
       required: [Id, Name]
