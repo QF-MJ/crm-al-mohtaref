@@ -38,19 +38,19 @@ paths:
         required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/LoginRequest' }
+            schema: { $ref: "#/components/schemas/LoginRequest" }
       responses:
-        '200':
+        "200":
           description: Logged in
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/LoginDto' }
-        '401': { $ref: '#/components/responses/Unauthorized' }
-        '423':
+              schema: { $ref: "#/components/schemas/LoginDto" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "423":
           description: Account locked after repeated failed attempts
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/ErrorDto' }
+              schema: { $ref: "#/components/schemas/ErrorDto" }
 
   /auth/refresh:
     post:
@@ -62,14 +62,14 @@ paths:
         required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/RefreshRequest' }
+            schema: { $ref: "#/components/schemas/RefreshRequest" }
       responses:
-        '200':
+        "200":
           description: New tokens
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/TokenDto' }
-        '401': { $ref: '#/components/responses/Unauthorized' }
+              schema: { $ref: "#/components/schemas/TokenDto" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
 
   /auth/logout:
     post:
@@ -80,10 +80,10 @@ paths:
         required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/RefreshRequest' }
+            schema: { $ref: "#/components/schemas/RefreshRequest" }
       responses:
-        '204': { $ref: '#/components/responses/NoContent' }
-        '401': { $ref: '#/components/responses/Unauthorized' }
+        "204": { $ref: "#/components/responses/NoContent" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
 
   /lookups:
     get:
@@ -99,14 +99,14 @@ paths:
           required: false
           style: form
           explode: true
-          schema: { $ref: '#/components/schemas/GetLookupsRequest' }
+          schema: { $ref: "#/components/schemas/GetLookupsRequest" }
       responses:
-        '200':
+        "200":
           description: Requested lists
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/LookupsDto' }
-        '401': { $ref: '#/components/responses/Unauthorized' }
+              schema: { $ref: "#/components/schemas/LookupsDto" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
 
   /contacts:
     get:
@@ -123,15 +123,15 @@ paths:
           required: true
           style: form
           explode: true
-          schema: { $ref: '#/components/schemas/GetContactsRequest' }
+          schema: { $ref: "#/components/schemas/GetContactsRequest" }
       responses:
-        '200':
+        "200":
           description: A page of contacts
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/ContactsPageDto' }
-        '401': { $ref: '#/components/responses/Unauthorized' }
-        '403': { $ref: '#/components/responses/Forbidden' }
+              schema: { $ref: "#/components/schemas/ContactsPageDto" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
 
   /campaigns:
     get:
@@ -150,33 +150,33 @@ paths:
           required: true
           style: form
           explode: true
-          schema: { $ref: '#/components/schemas/SearchCampaignsRequest' }
+          schema: { $ref: "#/components/schemas/GetCampaignsRequest" }
       responses:
-        '200':
+        "200":
           description: A page of campaigns
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/CampaignsPageDto' }
-        '401': { $ref: '#/components/responses/Unauthorized' }
-        '403': { $ref: '#/components/responses/Forbidden' }
+              schema: { $ref: "#/components/schemas/CampaignsPageDto" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
 
   /campaigns/{id}:
     parameters:
-      - $ref: '#/components/parameters/IdPath'
+      - $ref: "#/components/parameters/IdPath"
     get:
       tags: [Campaigns]
       operationId: getCampaign
       summary: Get a campaign with its platforms and questions
-      description: '`Questions` are only the questions currently linked to the campaign. To see everything in the Google Sheet use `GET /campaigns/{id}/questions`.'
+      description: "`Questions` are only the questions currently linked to the campaign. To see everything in the Google Sheet use `GET /campaigns/{id}/questions`."
       responses:
-        '200':
+        "200":
           description: Campaign details
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/CampaignDetailDto' }
-        '401': { $ref: '#/components/responses/Unauthorized' }
-        '403': { $ref: '#/components/responses/Forbidden' }
-        '404': { $ref: '#/components/responses/NotFound' }
+              schema: { $ref: "#/components/schemas/CampaignDetailDto" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
     put:
       tags: [Campaigns]
       operationId: updateCampaign
@@ -190,17 +190,17 @@ paths:
         required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/UpdateCampaignRequest' }
+            schema: { $ref: "#/components/schemas/UpdateCampaignRequest" }
       responses:
-        '204': { $ref: '#/components/responses/NoContent' }
-        '400': { $ref: '#/components/responses/BadRequest' }
-        '401': { $ref: '#/components/responses/Unauthorized' }
-        '403': { $ref: '#/components/responses/Forbidden' }
-        '404': { $ref: '#/components/responses/NotFound' }
+        "204": { $ref: "#/components/responses/NoContent" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
 
   /campaigns/{id}/questions:
     parameters:
-      - $ref: '#/components/parameters/IdPath'
+      - $ref: "#/components/parameters/IdPath"
     get:
       tags: [Campaigns]
       operationId: getCampaignQuestions
@@ -217,19 +217,19 @@ paths:
         A sheet question that has no DB record yet (the import never ran) is not returned.
         Returns 400 if the campaign has no url or the sheet cannot be read.
       responses:
-        '200':
+        "200":
           description: Questions found in the sheet
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/CampaignQuestionsDto' }
-        '400': { $ref: '#/components/responses/BadRequest' }
-        '401': { $ref: '#/components/responses/Unauthorized' }
-        '403': { $ref: '#/components/responses/Forbidden' }
-        '404': { $ref: '#/components/responses/NotFound' }
+              schema: { $ref: "#/components/schemas/CampaignQuestionsDto" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
 
   /campaigns/{id}/import:
     parameters:
-      - $ref: '#/components/parameters/IdPath'
+      - $ref: "#/components/parameters/IdPath"
     post:
       tags: [Campaigns]
       operationId: importCampaignData
@@ -240,19 +240,19 @@ paths:
         (unconfigured, `Type` null). An existing question is reused, not duplicated, so one question can be shared
         by several campaigns.
       responses:
-        '200':
+        "200":
           description: Import result
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/ImportResultDto' }
-        '400': { $ref: '#/components/responses/BadRequest' }
-        '401': { $ref: '#/components/responses/Unauthorized' }
-        '403': { $ref: '#/components/responses/Forbidden' }
-        '404': { $ref: '#/components/responses/NotFound' }
+              schema: { $ref: "#/components/schemas/ImportResultDto" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
 
   /questions/{id}:
     parameters:
-      - $ref: '#/components/parameters/IdPath'
+      - $ref: "#/components/parameters/IdPath"
     put:
       tags: [Questions]
       operationId: updateQuestion
@@ -260,13 +260,13 @@ paths:
       description: |
         Questions are created by the import from the Google Sheet (`POST /campaigns/{id}/import`).
         This call sets what the sheet cannot provide:
-        the type, the DB field, and the answers linked to tags. See `QuestionRequest` for the rules of each type.
+        the type, the DB field, and the answers linked to tags. See `UpdateQuestionRequest` for the rules of each type.
         A question can be shared by several campaigns, so the change applies to all of them.
       requestBody:
         required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/QuestionRequest' }
+            schema: { $ref: "#/components/schemas/UpdateQuestionRequest" }
             examples:
               field:
                 summary: Type 1, linked to a DB field
@@ -280,7 +280,7 @@ paths:
                   Question: Do you have a laptop?
                   Type: 2
                   Answers:
-                    - { TagId: 7, Answer: 'Yes' }
+                    - { TagId: 7, Answer: "Yes" }
               choice:
                 summary: Type 3, multiple choice
                 value:
@@ -290,11 +290,11 @@ paths:
                     - { TagId: 11, Answer: Programming }
                     - { TagId: 12, Answer: Design }
       responses:
-        '204': { $ref: '#/components/responses/NoContent' }
-        '400': { $ref: '#/components/responses/BadRequest' }
-        '401': { $ref: '#/components/responses/Unauthorized' }
-        '403': { $ref: '#/components/responses/Forbidden' }
-        '404': { $ref: '#/components/responses/NotFound' }
+        "204": { $ref: "#/components/responses/NoContent" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
 
   /users:
     get:
@@ -307,56 +307,54 @@ paths:
         - `AccountName`: partial, case-insensitive match on the login name.
         - `Email`: partial, case-insensitive match on the email.
         - `IsActive`: `true` active users only, `false` disabled users only.
-        - `DepartmentId` / `RoleId`: users that have this department / role in their permissions.
-          If both are sent they must be in the same permission pair (e.g. role X inside department Y).
       parameters:
         - name: request
           in: query
           required: true
           style: form
           explode: true
-          schema: { $ref: '#/components/schemas/GetUsersRequest' }
+          schema: { $ref: "#/components/schemas/GetUsersRequest" }
       responses:
-        '200':
+        "200":
           description: A page of users
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/UsersPageDto' }
-        '401': { $ref: '#/components/responses/Unauthorized' }
-        '403': { $ref: '#/components/responses/Forbidden' }
+              schema: { $ref: "#/components/schemas/UsersPageDto" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
 
   /users/{id}:
     parameters:
-      - $ref: '#/components/parameters/IdPath'
+      - $ref: "#/components/parameters/IdPath"
     get:
       tags: [Users]
       operationId: getUser
       summary: Get one user with department/role permissions
       responses:
-        '200':
+        "200":
           description: User details
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/UserDetailDto' }
-        '401': { $ref: '#/components/responses/Unauthorized' }
-        '403': { $ref: '#/components/responses/Forbidden' }
-        '404': { $ref: '#/components/responses/NotFound' }
+              schema: { $ref: "#/components/schemas/UserDetailDto" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
     put:
       tags: [Users]
       operationId: updateUser
       summary: Edit user data (UM-07)
-      description: '`Permissions` replaces the user''s department/role pairs.'
+      description: "`Permissions` replaces the user's department/role pairs."
       requestBody:
         required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/UpdateUserRequest' }
+            schema: { $ref: "#/components/schemas/UpdateUserRequest" }
       responses:
-        '204': { $ref: '#/components/responses/NoContent' }
-        '400': { $ref: '#/components/responses/BadRequest' }
-        '401': { $ref: '#/components/responses/Unauthorized' }
-        '403': { $ref: '#/components/responses/Forbidden' }
-        '404': { $ref: '#/components/responses/NotFound' }
+        "204": { $ref: "#/components/responses/NoContent" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
 
 components:
   securitySchemes:
@@ -379,22 +377,22 @@ components:
       description: Validation error
       content:
         application/json:
-          schema: { $ref: '#/components/schemas/ErrorDto' }
+          schema: { $ref: "#/components/schemas/ErrorDto" }
     Unauthorized:
       description: Missing or invalid token
       content:
         application/json:
-          schema: { $ref: '#/components/schemas/ErrorDto' }
+          schema: { $ref: "#/components/schemas/ErrorDto" }
     Forbidden:
       description: The user's role does not allow this action
       content:
         application/json:
-          schema: { $ref: '#/components/schemas/ErrorDto' }
+          schema: { $ref: "#/components/schemas/ErrorDto" }
     NotFound:
       description: Not found
       content:
         application/json:
-          schema: { $ref: '#/components/schemas/ErrorDto' }
+          schema: { $ref: "#/components/schemas/ErrorDto" }
 
   schemas:
     # ---------- Errors ----------
@@ -414,34 +412,19 @@ components:
         Id: { type: integer }
         Tag: { type: string }
 
-    DepartmentDto:
-      type: object
-      required: [Id, Name]
-      properties:
-        Id: { type: integer }
-        Name: { type: string }
-
-    RoleDto:
-      type: object
-      required: [Id, Name]
-      properties:
-        Id: { type: integer }
-        Name: { type: string }
-
     PermissionDto:
       type: object
-      required: [Department, Role]
+      required: [DepartmentName, RoleName]
       properties:
-        Department: { $ref: '#/components/schemas/DepartmentDto' }
-        Role: { $ref: '#/components/schemas/RoleDto' }
+        DepartmentName: { type: string }
+        RoleName: { type: string }
 
     # ---------- Requests ----------
     PagedRequest:
       type: object
-      required: [PageNumber, PageSize]
+      required: [PageNumber]
       properties:
         PageNumber: { type: integer, minimum: 1, default: 1 }
-        PageSize: { type: integer, minimum: 1, maximum: 100, default: 20 }
 
     PermissionRequest:
       type: object
@@ -470,11 +453,21 @@ components:
           description: Repeated key, e.g. `Include=Tracks&Include=Tags`. Omit to get every list.
           items:
             type: string
-            enum: [Tracks, LeadStatuses, Tags, Platforms, Fields, CampaignStatuses, QuestionTypes, Departments, Roles]
+            enum:
+              [
+                Tracks,
+                LeadStatuses,
+                Tags,
+                Platforms,
+                Fields,
+                CampaignStatuses,
+                QuestionTypes,
+                Permissions,
+              ]
 
     GetContactsRequest:
       allOf:
-        - $ref: '#/components/schemas/PagedRequest'
+        - $ref: "#/components/schemas/PagedRequest"
         - type: object
           properties:
             CampaignTitle: { type: string }
@@ -488,9 +481,9 @@ components:
             ContactName: { type: string }
             PhoneNumber: { type: string }
 
-    SearchCampaignsRequest:
+    GetCampaignsRequest:
       allOf:
-        - $ref: '#/components/schemas/PagedRequest'
+        - $ref: "#/components/schemas/PagedRequest"
         - type: object
           properties:
             Title:
@@ -508,7 +501,7 @@ components:
 
     GetUsersRequest:
       allOf:
-        - $ref: '#/components/schemas/PagedRequest'
+        - $ref: "#/components/schemas/PagedRequest"
         - type: object
           properties:
             Name:
@@ -545,7 +538,7 @@ components:
           description: The questions to keep on the campaign (replaces the current list). Omit to leave unchanged.
           items: { type: integer }
 
-    QuestionRequest:
+    UpdateQuestionRequest:
       type: object
       required: [Question, Type]
       description: |
@@ -555,11 +548,11 @@ components:
         - type 3: `FieldId` null, `Answers` has two or more items.
       properties:
         Question: { type: string }
-        Type: { $ref: '#/components/schemas/QuestionType' }
+        Type: { $ref: "#/components/schemas/QuestionType" }
         FieldId: { type: integer, nullable: true }
         Answers:
           type: array
-          items: { $ref: '#/components/schemas/QuestionAnswerDto' }
+          items: { $ref: "#/components/schemas/QuestionAnswerDto" }
 
     UpdateUserRequest:
       type: object
@@ -571,7 +564,7 @@ components:
         IsActive: { type: boolean }
         Permissions:
           type: array
-          items: { $ref: '#/components/schemas/PermissionRequest' }
+          items: { $ref: "#/components/schemas/PermissionRequest" }
 
     # ---------- Responses ----------
     LoginDto:
@@ -585,7 +578,7 @@ components:
         FullName: { type: string }
         Permissions:
           type: array
-          items: { $ref: '#/components/schemas/PermissionDto' }
+          items: { $ref: "#/components/schemas/PermissionDto" }
 
     TokenDto:
       type: object
@@ -594,65 +587,84 @@ components:
         Token: { type: string }
         RefreshToken: { type: string }
 
+    TrackDto:
+      type: object
+      required: [Id, Name]
+      properties:
+        Id: { type: integer }
+        Name: { type: string }
+
+    CampaignStatuseDto:
+      type: object
+      required: [Id, Name]
+      properties:
+        Id: { type: integer }
+        Name: { type: string }
+
+    QuestionTypeDto:
+      type: object
+      required: [Id, Name]
+      properties:
+        Id: { type: integer }
+        Name: { type: string }
+
+    FieldDto:
+      type: object
+      required: [Id, Name]
+      properties:
+        Id: { type: integer }
+        Name: { type: string }
+
+    PlatformDto:
+      type: object
+      required: [Id, Name]
+      properties:
+        Id: { type: integer }
+        Name: { type: string }
+
+    LeadStatuseDto:
+      type: object
+      required: [Id, Name]
+      properties:
+        Id: { type: integer }
+        Name: { type: string }
+
     LookupsDto:
       type: object
       description: Only the lists requested through `Include` are present.
       properties:
         Tracks:
           type: array
-          items:
-            type: object
-            required: [Id, Name]
-            properties:
-              Id: { type: integer }
-              Name: { type: string }
+          items: { $ref: "#/components/schemas/TrackDto" }
         LeadStatuses:
           type: array
-          items:
-            type: object
-            required: [Id, Name]
-            properties:
-              Id: { type: integer }
-              Name: { type: string }
+          items: { $ref: "#/components/schemas/LeadStatuseDto" }
         Tags:
           type: array
-          items: { $ref: '#/components/schemas/TagItemDto' }
+          items: { $ref: "#/components/schemas/TagItemDto" }
         Platforms:
           type: array
-          items:
-            type: object
-            required: [Id, Name]
-            properties:
-              Id: { type: integer }
-              Name: { type: string }
+          items: { $ref: "#/components/schemas/PlatformDto" }
         Fields:
           type: array
-          items:
-            type: object
-            required: [Id, Name]
-            properties:
-              Id: { type: integer }
-              Name: { type: string }
+          items: { $ref: "#/components/schemas/FieldDto" }
         QuestionTypes:
           type: array
-          description: 'Expected values: 1 = Field, 2 = Boolean, 3 = Choice'
-          items:
-            type: object
-            required: [Id, Name]
-            properties:
-              Id: { type: integer }
-              Name: { type: string }
+          description: "Expected values: 1 = Field, 2 = Boolean, 3 = Choice"
+          items: { $ref: "#/components/schemas/QuestionTypeDto" }
         CampaignStatuses:
           type: array
-          items:
-            type: object
-            required: [Id, Name]
-            properties:
-              Id: { type: integer }
-              Name: { type: string }
+          items: { $ref: "#/components/schemas/CampaignStatuseDto" }
         Permissions:
           type: array
-          items: { $ref: '#/components/schemas/PermissionDto' }
+          items: { $ref: "#/components/schemas/PermissionDto" }
+ 
+    StudentDto:
+      type: object
+      required: [Id, Name]
+      properties:
+        Id: { type: integer }
+        Name: { type: string }
 
     ContactItemDto:
       type: object
@@ -660,42 +672,31 @@ components:
       properties:
         Id: { type: integer }
         Name: { type: string }
-        PhoneNumber: { type: string }
-        Tags:
-          type: array
-          items: { $ref: '#/components/schemas/TagItemDto' }
-        Students:
-          type: array
-          description: Students linked to this contact (when the contact is a guardian)
-          items:
-            type: object
-            required: [Id, Name]
-            properties:
-              Id: { type: integer }
-              Name: { type: string }
         LastCampaign:
           type: object
           nullable: true
           properties:
             Id: { type: integer }
             Title: { type: string }
-            LeadStatus:
-              type: object
-              required: [Id, Name]
-              properties:
-                Id: { type: integer }
-                Name: { type: string }
+        Students:
+          type: array
+          items: { $ref: "#/components/schemas/StudentDto" }
+
+    PageDto:
+      type: object
+      required: [PageNumber, HasNextPage]
+      properties:
+        PageNumber: { type: integer }
+        HasNextPage: { type: boolean }
 
     ContactsPageDto:
       type: object
-      required: [Items, PageNumber, PageSize, HasNextPage]
+      required: [Items, Page]
       properties:
         Items:
           type: array
-          items: { $ref: '#/components/schemas/ContactItemDto' }
-        PageNumber: { type: integer }
-        PageSize: { type: integer }
-        HasNextPage: { type: boolean }
+          items: { $ref: "#/components/schemas/ContactItemDto" }
+        Page: { $ref: "#/components/schemas/PageDto" }
 
     CampaignListItemDto:
       type: object
@@ -708,14 +709,12 @@ components:
 
     CampaignsPageDto:
       type: object
-      required: [Items, PageNumber, PageSize, HasNextPage]
+      required: [Items, Page]
       properties:
         Items:
           type: array
-          items: { $ref: '#/components/schemas/CampaignListItemDto' }
-        PageNumber: { type: integer }
-        PageSize: { type: integer }
-        HasNextPage: { type: boolean }
+          items: { $ref: "#/components/schemas/CampaignListItemDto" }
+        Page: { $ref: "#/components/schemas/PageDto" }
 
     CampaignDetailDto:
       type: object
@@ -726,7 +725,11 @@ components:
         Description: { type: string }
         Status: { type: integer }
         TrackId: { type: integer }
-        Url: { type: string, description: Google Sheet link used by the import and by the questions endpoint }
+        Url:
+          {
+            type: string,
+            description: Google Sheet link used by the import and by the questions endpoint,
+          }
         Budget: { type: number, format: double }
         Platforms:
           type: array
@@ -738,7 +741,7 @@ components:
               Name: { type: string }
         Questions:
           type: array
-          items: { $ref: '#/components/schemas/QuestionDto' }
+          items: { $ref: "#/components/schemas/QuestionDto" }
 
     QuestionType:
       type: integer
@@ -763,17 +766,17 @@ components:
         Question: { type: string }
         Type:
           allOf:
-            - $ref: '#/components/schemas/QuestionType'
+            - $ref: "#/components/schemas/QuestionType"
           nullable: true
           description: null until the question is configured with `PUT /questions/{id}`.
         FieldId: { type: integer, nullable: true }
         Answers:
           type: array
-          items: { $ref: '#/components/schemas/QuestionAnswerDto' }
+          items: { $ref: "#/components/schemas/QuestionAnswerDto" }
 
     CampaignQuestionItemDto:
       allOf:
-        - $ref: '#/components/schemas/QuestionDto'
+        - $ref: "#/components/schemas/QuestionDto"
         - type: object
           required: [IsSelected]
           properties:
@@ -788,7 +791,7 @@ components:
         CampaignId: { type: integer }
         Questions:
           type: array
-          items: { $ref: '#/components/schemas/CampaignQuestionItemDto' }
+          items: { $ref: "#/components/schemas/CampaignQuestionItemDto" }
 
     ImportResultDto:
       type: object
@@ -817,20 +820,18 @@ components:
 
     UsersPageDto:
       type: object
-      required: [Items, PageNumber, PageSize, HasNextPage]
+      required: [Items, Page]
       properties:
         Items:
           type: array
-          items: { $ref: '#/components/schemas/UserListItemDto' }
-        PageNumber: { type: integer }
-        PageSize: { type: integer }
-        HasNextPage: { type: boolean }
+          items: { $ref: "#/components/schemas/UserListItemDto" }
+        Page: { $ref: "#/components/schemas/PageDto" }
 
     UserDetailDto:
       allOf:
-        - $ref: '#/components/schemas/UserListItemDto'
+        - $ref: "#/components/schemas/UserListItemDto"
         - type: object
           properties:
             Permissions:
               type: array
-              items: { $ref: '#/components/schemas/PermissionDto' }
+              items: { $ref: "#/components/schemas/PermissionDto" }
