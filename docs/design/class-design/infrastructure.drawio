@@ -1,0 +1,931 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6" pages="7">
+  <diagram id="p1_d" name="01 Overview">
+    <mxGraphModel dx="1737" dy="1057" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p1_g_infra" parent="1" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=12;spacingTop=4;arcSize=3;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" value="&lt;b&gt;CRM.AlMohtaref.Infrastructure&lt;/b&gt; (Infrastructure Layer)" vertex="1">
+          <mxGeometry height="1022" width="1130" x="200" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_g_di" parent="p1_g_infra" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 DependencyInjection" vertex="1">
+          <mxGeometry height="100" width="230" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_DependencyInjection" parent="p1_g_di" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;static&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;DependencyInjection&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="190" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_g_data" parent="p1_g_infra" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 Data" vertex="1">
+          <mxGeometry height="158" width="240" x="300" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_AppDbContext" parent="p1_g_data" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;DbContext&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;AppDbContext&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="200" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_AuditInterceptor" parent="p1_g_data" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;SaveChangesInterceptor&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;AuditInterceptor&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="200" x="20" y="94" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_g_repo" parent="p1_g_infra" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 Repositories" vertex="1">
+          <mxGeometry height="390" width="250" x="590" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_UserRepository" parent="p1_g_repo" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;UserRepository&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="210" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_RefreshTokenRepository" parent="p1_g_repo" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;RefreshTokenRepository&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="210" x="20" y="94" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_LookupRepository" parent="p1_g_repo" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;LookupRepository&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="210" x="20" y="152" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_ContactRepository" parent="p1_g_repo" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;ContactRepository&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="210" x="20" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_CampaignRepository" parent="p1_g_repo" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;CampaignRepository&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="210" x="20" y="268" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_QuestionRepository" parent="p1_g_repo" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;QuestionRepository&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="210" x="20" y="326" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_g_ext" parent="p1_g_infra" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 ExternalServices" vertex="1">
+          <mxGeometry height="316" width="220" x="890" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_PasswordHasher" parent="p1_g_ext" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Service&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;PasswordHasher&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="180" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_TokenService" parent="p1_g_ext" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Service&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;TokenService&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="180" x="20" y="94" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_GoogleSheetService" parent="p1_g_ext" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Service&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;GoogleSheetService&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="180" x="20" y="152" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_SheetMapper" parent="p1_g_ext" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Service&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;SheetMapper&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="180" x="20" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_JwtOptions" parent="p1_g_ext" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&lt;b&gt;JwtSettings&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="180" x="20" y="268" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_g_cfg" parent="p1_g_infra" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 Data / Configurations" vertex="1">
+          <mxGeometry height="448" width="1090" x="20" y="554" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_PersonConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Person&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;PersonConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_UserConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;User&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;UserConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="94" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_UserPermissionConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;UserPermission&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;UserPermissionConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="152" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_DepartmentConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Department&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;DepartmentConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_RoleConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Role&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;RoleConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="268" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_RefreshTokenConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;RefreshToken&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;RefreshTokenConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="326" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_StudentConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Student&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;StudentConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="384" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_ContactConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Contact&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;ContactConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="380" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_TagConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Tag&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;TagConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="380" y="94" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_ContactTagConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;ContactTag&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;ContactTagConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="380" y="152" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_CampaignConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Campaign&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;CampaignConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="380" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_CampaignStatusConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;CampaignStatus&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;CampaignStatusConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="380" y="268" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_TrackConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Track&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;TrackConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="380" y="326" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_PlatformConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Platform&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;PlatformConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="380" y="384" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_PlatformCampaignConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;PlatformCampaign&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;PlatformCampaignConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="740" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_CampaignLeadConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;CampaignLead&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;CampaignLeadConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="740" y="94" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_LeadStatusConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;LeadStatus&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;LeadStatusConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="740" y="152" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_QuestionConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Question&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;QuestionConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="740" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_QuestionTagConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;QuestionTag&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;QuestionTagConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="740" y="268" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_QuestionCampaignConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;QuestionCampaign&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;QuestionCampaignConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="740" y="326" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_FieldConfiguration" parent="p1_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Field&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;FieldConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="740" y="384" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_g_seed" parent="p1_g_infra" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 Data / Seed" vertex="1">
+          <mxGeometry height="220" width="540" x="20" y="214" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_DataSeeder" parent="p1_g_seed" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;static&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;DataSeeder&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="230" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_DepartmentSeed" parent="p1_g_seed" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;static&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;DepartmentSeed&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="230" x="290" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_RoleSeed" parent="p1_g_seed" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;static&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;RoleSeed&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="230" x="20" y="94" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_PersonSeed" parent="p1_g_seed" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;static&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;PersonSeed&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="230" x="290" y="94" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_UserSeed" parent="p1_g_seed" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;static&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;UserSeed&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="230" x="20" y="152" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_UserPermissionSeed" parent="p1_g_seed" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;static&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;UserPermissionSeed&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="230" x="290" y="152" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_g_svc" parent="p1_g_infra" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 Services" vertex="1">
+          <mxGeometry height="158" width="220" x="890" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_CurrentUserService" parent="p1_g_svc" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Service&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;CurrentUserService&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="180" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_PaginationSettings" parent="p1_g_svc" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;static&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;PaginationSettings&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="180" x="20" y="94" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="p2_d" name="02 DI &amp; Data">
+    <mxGraphModel dx="2316" dy="1409" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p2_g_infra" parent="1" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=12;spacingTop=4;arcSize=3;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" value="&lt;b&gt;CRM.AlMohtaref.Infrastructure&lt;/b&gt; (Infrastructure Layer)" vertex="1">
+          <mxGeometry height="772" width="1320" x="140" y="236" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_g_di" parent="p2_g_infra" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 DependencyInjection" vertex="1">
+          <mxGeometry height="212" width="680" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_DependencyInjection" parent="p2_g_di" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;static&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;DependencyInjection&lt;/b&gt;" vertex="1">
+          <mxGeometry height="156" width="640" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_DependencyInjection_l" parent="p2_DependencyInjection" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="640" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_DependencyInjection_m" parent="p2_DependencyInjection" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+AddInfrastructure(services: IServiceCollection, configuration: IConfiguration): IServiceCollection&lt;br&gt;// AddHttpContextAccessor + ICurrentUserService → CurrentUserService (scoped)&lt;br&gt;// AppDbContext: UseSqlServer(&quot;DefaultConnection&quot;), MigrationsAssembly, LogTo(Console)&lt;br&gt;// IUnitOfWork → AppDbContext (scoped, same instance)&lt;br&gt;// IUserRepository → UserRepository, ILookupRepository → LookupRepository&lt;br&gt;// IPasswordHasher → PasswordHasher, ITokenService → TokenService" vertex="1">
+          <mxGeometry height="104" width="640" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_g_data" parent="p2_g_infra" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 Data" vertex="1">
+          <mxGeometry height="476" width="1280" x="20" y="276" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_AppDbContext" parent="p2_g_data" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;DbContext, IUnitOfWork&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;AppDbContext&lt;/b&gt;" vertex="1">
+          <mxGeometry height="420" width="330" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_AppDbContext_f" parent="p2_AppDbContext" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+People: DbSet&amp;lt;Person&amp;gt;&lt;br&gt;+Users: DbSet&amp;lt;User&amp;gt;&lt;br&gt;+UserPermissions: DbSet&amp;lt;UserPermission&amp;gt;&lt;br&gt;+Departments: DbSet&amp;lt;Department&amp;gt;&lt;br&gt;+Roles: DbSet&amp;lt;Role&amp;gt;&lt;br&gt;+RefreshTokens: DbSet&amp;lt;RefreshToken&amp;gt;&lt;br&gt;+Students: DbSet&amp;lt;Student&amp;gt;&lt;br&gt;+Contacts: DbSet&amp;lt;Contact&amp;gt;&lt;br&gt;+Tags: DbSet&amp;lt;Tag&amp;gt;&lt;br&gt;+ContactTags: DbSet&amp;lt;ContactTag&amp;gt;&lt;br&gt;+Campaigns: DbSet&amp;lt;Campaign&amp;gt;&lt;br&gt;+CampaignStatuss: DbSet&amp;lt;CampaignStatus&amp;gt;&lt;br&gt;+Tracks: DbSet&amp;lt;Track&amp;gt;&lt;br&gt;+Platforms: DbSet&amp;lt;Platform&amp;gt;&lt;br&gt;+PlatformCampaigns: DbSet&amp;lt;PlatformCampaign&amp;gt;&lt;br&gt;+CampaignLeads: DbSet&amp;lt;CampaignLead&amp;gt;&lt;br&gt;+LeadStatuss: DbSet&amp;lt;LeadStatus&amp;gt;&lt;br&gt;+Questions: DbSet&amp;lt;Question&amp;gt;&lt;br&gt;+QuestionTags: DbSet&amp;lt;QuestionTag&amp;gt;&lt;br&gt;+QuestionCampaigns: DbSet&amp;lt;QuestionCampaign&amp;gt;&lt;br&gt;+Fields: DbSet&amp;lt;Field&amp;gt;" vertex="1">
+          <mxGeometry height="344" width="330" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_AppDbContext_l" parent="p2_AppDbContext" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="330" y="388" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_AppDbContext_m" parent="p2_AppDbContext" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="#OnModelCreating(modelBuilder: ModelBuilder): void" vertex="1">
+          <mxGeometry height="24" width="330" y="396" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_AuditInterceptor" parent="p2_g_data" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;SaveChangesInterceptor&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;AuditInterceptor&lt;/b&gt;" vertex="1">
+          <mxGeometry height="100" width="790" x="470" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_AuditInterceptor_f" parent="p2_AuditInterceptor" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="-_httpContextAccessor: IHttpContextAccessor" vertex="1">
+          <mxGeometry height="24" width="790" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_AuditInterceptor_l" parent="p2_AuditInterceptor" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="790" y="68" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_AuditInterceptor_m" parent="p2_AuditInterceptor" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+SavingChangesAsync(eventData: DbContextEventData, result: InterceptionResult&amp;lt;int&amp;gt;, ct): ValueTask&amp;lt;InterceptionResult&amp;lt;int&amp;gt;&amp;gt;" vertex="1">
+          <mxGeometry height="24" width="790" y="76" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_e0" edge="1" parent="1" source="p2_DependencyInjection" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p2_AppDbContext" value="registers">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_e1" edge="1" parent="1" source="p2_DependencyInjection" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p2_AuditInterceptor" value="registers">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="p3_d" name="03 Configurations">
+    <mxGraphModel dx="2605" dy="1585" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p3_g_infra" parent="1" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=12;spacingTop=4;arcSize=3;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" value="&lt;b&gt;CRM.AlMohtaref.Infrastructure&lt;/b&gt; (Infrastructure Layer)" vertex="1">
+          <mxGeometry height="1516" width="410" x="340" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_g_cfg" parent="p3_g_infra" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 Data / Configurations" vertex="1">
+          <mxGeometry height="1460" width="370" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_PersonConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Person&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;PersonConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_UserConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;User&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;UserConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="104" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_UserPermissionConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;UserPermission&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;UserPermissionConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="172" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_DepartmentConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Department&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;DepartmentConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_RoleConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Role&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;RoleConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="308" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_RefreshTokenConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;RefreshToken&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;RefreshTokenConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="376" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_StudentConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Student&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;StudentConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="444" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_ContactConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Contact&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;ContactConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="512" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_TagConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Tag&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;TagConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_ContactTagConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;ContactTag&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;ContactTagConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="648" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_CampaignConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Campaign&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;CampaignConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="716" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_CampaignStatusConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;CampaignStatus&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;CampaignStatusConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="784" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_TrackConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Track&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;TrackConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="852" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_PlatformConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Platform&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;PlatformConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_PlatformCampaignConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;PlatformCampaign&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;PlatformCampaignConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="988" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_CampaignLeadConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;CampaignLead&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;CampaignLeadConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="1056" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_LeadStatusConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;LeadStatus&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;LeadStatusConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="1124" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_QuestionConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Question&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;QuestionConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="1192" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_QuestionTagConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;QuestionTag&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;QuestionTagConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="1260" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_QuestionCampaignConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;QuestionCampaign&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;QuestionCampaignConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="1328" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_FieldConfiguration" parent="p3_g_cfg" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;IEntityTypeConfiguration&amp;lt;Field&amp;gt;&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;FieldConfiguration&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="330" x="20" y="1396" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_g_dom" parent="1" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=12;spacingTop=4;arcSize=3;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;" value="&lt;b&gt;CRM.AlMohtaref.Domain&lt;/b&gt; (Domain Layer)" vertex="1">
+          <mxGeometry height="1444" width="200" x="1010" y="506" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_Person" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;Person&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_User" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;User&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="104" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_UserPermission" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;UserPermission&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="172" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_Department" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;Department&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_Role" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;Role&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="308" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_RefreshToken" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;RefreshToken&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="376" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_Student" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;Student&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="444" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_Contact" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;Contact&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="512" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_Tag" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;Tag&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_ContactTag" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;ContactTag&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="648" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_Campaign" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;Campaign&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="716" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_CampaignStatus" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;CampaignStatus&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="784" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_Track" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;Track&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="852" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_Platform" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;Platform&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_PlatformCampaign" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;PlatformCampaign&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="988" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_CampaignLead" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;CampaignLead&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="1056" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_LeadStatus" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;LeadStatus&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="1124" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_Question" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;Question&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="1192" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_QuestionTag" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;QuestionTag&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="1260" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_QuestionCampaign" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;QuestionCampaign&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="1328" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_Field" parent="p3_g_dom" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;swimlaneFillColor=#FFFFFF;dashed=1;" value="&lt;b&gt;Field&lt;/b&gt;" vertex="1">
+          <mxGeometry height="28" width="160" x="20" y="1396" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e0" edge="1" parent="1" source="p3_PersonConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_Person" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e1" edge="1" parent="1" source="p3_UserConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_User" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e2" edge="1" parent="1" source="p3_UserPermissionConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_UserPermission" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e3" edge="1" parent="1" source="p3_DepartmentConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_Department" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e4" edge="1" parent="1" source="p3_RoleConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_Role" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e5" edge="1" parent="1" source="p3_RefreshTokenConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_RefreshToken" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e6" edge="1" parent="1" source="p3_StudentConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_Student" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e7" edge="1" parent="1" source="p3_ContactConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_Contact" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e8" edge="1" parent="1" source="p3_TagConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_Tag" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e9" edge="1" parent="1" source="p3_ContactTagConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_ContactTag" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e10" edge="1" parent="1" source="p3_CampaignConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_Campaign" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e11" edge="1" parent="1" source="p3_CampaignStatusConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_CampaignStatus" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e12" edge="1" parent="1" source="p3_TrackConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_Track" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e13" edge="1" parent="1" source="p3_PlatformConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_Platform" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e14" edge="1" parent="1" source="p3_PlatformCampaignConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_PlatformCampaign" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e15" edge="1" parent="1" source="p3_CampaignLeadConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_CampaignLead" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e16" edge="1" parent="1" source="p3_LeadStatusConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_LeadStatus" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e17" edge="1" parent="1" source="p3_QuestionConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_Question" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e18" edge="1" parent="1" source="p3_QuestionTagConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_QuestionTag" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e19" edge="1" parent="1" source="p3_QuestionCampaignConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_QuestionCampaign" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_e20" edge="1" parent="1" source="p3_FieldConfiguration" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p3_Field" value="configures">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="p4_d" name="04 Repositories (1)">
+    <mxGraphModel dx="4205" dy="1585" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p4_g_app" parent="1" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=12;spacingTop=4;arcSize=3;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" value="&lt;b&gt;CRM.AlMohtaref.Application&lt;/b&gt; (Application Layer)" vertex="1">
+          <mxGeometry height="736" width="560" x="-25" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_g_if" parent="p4_g_app" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#82b366;dashed=1;fontSize=12;fontColor=#333333;" value="📁 Interfaces" vertex="1">
+          <mxGeometry height="680" width="520" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_IUserRepository" parent="p4_g_if" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;swimlaneFillColor=#FFFFFF;dashed=1;" value="&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;IUserRepository&lt;/b&gt;" vertex="1">
+          <mxGeometry height="156" width="480" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_IUserRepository_l" parent="p4_IUserRepository" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="480" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_IUserRepository_m" parent="p4_IUserRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+ExistsAsync(userId: int, email: string, accountName: string, ct): Task&amp;lt;bool&amp;gt;&lt;br&gt;+GetByIdAsync(id: int, ct): Task&amp;lt;User?&amp;gt;&lt;br&gt;+GetByAccountNameAsync(accountName: string, ct): Task&amp;lt;User?&amp;gt;&lt;br&gt;+GetDetailAsync(id: int, ct): Task&amp;lt;UserDetailDto?&amp;gt;&lt;br&gt;+SearchAsync(query: GetUsersQuery, ct): Task&amp;lt;UsersPageDto&amp;gt;" vertex="1">
+          <mxGeometry height="104" width="480" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_IRefreshTokenRepository" parent="p4_g_if" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;swimlaneFillColor=#FFFFFF;dashed=1;" value="&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;IRefreshTokenRepository&lt;/b&gt;" vertex="1">
+          <mxGeometry height="108" width="390" x="20" y="286" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_IRefreshTokenRepository_l" parent="p4_IRefreshTokenRepository" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="390" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_IRefreshTokenRepository_m" parent="p4_IRefreshTokenRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+GetByHashAsync(tokenHash: string, ct): Task&amp;lt;RefreshToken?&amp;gt;&lt;br&gt;+AddAsync(token: RefreshToken, ct): Task" vertex="1">
+          <mxGeometry height="56" width="390" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_ILookupRepository" parent="p4_g_if" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;swimlaneFillColor=#FFFFFF;dashed=1;" value="&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;ILookupRepository&lt;/b&gt;" vertex="1">
+          <mxGeometry height="188" width="480" x="20" y="488" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_ILookupRepository_l" parent="p4_ILookupRepository" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="480" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_ILookupRepository_m" parent="p4_ILookupRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+GetDepartmentsAsync(ct): Task&amp;lt;IEnumerable&amp;lt;DepartmentDto&amp;gt;&amp;gt;&lt;br&gt;+GetRolesAsync(ct): Task&amp;lt;IEnumerable&amp;lt;RoleDto&amp;gt;&amp;gt;&lt;br&gt;+GetTracksAsync(ct): Task&amp;lt;IEnumerable&amp;lt;TrackDto&amp;gt;&amp;gt;&lt;br&gt;+GetLeadStatusesAsync(ct): Task&amp;lt;IEnumerable&amp;lt;LeadStatuseDto&amp;gt;&amp;gt;&lt;br&gt;+GetTagsAsync(ct): Task&amp;lt;IEnumerable&amp;lt;TagItemDto&amp;gt;&amp;gt;&lt;br&gt;+GetPlatformsAsync(ct): Task&amp;lt;IEnumerable&amp;lt;PlatformDto&amp;gt;&amp;gt;&lt;br&gt;+GetFieldsAsync(ct): Task&amp;lt;IEnumerable&amp;lt;FieldDto&amp;gt;&amp;gt;&lt;br&gt;+GetCampaignStatusesAsync(ct): Task&amp;lt;IEnumerable&amp;lt;CampaignStatuseDto&amp;gt;&amp;gt;" vertex="1">
+          <mxGeometry height="136" width="480" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_g_infra" parent="1" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=12;spacingTop=4;arcSize=3;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" value="&lt;b&gt;CRM.AlMohtaref.Infrastructure&lt;/b&gt; (Infrastructure Layer)" vertex="1">
+          <mxGeometry height="760" width="910" x="715" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_g_rp" parent="p4_g_infra" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 Repositories" vertex="1">
+          <mxGeometry height="704" width="520" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_UserRepository" parent="p4_g_rp" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;UserRepository&lt;/b&gt;" vertex="1">
+          <mxGeometry height="180" width="480" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_UserRepository_f" parent="p4_UserRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="-_db: AppDbContext" vertex="1">
+          <mxGeometry height="24" width="480" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_UserRepository_l" parent="p4_UserRepository" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="480" y="68" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_UserRepository_m" parent="p4_UserRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+ExistsAsync(userId: int, email: string, accountName: string, ct): Task&amp;lt;bool&amp;gt;&lt;br&gt;+GetByIdAsync(id: int, ct): Task&amp;lt;User?&amp;gt;&lt;br&gt;+GetByAccountNameAsync(accountName: string, ct): Task&amp;lt;User?&amp;gt;&lt;br&gt;+GetDetailAsync(id: int, ct): Task&amp;lt;UserDetailDto?&amp;gt;&lt;br&gt;+SearchAsync(query: GetUsersQuery, ct): Task&amp;lt;UsersPageDto&amp;gt;" vertex="1">
+          <mxGeometry height="104" width="480" y="76" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_RefreshTokenRepository" parent="p4_g_rp" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;RefreshTokenRepository&lt;/b&gt;" vertex="1">
+          <mxGeometry height="132" width="390" x="20" y="286" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_RefreshTokenRepository_f" parent="p4_RefreshTokenRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="-_db: AppDbContext" vertex="1">
+          <mxGeometry height="24" width="390" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_RefreshTokenRepository_l" parent="p4_RefreshTokenRepository" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="390" y="68" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_RefreshTokenRepository_m" parent="p4_RefreshTokenRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+GetByHashAsync(tokenHash: string, ct): Task&amp;lt;RefreshToken?&amp;gt;&lt;br&gt;+AddAsync(token: RefreshToken, ct): Task" vertex="1">
+          <mxGeometry height="56" width="390" y="76" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_LookupRepository" parent="p4_g_rp" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;LookupRepository&lt;/b&gt;" vertex="1">
+          <mxGeometry height="212" width="480" x="20" y="488" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_LookupRepository_f" parent="p4_LookupRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="-_db: AppDbContext" vertex="1">
+          <mxGeometry height="24" width="480" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_LookupRepository_l" parent="p4_LookupRepository" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="480" y="68" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_LookupRepository_m" parent="p4_LookupRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+GetDepartmentsAsync(ct): Task&amp;lt;IEnumerable&amp;lt;DepartmentDto&amp;gt;&amp;gt;&lt;br&gt;+GetRolesAsync(ct): Task&amp;lt;IEnumerable&amp;lt;RoleDto&amp;gt;&amp;gt;&lt;br&gt;+GetTracksAsync(ct): Task&amp;lt;IEnumerable&amp;lt;TrackDto&amp;gt;&amp;gt;&lt;br&gt;+GetLeadStatusesAsync(ct): Task&amp;lt;IEnumerable&amp;lt;LeadStatuseDto&amp;gt;&amp;gt;&lt;br&gt;+GetTagsAsync(ct): Task&amp;lt;IEnumerable&amp;lt;TagItemDto&amp;gt;&amp;gt;&lt;br&gt;+GetPlatformsAsync(ct): Task&amp;lt;IEnumerable&amp;lt;PlatformDto&amp;gt;&amp;gt;&lt;br&gt;+GetFieldsAsync(ct): Task&amp;lt;IEnumerable&amp;lt;FieldDto&amp;gt;&amp;gt;&lt;br&gt;+GetCampaignStatusesAsync(ct): Task&amp;lt;IEnumerable&amp;lt;CampaignStatuseDto&amp;gt;&amp;gt;" vertex="1">
+          <mxGeometry height="136" width="480" y="76" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_g_data" parent="p4_g_infra" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 Data" vertex="1">
+          <mxGeometry height="100" width="190" x="700" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_AppDbContext" parent="p4_g_data" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;dashed=1;" value="&amp;lt;&amp;lt;DbContext&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;AppDbContext&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="150" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_e0" edge="1" parent="1" source="p4_UserRepository" style="endArrow=block;endFill=0;endSize=14;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p4_IUserRepository" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_e1" edge="1" parent="1" source="p4_UserRepository" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p4_AppDbContext" value="uses">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_e2" edge="1" parent="1" source="p4_RefreshTokenRepository" style="endArrow=block;endFill=0;endSize=14;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p4_IRefreshTokenRepository" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_e3" edge="1" parent="1" source="p4_RefreshTokenRepository" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p4_AppDbContext" value="uses">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_e4" edge="1" parent="1" source="p4_LookupRepository" style="endArrow=block;endFill=0;endSize=14;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p4_ILookupRepository" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_e5" edge="1" parent="1" source="p4_LookupRepository" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p4_AppDbContext" value="uses">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="p5_d" name="05 Repositories (2)">
+    <mxGraphModel dx="4577" dy="1811" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p5_g_app" parent="1" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=12;spacingTop=4;arcSize=3;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" value="&lt;b&gt;CRM.AlMohtaref.Application&lt;/b&gt; (Application Layer)" vertex="1">
+          <mxGeometry height="704" width="600" x="-90" y="264" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_g_if" parent="p5_g_app" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#82b366;dashed=1;fontSize=12;fontColor=#333333;" value="📁 Interfaces" vertex="1">
+          <mxGeometry height="648" width="560" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_IContactRepository" parent="p5_g_if" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;swimlaneFillColor=#FFFFFF;dashed=1;" value="&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;IContactRepository&lt;/b&gt;" vertex="1">
+          <mxGeometry height="108" width="520" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_IContactRepository_l" parent="p5_IContactRepository" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="520" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_IContactRepository_m" parent="p5_IContactRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+SearchAsync(query: GetContactsQuery, ct): Task&amp;lt;ContactsPageDto&amp;gt;&lt;br&gt;+ImportAsync(campaignId: int, rows: List&amp;lt;MappedRow&amp;gt;, ct): Task&amp;lt;ImportResultDto&amp;gt;" vertex="1">
+          <mxGeometry height="56" width="520" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_ICampaignRepository" parent="p5_g_if" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;swimlaneFillColor=#FFFFFF;dashed=1;" value="&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;ICampaignRepository&lt;/b&gt;" vertex="1">
+          <mxGeometry height="172" width="480" x="20" y="238" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_ICampaignRepository_l" parent="p5_ICampaignRepository" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="480" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_ICampaignRepository_m" parent="p5_ICampaignRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+SearchAsync(query: SearchCampaignsQuery, ct): Task&amp;lt;CampaignsPageDto&amp;gt;&lt;br&gt;+GetByIdAsync(id: int, ct): Task&amp;lt;Campaign?&amp;gt;&lt;br&gt;+GetDetailAsync(id: int, ct): Task&amp;lt;CampaignDetailDto?&amp;gt;&lt;br&gt;+GetLinkedQuestionIdsAsync(campaignId: int, ct): Task&amp;lt;List&amp;lt;int&amp;gt;&amp;gt;" vertex="1">
+          <mxGeometry height="120" width="480" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_IQuestionRepository" parent="p5_g_if" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;swimlaneFillColor=#FFFFFF;dashed=1;" value="&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;IQuestionRepository&lt;/b&gt;" vertex="1">
+          <mxGeometry height="124" width="490" x="20" y="504" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_IQuestionRepository_l" parent="p5_IQuestionRepository" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="490" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_IQuestionRepository_m" parent="p5_IQuestionRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+GetByIdAsync(id: int, ct): Task&amp;lt;Question?&amp;gt;&lt;br&gt;+GetByTextsAsync(texts: List&amp;lt;string&amp;gt;, ct): Task&amp;lt;List&amp;lt;QuestionDto&amp;gt;&amp;gt;" vertex="1">
+          <mxGeometry height="72" width="490" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_g_infra" parent="1" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=12;spacingTop=4;arcSize=3;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" value="&lt;b&gt;CRM.AlMohtaref.Infrastructure&lt;/b&gt; (Infrastructure Layer)" vertex="1">
+          <mxGeometry height="728" width="950" x="700" y="232" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_g_rp" parent="p5_g_infra" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 Repositories" vertex="1">
+          <mxGeometry height="672" width="560" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_ContactRepository" parent="p5_g_rp" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;ContactRepository&lt;/b&gt;" vertex="1">
+          <mxGeometry height="132" width="520" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_ContactRepository_f" parent="p5_ContactRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="-_db: AppDbContext" vertex="1">
+          <mxGeometry height="24" width="520" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_ContactRepository_l" parent="p5_ContactRepository" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="520" y="68" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_ContactRepository_m" parent="p5_ContactRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+SearchAsync(query: GetContactsQuery, ct): Task&amp;lt;ContactsPageDto&amp;gt;&lt;br&gt;+ImportAsync(campaignId: int, rows: List&amp;lt;MappedRow&amp;gt;, ct): Task&amp;lt;ImportResultDto&amp;gt;" vertex="1">
+          <mxGeometry height="56" width="520" y="76" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_CampaignRepository" parent="p5_g_rp" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;CampaignRepository&lt;/b&gt;" vertex="1">
+          <mxGeometry height="196" width="480" x="20" y="238" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_CampaignRepository_f" parent="p5_CampaignRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="-_db: AppDbContext" vertex="1">
+          <mxGeometry height="24" width="480" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_CampaignRepository_l" parent="p5_CampaignRepository" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="480" y="68" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_CampaignRepository_m" parent="p5_CampaignRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+SearchAsync(query: SearchCampaignsQuery, ct): Task&amp;lt;CampaignsPageDto&amp;gt;&lt;br&gt;+GetByIdAsync(id: int, ct): Task&amp;lt;Campaign?&amp;gt;&lt;br&gt;+GetDetailAsync(id: int, ct): Task&amp;lt;CampaignDetailDto?&amp;gt;&lt;br&gt;+GetLinkedQuestionIdsAsync(campaignId: int, ct): Task&amp;lt;List&amp;lt;int&amp;gt;&amp;gt;" vertex="1">
+          <mxGeometry height="120" width="480" y="76" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_QuestionRepository" parent="p5_g_rp" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Repository&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;QuestionRepository&lt;/b&gt;" vertex="1">
+          <mxGeometry height="148" width="490" x="20" y="504" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_QuestionRepository_f" parent="p5_QuestionRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="-_db: AppDbContext" vertex="1">
+          <mxGeometry height="24" width="490" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_QuestionRepository_l" parent="p5_QuestionRepository" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="490" y="68" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_QuestionRepository_m" parent="p5_QuestionRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+GetByIdAsync(id: int, ct): Task&amp;lt;Question?&amp;gt;&lt;br&gt;+GetByTextsAsync(texts: List&amp;lt;string&amp;gt;, ct): Task&amp;lt;List&amp;lt;QuestionDto&amp;gt;&amp;gt;" vertex="1">
+          <mxGeometry height="72" width="490" y="76" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_g_data" parent="p5_g_infra" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 Data" vertex="1">
+          <mxGeometry height="100" width="190" x="740" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_AppDbContext" parent="p5_g_data" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;dashed=1;" value="&amp;lt;&amp;lt;DbContext&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;AppDbContext&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="150" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_e0" edge="1" parent="1" source="p5_ContactRepository" style="endArrow=block;endFill=0;endSize=14;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p5_IContactRepository" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_e1" edge="1" parent="1" source="p5_ContactRepository" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p5_AppDbContext" value="uses">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_e2" edge="1" parent="1" source="p5_CampaignRepository" style="endArrow=block;endFill=0;endSize=14;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p5_ICampaignRepository" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_e3" edge="1" parent="1" source="p5_CampaignRepository" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p5_AppDbContext" value="uses">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_e4" edge="1" parent="1" source="p5_QuestionRepository" style="endArrow=block;endFill=0;endSize=14;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p5_IQuestionRepository" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_e5" edge="1" parent="1" source="p5_QuestionRepository" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p5_AppDbContext" value="uses">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="p6_d" name="06 ExternalServices">
+    <mxGraphModel dx="4577" dy="1811" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p6_g_app" parent="1" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=12;spacingTop=4;arcSize=3;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" value="&lt;b&gt;CRM.AlMohtaref.Application&lt;/b&gt; (Application Layer)" vertex="1">
+          <mxGeometry height="949" width="700" x="-190" y="211" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_g_if" parent="p6_g_app" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#82b366;dashed=1;fontSize=12;fontColor=#333333;" value="📁 Interfaces" vertex="1">
+          <mxGeometry height="904" width="660" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_IPasswordHasher" parent="p6_g_if" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;swimlaneFillColor=#FFFFFF;dashed=1;" value="&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;IPasswordHasher&lt;/b&gt;" vertex="1">
+          <mxGeometry height="92" width="300" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_IPasswordHasher_l" parent="p6_IPasswordHasher" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="300" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_IPasswordHasher_m" parent="p6_IPasswordHasher" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+HashPassword(password: string): string&lt;br&gt;+VerifyPassword(password: string, storedHashString: string): bool" vertex="1">
+          <mxGeometry height="40" width="300" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_ITokenService" parent="p6_g_if" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;swimlaneFillColor=#FFFFFF;dashed=1;" value="&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;ITokenService&lt;/b&gt;" vertex="1">
+          <mxGeometry height="132" width="270" x="20" y="182" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_ITokenService_f" parent="p6_ITokenService" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="" vertex="1">
+          <mxGeometry height="24" width="270" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_ITokenService_l" parent="p6_ITokenService" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="270" y="68" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_ITokenService_m" parent="p6_ITokenService" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+GenerateAccessToken(user: User): Task&amp;lt;string&amp;gt;&lt;br&gt;+GenerateRefreshToken(): string&lt;br&gt;+HashToken(token: string): string" vertex="1">
+          <mxGeometry height="56" width="270" y="76" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_IGoogleSheetService" parent="p6_g_if" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;swimlaneFillColor=#FFFFFF;dashed=1;" value="&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;IGoogleSheetService&lt;/b&gt;" vertex="1">
+          <mxGeometry height="92" width="350" x="20" y="379" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_IGoogleSheetService_l" parent="p6_IGoogleSheetService" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="350" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_IGoogleSheetService_m" parent="p6_IGoogleSheetService" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+GetColumnsAsync(url: string, ct): Task&amp;lt;List&amp;lt;string&amp;gt;&amp;gt;&lt;br&gt;+GetSheetAsync(url: string, ct): Task&amp;lt;SheetData&amp;gt;" vertex="1">
+          <mxGeometry height="40" width="350" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_ISheetMapper" parent="p6_g_if" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;swimlaneFillColor=#FFFFFF;dashed=1;" value="&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;ISheetMapper&lt;/b&gt;" vertex="1">
+          <mxGeometry height="92" width="620" x="20" y="586" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_ISheetMapper_l" parent="p6_ISheetMapper" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="620" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_ISheetMapper_m" parent="p6_ISheetMapper" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+StoreQuestionsAsync(columns: List&amp;lt;string&amp;gt;, ct): Task&amp;lt;List&amp;lt;QuestionDto&amp;gt;&amp;gt;&lt;br&gt;+MapRows(rows: List&amp;lt;Dictionary&amp;lt;string, string&amp;gt;&amp;gt;, questions: List&amp;lt;QuestionDto&amp;gt;): List&amp;lt;MappedRow&amp;gt;" vertex="1">
+          <mxGeometry height="40" width="620" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_IUnitOfWork" parent="p6_g_if" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;IUnitOfWork&lt;/b&gt;" vertex="1">
+          <mxGeometry height="76" width="300" x="55" y="483" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_IUnitOfWork_l" parent="p6_IUnitOfWork" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="300" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_IUnitOfWork_m" parent="p6_IUnitOfWork" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+SaveChangesAsync(ct): Task&amp;lt;int&amp;gt;" vertex="1">
+          <mxGeometry height="24" width="300" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_g_infra" parent="1" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=12;spacingTop=4;arcSize=3;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" value="&lt;b&gt;CRM.AlMohtaref.Infrastructure&lt;/b&gt; (Infrastructure Layer)" vertex="1">
+          <mxGeometry height="990" width="1120" x="690" y="211" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_g_ext" parent="p6_g_infra" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 ExternalServices" vertex="1">
+          <mxGeometry height="722" width="1080" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_PasswordHasher" parent="p6_g_ext" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Service&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;PasswordHasher&lt;/b&gt;" vertex="1">
+          <mxGeometry height="92" width="300" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_PasswordHasher_l" parent="p6_PasswordHasher" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="300" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_PasswordHasher_m" parent="p6_PasswordHasher" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+HashPassword(password: string): string&lt;br&gt;+VerifyPassword(password: string, storedHashString: string): bool" vertex="1">
+          <mxGeometry height="40" width="300" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_TokenService" parent="p6_g_ext" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Service&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;TokenService&lt;/b&gt;" vertex="1">
+          <mxGeometry height="148" width="270" x="20" y="182" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_TokenService_f" parent="p6_TokenService" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="-_configuration: IConfiguration" vertex="1">
+          <mxGeometry height="40" width="270" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_TokenService_l" parent="p6_TokenService" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="270" y="84" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_TokenService_m" parent="p6_TokenService" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+GenerateAccessToken(user: User): Task&amp;lt;string&amp;gt;&lt;br&gt;+GenerateRefreshToken(): string&lt;br&gt;+HashToken(token: string): string" vertex="1">
+          <mxGeometry height="56" width="270" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_GoogleSheetService" parent="p6_g_ext" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Service&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;GoogleSheetService&lt;/b&gt;" vertex="1">
+          <mxGeometry height="116" width="350" x="20" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_GoogleSheetService_f" parent="p6_GoogleSheetService" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="-_httpClient: HttpClient" vertex="1">
+          <mxGeometry height="24" width="350" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_GoogleSheetService_l" parent="p6_GoogleSheetService" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="350" y="68" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_GoogleSheetService_m" parent="p6_GoogleSheetService" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+GetColumnsAsync(url: string, ct): Task&amp;lt;List&amp;lt;string&amp;gt;&amp;gt;&lt;br&gt;+GetSheetAsync(url: string, ct): Task&amp;lt;SheetData&amp;gt;" vertex="1">
+          <mxGeometry height="40" width="350" y="76" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_SheetMapper" parent="p6_g_ext" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Service&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;SheetMapper&lt;/b&gt;" vertex="1">
+          <mxGeometry height="116" width="620" x="370" y="574" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_SheetMapper_f" parent="p6_SheetMapper" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="-_db: AppDbContext" vertex="1">
+          <mxGeometry height="24" width="620" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_SheetMapper_l" parent="p6_SheetMapper" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="620" y="68" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_SheetMapper_m" parent="p6_SheetMapper" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+StoreQuestionsAsync(columns: List&amp;lt;string&amp;gt;, ct): Task&amp;lt;List&amp;lt;QuestionDto&amp;gt;&amp;gt;&lt;br&gt;+MapRows(rows: List&amp;lt;Dictionary&amp;lt;string, string&amp;gt;&amp;gt;, questions: List&amp;lt;QuestionDto&amp;gt;): List&amp;lt;MappedRow&amp;gt;" vertex="1">
+          <mxGeometry height="40" width="620" y="76" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_JwtOptions" parent="p6_g_ext" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&lt;b&gt;JwtSettings&lt;/b&gt; (appsettings)" vertex="1">
+          <mxGeometry height="116" width="220" x="840" y="182" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_JwtOptions_f" parent="p6_JwtOptions" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+SecretKey: string&lt;br&gt;+Issuer: string&lt;br&gt;+Audience: string&lt;br&gt;+ExpiryInMinutes: double = 120&lt;br&gt;+RefreshTokenLifetimeDays: int" vertex="1">
+          <mxGeometry height="88" width="220" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_g_data" parent="p6_g_ext" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 Data" vertex="1">
+          <mxGeometry height="100" width="190" x="40" y="516" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_AppDbContext" parent="p6_g_data" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;dashed=1;" value="&amp;lt;&amp;lt;DbContext&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;AppDbContext&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="150" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_e5" edge="1" parent="p6_g_ext" source="p6_SheetMapper" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p6_AppDbContext" value="uses">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_g_svc" parent="p6_g_infra" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 Services" vertex="1">
+          <mxGeometry height="188" width="740" x="20" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_CurrentUserService" parent="p6_g_svc" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Service&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;CurrentUserService&lt;/b&gt;" vertex="1">
+          <mxGeometry height="132" width="380" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_CurrentUserService_f" parent="p6_CurrentUserService" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="-_httpContextAccessor: IHttpContextAccessor&lt;br&gt;+UserId: Guid?&lt;br&gt;+Email: string?&lt;br&gt;+Roles: IReadOnlyCollection&amp;lt;string&amp;gt;&lt;br&gt;+IsAuthenticated: bool" vertex="1">
+          <mxGeometry height="88" width="380" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_PaginationSettings" parent="p6_g_svc" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;static&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;PaginationSettings&lt;/b&gt;" vertex="1">
+          <mxGeometry height="68" width="260" x="440" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_PaginationSettings_f" parent="p6_PaginationSettings" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+PageSize: int = 20" vertex="1">
+          <mxGeometry height="24" width="260" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_e0" edge="1" parent="1" source="p6_PasswordHasher" style="endArrow=block;endFill=0;endSize=14;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p6_IPasswordHasher" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_e1" edge="1" parent="1" source="p6_TokenService" style="endArrow=block;endFill=0;endSize=14;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p6_ITokenService" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_e2" edge="1" parent="1" source="p6_TokenService" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p6_JwtOptions" value="reads via IConfiguration">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_e3" edge="1" parent="1" source="p6_GoogleSheetService" style="endArrow=block;endFill=0;endSize=14;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p6_IGoogleSheetService" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_e4" edge="1" parent="1" source="p6_SheetMapper" style="endArrow=block;endFill=0;endSize=14;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p6_ISheetMapper" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_e10" edge="1" parent="1" source="p6_CurrentUserService" style="endArrow=block;endFill=0;endSize=14;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p6_ICurrentUserService" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_e11" edge="1" parent="1" source="p6_AppDbContext" style="endArrow=block;endFill=0;endSize=14;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p6_IUnitOfWork" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_ICurrentUserService" parent="1" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;ICurrentUserService&lt;/b&gt;" vertex="1">
+          <mxGeometry height="116" width="300" x="-20" y="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_ICurrentUserService_f" parent="p6_ICurrentUserService" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+UserId: Guid?&lt;br&gt;+Email: string?&lt;br&gt;+Roles: IReadOnlyCollection&amp;lt;string&amp;gt;&lt;br&gt;+IsAuthenticated: bool" vertex="1">
+          <mxGeometry height="72" width="300" y="44" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="p7_d" name="07 Seed">
+    <mxGraphModel dx="1603" dy="975" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p7_g_infra" parent="1" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=12;spacingTop=4;arcSize=3;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" value="&lt;b&gt;CRM.AlMohtaref.Infrastructure&lt;/b&gt; (Infrastructure Layer)" vertex="1">
+          <mxGeometry height="640" width="1290" x="60" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_g_seed" parent="p7_g_infra" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 Data / Seed" vertex="1">
+          <mxGeometry height="400" width="1250" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_DataSeeder" parent="p7_g_seed" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;static&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;DataSeeder&lt;/b&gt;" vertex="1">
+          <mxGeometry height="76" width="330" x="480" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_DataSeeder_l" parent="p7_DataSeeder" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="330" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_DataSeeder_m" parent="p7_DataSeeder" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+SeedAsync(services: IServiceProvider, ct): Task" vertex="1">
+          <mxGeometry height="24" width="330" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_DepartmentSeed" parent="p7_g_seed" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;static, internal&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;DepartmentSeed&lt;/b&gt;" vertex="1">
+          <mxGeometry height="116" width="220" x="130" y="84" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_DepartmentSeed_f" parent="p7_DepartmentSeed" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+Sales / Marketing / CustomerService / AcademicGuidance: string&lt;br&gt;+Names: string[]" vertex="1">
+          <mxGeometry height="40" width="220" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_DepartmentSeed_l" parent="p7_DepartmentSeed" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="220" y="84" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_DepartmentSeed_m" parent="p7_DepartmentSeed" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+Create(): List&amp;lt;Department&amp;gt;" vertex="1">
+          <mxGeometry height="24" width="220" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_RoleSeed" parent="p7_g_seed" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;static, internal&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;RoleSeed&lt;/b&gt;" vertex="1">
+          <mxGeometry height="132" width="220" x="250" y="234" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_RoleSeed_f" parent="p7_RoleSeed" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+Employee: string = &quot;موظف&quot;&lt;br&gt;+Manager: string = &quot;مدير&quot;&lt;br&gt;+Names: string[]" vertex="1">
+          <mxGeometry height="56" width="220" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_RoleSeed_l" parent="p7_RoleSeed" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="220" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_RoleSeed_m" parent="p7_RoleSeed" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+Create(): List&amp;lt;Role&amp;gt;" vertex="1">
+          <mxGeometry height="24" width="220" y="108" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_PersonSeed" parent="p7_g_seed" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;static, internal&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;PersonSeed&lt;/b&gt;" vertex="1">
+          <mxGeometry height="116" width="220" x="500" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_PersonSeed_f" parent="p7_PersonSeed" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+AdminFullName: string&lt;br&gt;-EmployeeNames: string[]" vertex="1">
+          <mxGeometry height="40" width="220" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_PersonSeed_l" parent="p7_PersonSeed" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="220" y="84" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_PersonSeed_m" parent="p7_PersonSeed" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+Create(): List&amp;lt;Person&amp;gt;" vertex="1">
+          <mxGeometry height="24" width="220" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_UserSeed" parent="p7_g_seed" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;static, internal&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;UserSeed&lt;/b&gt;" vertex="1">
+          <mxGeometry height="130" width="220" x="740" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_UserSeed_f" parent="p7_UserSeed" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+AdminAccountName: string = &quot;admin&quot;&lt;br&gt;+FakePasswordHash: string" vertex="1">
+          <mxGeometry height="40" width="220" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_UserSeed_l" parent="p7_UserSeed" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="220" y="84" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_UserSeed_m" parent="p7_UserSeed" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+Create(persons: IReadOnlyList&amp;lt;Person&amp;gt;): List&amp;lt;User&amp;gt;" vertex="1">
+          <mxGeometry height="38" width="220" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_UserPermissionSeed" parent="p7_g_seed" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;static, internal&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;UserPermissionSeed&lt;/b&gt;" vertex="1">
+          <mxGeometry height="120" width="250" x="980" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_UserPermissionSeed_l" parent="p7_UserPermissionSeed" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="250" y="44" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_UserPermissionSeed_m" parent="p7_UserPermissionSeed" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+Create(users, departments, roles): List&amp;lt;UserPermission&amp;gt;&lt;br&gt;-New(userId, departmentId, roleId): UserPermission" vertex="1">
+          <mxGeometry height="68" width="250" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_g_data" parent="p7_g_infra" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 Data" vertex="1">
+          <mxGeometry height="100" width="190" x="20" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_AppDbContext" parent="p7_g_data" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;DbContext&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;AppDbContext&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="150" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_g_ext" parent="p7_g_infra" style="rounded=1;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;verticalAlign=top;align=left;spacingLeft=10;spacingTop=2;arcSize=4;fillColor=#FFFFFF;strokeColor=#d79b00;dashed=1;fontSize=12;fontColor=#333333;" value="📁 ExternalServices" vertex="1">
+          <mxGeometry height="100" width="230" x="750" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_PasswordHasher" parent="p7_g_ext" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=44;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;swimlaneFillColor=#FFFFFF;" value="&amp;lt;&amp;lt;Service&amp;gt;&amp;gt;&lt;br&gt;&lt;b&gt;PasswordHasher&lt;/b&gt;" vertex="1">
+          <mxGeometry height="44" width="190" x="20" y="36" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_e0" edge="1" parent="1" source="p7_DataSeeder" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p7_DepartmentSeed" value="uses">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_e1" edge="1" parent="1" source="p7_DataSeeder" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p7_RoleSeed" value="uses">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="530" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p7_e2" edge="1" parent="1" source="p7_DataSeeder" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p7_PersonSeed" value="uses">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_e3" edge="1" parent="1" source="p7_DataSeeder" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p7_UserSeed" value="uses">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_e4" edge="1" parent="1" source="p7_DataSeeder" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p7_UserPermissionSeed" value="uses">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_e5" edge="1" parent="1" source="p7_DataSeeder" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p7_AppDbContext" value="migrates &amp;amp; saves">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p7_e6" edge="1" parent="1" source="p7_UserSeed" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p7_PasswordHasher" value="hashes with">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="960" y="560" />
+              <mxPoint x="960" y="560" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
