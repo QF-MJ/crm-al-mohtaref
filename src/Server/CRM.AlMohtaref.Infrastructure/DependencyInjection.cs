@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Infrastructure.Services;
+
 namespace CRM.AlMohtaref.Infrastructure;
 
 public static class DependencyInjection
@@ -22,6 +25,8 @@ public static class DependencyInjection
                 sql => sql.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)
             );
 
+        services.AddHttpContextAccessor();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
             options.LogTo(Console.WriteLine, LogLevel.Information);
         });
 
