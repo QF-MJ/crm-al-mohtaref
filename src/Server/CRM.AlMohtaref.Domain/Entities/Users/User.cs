@@ -19,9 +19,11 @@ public class User
 
     public DateTime? LockoutEnd { get; private set; }
 
-    public ICollection<UserPermission> UserPermissions { get; private set; }
 
-    public Person Person { get; private set; }
+
+    public ICollection<UserPermission> UserPermissions { get;  set; }
+
+    public Person Person { get;  set; }
 
     private User()
     {
