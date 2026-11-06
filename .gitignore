@@ -59,4 +59,3 @@ nunit-*.xml
 
 # Visual Studio cache/options directory
 **/node_modules/
-.vs/
