@@ -1,8 +1,10 @@
-﻿using System.Text;
+﻿using CRM.AlMohtaref.Api.Middleware;
 using CRM.AlMohtaref.Application;
 using CRM.AlMohtaref.Infrastructure;
+using CRM.AlMohtaref.Infrastructure.Data;
+using CRM.AlMohtaref.Infrastructure.Data.Seed;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using CRM.AlMohtaref.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,13 +37,11 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-
-
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
 
 const string CorsPolicy = "Frontend";
-var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>(); 
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
 
 builder.Services.AddCors(options =>
 {
@@ -53,9 +53,13 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-app.UseMiddleware<ExceptionHandlingMiddleware>();
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await dbContext.Database.MigrateAsync();
+}
 
-app.UseExceptionHandler();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
@@ -69,5 +73,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+if (app.Environment.IsDevelopment())
+{
+    using var scope = app.Services.CreateScope();
+    DataSeeder.SeedAsync(scope.ServiceProvider).GetAwaiter().GetResult();
+}
 
 app.Run();
