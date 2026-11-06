@@ -14,9 +14,12 @@ namespace CRM.AlMohtaref.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure( this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+        services.AddHttpContextAccessor();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
 
         services.AddDbContext<AppDbContext>(options =>
         {
@@ -25,8 +28,6 @@ public static class DependencyInjection
                 sql => sql.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)
             );
 
-        services.AddHttpContextAccessor();
-        services.AddScoped<ICurrentUserService, CurrentUserService>();
             options.LogTo(Console.WriteLine, LogLevel.Information);
         });
 
