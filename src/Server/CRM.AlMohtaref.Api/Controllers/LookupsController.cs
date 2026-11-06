@@ -19,7 +19,7 @@ namespace CRM.AlMohtaref.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<LookupsDto>> GetLookups([FromQuery] GetLookupsRequest request, CancellationToken ct)
         {
-            return await _sender.Send(new GetLookupsQuery(request.Include), ct);
+            return await _sender.Send(new GetLookupsQuery(request?.Include), ct);
         }
     }
 }

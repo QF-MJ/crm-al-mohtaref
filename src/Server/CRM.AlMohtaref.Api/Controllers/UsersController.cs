@@ -25,7 +25,8 @@ public class UsersController : ControllerBase
             request.AccountName,
             request.Email,
             request.IsActive,
-            request.PermissionId);
+            request.RoleId
+            ,request.DepartmentId);
 
         return Ok(await _sender.Send(query, ct));
     }

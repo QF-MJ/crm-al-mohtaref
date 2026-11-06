@@ -6,10 +6,13 @@ namespace CRM.AlMohtaref.Application.Features.Lookups
     {
         public GetLookupsQueryValidator()
         {
-            RuleFor(x => x.Include).NotNull();
+            RuleFor(x => x.Include)
+                .NotNull()
+                .WithMessage("يرجى تحديد البيانات المطلوب استرجاعها");
 
             RuleForEach(x => x.Include)
-                .Must(i => IsAllowedWord(i));
+                .Must(IsAllowedWord)
+                .WithMessage("أحد الخيارات المحددة غير صحيح، يرجى اختيار خيارات قائمة صالحة مثل الأقسام أو الأدوار");
         }
 
         private bool IsAllowedWord(string item)

@@ -1,9 +1,4 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CRM.AlMohtaref.Application.Features.Users
 {
@@ -11,9 +6,13 @@ namespace CRM.AlMohtaref.Application.Features.Users
     {
         public PermissionCommandValidator()
         {
-            RuleFor(x => x.DepartmentId).GreaterThan(0);
+            RuleFor(x => x.DepartmentId)
+                .GreaterThan(0)
+                .WithMessage("معرف القسم غير صحيح، يجب أن يكون أكبر من 0");
 
-            RuleFor(x => x.RoleId).GreaterThan(0);
+            RuleFor(x => x.RoleId)
+                .GreaterThan(0)
+                .WithMessage("معرف الدور غير صحيح، يجب أن يكون أكبر من 0");
         }
     }
 }

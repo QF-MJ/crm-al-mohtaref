@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using CRM.AlMohtaref.Application.Common.Queries;
+using MediatR;
 
 namespace CRM.AlMohtaref.Application.Features.Users;
 
@@ -8,4 +9,5 @@ public sealed record GetUsersQuery(
     string? AccountName = null,
     string? Email = null,
     bool? IsActive = null,
-    int? PermissionId = null) : IRequest<UsersPageDto>;
+    int? RoleId = null,
+    int? DepartmentId = null) : PagedQuery(PageNumber), IRequest<UsersPageDto>;

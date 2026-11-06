@@ -23,7 +23,7 @@ public sealed class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand
         if (user == null)
             throw new NotFoundException($"المستخدم بالمعرف {request.Id} غير موجود ");
 
-        if (await _users.ExistsAsync(request.Id, request.Email, request.AccountName,  ct))
+        if (await _users.ExistsAsync(request.Id, request.Email, request.AccountName, ct))
             throw new ConflictException("البريد الإلكتروني أو اسم الحساب مستخدم مسبقاً");
 
         user.UpdateProfile
