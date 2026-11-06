@@ -9,6 +9,8 @@ public interface IUserRepository
 
     Task<User?> GetByIdAsync(int id, CancellationToken ct = default);
 
+    Task<User?> GetByAccountNameAsync(string accountName, CancellationToken ct = default);
+
     Task<UserDetailDto?> GetDetailAsync(int id, CancellationToken ct = default);
 
     Task<UsersPageDto> SearchAsync(GetUsersQuery query, CancellationToken ct = default);

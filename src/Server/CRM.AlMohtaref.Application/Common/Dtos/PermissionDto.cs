@@ -1,4 +1,4 @@
-﻿namespace CRM.AlMohtaref.Application.Features.Users;
+﻿namespace CRM.AlMohtaref.Application.Common.Dtos;
 
 public sealed class PermissionDto
 {

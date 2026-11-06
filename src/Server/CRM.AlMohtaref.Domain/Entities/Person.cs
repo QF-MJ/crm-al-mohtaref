@@ -5,11 +5,14 @@ namespace CRM.AlMohtaref.Domain.Entities
     public class Person
     {
         public int Id { get; set; }
+
         public string? FullName { get; set; }
+
         public int CreatedByUserId { get; set; }
 
        
         public virtual User User { get; set; }
+
         public virtual User? CreatedByUser { get; set; }
     }
 

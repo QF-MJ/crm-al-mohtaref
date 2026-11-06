@@ -1,5 +1,6 @@
 ﻿using CRM.AlMohtaref.Application.Interfaces;
 using CRM.AlMohtaref.Infrastructure.Data;
+using CRM.AlMohtaref.Infrastructure.ExternalServices;
 using CRM.AlMohtaref.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -35,6 +36,8 @@ public static class DependencyInjection
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ILookupRepository, LookupRepository>();
+        services.AddScoped<IPasswordHasher, PasswordHasher>();
+        services.AddScoped<ITokenService, TokenService>();
         return services;
     }
 }

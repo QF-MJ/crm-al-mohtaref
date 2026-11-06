@@ -5,6 +5,7 @@ using CRM.AlMohtaref.Infrastructure.Data;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using CRM.AlMohtaref.Infrastructure.Services;
+using CRM.AlMohtaref.Domain.Entities;
 
 namespace CRM.AlMohtaref.Infrastructure.Repositories;
 
@@ -21,6 +22,17 @@ public sealed class UserRepository : IUserRepository
     {
         return await _db.Users.AnyAsync(u => u.Id != userId
                                 && (u.Email == email || u.AccountName == accountName));
+    }
+
+    public async Task<User?> GetByAccountNameAsync(string accountName, CancellationToken ct = default)
+    {
+        return await _db.Users
+            .Include(u => u.Person) 
+            .Include(u => u.UserPermissions)
+                .ThenInclude(p => p.Role) 
+            .Include(u => u.UserPermissions)
+                .ThenInclude(p => p.Department) 
+            .FirstOrDefaultAsync(u => u.AccountName == accountName, ct);
     }
 
     public async Task<User?> GetByIdAsync(int id, CancellationToken ct = default)
