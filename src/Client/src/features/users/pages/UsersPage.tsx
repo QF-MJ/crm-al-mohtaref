@@ -62,15 +62,14 @@ export function UsersPage() {
           <p className="mt-1 text-sm text-slate-500">{t('users.subtitle')}</p>
         </div>
         {can('users.create') && (
-          <Button
-            type="button"
-            disabled
-            title={t('users.createUnavailable')}
-            className="bg-teal-700 text-white"
+          <Link
+            to={paths.usersNew}
+            className="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-teal-700 px-4 text-sm font-medium text-white transition-colors hover:bg-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+            aria-label={t('users.add')}
           >
             <Plus aria-hidden="true" />
             {t('users.add')}
-          </Button>
+          </Link>
         )}
       </header>
 

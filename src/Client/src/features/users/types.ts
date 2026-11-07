@@ -58,3 +58,5 @@ export interface UserUpdateInput {
   isActive: boolean
   permissions: UserPermissionInput[]
 }
+
+export type UserCreateInput = Pick<UserUpdateInput, 'accountName' | 'fullName' | 'email' | 'permissions'>

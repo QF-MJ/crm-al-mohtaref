@@ -1,6 +1,7 @@
 import { http, HttpResponse } from 'msw'
 import type {
   LookupItem,
+  UserCreateInput,
   UserDetail,
   UserListItem,
   UserUpdateInput,
@@ -172,6 +173,56 @@ export const usersHandlers = [
     return user
       ? HttpResponse.json(userDetail(user))
       : HttpResponse.json({ message: 'User not found' }, { status: 404 })
+  }),
+
+  http.post('*/api/users', async ({ request }) => {
+    const body = (await request.json()) as UserCreateInput
+    const accountName = body.accountName.trim()
+    const email = body.email.trim()
+
+    if (
+      users.some(
+        (user) =>
+          user.accountName.toLocaleLowerCase() === accountName.toLocaleLowerCase() ||
+          user.email.toLocaleLowerCase() === email.toLocaleLowerCase(),
+      )
+    ) {
+      return HttpResponse.json(
+        { message: 'اسم المستخدم أو البريد الإلكتروني مستخدم مسبقاً' },
+        { status: 409 },
+      )
+    }
+
+    const permissions: MockPermission[] = []
+    for (const [index, input] of body.permissions.entries()) {
+      const department = departments.find((item) => item.id === input.departmentId)
+      const role = roles.find((item) => item.id === input.roleId)
+      if (!department || !role) {
+        return HttpResponse.json({ message: 'Invalid role or department' }, { status: 400 })
+      }
+      permissions.push({
+        id: index + 1,
+        departmentId: department.id,
+        roleId: role.id,
+        departmentName: department.name,
+        roleName: role.name,
+      })
+    }
+
+    if (permissions.length === 0) {
+      return HttpResponse.json({ message: 'At least one permission is required' }, { status: 400 })
+    }
+
+    const user: MockUser = {
+      id: Math.max(...users.map((item) => item.id)) + 1,
+      accountName,
+      fullName: body.fullName.trim(),
+      email,
+      isActive: true,
+      permissions,
+    }
+    users.push(user)
+    return HttpResponse.json(userDetail(user), { status: 201 })
   }),
 
   http.put('*/api/users/:id', async ({ params, request }) => {

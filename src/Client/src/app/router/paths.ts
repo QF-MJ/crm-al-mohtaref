@@ -6,6 +6,7 @@ export const paths = {
   accountPassword: '/account/password',
   notifications: '/notifications',
   users: '/users',
+  usersNew: '/users/new',
   userEdit: (id: string) => `/users/${encodeURIComponent(id)}/edit`,
   clients: '/clients',
   clientsImport: '/clients/import',
