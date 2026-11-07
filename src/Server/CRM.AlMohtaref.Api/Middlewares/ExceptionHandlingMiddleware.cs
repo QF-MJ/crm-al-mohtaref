@@ -1,14 +1,17 @@
-﻿using System.Text.Json;
+﻿using CRM.AlMohtaref.Application.Common.Exceptions;
+using FluentValidation;
 
 namespace CRM.AlMohtaref.Api.Middleware;
 
 public class ExceptionHandlingMiddleware
 {
-    readonly RequestDelegate _next;
+    private readonly RequestDelegate _next;
+    private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
-    public ExceptionHandlingMiddleware(RequestDelegate next)
+    public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
     {
         _next = next;
+        _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -17,26 +20,29 @@ public class ExceptionHandlingMiddleware
         {
             await _next(context);
         }
+        catch (AppException ex)
+        {
+            await WriteErrorAsync(context, ex.StatusCode, ex.Message);
+        }
+        catch (ValidationException ex)
+        {
+            var message = string.Join(" ", ex.Errors.Select(e => e.ErrorMessage).Distinct());
+            await WriteErrorAsync(context, StatusCodes.Status400BadRequest, message);
+        }
         catch (Exception ex)
         {
-            await HandleExceptionAsync(context, ex);
+            _logger.LogError(ex, "Unhandled exception");
+            await WriteErrorAsync(context, StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
         }
     }
 
-    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private static async Task WriteErrorAsync(HttpContext context, int status, string message)
     {
-        var statusCode = StatusCodes.Status500InternalServerError;
-        var message = exception.Message;
+        if (context.Response.HasStarted)
+            return;
 
-        context.Response.ContentType = "application/json";
-        context.Response.StatusCode = statusCode;
-
-        var response = new
-        {
-            status = statusCode,
-            message = message,
-        };
-
-        return context.Response.WriteAsync(JsonSerializer.Serialize(response));
+        context.Response.Clear();
+        context.Response.StatusCode = status;
+        await context.Response.WriteAsJsonAsync(new ErrorDto(status, message));
     }
 }
