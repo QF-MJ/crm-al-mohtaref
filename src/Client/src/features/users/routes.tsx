@@ -1,15 +1,16 @@
 import type { AppRoute } from '@/types/router'
-import { PagePlaceholder } from '@/components/common/PagePlaceholder'
+import { UserFormPage } from './pages/UserFormPage'
+import { UsersPage } from './pages/UsersPage'
 
 export const usersRoutes: AppRoute[] = [
   {
     path: 'users',
-    element: <PagePlaceholder name="Users" fr="FR-05" />,
+    element: <UsersPage />,
     handle: { permission: 'users.suspend' },
   },
   {
-    path: 'users/new',
-    element: <PagePlaceholder name="UsersNew" fr="FR-04" />,
-    handle: { permission: 'users.create' },
+    path: 'users/:userId/edit',
+    element: <UserFormPage />,
+    handle: { permission: 'users.suspend' },
   },
 ]
