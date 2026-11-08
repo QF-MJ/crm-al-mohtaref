@@ -26,8 +26,8 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
         if (attributes.Count == 0)
             return await next();
 
-        if (!_currentUser.IsAuthenticated)
-            throw new UnauthorizedAccessException();
+        //if (!_currentUser.IsAuthenticated)
+        //    throw new UnauthorizedAccessException();
 
         var userRoles = _currentUser.Roles;
 
