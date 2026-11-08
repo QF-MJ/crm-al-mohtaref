@@ -1,5 +1,6 @@
 ﻿using CRM.AlMohtaref.Application.Interfaces;
 using CRM.AlMohtaref.Domain.Entities;
+using CRM.AlMohtaref.Domain.Entities.Contacts;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,8 @@ public class AppDbContext : DbContext, IUnitOfWork
     public DbSet<Department> Departments { get; set; }
 
     public DbSet<Role> Roles { get; set; }
+
+    public DbSet<Contact> Contacts { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {

@@ -5,7 +5,7 @@ using CRM.AlMohtaref.Infrastructure.Data;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using CRM.AlMohtaref.Infrastructure.Services;
-using CRM.AlMohtaref.Domain.Entities;
+
 
 namespace CRM.AlMohtaref.Infrastructure.Repositories;
 
@@ -102,10 +102,10 @@ public sealed class UserRepository : IUserRepository
         {
             Items = rows,
             Page = new PageDto
-            {
-                PageNumber = query.PageNumber,
-                HasNextPage = hasNext
-            }
+            (
+                query.PageNumber,
+                hasNext
+            )
         };
     }
 

@@ -7,8 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
-using CRM.AlMohtaref.Application.Interfaces;
 using CRM.AlMohtaref.Infrastructure.Services;
 
 namespace CRM.AlMohtaref.Infrastructure;
@@ -32,12 +30,27 @@ public static class DependencyInjection
             options.LogTo(Console.WriteLine, LogLevel.Information);
         });
 
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
+        AddRepositories(services);
+        AddServices(services);
 
+        return services;
+    }
+
+    private static IServiceCollection AddRepositories(this IServiceCollection services)
+    {
+        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ILookupRepository, LookupRepository>();
+        services.AddScoped<IContactRepository, ContactRepository>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddServices(this IServiceCollection services)
+    {
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<ITokenService, TokenService>();
+
         return services;
     }
 }
