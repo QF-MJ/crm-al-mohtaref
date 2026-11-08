@@ -1,3 +1,5 @@
-﻿namespace CRM.AlMohtaref.Api.Contracts.Lookups;
+﻿using CRM.AlMohtaref.Application.Features.Lookups;
 
-public sealed record GetLookupsRequest(List<string>? Include);
+namespace CRM.AlMohtaref.Api.Contracts.Lookups;
+
+public sealed record GetLookupsRequest(List<LookupType>? Include);

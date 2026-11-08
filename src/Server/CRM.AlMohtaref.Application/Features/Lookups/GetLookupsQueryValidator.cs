@@ -1,24 +1,16 @@
-﻿using FluentValidation;
+﻿using CRM.AlMohtaref.Application.Features.Lookups;
+using FluentValidation;
 
-namespace CRM.AlMohtaref.Application.Features.Lookups
+public class GetLookupsQueryValidator : AbstractValidator<GetLookupsQuery>
 {
-    public class GetLookupsQueryValidator : AbstractValidator<GetLookupsQuery>
+    public GetLookupsQueryValidator()
     {
-        public GetLookupsQueryValidator()
-        {
-            RuleFor(x => x.Include)
-                .NotNull()
-                .WithMessage("يرجى تحديد البيانات المطلوب استرجاعها");
+        RuleFor(x => x.Include)
+            .NotEmpty()
+            .WithMessage("يرجى تحديد البيانات المطلوب استرجاعها");
 
-            RuleForEach(x => x.Include)
-                .Must(IsAllowedWord)
-                .WithMessage("أحد الخيارات المحددة غير صحيح، يرجى اختيار خيارات قائمة صالحة مثل الأقسام أو الأدوار");
-        }
-
-        private bool IsAllowedWord(string item)
-        {
-            var allowedWords = new List<string> { "Departments", "Roles" };
-            return allowedWords.Contains(item, StringComparer.OrdinalIgnoreCase);
-        }
+        RuleForEach(x => x.Include)
+            .IsInEnum()
+            .WithMessage("القيمة '{PropertyValue}' غير صالحة، يرجى اختيار خيار صحيح من القائمة المتاحة");
     }
 }
