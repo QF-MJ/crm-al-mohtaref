@@ -53,13 +53,22 @@ export function UserFormPage() {
 
   const submit = (values: UserFormValues) => {
     if (userId === undefined) return
-    updateMutation.mutate(values, {
-      onSuccess: () => {
-        toast.success(t('users.updateSuccess'))
-        navigate(paths.users)
+    updateMutation.mutate(
+      {
+        accountName: values.accountName,
+        fullName: values.fullName,
+        email: values.email,
+        isActive: values.isActive,
+        permissions: values.permissions,
       },
-      onError: (error) => toast.error(getErrorMessage(error) || t('users.unknownError')),
-    })
+      {
+        onSuccess: () => {
+          toast.success(t('users.updateSuccess'))
+          navigate(paths.users)
+        },
+        onError: (error) => toast.error(getErrorMessage(error) || t('users.unknownError')),
+      },
+    )
   }
 
   if (userId === undefined) {

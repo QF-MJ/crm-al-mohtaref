@@ -16,8 +16,8 @@ interface UserFormProps {
   roles: LookupItem[]
   isPending: boolean
   showStatus?: boolean
+  showPassword?: boolean
   submitLabel?: string
-  canSubmit?: boolean
   accountFieldsClassName?: string
   onSubmit: (values: UserFormValues) => void
 }
@@ -28,8 +28,8 @@ export function UserForm({
   roles,
   isPending,
   showStatus = true,
+  showPassword = false,
   submitLabel,
-  canSubmit = true,
   accountFieldsClassName = 'sm:grid-cols-2',
   onSubmit,
 }: UserFormProps) {
@@ -42,13 +42,23 @@ export function UserForm({
     control,
     formState: { errors },
   } = useForm<UserFormValues>({
-    resolver: zodResolver(userSchema),
-    defaultValues,
+    resolver: zodResolver(
+      userSchema.superRefine((values, context) => {
+        if (showPassword && !values.password?.trim()) {
+          context.addIssue({
+            code: 'custom',
+            path: ['password'],
+            message: 'Required',
+          })
+        }
+      }),
+    ),
+    defaultValues: { ...defaultValues, password: defaultValues.password ?? '' },
   })
   const { fields, append, remove } = useFieldArray({ control, name: 'permissions' })
 
   useEffect(() => {
-    reset(defaultValues)
+    reset({ ...defaultValues, password: defaultValues.password ?? '' })
   }, [defaultValues, reset])
 
   return (
@@ -79,6 +89,18 @@ export function UserForm({
             <Input id="email" type="email" dir="ltr" {...register('email')} />
             {errors.email && <p className="text-sm text-destructive">{t('users.invalidEmail')}</p>}
           </div>
+          {showPassword && (
+            <div className="space-y-2">
+              <Label htmlFor="password">{t('users.password')}</Label>
+              <Input
+                id="password"
+                type="password"
+                autoComplete="new-password"
+                {...register('password')}
+              />
+              {errors.password && <p className="text-sm text-destructive">{t('users.required')}</p>}
+            </div>
+          )}
           {showStatus && (
             <div className="space-y-2">
               <Label htmlFor="isActive">{t('users.status')}</Label>
@@ -172,7 +194,7 @@ export function UserForm({
       <div className="flex flex-wrap gap-3 border-t pt-5">
         <Button
           type="submit"
-          disabled={isPending || !canSubmit}
+          disabled={isPending}
           className="bg-teal-700 text-white hover:bg-teal-800"
         >
           {isPending ? t('users.saving') : (submitLabel ?? t('users.saveChanges'))}

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
-import { env } from '@/lib/env'
 import { paths } from '@/app/router/paths'
 import { useCreateUser, useUserLookups } from '../api/users.queries'
 import { UserForm } from '../components/UserForm'
@@ -37,9 +36,12 @@ export function CreateUserPage() {
   }, [lookupsQuery.data])
 
   const submit = (values: UserFormValues) => {
-    if (!env.useMocks) return
     if (values.permissions.length === 0) {
       toast.error(t('users.permissionRequired'))
+      return
+    }
+    if (!values.password?.trim()) {
+      toast.error(t('users.required'))
       return
     }
 
@@ -47,6 +49,7 @@ export function CreateUserPage() {
       accountName: values.accountName,
       fullName: values.fullName,
       email: values.email,
+      password: values.password,
       permissions: values.permissions,
     }
     createMutation.mutate(body, {
@@ -103,23 +106,14 @@ export function CreateUserPage() {
         </span>
       </header>
 
-      {!env.useMocks && (
-        <p
-          className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900"
-          role="status"
-        >
-          {t('users.createApiUnavailable')}
-        </p>
-      )}
-
       <UserForm
         defaultValues={defaultValues}
         departments={lookupsQuery.data.departments}
         roles={lookupsQuery.data.roles}
         isPending={createMutation.isPending}
+        showPassword
         showStatus={false}
         submitLabel={t('users.create')}
-        canSubmit={env.useMocks}
         accountFieldsClassName="sm:grid-cols-2 lg:grid-cols-3"
         onSubmit={submit}
       />

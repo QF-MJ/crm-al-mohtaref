@@ -222,7 +222,7 @@ export const usersHandlers = [
       permissions,
     }
     users.push(user)
-    return HttpResponse.json(userDetail(user), { status: 201 })
+    return HttpResponse.json(user.id, { status: 201 })
   }),
 
   http.put('*/api/users/:id', async ({ params, request }) => {

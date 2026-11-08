@@ -59,4 +59,10 @@ export interface UserUpdateInput {
   permissions: UserPermissionInput[]
 }
 
-export type UserCreateInput = Pick<UserUpdateInput, 'accountName' | 'fullName' | 'email' | 'permissions'>
+export interface UserCreateInput {
+  accountName: string
+  fullName: string
+  email: string
+  password: string
+  permissions: UserPermissionInput[]
+}

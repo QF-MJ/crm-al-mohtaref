@@ -18,7 +18,7 @@ export const updateUser = (id: number, body: UserUpdateInput) =>
   api.put<void>(`/users/${id}`, body).then((response) => response.data)
 
 export const createUser = (body: UserCreateInput) =>
-  api.post<UserDetail>('/users', body).then((response) => response.data)
+  api.post<number>('/users', body).then((response) => response.data)
 
 export const getUserLookups = (signal?: AbortSignal) =>
   api
