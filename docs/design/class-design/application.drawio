@@ -1056,7 +1056,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="p5_d" name="05 Contacts">
-    <mxGraphModel dx="2316" dy="1409" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+    <mxGraphModel dx="772" dy="470" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1093,14 +1093,8 @@
         <mxCell id="p5_ContactItemDto" parent="p5_g_fx" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;swimlaneFillColor=#FFFFFF;" value="&lt;b&gt;ContactItemDto&lt;/b&gt;" vertex="1">
           <mxGeometry height="100" width="210" x="270" y="306" as="geometry" />
         </mxCell>
-        <mxCell id="p5_ContactItemDto_f" parent="p5_ContactItemDto" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+Id: int&lt;br&gt;+Name: string&lt;br&gt;+LastCampaign: LastCampaignDto?&lt;br&gt;+Students: List&amp;lt;StudentDto&amp;gt;" vertex="1">
+        <mxCell id="p5_ContactItemDto_f" parent="p5_ContactItemDto" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+Id: int&lt;br&gt;+Name: string&lt;br&gt;+Students: List&amp;lt;StudentDto&amp;gt;" vertex="1">
           <mxGeometry height="72" width="210" y="28" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_LastCampaignDto" parent="p5_g_fx" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;swimlaneFillColor=#FFFFFF;" value="&lt;b&gt;LastCampaignDto&lt;/b&gt;" vertex="1">
-          <mxGeometry height="68" width="150" x="270" y="176" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_LastCampaignDto_f" parent="p5_LastCampaignDto" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;spacingTop=2;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=11;" value="+Id: int&lt;br&gt;+Title: string" vertex="1">
-          <mxGeometry height="40" width="150" y="28" as="geometry" />
         </mxCell>
         <mxCell id="p5_StudentDto" parent="p5_g_fx" style="swimlane;fontStyle=0;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;whiteSpace=wrap;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;swimlaneFillColor=#FFFFFF;" value="&lt;b&gt;StudentDto&lt;/b&gt;" vertex="1">
           <mxGeometry height="68" width="150" x="310" y="466" as="geometry" />
@@ -1146,19 +1140,6 @@
         </mxCell>
         <mxCell id="p5_e3" edge="1" parent="1" source="p5_IContactRepository" style="endArrow=open;endSize=8;dashed=1;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="p5_Contact" value="">
           <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_e4" edge="1" parent="1" source="p5_ContactItemDto" style="startArrow=diamondThin;startFill=1;startSize=16;endArrow=open;endSize=8;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p5_LastCampaignDto" value="">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="p5_e4_s" connectable="0" parent="p5_e4" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="1" vertex="1">
-          <mxGeometry relative="1" x="-0.85" as="geometry">
-            <mxPoint y="-10" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="p5_e4_t" connectable="0" parent="p5_e4" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="0..1" vertex="1">
-          <mxGeometry relative="1" x="0.85" as="geometry">
-            <mxPoint y="-10" as="offset" />
-          </mxGeometry>
         </mxCell>
         <mxCell id="p5_e5" edge="1" parent="1" source="p5_ContactItemDto" style="startArrow=diamondThin;startFill=1;startSize=16;endArrow=open;endSize=8;html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=10;labelBackgroundColor=#FFFFFF;" target="p5_StudentDto" value="">
           <mxGeometry relative="1" as="geometry" />

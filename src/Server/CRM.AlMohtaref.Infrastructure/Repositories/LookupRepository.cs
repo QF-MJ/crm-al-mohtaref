@@ -1,4 +1,4 @@
-﻿using CRM.AlMohtaref.Application.Features.Lookups;
+﻿using CRM.AlMohtaref.Application.Features.Lookups.Dtos;
 using CRM.AlMohtaref.Application.Interfaces;
 using CRM.AlMohtaref.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -23,11 +23,25 @@ namespace CRM.AlMohtaref.Infrastructure.Repositories
                 .ToListAsync(ct);
         }
 
+        public async Task<IEnumerable<LeadStatusDto>> GetLeadStatusesAsync(CancellationToken ct = default)
+        {
+            return await _db.LeadStatuses
+               .Select(d => new LeadStatusDto(d.Id, d.Name))
+               .ToListAsync(ct);
+        }
+
         public async Task<IEnumerable<RoleDto>> GetRolesAsync(CancellationToken ct = default)
         {
             return await _db.Roles
                 .Select(d => new RoleDto(d.Id, d.Name))
                 .ToListAsync(ct);
+        }
+
+        public async Task<IEnumerable<TrackDto>> GetTracksAsync(CancellationToken ct = default)
+        {
+            return await _db.Tracks
+               .Select(d => new TrackDto(d.Id, d.Name))
+               .ToListAsync(ct);
         }
     }
 }

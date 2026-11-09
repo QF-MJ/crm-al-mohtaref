@@ -705,12 +705,6 @@ components:
       properties:
         id: { type: integer }
         name: { type: string }
-        lastCampaign:
-          type: object
-          nullable: true
-          properties:
-            id: { type: integer }
-            title: { type: string }
         students:
           type: array
           items: { $ref: "#/components/schemas/StudentDto" }
