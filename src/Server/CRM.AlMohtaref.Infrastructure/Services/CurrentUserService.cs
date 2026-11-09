@@ -21,8 +21,8 @@ namespace CRM.AlMohtaref.Infrastructure.Services
 
         public string? Email => User?.FindFirstValue(ClaimTypes.Email);
 
-        public IReadOnlyCollection<string> Roles =>
-            User?.FindAll(ClaimTypes.Role).Select(c => c.Value).ToList() ?? [];
+        public IReadOnlyCollection<string> Permissions =>
+            User?.FindAll("permission").Select(c => c.Value).ToList() ?? [];
 
         public bool IsAuthenticated => User?.Identity?.IsAuthenticated ?? false;
     }

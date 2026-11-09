@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using CRM.AlMohtaref.Application.Interfaces;
 using CRM.AlMohtaref.Domain.Entities.Users;
+using MediatR.NotificationPublishers;
 
 namespace CRM.AlMohtaref.Infrastructure.ExternalServices
 {
@@ -28,11 +29,16 @@ namespace CRM.AlMohtaref.Infrastructure.ExternalServices
 
             var key = Encoding.UTF8.GetBytes(secretKey!);
 
-            var claims = new[]
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email ?? string.Empty)
+                new Claim(ClaimTypes.Email, user.Email ?? string.Empty) 
             };
+
+            foreach (var p in user.UserPermissions)
+            {
+                claims.Add(new Claim("permission", $"{p.Department.Name}:{p.Role.Name}"));   
+            }
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
