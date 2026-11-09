@@ -22,6 +22,21 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.CampaginStatus", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CampaignStatuses", (string)null);
+                });
+
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.Campaign", b =>
                 {
                     b.Property<int>("Id")
@@ -33,6 +48,9 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.Property<decimal?>("Budget")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("CampaginStatusId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("CreatedByUserId")
                         .HasColumnType("int");
@@ -54,6 +72,8 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .HasColumnType("nvarchar(500)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CampaginStatusId");
 
                     b.HasIndex("CreatedByUserId");
 
@@ -391,6 +411,12 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.Campaign", b =>
                 {
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Campaigns.CampaginStatus", "CampaignStatus")
+                        .WithMany("Campaigns")
+                        .HasForeignKey("CampaginStatusId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedByUserId")
@@ -402,6 +428,8 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .HasForeignKey("TrackId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("CampaignStatus");
 
                     b.Navigation("CreatedByUser");
 
@@ -545,6 +573,11 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.CampaginStatus", b =>
+                {
+                    b.Navigation("Campaigns");
                 });
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.Campaign", b =>

@@ -6,18 +6,18 @@ namespace CRM.AlMohtaref.Infrastructure.Data.Seed.Campaigns;
 // 10 campaigns (5 per course). Statuses cover every state of the state diagram.
 internal sealed class CampaignSeed : EntitySeed<Campaign>
 {
-    private static readonly (string Title, string Track)[] Items =
+    private static readonly (string Title, string Track, string Status)[] Items =
     {
-        ("برمجة الأطفال - الدفعة الصيفية",              TrackSeed.Programming),
-        ("برمجة الأطفال - Scratch للمبتدئين",           TrackSeed.Programming),
-        ("برمجة الأطفال - Python للناشئين",             TrackSeed.Programming),
-        ("برمجة الأطفال - التسجيل المبكر",              TrackSeed.Programming),
-        ("برمجة الأطفال - الجلسة التجريبية المجانية",   TrackSeed.Programming),
-        ("إنجليزي الأطفال - التأسيس من الصفر",          TrackSeed.English),
-        ("إنجليزي الأطفال - تطوير المحادثة",            TrackSeed.English),
-        ("إنجليزي الأطفال - التقوية في المنهج المدرسي", TrackSeed.English),
-        ("إنجليزي الأطفال - الجلسات الفردية",           TrackSeed.English),
-        ("إنجليزي الأطفال - المجموعات التفاعلية",       TrackSeed.English)
+        ("برمجة الأطفال - الدفعة الصيفية",              TrackSeed.Programming, CampaignStatusSeed.Active),
+        ("برمجة الأطفال - Scratch للمبتدئين",           TrackSeed.Programming, CampaignStatusSeed.Active),
+        ("برمجة الأطفال - Python للناشئين",             TrackSeed.Programming, CampaignStatusSeed.Draft),
+        ("برمجة الأطفال - التسجيل المبكر",              TrackSeed.Programming, CampaignStatusSeed.Completed),
+        ("برمجة الأطفال - الجلسة التجريبية المجانية",   TrackSeed.Programming, CampaignStatusSeed.Paused),
+        ("إنجليزي الأطفال - التأسيس من الصفر",          TrackSeed.English,     CampaignStatusSeed.Active),
+        ("إنجليزي الأطفال - تطوير المحادثة",            TrackSeed.English,     CampaignStatusSeed.Active),
+        ("إنجليزي الأطفال - التقوية في المنهج المدرسي", TrackSeed.English,     CampaignStatusSeed.Completed),
+        ("إنجليزي الأطفال - الجلسات الفردية",           TrackSeed.English,     CampaignStatusSeed.Cancelled),
+        ("إنجليزي الأطفال - المجموعات التفاعلية",       TrackSeed.English,     CampaignStatusSeed.Draft)
     };
 
     public override int Order => 300;
@@ -26,6 +26,7 @@ internal sealed class CampaignSeed : EntitySeed<Campaign>
     {
         var adminId = await SeedHelpers.GetAdminUserIdAsync(db, ct);
         var trackId = await db.Set<Track>().ToDictionaryAsync(t => t.Name, t => t.Id, ct);
+        var statusId = await db.Set<CampaginStatus>().ToDictionaryAsync(s => s.Name!, s => s.Id, ct);
 
         var result = new List<Campaign>();
 
@@ -33,13 +34,19 @@ internal sealed class CampaignSeed : EntitySeed<Campaign>
         {
             var item = Items[i];
 
-            result.Add(new Campaign(
+            var campaign = new Campaign(
                 title: item.Title,
                 trackId: trackId[item.Track],
                 createdByUserId: adminId,
                 description: "حملة تجريبية: " + item.Title,
                 url: "https://docs.google.com/spreadsheets/d/seed-sheet-" + (i + 1).ToString("00"),
-                budget: 500m * (i + 1)));
+                budget: 500m * (i + 1));
+
+            // CampaginStatusId has a private setter and is not in the constructor,
+            // so it is set through the EF entry (the entity stays untouched).
+            db.Entry(campaign).Property(nameof(Campaign.CampaginStatusId)).CurrentValue = statusId[item.Status];
+
+            result.Add(campaign);
         }
 
         return result;

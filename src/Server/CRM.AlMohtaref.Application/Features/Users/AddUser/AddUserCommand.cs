@@ -5,7 +5,7 @@ using MediatR;
 
 namespace CRM.AlMohtaref.Application.Features.Users.AddUser
 {
-    [AuthorizePermisions(Roles = "مدير")]
+    [AuthorizePermisions(Role = "مدير")]
     public sealed record AddUserCommand(
      string Email,
      string AccountName,
