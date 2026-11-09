@@ -16,12 +16,15 @@ public class Campaign
 
     public int CreatedByUserId { get; private set; }
 
+    public Guid CampaginStatusId { get; private set; }
+
     public decimal? Budget { get; private set; }
 
     public Track Track { get; private set; }
 
     public User CreatedByUser { get; private set; }
 
+    public CampaginStatus CampaignStatus { get; private set; }
 
     public ICollection<CampaignLead> Leads { get; private set; }
 
