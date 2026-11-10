@@ -1,47 +1,44 @@
-import { useMemo, useState, type ReactNode } from 'react'
+import { useState, type FormEvent, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, ChevronDown, Plus, Search } from 'lucide-react'
+import { Plus, Search, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { getApiErrorMessage } from '@/api/errors'
 import { paths } from '@/app/router/paths'
 import { usePermission } from '@/permissions/usePermission'
+import { useLookups } from '@/features/lookups/api/lookups.queries'
 import { CampaignStatusBadge } from '../components/CampaignStatusBadge'
-import { campaignTracks, getMockCampaigns } from '../mock-data'
-import type { Campaign, CampaignStatus } from '../types'
+import { useCampaigns } from '../api/campaigns.queries'
+import type { CampaignFilters, CampaignListItem } from '../types'
+
+function errorText(error: unknown, fallback: string) {
+  return getApiErrorMessage(error, fallback)
+}
 
 export function CampaignsPage() {
   const { t } = useTranslation()
   const can = usePermission()
-  const campaigns = getMockCampaigns()
-  const [title, setTitle] = useState('')
-  const [status, setStatus] = useState('')
-  const [trackId, setTrackId] = useState('')
-  const [platform, setPlatform] = useState('')
-  const [page, setPage] = useState(1)
-  const pageSize = 5
+  const [filters, setFilters] = useState<CampaignFilters>({ pageNumber: 1 })
+  const [form, setForm] = useState({ title: '', status: '', trackId: '', platformId: '' })
+  const campaignsQuery = useCampaigns(filters)
+  const lookupsQuery = useLookups()
+  const page = campaignsQuery.data?.page
 
-  const filteredCampaigns = useMemo(
-    () =>
-      campaigns.filter(
-        (campaign) =>
-          (!title.trim() ||
-            campaign.title.toLocaleLowerCase().includes(title.trim().toLocaleLowerCase())) &&
-          (!status || campaign.status === status) &&
-          (!trackId || campaign.trackId === Number(trackId)) &&
-          (!platform || campaign.platforms.includes(platform)),
-      ),
-    [campaigns, platform, status, title, trackId],
-  )
-  const visibleCampaigns = filteredCampaigns.slice((page - 1) * pageSize, page * pageSize)
-  const hasNextPage = page * pageSize < filteredCampaigns.length
+  const applyFilters = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setFilters({
+      pageNumber: 1,
+      title: form.title.trim() || undefined,
+      status: form.status ? Number(form.status) : undefined,
+      trackId: form.trackId ? Number(form.trackId) : undefined,
+      platformId: form.platformId ? Number(form.platformId) : undefined,
+    })
+  }
 
-  const resetFilters = () => {
-    setTitle('')
-    setStatus('')
-    setTrackId('')
-    setPlatform('')
-    setPage(1)
+  const clearFilters = () => {
+    setForm({ title: '', status: '', trackId: '', platformId: '' })
+    setFilters({ pageNumber: 1 })
   }
 
   return (
@@ -53,56 +50,49 @@ export function CampaignsPage() {
           <p className="mt-1 text-sm text-slate-500">{t('campaigns.subtitle')}</p>
         </div>
         {can('campaigns.create') && (
-          <Link
-            to={paths.campaignsNew}
-            className="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:opacity-90"
-          >
-            <Plus aria-hidden="true" />
-            {t('campaigns.create')}
-          </Link>
+          <div className="space-y-1 text-end">
+            <Button type="button" disabled title={t('campaigns.createUnavailable')}>
+              <Plus aria-hidden="true" />
+              {t('campaigns.create')}
+            </Button>
+            <p className="text-xs text-slate-500">{t('campaigns.createUnavailable')}</p>
+          </div>
         )}
       </header>
 
-      <section className="space-y-4 rounded-xl border bg-white p-4 sm:p-5">
+      <form onSubmit={applyFilters} className="space-y-4 rounded-xl border bg-white p-4 sm:p-5">
         <div className="flex items-center justify-between">
           <h2 className="font-semibold text-slate-800">{t('campaigns.filtersTitle')}</h2>
           <Search className="size-4 text-slate-400" aria-hidden="true" />
         </div>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-          <FilterField
-            label={t('campaigns.titleField')}
-            value={title}
-            onChange={(value) => {
-              setTitle(value)
-              setPage(1)
-            }}
-            placeholder={t('campaigns.searchTitle')}
-          />
+          <label className="space-y-1.5 text-xs font-medium text-slate-500">
+            <span>{t('campaigns.titleField')}</span>
+            <Input
+              value={form.title}
+              onChange={(event) => setForm((current) => ({ ...current, title: event.target.value }))}
+              placeholder={t('campaigns.searchTitle')}
+            />
+          </label>
           <SelectField
             label={t('campaigns.status')}
-            value={status}
-            onChange={(value) => {
-              setStatus(value)
-              setPage(1)
-            }}
+            value={form.status}
+            onChange={(status) => setForm((current) => ({ ...current, status }))}
           >
             <option value="">{t('campaigns.allStatuses')}</option>
-            {(['draft', 'active', 'paused', 'completed'] as CampaignStatus[]).map((value) => (
-              <option key={value} value={value}>
-                {t(`campaigns.statuses.${value}`)}
+            {(lookupsQuery.data?.campaignStatuses ?? []).map((status) => (
+              <option key={status.id} value={status.id}>
+                {status.name}
               </option>
             ))}
           </SelectField>
           <SelectField
             label={t('campaigns.track')}
-            value={trackId}
-            onChange={(value) => {
-              setTrackId(value)
-              setPage(1)
-            }}
+            value={form.trackId}
+            onChange={(trackId) => setForm((current) => ({ ...current, trackId }))}
           >
             <option value="">{t('campaigns.allTracks')}</option>
-            {campaignTracks.map((track) => (
+            {(lookupsQuery.data?.tracks ?? []).map((track) => (
               <option key={track.id} value={track.id}>
                 {track.name}
               </option>
@@ -110,26 +100,32 @@ export function CampaignsPage() {
           </SelectField>
           <SelectField
             label={t('campaigns.platform')}
-            value={platform}
-            onChange={(value) => {
-              setPlatform(value)
-              setPage(1)
-            }}
+            value={form.platformId}
+            onChange={(platformId) => setForm((current) => ({ ...current, platformId }))}
           >
             <option value="">{t('campaigns.allPlatforms')}</option>
-            {['Facebook', 'Instagram', 'TikTok', 'Google'].map((value) => (
-              <option key={value} value={value}>
-                {value}
+            {(lookupsQuery.data?.platforms ?? []).map((platform) => (
+              <option key={platform.id} value={platform.id}>
+                {platform.name}
               </option>
             ))}
           </SelectField>
         </div>
-        <div className="flex justify-center">
-          <Button type="button" variant="outline" size="sm" onClick={resetFilters}>
+        {lookupsQuery.isError && (
+          <p className="text-sm text-destructive" role="alert">
+            {errorText(lookupsQuery.error, t('campaigns.error'))}
+          </p>
+        )}
+        <div className="flex justify-center gap-2">
+          <Button type="submit" size="sm">
+            <Search aria-hidden="true" />
+            {t('campaigns.search')}
+          </Button>
+          <Button type="button" variant="outline" size="sm" onClick={clearFilters}>
             {t('campaigns.clearFilters')}
           </Button>
         </div>
-      </section>
+      </form>
 
       <section className="overflow-hidden rounded-xl border bg-white">
         <header className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-4 sm:px-5">
@@ -137,64 +133,107 @@ export function CampaignsPage() {
             <h2 className="font-semibold text-slate-800">{t('campaigns.listTitle')}</h2>
             <p className="mt-1 text-xs text-slate-500">{t('campaigns.listDescription')}</p>
           </div>
-          <span className="rounded-md bg-slate-100 px-3 py-2 text-xs text-slate-600">
-            {t('campaigns.count', { count: filteredCampaigns.length })}
-          </span>
+          {campaignsQuery.data && (
+            <span className="rounded-md bg-slate-100 px-3 py-2 text-xs text-slate-600">
+              {t('campaigns.count', { count: campaignsQuery.data.items.length })}
+            </span>
+          )}
         </header>
-        {visibleCampaigns.length === 0 ? (
+        {campaignsQuery.isLoading ? (
+          <p className="p-8 text-center text-sm text-slate-500" role="status">
+            {t('campaigns.loading')}
+          </p>
+        ) : campaignsQuery.isError ? (
+          <div className="space-y-3 p-8 text-center" role="alert">
+            <p className="text-sm text-destructive">
+              {errorText(campaignsQuery.error, t('campaigns.error'))}
+            </p>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => void campaignsQuery.refetch()}
+              disabled={campaignsQuery.isFetching}
+            >
+              {t('campaigns.retry')}
+            </Button>
+          </div>
+        ) : !campaignsQuery.data.items.length ? (
           <p className="p-8 text-center text-sm text-slate-500">{t('campaigns.empty')}</p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[720px] text-start text-sm">
+            <table className="w-full min-w-[680px] text-start text-sm">
               <thead className="bg-slate-50 text-xs font-medium text-slate-500">
                 <tr>
-                  <th scope="col" className="px-4 py-3">{t('campaigns.titleField')}</th>
-                  <th scope="col" className="px-4 py-3">{t('campaigns.track')}</th>
-                  <th scope="col" className="px-4 py-3">{t('campaigns.platform')}</th>
-                  <th scope="col" className="px-4 py-3">{t('campaigns.status')}</th>
-                  <th scope="col" className="px-4 py-3">{t('campaigns.id')}</th>
-                  <th scope="col" className="px-4 py-3">{t('campaigns.actions')}</th>
+                  <th className="px-4 py-3">{t('campaigns.titleField')}</th>
+                  <th className="px-4 py-3">{t('campaigns.track')}</th>
+                  <th className="px-4 py-3">{t('campaigns.status')}</th>
+                  <th className="px-4 py-3">{t('campaigns.id')}</th>
+                  <th className="px-4 py-3">{t('campaigns.actions')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {visibleCampaigns.map((campaign) => (
-                  <CampaignRow key={campaign.id} campaign={campaign} />
+                {campaignsQuery.data.items.map((campaign) => (
+                  <CampaignRow
+                    key={campaign.id}
+                    campaign={campaign}
+                    trackName={lookupsQuery.data?.tracks?.find((item) => item.id === campaign.trackId)?.name}
+                    statusName={
+                      lookupsQuery.data?.campaignStatuses?.find(
+                        (item) => item.id === campaign.status,
+                      )?.name
+                    }
+                  />
                 ))}
               </tbody>
             </table>
           </div>
         )}
-        <footer className="flex items-center justify-between border-t px-4 py-3 text-xs text-slate-500">
-          <span>{t('campaigns.page', { page })}</span>
-          <div className="flex gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              disabled={page === 1}
-              onClick={() => setPage((current) => Math.max(1, current - 1))}
-            >
-              {t('campaigns.previous')}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              disabled={!hasNextPage}
-              onClick={() => setPage((current) => current + 1)}
-            >
-              {t('campaigns.next')}
-              <ArrowLeft aria-hidden="true" />
-            </Button>
-          </div>
-        </footer>
+        {campaignsQuery.data && (
+          <footer className="flex items-center justify-between border-t px-4 py-3 text-xs text-slate-500">
+            <span>{t('campaigns.page', { page: page?.pageNumber ?? filters.pageNumber })}</span>
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                disabled={(page?.pageNumber ?? 1) <= 1 || campaignsQuery.isFetching}
+                onClick={() =>
+                  setFilters((current) => ({
+                    ...current,
+                    pageNumber: Math.max(1, current.pageNumber - 1),
+                  }))
+                }
+              >
+                {t('campaigns.previous')}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                disabled={!page?.hasNextPage || campaignsQuery.isFetching}
+                onClick={() =>
+                  setFilters((current) => ({ ...current, pageNumber: current.pageNumber + 1 }))
+                }
+              >
+                {t('campaigns.next')}
+              </Button>
+            </div>
+          </footer>
+        )}
       </section>
-
     </section>
   )
 }
 
-function CampaignRow({ campaign }: { campaign: Campaign }) {
+function CampaignRow({
+  campaign,
+  trackName,
+  statusName,
+}: {
+  campaign: CampaignListItem
+  trackName?: string
+  statusName?: string
+}) {
   const { t } = useTranslation()
   return (
     <tr className="transition-colors hover:bg-teal-50/50">
@@ -207,10 +246,9 @@ function CampaignRow({ campaign }: { campaign: Campaign }) {
           <ChevronDown className="size-3 -rotate-90" aria-hidden="true" />
         </Link>
       </td>
-      <td className="px-4 py-3 text-slate-600">{campaign.trackName}</td>
-      <td className="px-4 py-3 text-slate-600">{campaign.platforms.join('، ') || '—'}</td>
+      <td className="px-4 py-3 text-slate-600">{trackName ?? '—'}</td>
       <td className="px-4 py-3">
-        <CampaignStatusBadge status={campaign.status} />
+        <CampaignStatusBadge label={statusName} status={campaign.status} />
       </td>
       <td className="px-4 py-3 text-slate-500">{campaign.id}</td>
       <td className="px-4 py-3">
@@ -222,25 +260,6 @@ function CampaignRow({ campaign }: { campaign: Campaign }) {
         </Link>
       </td>
     </tr>
-  )
-}
-
-function FilterField({
-  label,
-  value,
-  onChange,
-  placeholder,
-}: {
-  label: string
-  value: string
-  onChange: (value: string) => void
-  placeholder: string
-}) {
-  return (
-    <label className="space-y-1.5 text-xs font-medium text-slate-500">
-      <span>{label}</span>
-      <Input value={value} onChange={(event) => onChange(event.target.value)} placeholder={placeholder} />
-    </label>
   )
 }
 

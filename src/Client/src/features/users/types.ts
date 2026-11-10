@@ -1,3 +1,7 @@
+import type { LookupItem } from '@/features/lookups/types'
+
+export type { LookupItem } from '@/features/lookups/types'
+
 export interface UserListItem {
   id: number
   accountName: string
@@ -34,11 +38,6 @@ export interface UserFilters {
   isActive?: boolean
   roleId?: number
   departmentId?: number
-}
-
-export interface LookupItem {
-  id: number
-  name: string
 }
 
 export interface UserLookups {

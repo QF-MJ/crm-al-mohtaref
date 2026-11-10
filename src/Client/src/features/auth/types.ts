@@ -1,11 +1,19 @@
-import type { SessionUser } from '@/stores/auth.store'
-
 export interface LoginRequest {
-  username: string
+  accountName: string
   password: string
+}
+
+export interface AuthPermission {
+  id: number
+  departmentName: string
+  roleName: string
 }
 
 export interface LoginResponse {
   token: string
-  user: SessionUser
+  refreshToken: string | null
+  expiresIn: number
+  userId: number
+  fullName: string
+  permissions: AuthPermission[]
 }

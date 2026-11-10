@@ -1,18 +1,19 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import type { ApiError } from '@/types/common'
+import { getApiErrorMessage } from '@/api/errors'
 import { useLogin } from '../api/auth.queries'
 import { loginSchema, type LoginForm } from '../schemas/login.schema'
 
 export function LoginPage() {
   const { t } = useTranslation('auth')
   const navigate = useNavigate()
+  const location = useLocation()
   const { mutate, isPending } = useLogin()
   const {
     register,
@@ -22,8 +23,11 @@ export function LoginPage() {
 
   const onSubmit = (values: LoginForm) =>
     mutate(values, {
-      onSuccess: () => navigate('/', { replace: true }),
-      onError: (error) => toast.error((error as unknown as ApiError).message),
+      onSuccess: () => {
+        const from = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname
+        navigate(from ?? '/', { replace: true })
+      },
+      onError: (error) => toast.error(getApiErrorMessage(error, t('loginError'))),
     })
 
   return (
@@ -34,10 +38,10 @@ export function LoginPage() {
       <h1 className="text-xl font-bold">{t('title')}</h1>
 
       <div className="space-y-2">
-        <Label htmlFor="username">{t('username')}</Label>
+        <Label htmlFor="accountName">{t('username')}</Label>
         {/* dir="auto": الاسم قد يكون عربياً أو إنجليزياً */}
-        <Input id="username" dir="auto" autoComplete="username" {...register('username')} />
-        {errors.username && <p className="text-sm text-destructive">{t('required')}</p>}
+        <Input id="accountName" dir="auto" autoComplete="username" {...register('accountName')} />
+        {errors.accountName && <p className="text-sm text-destructive">{t('required')}</p>}
       </div>
 
       <div className="space-y-2">

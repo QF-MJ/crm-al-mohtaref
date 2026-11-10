@@ -1,24 +1,17 @@
 import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, ArrowRight, Plus, Search } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { paths } from '@/app/router/paths'
+import { getApiErrorMessage } from '@/api/errors'
 import { usePermission } from '@/permissions/usePermission'
 import { useUserLookups, useUsers } from '../api/users.queries'
 import type { UserFilters, UserListItem } from '../types'
 
-function getErrorMessage(error: unknown, fallback: string) {
-  if (typeof error === 'object' && error !== null && 'message' in error) {
-    return String(error.message)
-  }
-  return fallback
-}
-
 export function UsersPage() {
   const { t } = useTranslation()
-  const can = usePermission()
   const [filters, setFilters] = useState<UserFilters>({ pageNumber: 1 })
   const [accountName, setAccountName] = useState('')
   const [name, setName] = useState('')
@@ -61,16 +54,6 @@ export function UsersPage() {
           <h1 className="text-2xl font-bold text-slate-800">{t('users.title')}</h1>
           <p className="mt-1 text-sm text-slate-500">{t('users.subtitle')}</p>
         </div>
-        {can('users.create') && (
-          <Link
-            to={paths.usersNew}
-            className="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-teal-700 px-4 text-sm font-medium text-white transition-colors hover:bg-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-            aria-label={t('users.add')}
-          >
-            <Plus aria-hidden="true" />
-            {t('users.add')}
-          </Link>
-        )}
       </header>
 
       <form
@@ -123,7 +106,7 @@ export function UsersPage() {
         </div>
         {lookupsQuery.isError && (
           <p className="mt-3 text-sm text-destructive" role="alert">
-            {getErrorMessage(lookupsQuery.error, t('users.unknownError'))}
+            {getApiErrorMessage(lookupsQuery.error, t('users.unknownError'))}
           </p>
         )}
         <div className="mt-4 flex justify-center gap-2">
@@ -160,7 +143,7 @@ export function UsersPage() {
         ) : usersQuery.isError ? (
           <div className="space-y-3 p-8 text-center" role="alert">
             <p className="text-sm text-destructive">
-              {getErrorMessage(usersQuery.error, t('users.unknownError'))}
+              {getApiErrorMessage(usersQuery.error, t('users.unknownError'))}
             </p>
             <Button
               type="button"
@@ -287,34 +270,38 @@ function UserRow({ user }: { user: UserListItem }) {
   return (
     <tr className="transition-colors hover:bg-teal-50/60">
       <td className="whitespace-nowrap px-4 py-3 font-medium text-slate-700" dir="auto">
-        {user.accountName}
+        <Link to={paths.user(String(user.id))} className="hover:text-primary hover:underline">
+          {user.accountName}
+        </Link>
       </td>
       <td className="whitespace-nowrap px-4 py-3 text-slate-700" dir="auto">
-        {user.fullName}
+        {user.fullName ?? '—'}
       </td>
       <td className="whitespace-nowrap px-4 py-3 text-slate-500" dir="ltr">
-        {user.email}
+        {user.email ?? '—'}
       </td>
       <td className="whitespace-nowrap px-4 py-3">
-        <span
-          className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium ${
-            user.isActive ? 'bg-teal-50 text-teal-800' : 'bg-slate-100 text-slate-500'
-          }`}
-        >
+        {user.isActive === undefined ? (
+          <span className="text-slate-400">—</span>
+        ) : (
           <span
-            className={`size-1.5 rounded-full ${user.isActive ? 'bg-teal-700' : 'bg-slate-400'}`}
-          />
-          {t(user.isActive ? 'users.active' : 'users.inactive')}
-        </span>
+            className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium ${
+              user.isActive ? 'bg-teal-50 text-teal-800' : 'bg-slate-100 text-slate-500'
+            }`}
+          >
+            <span
+              className={`size-1.5 rounded-full ${user.isActive ? 'bg-teal-700' : 'bg-slate-400'}`}
+            />
+            {t(user.isActive ? 'users.active' : 'users.inactive')}
+          </span>
+        )}
       </td>
       <td className="whitespace-nowrap px-4 py-3">
         {can('users.suspend') && (
-          <Link
-            to={paths.userEdit(String(user.id))}
-            className="inline-flex h-8 min-w-20 items-center justify-center rounded-md border bg-white px-3 text-sm font-medium transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-          >
-            {t('users.edit')}
-          </Link>
+          <div className="flex gap-2">
+            <Link to={paths.user(String(user.id))} className="inline-flex h-8 items-center rounded-md border bg-white px-3 text-sm font-medium hover:bg-accent">{t('users.view')}</Link>
+            <Link to={paths.userEdit(String(user.id))} className="inline-flex h-8 items-center rounded-md border bg-white px-3 text-sm font-medium hover:bg-accent">{t('users.edit')}</Link>
+          </div>
         )}
       </td>
     </tr>

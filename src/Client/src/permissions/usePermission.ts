@@ -3,6 +3,6 @@ import { can } from './can'
 import type { Permission } from './permissions'
 
 export function usePermission() {
-  const role = useAuthStore((s) => s.user?.role)
-  return (permission: Permission) => can(role, permission)
+  const roles = useAuthStore((s) => s.user?.roles)
+  return (permission: Permission) => can(roles, permission)
 }

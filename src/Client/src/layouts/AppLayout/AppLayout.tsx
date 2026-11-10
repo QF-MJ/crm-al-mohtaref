@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { usePermission } from '@/permissions/usePermission'
 import { useAuthStore } from '@/stores/auth.store'
+import { useLogout } from '@/features/auth/api/auth.queries'
 import { AppHeader } from './AppHeader'
 import { navItems } from './nav'
 
@@ -10,7 +11,9 @@ export function AppLayout() {
   const { t } = useTranslation()
   const can = usePermission()
   const user = useAuthStore((s) => s.user)
-  const logout = useAuthStore((s) => s.logout)
+  const logout = useLogout()
+
+  const handleLogout = () => logout.mutate()
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -37,7 +40,13 @@ export function AppLayout() {
           </nav>
           <div className="border-t pt-4">
             <p className="mb-2 text-sm text-muted-foreground">{user?.name}</p>
-            <Button variant="outline" size="sm" className="w-full" onClick={logout}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full"
+              onClick={handleLogout}
+              disabled={logout.isPending}
+            >
               {t('actions.logout')}
             </Button>
           </div>

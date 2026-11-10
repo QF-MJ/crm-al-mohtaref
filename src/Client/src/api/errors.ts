@@ -1,18 +1,30 @@
 import axios from 'axios'
 import type { ApiError } from '@/types/common'
 
-// حوّل أي خطأ لشكل واحد. عدّل الحقول حسب شكل أخطاء الباك
-// (ASP.NET Core ProblemDetails يرسل title و errors)
 export function toApiError(error: unknown): ApiError {
   if (axios.isAxiosError(error)) {
-    const data = error.response?.data as
-      | { message?: string; title?: string; errors?: Record<string, string[]> }
-      | undefined
+    const data = error.response?.data as { status?: number; message?: string } | undefined
     return {
-      status: error.response?.status ?? 0,
-      message: data?.message ?? data?.title ?? error.message,
-      fieldErrors: data?.errors,
+      status: error.response?.status ?? data?.status ?? 0,
+      message: data?.message ?? error.message,
     }
   }
+  if (isApiError(error)) return error
   return { status: 0, message: error instanceof Error ? error.message : 'Unknown error' }
+}
+
+export function getApiErrorMessage(error: unknown, fallback: string) {
+  const parsed = toApiError(error)
+  return parsed.status === 0 || parsed.message === 'Unknown error' ? fallback : parsed.message
+}
+
+function isApiError(error: unknown): error is ApiError {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'status' in error &&
+    typeof error.status === 'number' &&
+    'message' in error &&
+    typeof error.message === 'string'
+  )
 }

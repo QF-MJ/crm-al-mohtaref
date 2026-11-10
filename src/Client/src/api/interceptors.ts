@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { api } from './client'
 import { toApiError } from './errors'
 import { useAuthStore } from '@/stores/auth.store'
@@ -19,8 +20,13 @@ export function setupInterceptors() {
     (response) => response,
     (error: unknown) => {
       const apiError = toApiError(error)
-      if (apiError.status === 401) useAuthStore.getState().logout()
-      // نرفض دائماً بـ ApiError، فكل الواجهة تتعامل مع شكل واحد
+      const isLoginRequest =
+        axios.isAxiosError(error) && /\/auth\/login(?:\?|$)/.test(error.config?.url ?? '')
+
+      if (apiError.status === 401 && !isLoginRequest) {
+        useAuthStore.getState().logout()
+      }
+
       return Promise.reject(apiError)
     },
   )

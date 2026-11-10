@@ -1,27 +1,42 @@
 import type { AppRoute } from '@/types/router'
-import { PagePlaceholder } from '@/components/common/PagePlaceholder'
-import { CampaignsPage } from './pages/CampaignsPage'
-import { CampaignFormPage } from './pages/CampaignFormPage'
+import { ApiUnavailablePage } from '@/components/common/ApiUnavailablePage'
+import { CampaignCreateUnavailablePage } from './pages/CampaignFormPage'
+import { useTranslation } from 'react-i18next'
+
+function CampaignsUnavailablePage() {
+  const { t } = useTranslation()
+  return <ApiUnavailablePage title={t('campaigns.title')} description={t('apiUnavailable.note')} />
+}
+
+function CampaignReportsUnavailablePage() {
+  const { t } = useTranslation()
+  return (
+    <ApiUnavailablePage
+      title={t('campaigns.reportsTitle')}
+      description={t('campaigns.reportsUnavailable')}
+    />
+  )
+}
 
 export const campaignsRoutes: AppRoute[] = [
   {
     path: 'campaigns',
-    element: <CampaignsPage />,
+    element: <CampaignsUnavailablePage />,
     handle: { permission: 'campaigns.updateStatus' },
   },
   {
     path: 'campaigns/new',
-    element: <CampaignFormPage />,
+    element: <CampaignCreateUnavailablePage />,
     handle: { permission: 'campaigns.create' },
   },
   {
     path: 'campaigns/:campaignId/edit',
-    element: <CampaignFormPage />,
+    element: <CampaignsUnavailablePage />,
     handle: { permission: 'campaigns.updateStatus' },
   },
   {
     path: 'campaigns/reports',
-    element: <PagePlaceholder name="CampaignReports" fr="FR-15 to FR-17" />,
+    element: <CampaignReportsUnavailablePage />,
     handle: { permission: 'campaigns.reports' },
   },
 ]

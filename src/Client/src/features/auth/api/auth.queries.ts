@@ -6,6 +6,14 @@ export function useLogin() {
   const login = useAuthStore((s) => s.login)
   return useMutation({
     mutationFn: loginRequest,
-    onSuccess: (data) => login(data.user, data.token),
+    onSuccess: login,
+  })
+}
+
+export function useLogout() {
+  const clearSession = useAuthStore((state) => state.logout)
+
+  return useMutation({
+    mutationFn: async () => clearSession(),
   })
 }
