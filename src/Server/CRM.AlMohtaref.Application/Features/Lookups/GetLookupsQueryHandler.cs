@@ -1,28 +1,29 @@
-﻿using CRM.AlMohtaref.Application.Interfaces;
+﻿using CRM.AlMohtaref.Application.Features.Lookups.Dtos;
+using CRM.AlMohtaref.Application.Interfaces;
 using MediatR;
 
-namespace CRM.AlMohtaref.Application.Features.Lookups
+namespace CRM.AlMohtaref.Application.Features.Lookups;
+
+public class GetLookupsQueryHandler(ILookupRepository lookup) : IRequestHandler<GetLookupsQuery, LookupsDto>
 {
-    public class GetLookupsQueryHandler : IRequestHandler<GetLookupsQuery, LookupsDto>
+    public async Task<LookupsDto> Handle(GetLookupsQuery request, CancellationToken cancellationToken)
     {
-        public readonly ILookupRepository _lookup;
+        LookupsDto lookupsDto = new();
 
-        public GetLookupsQueryHandler(ILookupRepository lookup)
-        {
-            _lookup = lookup;
-        }
+        var includes = request.Include.ToHashSet();
 
-        public async Task<LookupsDto> Handle(GetLookupsQuery request, CancellationToken cancellationToken)
-        {
-            LookupsDto lookupsDto = new LookupsDto();
+        if (includes.Contains(LookupType.Departments))
+            lookupsDto.Departments = await lookup.GetDepartmentsAsync(cancellationToken);
 
-            if (request.Include.Contains("Departments", StringComparer.OrdinalIgnoreCase))
-                lookupsDto.Departments = await _lookup.GetDepartmentsAsync(cancellationToken);
+        if (includes.Contains(LookupType.Roles))
+            lookupsDto.Roles = await lookup.GetRolesAsync(cancellationToken);
 
-            if (request.Include.Contains("Roles", StringComparer.OrdinalIgnoreCase))
-                lookupsDto.Roles = await _lookup.GetRolesAsync(cancellationToken);
+        if (includes.Contains(LookupType.Tracks))
+            lookupsDto.Tracks = await lookup.GetTracksAsync(cancellationToken);
 
-            return lookupsDto;
-        }
+        if (includes.Contains(LookupType.LeadStatuses))
+            lookupsDto.LeadStatuses = await lookup.GetLeadStatusesAsync(cancellationToken);
+
+        return lookupsDto;
     }
 }

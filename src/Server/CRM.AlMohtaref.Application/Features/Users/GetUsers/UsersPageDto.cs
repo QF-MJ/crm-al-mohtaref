@@ -6,5 +6,5 @@ public sealed class UsersPageDto
 {
     public List<UserListItemDto> Items { get; set; } = new();
 
-    public PageDto Page { get; set; } = new();
+    public PageDto Page { get; set; }
 }

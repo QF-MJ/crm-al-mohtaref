@@ -1,7 +1,8 @@
 ﻿namespace CRM.AlMohtaref.Application.Common.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class AuthorizeAttribute : Attribute
+public sealed class AuthorizePermisionsAttribute : Attribute
 {
-    public string? Roles { get; init; }
+    public string? Role { get; init; }
+    public string? Department { get; init; }
 }

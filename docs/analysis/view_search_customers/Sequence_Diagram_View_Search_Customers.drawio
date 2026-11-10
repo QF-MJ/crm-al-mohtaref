@@ -1,0 +1,263 @@
+<mxfile host="Electron">
+  <diagram name="View Search Customers - Sequence" id="seq_view_search_customers">
+    <mxGraphModel dx="1652" dy="1093" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1240" pageHeight="2020" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Ir6-_w4rWpqDyl2Kskmj-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="1810" width="1170" x="40" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="c61" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;" value="مخطط التسلسل: عرض العملاء والبحث عنهم (View &amp; Search Customers)" vertex="1">
+          <mxGeometry height="36" width="1100" x="60" y="15" as="geometry" />
+        </mxCell>
+        <mxCell id="c57" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=56;fontSize=13;fontStyle=1;strokeWidth=1.5;" value="المستخدم المخوّل&lt;br&gt;(الفاعل)" vertex="1">
+          <mxGeometry height="1890" width="140" x="100" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="c58" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=56;fontSize=13;fontStyle=1;strokeWidth=1.5;" value="واجهة المستخدم&lt;br&gt;(UI)" vertex="1">
+          <mxGeometry height="1890" width="140" x="400" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="c59" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=56;fontSize=13;fontStyle=1;strokeWidth=1.5;" value="النظام&lt;br&gt;(System)" vertex="1">
+          <mxGeometry height="1890" width="140" x="700" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="c60" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=56;fontSize=13;fontStyle=1;strokeWidth=1.5;" value="قاعدة البيانات&lt;br&gt;(Database)" vertex="1">
+          <mxGeometry height="1890" width="140" x="1000" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="c1" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontSize=12;fontColor=#666666;" value="الفاعلون: موظف المبيعات، مدير المبيعات، مدير النظام (بحسب الصلاحيات)" vertex="1">
+          <mxGeometry height="20" width="1100" x="60" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="1. يختار «العملاء» من القائمة الرئيسية">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="170" y="194" as="sourcePoint" />
+            <mxPoint x="470" y="194" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c3" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="2. طلب قائمة العملاء">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="246" as="sourcePoint" />
+            <mxPoint x="770" y="246" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c4" edge="1" parent="1" style="html=1;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="820" y="276" />
+              <mxPoint x="820" y="314" />
+            </Array>
+            <mxPoint x="770" y="276" as="sourcePoint" />
+            <mxPoint x="770" y="314" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c5" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=12;" value="3. التحقق من تسجيل الدخول وصلاحية عرض العملاء" vertex="1">
+          <mxGeometry height="40" width="215" x="828" y="275" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=60;height=24;fontSize=12;fontStyle=1;fillColor=none;strokeColor=#666666;swimlaneFillColor=none;" value="break" vertex="1">
+          <mxGeometry height="134" width="780" x="60" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="c7" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a1a1a;" value="[&amp;nbsp; انتهاء الجلسة ]" vertex="1">
+          <mxGeometry height="24" width="700" x="126" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="4. الجلسة منتهية">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="770" y="394" as="sourcePoint" />
+            <mxPoint x="470" y="394" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c9" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="5. طلب تسجيل الدخول مجددًا">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="446" as="sourcePoint" />
+            <mxPoint x="170" y="446" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c10" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="6. جلب العملاء حسب الصلاحيات (الأحدث أولًا)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="770" y="512" as="sourcePoint" />
+            <mxPoint x="1070" y="512" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c11" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="7. نتيجة الاستعلام">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1070" y="564" as="sourcePoint" />
+            <mxPoint x="770" y="564" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c12" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=60;height=24;fontSize=12;fontStyle=1;fillColor=none;strokeColor=#666666;swimlaneFillColor=none;" value="alt" vertex="1">
+          <mxGeometry height="446" width="1100" x="60" y="582" as="geometry" />
+        </mxCell>
+        <mxCell id="c13" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a1a1a;" value="[&amp;nbsp; تعذّر تحميل البيانات ]" vertex="1">
+          <mxGeometry height="24" width="1020" x="126" y="582" as="geometry" />
+        </mxCell>
+        <mxCell id="c14" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="8. خطأ في تحميل البيانات">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="770" y="646" as="sourcePoint" />
+            <mxPoint x="470" y="646" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c15" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="9. رسالة خطأ مع «إعادة المحاولة»">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="698" as="sourcePoint" />
+            <mxPoint x="170" y="698" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c16" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#666666;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="716" as="sourcePoint" />
+            <mxPoint x="1160" y="716" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c17" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a1a1a;" value="[ تم تحميل البيانات ]" vertex="1">
+          <mxGeometry height="24" width="1080" x="68" y="718" as="geometry" />
+        </mxCell>
+        <mxCell id="c18" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=60;height=24;fontSize=12;fontStyle=1;fillColor=none;strokeColor=#666666;swimlaneFillColor=none;" value="alt" vertex="1">
+          <mxGeometry height="268" width="1072" x="74" y="746" as="geometry" />
+        </mxCell>
+        <mxCell id="c19" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a1a1a;" value="[&amp;nbsp; لا يوجد عملاء مسجلون ]" vertex="1">
+          <mxGeometry height="24" width="992" x="140" y="746" as="geometry" />
+        </mxCell>
+        <mxCell id="c20" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="10. قائمة فارغة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="770" y="810" as="sourcePoint" />
+            <mxPoint x="470" y="810" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c21" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="11. رسالة: قائمة العملاء فارغة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="862" as="sourcePoint" />
+            <mxPoint x="170" y="862" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c22" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#666666;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="74" y="880" as="sourcePoint" />
+            <mxPoint x="1146" y="880" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c23" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a1a1a;" value="[ توجد نتائج ]" vertex="1">
+          <mxGeometry height="24" width="1052" x="82" y="882" as="geometry" />
+        </mxCell>
+        <mxCell id="c24" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="12. قائمة العملاء (الصفحة 1)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="770" y="944" as="sourcePoint" />
+            <mxPoint x="470" y="944" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c25" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="13. عرض الاسم والهاتف والحالة والمصدر والمسؤول">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="996" as="sourcePoint" />
+            <mxPoint x="170" y="996" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c26" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=60;height=24;fontSize=12;fontStyle=1;fillColor=none;strokeColor=#666666;swimlaneFillColor=none;" value="loop" vertex="1">
+          <mxGeometry height="698" width="1100" x="60" y="1042" as="geometry" />
+        </mxCell>
+        <mxCell id="c27" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a1a1a;" value="[ طالما يبحث المستخدم أو يصفّي أو ينتقل بين الصفحات ]" vertex="1">
+          <mxGeometry height="24" width="1020" x="126" y="1042" as="geometry" />
+        </mxCell>
+        <mxCell id="c28" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="14. يدخل نص البحث و/أو يحدد المرشحات">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="170" y="1106" as="sourcePoint" />
+            <mxPoint x="470" y="1106" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c30" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="15. طلب النتائج (البحث + المرشحات + الصفحة)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="1158" as="sourcePoint" />
+            <mxPoint x="770" y="1158" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c31" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="16. استعلام بالمعايير حسب الصلاحيات">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="770" y="1210" as="sourcePoint" />
+            <mxPoint x="1070" y="1210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c32" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="17. النتائج المطابقة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1070" y="1262" as="sourcePoint" />
+            <mxPoint x="770" y="1262" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c33" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=60;height=24;fontSize=12;fontStyle=1;fillColor=none;strokeColor=#666666;swimlaneFillColor=none;" value="alt" vertex="1">
+          <mxGeometry height="446" width="1072" x="74" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="c34" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a1a1a;" value="[&amp;nbsp; تعذّر تحميل البيانات ]" vertex="1">
+          <mxGeometry height="24" width="992" x="140" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="c35" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="18. خطأ في تحميل البيانات">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="770" y="1344" as="sourcePoint" />
+            <mxPoint x="470" y="1344" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c36" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="19. رسالة خطأ مع «إعادة المحاولة»">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="1396" as="sourcePoint" />
+            <mxPoint x="170" y="1396" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c37" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#666666;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="74" y="1414" as="sourcePoint" />
+            <mxPoint x="1146" y="1414" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c38" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a1a1a;" value="[ تم تحميل البيانات ]" vertex="1">
+          <mxGeometry height="24" width="1052" x="82" y="1416" as="geometry" />
+        </mxCell>
+        <mxCell id="c39" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=60;height=24;fontSize=12;fontStyle=1;fillColor=none;strokeColor=#666666;swimlaneFillColor=none;" value="alt" vertex="1">
+          <mxGeometry height="268" width="1044" x="88" y="1444" as="geometry" />
+        </mxCell>
+        <mxCell id="c40" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a1a1a;" value="[ لا توجد نتائج مطابقة ]" vertex="1">
+          <mxGeometry height="24" width="964" x="154" y="1444" as="geometry" />
+        </mxCell>
+        <mxCell id="c41" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="20. لا توجد نتائج">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="770" y="1508" as="sourcePoint" />
+            <mxPoint x="470" y="1508" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c42" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="21. رسالة: لا نتائج، مع تعديل المعايير أو مسحها">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="1560" as="sourcePoint" />
+            <mxPoint x="170" y="1560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c43" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#666666;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="88" y="1578" as="sourcePoint" />
+            <mxPoint x="1132" y="1578" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c44" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a1a1a;" value="[ توجد نتائج ]" vertex="1">
+          <mxGeometry height="24" width="1024" x="96" y="1580" as="geometry" />
+        </mxCell>
+        <mxCell id="c45" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="22. النتائج المطابقة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="770" y="1642" as="sourcePoint" />
+            <mxPoint x="470" y="1642" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c46" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="23. عرض النتائج المحدّثة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="1694" as="sourcePoint" />
+            <mxPoint x="170" y="1694" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c47" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="24. يراجع النتائج ويختار العميل المطلوب">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="170" y="1788" as="sourcePoint" />
+            <mxPoint x="470" y="1788" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c48" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=60;height=24;fontSize=12;fontStyle=1;fillColor=none;strokeColor=#666666;swimlaneFillColor=none;" value="ref" vertex="1">
+          <mxGeometry height="84" width="700" x="100" y="1812" as="geometry" />
+        </mxCell>
+        <mxCell id="c49" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontSize=13;fontStyle=1;" value="فتح الملف الموحد للعميل" vertex="1">
+          <mxGeometry height="24" width="620" x="140" y="1842" as="geometry" />
+        </mxCell>
+        <mxCell id="c50" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontSize=11;fontColor=#555555;" value="(حالة استخدام مرتبطة، لا تُعدَّل فيها بيانات العميل)" vertex="1">
+          <mxGeometry height="22" width="620" x="140" y="1866" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

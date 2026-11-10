@@ -25,6 +25,13 @@ public class UserPermission
         Role = null!;
     }
 
+    public UserPermission(string department , string role)
+    {
+        Department = new Department(department);
+        Role = new Role(role);
+    }
+
+
     public UserPermission(int userId, int departmentId, int roleId)
     {
         UserId = userId;
