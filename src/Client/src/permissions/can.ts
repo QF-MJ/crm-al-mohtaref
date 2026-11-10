@@ -17,3 +17,8 @@ export function can(role: Role | undefined, permission: Permission): boolean {
   }
   return false
 }
+
+// المستخدم قد يملك أكثر من دور (قسم + دور لكل صف). يكفي أن يسمح به أحدها
+export function canAny(roles: readonly Role[], permission: Permission): boolean {
+  return roles.some((role) => can(role, permission))
+}

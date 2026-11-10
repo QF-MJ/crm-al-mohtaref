@@ -1,16 +1,23 @@
 import axios from 'axios'
 import type { ApiError } from '@/types/common'
 
-// حوّل أي خطأ لشكل واحد. عدّل الحقول حسب شكل أخطاء الباك
-// (ASP.NET Core ProblemDetails يرسل title و errors)
+// الباك يرجّع ErrorDto: { status, message } (camelCase بالرد الفعلي، والـ OpenAPI يكتبها بحرف كبير).
+// نقبل الشكلين + title/errors كاحتياط لأخطاء ProblemDetails التي قد يرسلها ASP.NET قبل الـ middleware.
+interface ErrorBody {
+  status?: number
+  message?: string
+  Status?: number
+  Message?: string
+  title?: string
+  errors?: Record<string, string[]>
+}
+
 export function toApiError(error: unknown): ApiError {
   if (axios.isAxiosError(error)) {
-    const data = error.response?.data as
-      | { message?: string; title?: string; errors?: Record<string, string[]> }
-      | undefined
+    const data = error.response?.data as ErrorBody | undefined
     return {
-      status: error.response?.status ?? 0,
-      message: data?.message ?? data?.title ?? error.message,
+      status: error.response?.status ?? data?.status ?? data?.Status ?? 0,
+      message: data?.message ?? data?.Message ?? data?.title ?? error.message,
       fieldErrors: data?.errors,
     }
   }
