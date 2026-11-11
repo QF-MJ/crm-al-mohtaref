@@ -1,8 +1,10 @@
 import { z } from 'zod'
 
+const lookupIdSchema = z.union([z.string().uuid(), z.number().int().positive()])
+
 const permissionSchema = z.object({
-  roleId: z.number().int().positive(),
-  departmentId: z.number().int().positive(),
+  roleId: lookupIdSchema,
+  departmentId: lookupIdSchema,
 })
 
 export const userSchema = z.object({

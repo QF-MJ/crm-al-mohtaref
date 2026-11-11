@@ -2,11 +2,16 @@ import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { toApiError } from '@/api/errors'
+import { Select, type SelectOption } from '@/components/ui/select'
+import { getApiErrorMessage, toApiError } from '@/api/errors'
 import { usePermission } from '@/permissions/usePermission'
+import { useLookups, type LookupType } from '@/features/lookups'
 import { InvalidContactsResponseError } from '../api/contacts.api'
 import { useContacts } from '../api/contacts.queries'
 import type { Contact, ContactFilters } from '../types'
+
+const contactLookupTypes: LookupType[] = ['Tracks', 'LeadStatuses']
+const guidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 function errorText(
   error: unknown,
@@ -20,18 +25,12 @@ function errorText(
   return apiError.message === 'Unknown error' ? fallback : apiError.message
 }
 
-function parsePositiveInteger(value: string): number | undefined | null {
+function parseTagIds(value: string): string[] | undefined | null {
   if (!value.trim()) return undefined
-  const parsed = Number(value)
-  return Number.isInteger(parsed) && parsed > 0 ? parsed : null
-}
-
-function parseTagIds(value: string): number[] | undefined | null {
-  if (!value.trim()) return undefined
-  const ids: number[] = []
+  const ids: string[] = []
   for (const part of value.split(',')) {
-    const id = parsePositiveInteger(part.trim())
-    if (id === null || id === undefined) return null
+    const id = part.trim()
+    if (!guidPattern.test(id)) return null
     ids.push(id)
   }
   return ids
@@ -75,6 +74,7 @@ export function ContactsPage() {
   const canFilter = can('clients.filter')
   const [filters, setFilters] = useState<ContactFilters>({ pageNumber: 1 })
   const [filterError, setFilterError] = useState('')
+  const lookupsQuery = useLookups(contactLookupTypes)
   const [form, setForm] = useState({
     campaignTitle: '',
     trackId: '',
@@ -86,13 +86,25 @@ export function ContactsPage() {
   })
   const contactsQuery = useContacts(filters)
   const page = contactsQuery.data?.page
+  const trackOptions: SelectOption[] = [
+    { value: '', label: t('contacts.all') },
+    ...(lookupsQuery.data?.tracks ?? []).map((track) => ({
+      value: String(track.id),
+      label: track.name,
+    })),
+  ]
+  const leadStatusOptions: SelectOption[] = [
+    { value: '', label: t('contacts.all') },
+    ...(lookupsQuery.data?.leadStatuses ?? []).map((status) => ({
+      value: String(status.id),
+      label: status.name,
+    })),
+  ]
 
   const applyFilters = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const trackId = parsePositiveInteger(form.trackId)
-    const leadStatusId = parsePositiveInteger(form.leadStatusId)
     const tagIds = parseTagIds(form.tagIds)
-    if (trackId === null || leadStatusId === null || tagIds === null) {
+    if (tagIds === null) {
       setFilterError(t('contacts.invalidFilter'))
       return
     }
@@ -101,8 +113,8 @@ export function ContactsPage() {
     setFilters({
       pageNumber: 1,
       campaignTitle: form.campaignTitle.trim() || undefined,
-      trackId,
-      leadStatusId,
+      trackId: form.trackId || undefined,
+      leadStatusId: form.leadStatusId || undefined,
       tagIds,
       studentName: form.studentName.trim() || undefined,
       contactName: form.contactName.trim() || undefined,
@@ -158,24 +170,44 @@ export function ContactsPage() {
               value={form.campaignTitle}
               onChange={(campaignTitle) => setForm((current) => ({ ...current, campaignTitle }))}
             />
-            <NumberFilter
+            <LookupFilter
               label={t('contacts.trackId')}
               value={form.trackId}
+              options={trackOptions}
+              disabled={lookupsQuery.isLoading || lookupsQuery.isError}
               onChange={(trackId) => setForm((current) => ({ ...current, trackId }))}
             />
-            <NumberFilter
+            <LookupFilter
               label={t('contacts.leadStatusId')}
               value={form.leadStatusId}
+              options={leadStatusOptions}
+              disabled={lookupsQuery.isLoading || lookupsQuery.isError}
               onChange={(leadStatusId) => setForm((current) => ({ ...current, leadStatusId }))}
             />
             <TextFilter
               label={t('contacts.tagIds')}
               value={form.tagIds}
-              placeholder="1, 2"
+              placeholder={t('contacts.tagIdsPlaceholder')}
               onChange={(tagIds) => setForm((current) => ({ ...current, tagIds }))}
             />
           </div>
-          <p className="text-xs leading-5 text-amber-700">{t('contacts.lookupsUnverified')}</p>
+          {lookupsQuery.isError && (
+            <div className="flex flex-wrap items-center justify-between gap-3" role="alert">
+              <p className="text-sm text-destructive">
+                {getApiErrorMessage(lookupsQuery.error, t('contacts.lookupError'))}
+              </p>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => void lookupsQuery.refetch()}
+                disabled={lookupsQuery.isFetching}
+              >
+                {t('contacts.retry')}
+              </Button>
+            </div>
+          )}
+          <p className="text-xs leading-5 text-amber-700">{t('contacts.tagLookupUnavailable')}</p>
           {filterError && (
             <p className="text-sm text-destructive" role="alert">
               {filterError}
@@ -335,25 +367,23 @@ function TextFilter({
   )
 }
 
-function NumberFilter({
+function LookupFilter({
   label,
   value,
+  options,
+  disabled,
   onChange,
 }: {
   label: string
   value: string
+  options: SelectOption[]
+  disabled: boolean
   onChange: (value: string) => void
 }) {
   return (
     <label className="space-y-1.5 text-xs font-medium text-slate-500">
       <span>{label}</span>
-      <Input
-        type="number"
-        min={1}
-        step={1}
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-      />
+      <Select value={value} onValueChange={onChange} options={options} disabled={disabled} />
     </label>
   )
 }

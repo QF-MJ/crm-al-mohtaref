@@ -10,8 +10,7 @@ import type { UserPermission } from '../types'
 export function UserDetailPage() {
   const { t } = useTranslation()
   const { userId: userIdParam } = useParams()
-  const userId =
-    userIdParam && /^\d+$/.test(userIdParam) ? Number(userIdParam) : undefined
+  const userId = userIdParam || undefined
   const userQuery = useUser(userId)
   const can = usePermission()
 
@@ -75,7 +74,6 @@ export function UserDetailPage() {
       <section className="space-y-4 rounded-xl border bg-white p-5 sm:p-6">
         <h2 className="font-semibold">{t('users.accountDetails')}</h2>
         <dl className="grid gap-4 sm:grid-cols-2">
-          <DetailItem label={t('users.id')} value={String(user.id)} />
           <DetailItem label={t('users.username')} value={user.accountName} />
           <DetailItem label={t('users.name')} value={user.fullName ?? '—'} />
           <DetailItem label={t('users.email')} value={user.email ?? '—'} />

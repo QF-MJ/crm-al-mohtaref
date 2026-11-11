@@ -36,10 +36,10 @@ export function UserFormPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { userId: userIdParam } = useParams()
-  const userId = userIdParam && /^\d+$/.test(userIdParam) ? Number(userIdParam) : undefined
+  const userId = userIdParam || undefined
   const userQuery = useUser(userId)
   const lookupsQuery = useUserLookups()
-  const updateMutation = useUpdateUser(userId ?? 0)
+  const updateMutation = useUpdateUser(userId ?? '')
   const defaultValues = useMemo(() => {
     if (!userQuery.data || !lookupsQuery.data) return undefined
     return getDefaultValues(userQuery.data, lookupsQuery.data)

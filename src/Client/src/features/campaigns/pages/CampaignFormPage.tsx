@@ -6,6 +6,7 @@ import { ArrowRight, Plus, UploadCloud } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Select } from '@/components/ui/select'
 import { ApiUnavailablePage } from '@/components/common/ApiUnavailablePage'
 import { getApiErrorMessage } from '@/api/errors'
 import { paths } from '@/app/router/paths'
@@ -394,19 +395,43 @@ function QuestionConfigurator({ question, campaignId, fields, tags, types }: { q
       <label className="block space-y-1 text-xs text-slate-500"><span>{t('campaigns.questionText')}</span><Input value={text} onChange={(event) => setText(event.target.value)} /></label>
       <label className="block space-y-1 text-xs text-slate-500">
         <span>{t('campaigns.questionType')}</span>
-        <select className="h-9 w-full rounded-md border bg-white px-3 text-sm" value={type} onChange={(event) => changeType(parseQuestionType(event.target.value))}>
-          <option value="">{t('campaigns.selectQuestionType')}</option>
-          {[1, 2, 3].map((id) => <option key={id} value={id}>{types.find((item) => item.id === id)?.name ?? t(`campaigns.questionTypes.${id}`)}</option>)}
-        </select>
+        <Select
+          value={String(type)}
+          onValueChange={(value) => changeType(parseQuestionType(value))}
+          options={[
+            { value: '', label: t('campaigns.selectQuestionType') },
+            ...[1, 2, 3].map((id) => ({
+              value: String(id),
+              label: types.find((item) => item.id === id)?.name ?? t(`campaigns.questionTypes.${id}`),
+            })),
+          ]}
+        />
       </label>
       {type === 1 ? (
-        <label className="block space-y-1 text-xs text-slate-500"><span>{t('campaigns.field')}</span><select className="h-9 w-full rounded-md border bg-white px-3 text-sm" value={fieldId} onChange={(event) => setFieldId(event.target.value)}><option value="">{t('campaigns.selectField')}</option>{fields.map((field) => <option key={field.id} value={field.id}>{field.name}</option>)}</select></label>
+        <label className="block space-y-1 text-xs text-slate-500">
+          <span>{t('campaigns.field')}</span>
+          <Select
+            value={fieldId}
+            onValueChange={setFieldId}
+            options={[
+              { value: '', label: t('campaigns.selectField') },
+              ...fields.map((field) => ({ value: String(field.id), label: field.name })),
+            ]}
+          />
+        </label>
       ) : type ? (
         <div className="space-y-2">
           {(type === 2 ? answers.slice(0, 1) : answers).map((answer, index) => (
             <div key={index} className="grid gap-2 sm:grid-cols-[1fr_1fr_auto]">
               <Input value={answer.answer} placeholder={t('campaigns.answer')} onChange={(event) => updateAnswer(index, 'answer', event.target.value)} />
-              <select className="h-9 rounded-md border bg-white px-3 text-sm" value={answer.tagId} onChange={(event) => updateAnswer(index, 'tagId', event.target.value)}><option value="">{t('campaigns.selectTag')}</option>{tags.map((tag) => <option key={tag.id} value={tag.id}>{tag.tag}</option>)}</select>
+              <Select
+                value={answer.tagId}
+                onValueChange={(value) => updateAnswer(index, 'tagId', value)}
+                options={[
+                  { value: '', label: t('campaigns.selectTag') },
+                  ...tags.map((tag) => ({ value: String(tag.id), label: tag.tag })),
+                ]}
+              />
               {type === 3 && <Button type="button" variant="outline" size="sm" onClick={() => setAnswers((current) => current.filter((_, answerIndex) => answerIndex !== index))}>{t('users.removePermission')}</Button>}
             </div>
           ))}
@@ -427,7 +452,19 @@ function parseQuestionType(value: string): QuestionType | '' {
   return ''
 }
 
-function LookupSelect({ label, value, onChange, options, emptyLabel, fallback }: { label: string; value: string; onChange: (value: string) => void; options: Array<{ id: number; name: string }>; emptyLabel: string; fallback?: { id: number; name: string } }) {
+function LookupSelect({ label, value, onChange, options, emptyLabel, fallback }: { label: string; value: string; onChange: (value: string) => void; options: Array<{ id: string | number; name: string }>; emptyLabel: string; fallback?: { id: string | number; name: string } }) {
   const values = fallback && !options.some((item) => item.id === fallback.id) ? [...options, fallback] : options
-  return <label className="space-y-2 text-sm font-medium"><span>{label}</span><select className="h-9 w-full rounded-md border border-input bg-white px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/50" value={value} onChange={(event) => onChange(event.target.value)}><option value="">{emptyLabel}</option>{values.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
+  return (
+    <label className="space-y-2 text-sm font-medium">
+      <span>{label}</span>
+      <Select
+        value={value}
+        onValueChange={onChange}
+        options={[
+          { value: '', label: emptyLabel },
+          ...values.map((item) => ({ value: String(item.id), label: item.name })),
+        ]}
+      />
+    </label>
+  )
 }

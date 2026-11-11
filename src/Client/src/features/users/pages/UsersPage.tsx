@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ArrowLeft, ArrowRight, Plus, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Select, type SelectOption } from '@/components/ui/select'
 import { paths } from '@/app/router/paths'
 import { getApiErrorMessage } from '@/api/errors'
 import { usePermission } from '@/permissions/usePermission'
@@ -23,6 +24,10 @@ export function UsersPage() {
   const usersQuery = useUsers(filters)
   const lookupsQuery = useUserLookups()
   const page = usersQuery.data?.page
+  const selectedRoleId = lookupsQuery.data?.roles.find((role) => String(role.id) === roleId)?.id
+  const selectedDepartmentId = lookupsQuery.data?.departments.find(
+    (department) => String(department.id) === departmentId,
+  )?.id
 
   const applyFilters = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -32,8 +37,8 @@ export function UsersPage() {
       name: name.trim() || undefined,
       email: email.trim() || undefined,
       isActive: status === '' ? undefined : status === 'true',
-      roleId: roleId ? Number(roleId) : undefined,
-      departmentId: departmentId ? Number(departmentId) : undefined,
+      roleId: roleId ? (selectedRoleId ?? roleId) : undefined,
+      departmentId: departmentId ? (selectedDepartmentId ?? departmentId) : undefined,
     })
   }
 
@@ -182,15 +187,24 @@ export function UsersPage() {
         ) : (
           <>
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[760px] text-start text-sm">
+              <table className="w-full min-w-[680px] text-start text-sm">
                 <thead className="bg-slate-50 text-xs font-medium text-slate-500">
                   <tr>
-                    <th scope="col" className="px-4 py-3">{t('users.id')}</th>
-                    <th scope="col" className="px-4 py-3">{t('users.username')}</th>
-                    <th scope="col" className="px-4 py-3">{t('users.name')}</th>
-                    <th scope="col" className="px-4 py-3">{t('users.email')}</th>
-                    <th scope="col" className="px-4 py-3">{t('users.status')}</th>
-                    <th scope="col" className="px-4 py-3">{t('users.actions')}</th>
+                    <th scope="col" className="px-4 py-3">
+                      {t('users.username')}
+                    </th>
+                    <th scope="col" className="px-4 py-3">
+                      {t('users.name')}
+                    </th>
+                    <th scope="col" className="px-4 py-3">
+                      {t('users.email')}
+                    </th>
+                    <th scope="col" className="px-4 py-3">
+                      {t('users.status')}
+                    </th>
+                    <th scope="col" className="px-4 py-3">
+                      {t('users.actions')}
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -271,22 +285,12 @@ function SelectField({
   label: string
   value: string
   onChange: (value: string) => void
-  options: { value: string; label: string }[]
+  options: SelectOption[]
 }) {
   return (
     <label className="space-y-1.5 text-xs font-medium text-slate-500">
       <span>{label}</span>
-      <select
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className="h-9 w-full rounded-md border border-input bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-      >
-        {options.map((option) => (
-          <option key={option.value || option.label} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+      <Select value={value} onValueChange={onChange} options={options} />
     </label>
   )
 }
@@ -296,7 +300,6 @@ function UserRow({ user }: { user: UserListItem }) {
   const can = usePermission()
   return (
     <tr className="transition-colors hover:bg-teal-50/60">
-      <td className="whitespace-nowrap px-4 py-3 text-slate-500">{user.id}</td>
       <td className="whitespace-nowrap px-4 py-3 font-medium text-slate-700" dir="auto">
         <Link to={paths.user(String(user.id))} className="hover:text-primary hover:underline">
           {user.accountName}
@@ -327,8 +330,18 @@ function UserRow({ user }: { user: UserListItem }) {
       <td className="whitespace-nowrap px-4 py-3">
         {can('users.suspend') && (
           <div className="flex gap-2">
-            <Link to={paths.user(String(user.id))} className="inline-flex h-8 items-center rounded-md border bg-white px-3 text-sm font-medium hover:bg-accent">{t('users.view')}</Link>
-            <Link to={paths.userEdit(String(user.id))} className="inline-flex h-8 items-center rounded-md border bg-white px-3 text-sm font-medium hover:bg-accent">{t('users.edit')}</Link>
+            <Link
+              to={paths.user(String(user.id))}
+              className="inline-flex h-8 items-center rounded-md border bg-white px-3 text-sm font-medium hover:bg-accent"
+            >
+              {t('users.view')}
+            </Link>
+            <Link
+              to={paths.userEdit(String(user.id))}
+              className="inline-flex h-8 items-center rounded-md border bg-white px-3 text-sm font-medium hover:bg-accent"
+            >
+              {t('users.edit')}
+            </Link>
           </div>
         )}
       </td>

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Select } from '@/components/ui/select'
 import { paths } from '@/app/router/paths'
 import type { LookupItem } from '../types'
 import { createUserSchema, userSchema, type UserFormValues } from '../schemas/user.schema'
@@ -111,18 +112,17 @@ export function UserForm({
                 name="isActive"
                 control={control}
                 render={({ field }) => (
-                  <select
+                  <Select
                     id="isActive"
-                    name={field.name}
                     ref={field.ref}
                     onBlur={field.onBlur}
                     value={String(field.value)}
-                    onChange={(event) => field.onChange(event.target.value === 'true')}
-                    className="h-9 w-full rounded-md border border-input bg-white px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-                  >
-                    <option value="true">{t('users.active')}</option>
-                    <option value="false">{t('users.inactive')}</option>
-                  </select>
+                    onValueChange={(value) => field.onChange(value === 'true')}
+                    options={[
+                      { value: 'true', label: t('users.active') },
+                      { value: 'false', label: t('users.inactive') },
+                    ]}
+                  />
                 )}
               />
             </div>
@@ -155,29 +155,48 @@ export function UserForm({
           <div key={field.id} className="grid gap-3 sm:grid-cols-[1fr_1fr_auto]">
             <label className="space-y-1.5 text-xs font-medium text-slate-500">
               <span>{t('users.role')}</span>
-              <select
-                className="h-9 w-full rounded-md border border-input bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-                {...register(`permissions.${index}.roleId`, { valueAsNumber: true })}
-              >
-                {roles.map((role) => (
-                  <option key={role.id} value={role.id}>
-                    {role.name}
-                  </option>
-                ))}
-              </select>
+              <Controller
+                name={`permissions.${index}.roleId`}
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    ref={field.ref}
+                    onBlur={field.onBlur}
+                    value={String(field.value)}
+                    onValueChange={(value) =>
+                      field.onChange(roles.find((role) => String(role.id) === value)?.id ?? value)
+                    }
+                    options={roles.map((role) => ({
+                      value: String(role.id),
+                      label: role.name,
+                    }))}
+                  />
+                )}
+              />
             </label>
             <label className="space-y-1.5 text-xs font-medium text-slate-500">
               <span>{t('users.department')}</span>
-              <select
-                className="h-9 w-full rounded-md border border-input bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-                {...register(`permissions.${index}.departmentId`, { valueAsNumber: true })}
-              >
-                {departments.map((department) => (
-                  <option key={department.id} value={department.id}>
-                    {department.name}
-                  </option>
-                ))}
-              </select>
+              <Controller
+                name={`permissions.${index}.departmentId`}
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    ref={field.ref}
+                    onBlur={field.onBlur}
+                    value={String(field.value)}
+                    onValueChange={(value) =>
+                      field.onChange(
+                        departments.find((department) => String(department.id) === value)?.id ??
+                          value,
+                      )
+                    }
+                    options={departments.map((department) => ({
+                      value: String(department.id),
+                      label: department.name,
+                    }))}
+                  />
+                )}
+              />
             </label>
             <Button
               type="button"

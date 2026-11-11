@@ -7,7 +7,11 @@ import type {
   UsersPage,
 } from '@/features/users/types'
 
-const departments: LookupItem[] = [
+interface MockLookupItem extends LookupItem {
+  id: number
+}
+
+const departments: MockLookupItem[] = [
   { id: 1, name: 'المبيعات' },
   { id: 2, name: 'التسويق' },
   { id: 3, name: 'خدمة العملاء' },
@@ -15,7 +19,7 @@ const departments: LookupItem[] = [
   { id: 5, name: 'الإدارة' },
 ]
 
-const roles: LookupItem[] = [
+const roles: MockLookupItem[] = [
   { id: 1, name: 'موظف' },
   { id: 2, name: 'مدير' },
 ]
@@ -151,14 +155,14 @@ export const usersHandlers = [
 
   http.get('*/api/users', ({ request }) => {
     const params = new URL(request.url).searchParams
-    const pageNumber = Math.max(1, Number(params.get('PageNumber')) || 1)
-    const name = params.get('Name')?.trim().toLocaleLowerCase()
-    const accountName = params.get('AccountName')?.trim().toLocaleLowerCase()
-    const email = params.get('Email')?.trim().toLocaleLowerCase()
-    const isActiveValue = params.get('IsActive')
+    const pageNumber = Math.max(1, Number(params.get('pageNumber')) || 1)
+    const name = params.get('name')?.trim().toLocaleLowerCase()
+    const accountName = params.get('accountName')?.trim().toLocaleLowerCase()
+    const email = params.get('email')?.trim().toLocaleLowerCase()
+    const isActiveValue = params.get('isActive')
     const isActive = isActiveValue === null ? undefined : isActiveValue.toLowerCase() === 'true'
-    const roleId = Number(params.get('RoleId')) || undefined
-    const departmentId = Number(params.get('DepartmentId')) || undefined
+    const roleId = Number(params.get('roleId')) || undefined
+    const departmentId = Number(params.get('departmentId')) || undefined
     const filtered = users.filter(
       (user) =>
         (!name || user.fullName.toLocaleLowerCase().includes(name)) &&
@@ -204,12 +208,8 @@ export const usersHandlers = [
       )
     }
 
-    if (!body.permissions.length) {
-      return HttpResponse.json({ message: 'At least one permission is required' }, { status: 400 })
-    }
-
     const permissions: MockPermission[] = []
-    for (const [index, input] of body.permissions.entries()) {
+    for (const [index, input] of (body.permissions ?? []).entries()) {
       const department = departments.find((item) => item.id === input.departmentId)
       const role = roles.find((item) => item.id === input.roleId)
       if (!department || !role) {
@@ -245,7 +245,9 @@ export const usersHandlers = [
     user.accountName = body.accountName
     user.fullName = body.fullName
     user.email = body.email
-    user.isActive = body.isActive
+    if (body.isActive !== undefined && body.isActive !== null) {
+      user.isActive = body.isActive
+    }
     const updatedPermissions: MockPermission[] = []
     for (const [index, permission] of body.permissions.entries()) {
       const department = departments.find((item) => item.id === permission.departmentId)

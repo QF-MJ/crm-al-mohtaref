@@ -13,9 +13,9 @@ export interface ContactsPage {
 export interface ContactFilters {
   pageNumber: number
   campaignTitle?: string
-  trackId?: number
-  leadStatusId?: number
-  tagIds?: number[]
+  trackId?: string | number
+  leadStatusId?: string | number
+  tagIds?: string[]
   studentName?: string
   contactName?: string
   phoneNumber?: string

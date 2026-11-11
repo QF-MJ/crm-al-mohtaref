@@ -1,9 +1,10 @@
-import { useState, type FormEvent, type ReactNode } from 'react'
+import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Plus, Search, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Select, type SelectOption } from '@/components/ui/select'
 import { getApiErrorMessage } from '@/api/errors'
 import { paths } from '@/app/router/paths'
 import { usePermission } from '@/permissions/usePermission'
@@ -78,38 +79,38 @@ export function CampaignsPage() {
             label={t('campaigns.status')}
             value={form.status}
             onChange={(status) => setForm((current) => ({ ...current, status }))}
-          >
-            <option value="">{t('campaigns.allStatuses')}</option>
-            {(lookupsQuery.data?.campaignStatuses ?? []).map((status) => (
-              <option key={status.id} value={status.id}>
-                {status.name}
-              </option>
-            ))}
-          </SelectField>
+            options={[
+              { value: '', label: t('campaigns.allStatuses') },
+              ...(lookupsQuery.data?.campaignStatuses ?? []).map((status) => ({
+                value: String(status.id),
+                label: status.name,
+              })),
+            ]}
+          />
           <SelectField
             label={t('campaigns.track')}
             value={form.trackId}
             onChange={(trackId) => setForm((current) => ({ ...current, trackId }))}
-          >
-            <option value="">{t('campaigns.allTracks')}</option>
-            {(lookupsQuery.data?.tracks ?? []).map((track) => (
-              <option key={track.id} value={track.id}>
-                {track.name}
-              </option>
-            ))}
-          </SelectField>
+            options={[
+              { value: '', label: t('campaigns.allTracks') },
+              ...(lookupsQuery.data?.tracks ?? []).map((track) => ({
+                value: String(track.id),
+                label: track.name,
+              })),
+            ]}
+          />
           <SelectField
             label={t('campaigns.platform')}
             value={form.platformId}
             onChange={(platformId) => setForm((current) => ({ ...current, platformId }))}
-          >
-            <option value="">{t('campaigns.allPlatforms')}</option>
-            {(lookupsQuery.data?.platforms ?? []).map((platform) => (
-              <option key={platform.id} value={platform.id}>
-                {platform.name}
-              </option>
-            ))}
-          </SelectField>
+            options={[
+              { value: '', label: t('campaigns.allPlatforms') },
+              ...(lookupsQuery.data?.platforms ?? []).map((platform) => ({
+                value: String(platform.id),
+                label: platform.name,
+              })),
+            ]}
+          />
         </div>
         {lookupsQuery.isError && (
           <p className="text-sm text-destructive" role="alert">
@@ -279,23 +280,17 @@ function SelectField({
   label,
   value,
   onChange,
-  children,
+  options,
 }: {
   label: string
   value: string
   onChange: (value: string) => void
-  children: ReactNode
+  options: SelectOption[]
 }) {
   return (
     <label className="space-y-1.5 text-xs font-medium text-slate-500">
       <span>{label}</span>
-      <select
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className="h-9 w-full rounded-md border border-input bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-      >
-        {children}
-      </select>
+      <Select value={value} onValueChange={onChange} options={options} />
     </label>
   )
 }

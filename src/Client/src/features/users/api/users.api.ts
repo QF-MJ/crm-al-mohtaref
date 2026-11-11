@@ -3,6 +3,7 @@ import type {
   UserCreateInput,
   UserDetail,
   UserFilters,
+  UserId,
   UserUpdateInput,
   UsersPage,
 } from '../types'
@@ -23,11 +24,13 @@ export const getUsers = (filters: UserFilters, signal?: AbortSignal) =>
     })
     .then((response) => response.data)
 
-export const getUser = (id: number, signal?: AbortSignal) =>
-  api.get<UserDetail>(`/users/${id}`, { signal }).then((response) => response.data)
+export const getUser = (id: UserId, signal?: AbortSignal) =>
+  api
+    .get<UserDetail>(`/users/${encodeURIComponent(id)}`, { signal })
+    .then((response) => response.data)
 
 export const addUser = (body: UserCreateInput) =>
-  api.post<number>('/users', body).then((response) => response.data)
+  api.post<UserId>('/users', body).then((response) => response.data)
 
-export const updateUser = (id: number, body: UserUpdateInput) =>
-  api.put<void>(`/users/${id}`, body).then((response) => response.data)
+export const updateUser = (id: UserId, body: UserUpdateInput) =>
+  api.put<void>(`/users/${encodeURIComponent(id)}`, body).then((response) => response.data)

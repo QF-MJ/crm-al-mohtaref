@@ -1,9 +1,11 @@
-import type { LookupItem } from '@/features/lookups/types'
+import type { LookupId, LookupItem } from '@/features/lookups'
 
-export type { LookupItem } from '@/features/lookups/types'
+export type { LookupId, LookupItem } from '@/features/lookups'
+
+export type UserId = string | number
 
 export interface UserListItem {
-  id: number
+  id: UserId
   accountName: string
   fullName: string
   email: string
@@ -36,8 +38,8 @@ export interface UserFilters {
   accountName?: string
   email?: string
   isActive?: boolean
-  roleId?: number
-  departmentId?: number
+  roleId?: LookupId
+  departmentId?: LookupId
 }
 
 export interface UserLookups {
@@ -46,8 +48,8 @@ export interface UserLookups {
 }
 
 export interface UserPermissionInput {
-  roleId: number
-  departmentId: number
+  roleId: LookupId
+  departmentId: LookupId
 }
 
 export interface UserUpdateInput {
