@@ -10,11 +10,11 @@ namespace CRM.AlMohtaref.Api.Controllers
 {
     [Route("api/auth")]
     [ApiController]
-    public class Auth : ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly ISender _sender;
 
-        public Auth(ISender sender)
+        public AuthController(ISender sender)
         {
             _sender = sender;
         }

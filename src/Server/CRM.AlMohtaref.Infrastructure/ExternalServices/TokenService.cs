@@ -25,7 +25,6 @@ namespace CRM.AlMohtaref.Infrastructure.ExternalServices
             var secretKey = _configuration["JwtSettings:SecretKey"];
             var issuer = _configuration["JwtSettings:Issuer"];
             var audience = _configuration["JwtSettings:Audience"];
-            var expiryInMinutes = double.Parse(_configuration["JwtSettings:ExpiryInMinutes"] ?? "120");
 
             var key = Encoding.UTF8.GetBytes(secretKey!);
 
@@ -43,7 +42,7 @@ namespace CRM.AlMohtaref.Infrastructure.ExternalServices
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(expiryInMinutes),
+                Expires = GetExpireAt(),
                 Issuer = issuer,
                 Audience = audience,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -53,6 +52,11 @@ namespace CRM.AlMohtaref.Infrastructure.ExternalServices
             var tokenString = tokenHandler.WriteToken(token);
 
             return Task.FromResult(tokenString);
+        }
+
+        public DateTime GetExpireAt()
+        {
+            return DateTime.UtcNow.AddMinutes(double.Parse(_configuration["JwtSettings:ExpiryInMinutes"] ?? "120"));
         }
     }
 }
