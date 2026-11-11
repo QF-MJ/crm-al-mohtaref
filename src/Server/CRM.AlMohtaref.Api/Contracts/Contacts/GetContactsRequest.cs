@@ -4,11 +4,11 @@ public sealed class GetContactsRequest : PagedRequest
 {
     public string? CampaignTitle { get; set; }
 
-    public int? TrackId { get; set; }
+    public Guid? TrackId { get; set; }
 
-    public int? LeadStatusId { get; set; }
+    public Guid? LeadStatusId { get; set; }
 
-    public List<int>? TagIds { get; set; }
+    public List<Guid>? TagIds { get; set; }
 
     public string? StudentName { get; set; }
 

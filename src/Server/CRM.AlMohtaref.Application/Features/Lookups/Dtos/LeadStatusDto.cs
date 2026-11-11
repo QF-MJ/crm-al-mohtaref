@@ -1,3 +1,3 @@
 ﻿namespace CRM.AlMohtaref.Application.Features.Lookups.Dtos;
 
-public sealed record LeadStatusDto(int Id, string Name);
+public sealed record LeadStatusDto(Guid Id, string Name);

@@ -18,7 +18,7 @@ public sealed class UserRepository : IUserRepository
         _db = db;
     }
 
-    public async Task<bool> ExistsAsync(int userId, string email, string accountName, CancellationToken ct)
+    public async Task<bool> ExistsAsync(Guid userId, string email, string accountName, CancellationToken ct)
     {
         return await _db.Users.AnyAsync(u => u.Id != userId
                                 && (u.Email == email || u.AccountName == accountName));
@@ -35,7 +35,7 @@ public sealed class UserRepository : IUserRepository
             .FirstOrDefaultAsync(u => u.AccountName == accountName, ct);
     }
 
-    public async Task<User?> GetByIdAsync(int id, CancellationToken ct = default)
+    public async Task<User?> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
         return await _db.Users
             .Include( u => u.Person )
@@ -43,7 +43,7 @@ public sealed class UserRepository : IUserRepository
             .FirstOrDefaultAsync(u => u.Id == id, ct);
     }
 
-    public async Task<UserDetailDto?> GetDetailAsync(int id, CancellationToken ct = default)
+    public async Task<UserDetailDto?> GetDetailAsync(Guid id, CancellationToken ct = default)
     {
         return await _db.Users.AsNoTracking()
             .Where(u => u.Id == id)
