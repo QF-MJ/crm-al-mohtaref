@@ -7,6 +7,7 @@ export function CreateUserPage() {
     <ApiUnavailablePage
       title={t('users.createTitle')}
       description={t('users.createUnavailable')}
+      operation="POST /api/users"
     />
   )
 }

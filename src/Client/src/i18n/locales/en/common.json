@@ -1,7 +1,8 @@
 {
   "appName": "Al-Mohtaref CRM",
   "apiUnavailable": {
-    "note": "This screen will be available when the required backend operation is implemented."
+    "eyebrow": "Feature not available",
+    "note": "This operation is not defined in OpenAPI contract v0.2.0. The UI will not call an undocumented route; it can be connected after the operation is added to the contract and implemented by the backend."
   },
   "nav": {
     "clients": "Clients",
@@ -55,7 +56,7 @@
     "createSuccess": "Employee added successfully",
     "permissionRequired": "Add at least one role and department for this user",
     "lookupsEmpty": "No roles or departments are available for creating a user",
-    "createUnavailable": "A user-creation route exists, but its backend handler is not implemented. Creation is disabled until the backend operation is completed.",
+    "createUnavailable": "User creation is not defined in OpenAPI contract v0.2.0, so this screen will not send a request to the backend.",
     "updateSuccess": "Employee updated successfully",
     "notFound": "Employee was not found",
     "backToList": "Back to employee list",
@@ -153,8 +154,18 @@
   },
   "actions": {
     "logout": "Log out",
+    "loggingOut": "Logging out...",
+    "openNavigation": "Open navigation",
+    "closeNavigation": "Close navigation",
+    "switchLanguage": "Change interface language",
+    "arabic": "العربية",
+    "english": "English",
     "save": "Save",
     "cancel": "Cancel"
+  },
+  "navigation": {
+    "workspace": "Workspace",
+    "main": "Main navigation"
   },
   "contacts": {
     "breadcrumb": "Contact management",
@@ -174,6 +185,7 @@
     "empty": "No contacts match these filters",
     "error": "The request could not be completed. Please try again.",
     "connectionError": "The API server could not be reached. Check that the backend is running and VITE_API_URL is correct, then try again.",
+    "invalidResponse": "The contacts API response does not match the expected contract. Check that the compatible backend version is running, then try again.",
     "tagsUnavailable": "The backend does not currently provide the tags lookup list.",
     "students": "Linked students",
     "id": "ID",
@@ -192,6 +204,24 @@
     "backHome": "Back to home"
   },
   "features": {
+    "unavailable": {
+      "academicSubscribedTitle": "Subscribed clients",
+      "academicSubscribedDescription": "The current API contract does not define academic guidance or subscribed-client operations.",
+      "studentRecordTitle": "Academic record",
+      "studentRecordDescription": "The current API contract does not define an operation to view or update academic records.",
+      "issuesTitle": "Issue management",
+      "issuesDescription": "The current API contract does not define operations to list or follow issues.",
+      "issueCreateTitle": "Create an issue",
+      "issueCreateDescription": "The current API contract does not define an issue-creation operation.",
+      "issueDetailsTitle": "Issue details",
+      "issueDetailsDescription": "The current API contract does not define an operation to view or update issue details.",
+      "communicationsTitle": "Contact communications",
+      "communicationsDescription": "The current API contract does not define operations to view or manage contact communications.",
+      "notificationsTitle": "Notifications",
+      "notificationsDescription": "The current API contract does not define operations to view or manage notifications.",
+      "passwordTitle": "Change password",
+      "passwordDescription": "The current API contract does not define an operation to change the user's password."
+    },
     "users": {
       "eyebrow": "System management",
       "description": "View, search, and filter user accounts and their status.",
@@ -219,7 +249,7 @@
     },
     "campaigns": {
       "title": "Campaigns",
-      "description": "The campaigns page is available, but the current backend does not provide a campaigns endpoint yet. Campaign data can be displayed once a documented API is available."
+      "description": "Browse and update campaigns using the operations defined in the API contract."
     }
   }
 }

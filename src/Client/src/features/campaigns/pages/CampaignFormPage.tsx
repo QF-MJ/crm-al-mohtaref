@@ -6,6 +6,7 @@ import { ArrowRight, Plus, UploadCloud } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { ApiUnavailablePage } from '@/components/common/ApiUnavailablePage'
 import { getApiErrorMessage } from '@/api/errors'
 import { paths } from '@/app/router/paths'
 import { useLookups } from '@/features/lookups/api/lookups.queries'
@@ -31,10 +32,17 @@ function errorText(error: unknown, fallback: string) {
 export function CampaignCreateUnavailablePage() {
   const { t } = useTranslation()
   return (
-    <section className="mx-auto max-w-3xl space-y-4 rounded-xl border bg-white p-8 text-center" role="status">
-      <h1 className="text-xl font-bold">{t('campaigns.newCampaign')}</h1>
-      <p className="text-sm text-slate-600">{t('campaigns.createUnavailable')}</p>
-      <Link to={paths.campaigns} className="inline-flex text-sm font-medium text-primary hover:underline">{t('campaigns.backToList')}</Link>
+    <section className="space-y-4">
+      <ApiUnavailablePage
+        title={t('campaigns.newCampaign')}
+        description={t('campaigns.createUnavailable')}
+        operation="POST /api/campaigns"
+      />
+      <div className="text-center">
+        <Link to={paths.campaigns} className="text-sm font-medium text-primary hover:underline">
+          {t('campaigns.backToList')}
+        </Link>
+      </div>
     </section>
   )
 }

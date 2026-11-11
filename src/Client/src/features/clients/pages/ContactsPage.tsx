@@ -4,10 +4,17 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { toApiError } from '@/api/errors'
 import { usePermission } from '@/permissions/usePermission'
+import { InvalidContactsResponseError } from '../api/contacts.api'
 import { useContacts, useContactLookups } from '../api/contacts.queries'
 import type { ContactFilters } from '../types'
 
-function errorText(error: unknown, fallback: string, connectionError: string) {
+function errorText(
+  error: unknown,
+  fallback: string,
+  connectionError: string,
+  invalidResponse: string,
+) {
+  if (error instanceof InvalidContactsResponseError) return invalidResponse
   const apiError = toApiError(error)
   if (apiError.status === 0) return connectionError
   return apiError.message === 'Unknown error' ? fallback : apiError.message
@@ -59,7 +66,7 @@ export function ContactsPage() {
   }
 
   return (
-    <section className="-m-6 min-h-full space-y-5 bg-slate-50 p-5 sm:p-6" dir="rtl">
+    <section className="-m-4 min-h-full space-y-5 bg-slate-50 p-4 sm:-m-6 sm:p-6" dir="rtl">
       <header>
         <p className="mb-1 text-xs text-slate-400">{t('contacts.breadcrumb')}</p>
         <h1 className="text-2xl font-bold text-slate-800">{t('contacts.title')}</h1>
@@ -157,6 +164,7 @@ export function ContactsPage() {
                   lookupsQuery.error,
                   t('contacts.error'),
                   t('contacts.connectionError'),
+                  t('contacts.invalidResponse'),
                 )}
               </p>
               <Button
@@ -190,8 +198,21 @@ export function ContactsPage() {
                 contactsQuery.error,
                 t('contacts.error'),
                 t('contacts.connectionError'),
+                t('contacts.invalidResponse'),
               )}
             </p>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => void contactsQuery.refetch()}
+              disabled={contactsQuery.isFetching}
+            >
+              {t('contacts.retry')}
+            </Button>
+          </div>
+        ) : !contactsQuery.data ? (
+          <div className="space-y-3 p-8 text-center" role="alert">
+            <p className="text-sm text-destructive">{t('contacts.invalidResponse')}</p>
             <Button
               type="button"
               variant="outline"

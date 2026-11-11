@@ -42,7 +42,7 @@ export function CampaignsPage() {
   }
 
   return (
-    <section className="-m-6 min-h-full space-y-5 bg-slate-50 p-5 sm:p-6" dir="rtl">
+    <section className="-m-4 min-h-full space-y-5 bg-slate-50 p-4 sm:-m-6 sm:p-6" dir="rtl">
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="mb-1 text-xs text-slate-400">{t('campaigns.breadcrumb')}</p>
@@ -148,6 +148,18 @@ export function CampaignsPage() {
             <p className="text-sm text-destructive">
               {errorText(campaignsQuery.error, t('campaigns.error'))}
             </p>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => void campaignsQuery.refetch()}
+              disabled={campaignsQuery.isFetching}
+            >
+              {t('campaigns.retry')}
+            </Button>
+          </div>
+        ) : !campaignsQuery.data ? (
+          <div className="space-y-3 p-8 text-center" role="alert">
+            <p className="text-sm text-destructive">{t('campaigns.error')}</p>
             <Button
               type="button"
               variant="outline"
