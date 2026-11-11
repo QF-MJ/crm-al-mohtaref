@@ -1,8 +1,6 @@
 ﻿using CRM.AlMohtaref.Api.Contracts.Users;
-using CRM.AlMohtaref.Application.Common.Attributes;
 using CRM.AlMohtaref.Application.Features.Users;
 using CRM.AlMohtaref.Application.Features.Users.AddUser;
-using CRM.AlMohtaref.Domain.Entities.Users;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +9,7 @@ namespace CRM.AlMohtaref.Api.Controllers;
 
 [ApiController]
 [Route("api/users")]
+[Authorize]
 public class UsersController : ControllerBase
 {
     private readonly ISender _sender;
@@ -36,7 +35,7 @@ public class UsersController : ControllerBase
         return CreatedAtAction(nameof(GetUser), new { id = userId }, userId);
     }
 
-    //[Authorize]
+
     [HttpGet]
     public async Task<ActionResult<UsersPageDto>> GetUsers([FromQuery] GetUsersRequest request, CancellationToken ct)
     {
@@ -52,16 +51,14 @@ public class UsersController : ControllerBase
         return Ok(await _sender.Send(query, ct));
     }
 
-    [Authorize]
-    [HttpGet("{id:int}")]
-    public async Task<ActionResult<UserDetailDto>> GetUser(int id, CancellationToken ct)
+    [HttpGet("{id:Guid}")]
+    public async Task<ActionResult<UserDetailDto>> GetUser(Guid id, CancellationToken ct)
     {
         return Ok(await _sender.Send(new GetUserQuery(id), ct));
     }
 
-    [Authorize]
-    [HttpPut("{id:int}")]
-    public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserRequest request, CancellationToken ct)
+    [HttpPut("{id:Guid}")]
+    public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UpdateUserRequest request, CancellationToken ct)
     {
         await _sender.Send(new UpdateUserCommand(
             id,

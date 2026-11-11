@@ -2,7 +2,7 @@
 
 public class PermissionRequest
 {
-    public int RoleId { get; set; }
+    public Guid RoleId { get; set; }
 
-    public int DepartmentId { get; set; }
+    public Guid DepartmentId { get; set; }
 }

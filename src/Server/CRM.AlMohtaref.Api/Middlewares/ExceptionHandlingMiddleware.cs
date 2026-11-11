@@ -32,7 +32,7 @@ public class ExceptionHandlingMiddleware
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unhandled exception");
-            await WriteErrorAsync(context, StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
+            await WriteErrorAsync(context, StatusCodes.Status500InternalServerError, "حدث خطأ غير متوقع، يرجى المحاولة لاحقاً");
         }
     }
 
