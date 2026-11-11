@@ -1,4 +1,5 @@
-﻿using CRM.AlMohtaref.Application.Interfaces;
+﻿using CRM.AlMohtaref.Domain.Entities.Questions;
+using CRM.AlMohtaref.Application.Interfaces;
 using CRM.AlMohtaref.Domain.Entities;
 using CRM.AlMohtaref.Domain.Entities.Campaigns;
 using CRM.AlMohtaref.Domain.Entities.Contacts;
@@ -24,6 +25,26 @@ public class AppDbContext : DbContext, IUnitOfWork
     public DbSet<LeadStatus> LeadStatuses { get; set; }
 
     public DbSet<Track> Tracks { get; set; }
+
+    public DbSet<Platform> Platforms { get; set; } = null!;
+
+    public DbSet<PlatformCampaign> PlatformCampaigns { get; set; } = null!;
+
+    public DbSet<Field> Fields { get; set; } = null!;
+
+    public DbSet<QuestionConfiguration> QuestionConfigurations { get; set; } = null!;
+
+    public DbSet<Question> Questions { get; set; } = null!;
+
+    public DbSet<Option> Options { get; set; } = null!;
+
+    public DbSet<OptionTag> OptionTags { get; set; } = null!;
+
+    public DbSet<OptionSet> OptionSets { get; set; } = null!;
+
+    public DbSet<OptionSetItem> OptionSetItems { get; set; } = null!;
+
+    public DbSet<QuestionCampaign> QuestionCampaigns { get; set; } = null!;
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {

@@ -1,4 +1,5 @@
-﻿using CRM.AlMohtaref.Domain.Entities.Users;
+using CRM.AlMohtaref.Domain.Entities.Questions;
+using CRM.AlMohtaref.Domain.Entities.Users;
 
 namespace CRM.AlMohtaref.Domain.Entities.Campaigns;
 
@@ -28,23 +29,36 @@ public class Campaign
 
     public ICollection<CampaignLead> Leads { get; private set; }
 
+    public ICollection<PlatformCampaign> PlatformCampaigns { get; private set; }
+
+    public ICollection<QuestionCampaign> QuestionCampaigns { get; private set; }
+
     private Campaign()
     {
         Title = string.Empty;
         Track = null!;
         CreatedByUser = null!;
+        CampaignStatus = null!;
         Leads = new List<CampaignLead>();
+        PlatformCampaigns = new List<PlatformCampaign>();
+        QuestionCampaigns = new List<QuestionCampaign>();
     }
 
-    public Campaign(string title, Guid trackId, Guid createdByUserId,
+    public Campaign(string title, Guid trackId, Guid createdByUserId, Guid campaignStatusId,
         string? description = null, string? url = null, decimal? budget = null)
         : this()
     {
         Title = title;
         TrackId = trackId;
         CreatedByUserId = createdByUserId;
+        CampaginStatusId = campaignStatusId;
         Description = description;
         Url = url;
         Budget = budget;
+    }
+
+    public void ChangeStatus(Guid campaignStatusId)
+    {
+        CampaginStatusId = campaignStatusId;
     }
 }

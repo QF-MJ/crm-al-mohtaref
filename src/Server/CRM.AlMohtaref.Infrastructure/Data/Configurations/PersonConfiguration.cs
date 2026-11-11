@@ -11,7 +11,7 @@ public sealed class PersonConfiguration : IEntityTypeConfiguration<Person>
         builder.ToTable("People");
 
         builder.HasKey(p => p.Id);
-        builder.Property(p => p.Id).HasColumnName("PersonId");
+        builder.Property(p => p.Id);
 
         builder.Property(p => p.FullName)
             .IsRequired()
