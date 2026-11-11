@@ -2,6 +2,7 @@
 using CRM.AlMohtaref.Api.Contracts.Contacts;
 using CRM.AlMohtaref.Application.Features.Contacts.GetContacts;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace CRM.AlMohtaref.Api.Controllers
 {
     [Route("api/contacts")]
     [ApiController]
+    [Authorize]
     public class ContactsController : ControllerBase
     {
         private readonly ISender _sender;
