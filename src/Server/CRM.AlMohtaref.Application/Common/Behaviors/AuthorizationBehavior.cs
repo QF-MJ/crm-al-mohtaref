@@ -1,8 +1,11 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using CRM.AlMohtaref.Application.Common.Attributes;
 using CRM.AlMohtaref.Application.Common.Exceptions;
 using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Domain.Entities.Users;
 using MediatR;
+using System.Linq;
 
 namespace CRM.AlMohtaref.Application.Common.Behaviors;
 
@@ -20,7 +23,7 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
         CancellationToken cancellationToken)
     {
         var attributes = request.GetType()
-            .GetCustomAttributes<AuthorizeAttribute>(inherit: true)
+            .GetCustomAttributes<AuthorizePermisionsAttribute>(inherit: true)
             .ToList();
 
         if (attributes.Count == 0)
@@ -29,19 +32,18 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
         if (!_currentUser.IsAuthenticated)
             throw new UnauthorizedAccessException();
 
-        var userRoles = _currentUser.Roles;
+        var userPermissions = _currentUser.Permissions;
 
-        foreach (var attribute in attributes.Where(a => !string.IsNullOrWhiteSpace(a.Roles)))
-        {
-            var required = attribute.Roles!
-                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        if(userPermissions == null)
+            throw new ForbiddenException("ليس لديك صلاحية لتنفيذ هذا الإجراء");
 
-            var authorized = required.Any(role =>
-                userRoles.Contains(role, StringComparer.OrdinalIgnoreCase));
+        bool allowed = attributes.Any(attribute =>
+           userPermissions.Any(p =>
+               p.Role.Name.Equals(attribute.Role, StringComparison.OrdinalIgnoreCase) &&
+               p.Department.Name.Equals(attribute.Department, StringComparison.OrdinalIgnoreCase)));
 
-            if (!authorized)
-                throw new ForbiddenAccessException();
-        }
+        if (!allowed)
+            throw new ForbiddenException("ليس لديك صلاحية لتنفيذ هذا الإجراء");
 
         return await next();
     }

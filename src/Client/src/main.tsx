@@ -10,7 +10,7 @@ import { env } from '@/lib/env'
 async function enableMocking() {
   if (!import.meta.env.DEV || !env.useMocks) return
   const { worker } = await import('@/mocks/browser')
-  await worker.start({ onUnhandledFrame: 'bypass' })
+  await worker.start({ onUnhandledRequest: 'bypass' })
 }
 
 setupInterceptors()

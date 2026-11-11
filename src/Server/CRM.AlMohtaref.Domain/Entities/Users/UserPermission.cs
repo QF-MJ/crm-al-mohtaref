@@ -4,13 +4,13 @@ namespace CRM.AlMohtaref.Domain.Entities.Users;
 
 public class UserPermission
 {
-    public int Id { get; private set; }
+    public Guid Id { get; private set; }
 
-    public int UserId { get; private set; }
+    public Guid UserId { get; private set; }
 
-    public int DepartmentId { get; private set; }
+    public Guid DepartmentId { get; private set; }
 
-    public int RoleId { get; private set; }
+    public Guid RoleId { get; private set; }
 
     public User User { get; private set; }
 
@@ -25,7 +25,14 @@ public class UserPermission
         Role = null!;
     }
 
-    public UserPermission(int userId, int departmentId, int roleId)
+    public UserPermission(string department , string role)
+    {
+        Department = new Department(department);
+        Role = new Role(role);
+    }
+
+
+    public UserPermission(Guid userId, Guid departmentId, Guid roleId)
     {
         UserId = userId;
         DepartmentId = departmentId;

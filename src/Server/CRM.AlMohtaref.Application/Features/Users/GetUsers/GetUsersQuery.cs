@@ -1,7 +1,14 @@
-﻿using CRM.AlMohtaref.Application.Common.Queries;
+﻿using CRM.AlMohtaref.Application.Common.Attributes;
+using CRM.AlMohtaref.Application.Common.Queries;
 using MediatR;
 
 namespace CRM.AlMohtaref.Application.Features.Users;
+
+[AuthorizePermisions(Role = "مدير" , Department = "الإدارة")]
+[AuthorizePermisions(Role = "مدير" , Department = "المبيعات")]
+[AuthorizePermisions(Role = "مدير" , Department = "التسويق")]
+[AuthorizePermisions(Role = "مدير" , Department = "التوجيه الأكاديمي")]
+[AuthorizePermisions(Role = "مدير" , Department = "خدمة العملاء")]
 
 public sealed record GetUsersQuery(
     int PageNumber = 1,
@@ -9,5 +16,5 @@ public sealed record GetUsersQuery(
     string? AccountName = null,
     string? Email = null,
     bool? IsActive = null,
-    int? RoleId = null,
-    int? DepartmentId = null) : PagedQuery(PageNumber), IRequest<UsersPageDto>;
+    Guid? RoleId = null,
+    Guid? DepartmentId = null) : PagedQuery(PageNumber), IRequest<UsersPageDto>;

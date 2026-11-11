@@ -2,6 +2,6 @@
 
 public sealed record StudentDto
 (
-    int Id,
+    Guid Id,
     string Name
 );

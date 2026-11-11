@@ -7,6 +7,7 @@ export const paths = {
   notifications: '/notifications',
   users: '/users',
   usersNew: '/users/new',
+  userEdit: (id: string) => `/users/${encodeURIComponent(id)}/edit`,
   clients: '/clients',
   clientsImport: '/clients/import',
   client: (id: string) => `/clients/${id}`,

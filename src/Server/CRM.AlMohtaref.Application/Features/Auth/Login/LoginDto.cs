@@ -7,7 +7,7 @@ namespace CRM.AlMohtaref.Application.Features.Auth.Login
          string Token,
          string? RefreshToken,
          int ExpiresIn,
-         int UserId,
+         Guid UserId,
          string FullName,
          List<PermissionDto> Permissions
     );

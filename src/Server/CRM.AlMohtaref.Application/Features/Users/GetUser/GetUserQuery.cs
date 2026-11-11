@@ -1,5 +1,6 @@
-using MediatR;
+﻿using MediatR;
 
 namespace CRM.AlMohtaref.Application.Features.Users;
 
-public sealed record GetUserQuery(int Id) : IRequest<UserDetailDto>;
+
+public sealed record GetUserQuery(Guid Id) : IRequest<UserDetailDto>;

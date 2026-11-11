@@ -28,5 +28,10 @@ public sealed class CampaignConfiguration : IEntityTypeConfiguration<Campaign>
             .WithMany()
             .HasForeignKey(c => c.CreatedByUserId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(c => c.CampaignStatus)
+          .WithMany(cs => cs.Campaigns)
+          .HasForeignKey(c => c.CampaginStatusId)
+          .OnDelete(DeleteBehavior.Restrict);
     }
 }

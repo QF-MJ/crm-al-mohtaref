@@ -3,7 +3,7 @@ namespace CRM.AlMohtaref.Domain.Entities.Users;
 
 public class User
 {
-    public int Id { get; private set; }
+    public Guid Id { get; private set; }
 
     public string AccountName { get; private set; }
 
@@ -11,7 +11,7 @@ public class User
 
     public bool IsActive { get; private set; }
 
-    public int PersonId { get; private set; }
+    public Guid PersonId { get; private set; }
 
     public string Email { get; private set; }
 
@@ -33,7 +33,7 @@ public class User
         UserPermissions = new List<UserPermission>();
     }
 
-    public User(string accountName, string passwordHash, int personId, string email)
+    public User(string accountName, string passwordHash, Guid personId, string email)
         : this()
     {
         AccountName = accountName;
@@ -74,7 +74,7 @@ public class User
             IsActive = isActive.Value;
     }
 
-    public void SynchronizePermissions(IEnumerable<(int RoleId, int DepartmentId)> permissions)
+    public void SynchronizePermissions(IEnumerable<(Guid RoleId, Guid DepartmentId)> permissions)
     {
         var requestedPermissions = permissions.Distinct().ToHashSet();
 
