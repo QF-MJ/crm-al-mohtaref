@@ -190,5 +190,36 @@
     "forbidden": "You do not have access to this page",
     "notFound": "Page not found",
     "backHome": "Back to home"
+  },
+  "features": {
+    "users": {
+      "eyebrow": "System management",
+      "description": "View, search, and filter user accounts and their status.",
+      "name": "Name",
+      "namePlaceholder": "Search by name",
+      "accountName": "Account name",
+      "accountPlaceholder": "Search by account name",
+      "email": "Email",
+      "emailPlaceholder": "Search by email",
+      "status": "Status",
+      "allStatuses": "All statuses",
+      "active": "Active",
+      "inactive": "Inactive",
+      "search": "Search",
+      "clear": "Clear filters",
+      "results": "Users",
+      "fullName": "Full name",
+      "page": "Page {{page}}",
+      "loading": "Loading users...",
+      "loadError": "Could not load users from the server.",
+      "retry": "Retry",
+      "empty": "No users match these filters.",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "campaigns": {
+      "title": "Campaigns",
+      "description": "The campaigns page is available, but the current backend does not provide a campaigns endpoint yet. Campaign data can be displayed once a documented API is available."
+    }
   }
 }

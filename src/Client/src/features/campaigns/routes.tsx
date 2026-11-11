@@ -1,4 +1,5 @@
 import type { AppRoute } from '@/types/router'
+<<<<<<< Updated upstream
 import { ApiUnavailablePage } from '@/components/common/ApiUnavailablePage'
 import { CampaignCreateUnavailablePage } from './pages/CampaignFormPage'
 import { useTranslation } from 'react-i18next'
@@ -17,6 +18,9 @@ function CampaignReportsUnavailablePage() {
     />
   )
 }
+=======
+import { CampaignsUnavailablePage } from './pages/CampaignsUnavailablePage'
+>>>>>>> Stashed changes
 
 export const campaignsRoutes: AppRoute[] = [
   {
@@ -26,7 +30,11 @@ export const campaignsRoutes: AppRoute[] = [
   },
   {
     path: 'campaigns/new',
+<<<<<<< Updated upstream
     element: <CampaignCreateUnavailablePage />,
+=======
+    element: <CampaignsUnavailablePage />,
+>>>>>>> Stashed changes
     handle: { permission: 'campaigns.create' },
   },
   {
@@ -36,7 +44,11 @@ export const campaignsRoutes: AppRoute[] = [
   },
   {
     path: 'campaigns/reports',
+<<<<<<< Updated upstream
     element: <CampaignReportsUnavailablePage />,
+=======
+    element: <CampaignsUnavailablePage />,
+>>>>>>> Stashed changes
     handle: { permission: 'campaigns.reports' },
   },
 ]

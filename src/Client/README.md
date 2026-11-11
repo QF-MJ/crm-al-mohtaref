@@ -6,6 +6,7 @@
 npm install
 npm run dev
 ```
+<<<<<<< Updated upstream
 
 عنوان الـ API يُضبط عبر `VITE_API_URL` ويجب أن يتضمن `/api`. إعدادات `.env.local` شخصية ولا تُرفع إلى Git.
 
@@ -27,6 +28,15 @@ npm run dev
 - مسار `GET /contacts` في OpenAPI موثق كمسار محمي، لكن `ContactsController` الحالي لا يحمل `[Authorize]`. يرفق عميل الواجهة Bearer token عند توفره، لكن فرض المصادقة يحتاج تعديل الخادم.
 - عند اختبار API الفعلي، استخدم `VITE_USE_MOCKS=false`. وضع MSW يدعم تسجيل الدخول والمستخدمين محلياً فقط؛ لا يوجد mock لجهات الاتصال.
 - يوجد مسار `POST /users` في `UsersController`، لكن معالج الأمر `AddUserCommandHandler` في نسخة الخادم الموجودة في مساحة العمل فارغ حالياً. لن ترسل الواجهة طلب الإضافة حتى يكتمل المعالج.
+=======
+شغّل الباك أولاً، ثم انسخ `.env.example` إلى `.env.local` إذا لم يكن لديك إعداد محلي:
+```powershell
+Copy-Item .env.example .env.local
+```
+للتطوير المحلي، شغّل الباك بملف التشغيل `https` وافتح Swagger على `https://localhost:7271/swagger`. يمرّر Vite طلبات `/api` إلى `https://localhost:7271` لتجنّب تحويل HTTP إلى HTTPS ومشاكل CORS في المتصفح؛ يستخدم البروكسي شهادة محلية غير موثّقة للتطوير فقط. تسجيل الدخول يرسل `accountName` و`password` إلى `POST /api/auth/login` ويخزّن بيانات الجلسة التي يرجعها الباك. تأكد أن `VITE_API_URL=/api` و`VITE_USE_MOCKS=false` للاتصال بالباك؛ فعّل MSW فقط للتطوير دون الباك. أعد تشغيل Vite بعد تغيير `.env.local` أو `vite.config.ts`.
+
+واجهة حساب `admin` تُظهر مسارات الفرونت حتى لو لم يرجع الباك له صلاحيات؛ هذا خاص بعرض الواجهة فقط ولا يمنح صلاحية على بيانات الـAPI. إذا رفض الباك طلبات البيانات، يجب أن يزوّد الحساب بصلاحيات فعلية من جهة الباك.
+>>>>>>> Stashed changes
 
 ## أوامر مفيدة
 
@@ -35,4 +45,10 @@ npm run dev
 - `npm run build` : بناء نسخة نهائية.
 - `npm run format` : تنسيق ملفات `src`.
 
+<<<<<<< Updated upstream
 اقرأ `docs/conventions.md` قبل إضافة ميزات جديدة.
+=======
+## ملاحظات
+- `.env.local` للإعدادات الشخصية ولا يُرفع على git. القالب بـ `.env.example`.
+- غيّر `VITE_API_URL` في `.env.local` إذا كان عنوان الباك في بيئتك مختلفاً عن الإعداد المحلي.
+>>>>>>> Stashed changes

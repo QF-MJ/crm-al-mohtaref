@@ -3,14 +3,23 @@ import type { Role } from '@/permissions/roles'
 import type { LoginResponse } from '@/features/auth/types'
 
 export interface SessionUser {
+<<<<<<< Updated upstream
   id: string
   name: string
   roles: Role[]
+=======
+  id: number
+  accountName: string
+  fullName: string
+  /** أزواج قسم + دور كما يرسلها الباك، بدون أي تحويل */
+  permissions: PermissionDto[]
+>>>>>>> Stashed changes
 }
 
 interface AuthState {
   user: SessionUser | null
   token: string | null
+<<<<<<< Updated upstream
   login: (response: LoginResponse) => void
   logout: () => void
 }
@@ -59,3 +68,45 @@ function mapBackendPermissions(
   }
   return [...mapped]
 }
+=======
+  refreshToken: string | null
+  login: (dto: LoginDto, accountName: string) => void
+  logout: () => void
+}
+
+export const AUTH_STORAGE_KEY = 'crm-session'
+
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      user: null,
+      token: null,
+      refreshToken: null,
+      login: (dto, accountName) =>
+        set({
+          user: {
+            id: dto.userId,
+            accountName,
+            fullName: dto.fullName ?? '',
+            permissions: dto.permissions ?? [],
+          },
+          token: dto.token,
+          refreshToken: dto.refreshToken,
+        }),
+      logout: () => set({ user: null, token: null, refreshToken: null }),
+    }),
+    {
+      name: AUTH_STORAGE_KEY,
+      version: 1,
+      migrate: () => ({ user: null, token: null, refreshToken: null }),
+      // localStorage قرار مؤقت لتسليم 28/11 (القرار الموثّق: الخيار 2)
+      storage: createJSONStorage(() => localStorage),
+      partialize: (s) => ({
+        user: s.user,
+        token: s.token,
+        refreshToken: s.refreshToken,
+      }),
+    },
+  ),
+)
+>>>>>>> Stashed changes
