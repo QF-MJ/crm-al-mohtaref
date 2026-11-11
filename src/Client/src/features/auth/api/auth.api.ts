@@ -1,5 +1,11 @@
 import { api } from '@/api/client'
-import type { LoginRequest, LoginResponse } from '../types'
+import type { LoginDto, LoginRequest, RefreshRequest } from '../types'
+
+export const LOGIN_PATH = '/auth/login'
 
 export const loginRequest = (body: LoginRequest) =>
-  api.post<LoginResponse>('/auth/login', body).then((r) => r.data)
+  api.post<LoginDto>(LOGIN_PATH, body).then((r) => r.data)
+
+// الرد 204 بدون body
+export const logoutRequest = (body: RefreshRequest) =>
+  api.post<void>('/auth/logout', body).then(() => undefined)

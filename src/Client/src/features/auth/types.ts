@@ -1,19 +1,30 @@
-export interface LoginRequest {
-  accountName: string
-  password: string
-}
+// أنواع الـ Auth مطابقة للرد الفعلي من الباك (تم التحقق منه من Swagger بتاريخ 11/11/2026).
+// ملاحظة: الـ OpenAPI يكتب الحقول بحرف كبير (Token) لكن الباك يرجّعها camelCase (token).
+// يجب توحيد الأمرين مع محمد، ونحن نتبع الرد الفعلي.
 
-export interface AuthPermission {
+export interface PermissionDto {
+  /** الباك يرجّعه 0 دائماً حالياً */
   id: number
   departmentName: string
   roleName: string
 }
 
-export interface LoginResponse {
+export interface LoginRequest {
+  accountName: string
+  password: string
+}
+
+export interface LoginDto {
   token: string
+  /** الباك يرجّعه null حالياً (لا يوجد refresh بعد) */
   refreshToken: string | null
-  expiresIn: number
+  /** 120 = دقائق فعلياً (التوكن يعيش ساعتين)، رغم أن الـ OpenAPI يقول ثواني. لا نعتمد عليه */
+  expiresIn?: number
   userId: number
-  fullName: string
-  permissions: AuthPermission[]
+  fullName?: string
+  permissions?: PermissionDto[]
+}
+
+export interface RefreshRequest {
+  refreshToken: string
 }

@@ -18,6 +18,11 @@ public sealed class UserRepository : IUserRepository
         _db = db;
     }
 
+    public async Task AddAsync(User user)
+    {
+        await _db.Users.AddAsync(user);
+    }
+
     public async Task<bool> ExistsAsync(Guid userId, string email, string accountName, CancellationToken ct)
     {
         return await _db.Users.AnyAsync(u => u.Id != userId

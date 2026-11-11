@@ -1,6 +1,6 @@
 ﻿namespace CRM.AlMohtaref.Api.Contracts.Users
 {
-    public class AddUserRequest
+    public class CreateUserRequest
     {
         public string AccountName { get; set; } = string.Empty;
 

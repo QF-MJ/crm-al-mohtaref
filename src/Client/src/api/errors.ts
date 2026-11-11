@@ -1,13 +1,24 @@
 import axios from 'axios'
 import type { ApiError } from '@/types/common'
 
+// الباك يرجّع ErrorDto: { status, message } (camelCase بالرد الفعلي، والـ OpenAPI يكتبها بحرف كبير).
+// نقبل الشكلين + title/errors كاحتياط لأخطاء ProblemDetails التي قد يرسلها ASP.NET قبل الـ middleware.
+interface ErrorBody {
+  status?: number
+  message?: string
+  Status?: number
+  Message?: string
+  title?: string
+  errors?: Record<string, string[]>
+}
+
 export function toApiError(error: unknown): ApiError {
   if (axios.isAxiosError(error)) {
-    const data = error.response?.data as { status?: number; message?: string } | undefined
-    const status = error.response?.status ?? data?.status ?? 0
+    const data = error.response?.data as ErrorBody | undefined
     return {
-      status,
-      message: data?.message ?? fallbackMessage(status, error.message),
+      status: error.response?.status ?? data?.status ?? data?.Status ?? 0,
+      message: data?.message ?? data?.Message ?? data?.title ?? error.message,
+      fieldErrors: data?.errors,
     }
   }
   if (isApiError(error)) return error

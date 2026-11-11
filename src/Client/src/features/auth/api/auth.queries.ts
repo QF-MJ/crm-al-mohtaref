@@ -1,9 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { useAuthStore } from '@/stores/auth.store'
-import type { ApiError } from '@/types/common'
+import { loginRequest, logoutRequest } from './auth.api'
 import type { LoginForm } from '../schemas/login.schema'
-import type { LoginResponse } from '../types'
-import { loginRequest } from './auth.api'
 
 export function useLogin() {
   const login = useAuthStore((state) => state.login)
@@ -17,6 +15,21 @@ export function useLogout() {
   const clearSession = useAuthStore((state) => state.logout)
 
   return useMutation({
-    mutationFn: async () => clearSession(),
+    // نبني طلب الباك من حقول الفورم هنا فقط
+    mutationFn: (form: LoginForm) =>
+      loginRequest({ accountName: form.accountName, password: form.password }),
+    onSuccess: (dto) => login(dto),
+  })
+}
+
+export function useLogout() {
+  const logout = useAuthStore((s) => s.logout)
+  return useMutation({
+    mutationFn: async () => {
+      const refreshToken = useAuthStore.getState().refreshToken
+      // نحاول إلغاء الـ refresh token بالسيرفر، لكن الخروج المحلي يحصل دائماً
+      if (refreshToken) await logoutRequest({ refreshToken })
+    },
+    onSettled: () => logout(),
   })
 }

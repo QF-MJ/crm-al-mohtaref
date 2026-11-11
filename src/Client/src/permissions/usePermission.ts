@@ -1,8 +1,11 @@
+import { useMemo } from 'react'
 import { useAuthStore } from '@/stores/auth.store'
-import { can } from './can'
+import { canAny } from './can'
+import { mapRoles } from './mapRoles'
 import type { Permission } from './permissions'
 
 export function usePermission() {
-  const roles = useAuthStore((state) => state.user?.roles)
-  return (permission: Permission) => can(roles, permission)
+  const pairs = useAuthStore((s) => s.user?.permissions)
+  const roles = useMemo(() => mapRoles(pairs ?? []), [pairs])
+  return (permission: Permission) => canAny(roles, permission)
 }
