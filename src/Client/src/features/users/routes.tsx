@@ -1,11 +1,7 @@
 import type { AppRoute } from '@/types/router'
-<<<<<<< Updated upstream
 import { CreateUserPage } from './pages/CreateUserPage'
 import { UserFormPage } from './pages/UserFormPage'
 import { UserDetailPage } from './pages/UserDetailPage'
-=======
-import { PagePlaceholder } from '@/components/common/PagePlaceholder'
->>>>>>> Stashed changes
 import { UsersPage } from './pages/UsersPage'
 
 export const usersRoutes: AppRoute[] = [
