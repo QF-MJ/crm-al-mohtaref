@@ -1,8 +1,12 @@
 import { api } from '@/api/client'
-import type { LookupsResponse } from '../types'
+import type { LookupType, LookupsResponse } from '../types'
 
-export function getLookups(signal?: AbortSignal) {
+export function getLookups(include: LookupType[], signal?: AbortSignal) {
   return api
-    .get<LookupsResponse>('/lookups', { signal })
+    .get<LookupsResponse>('/lookups', {
+      params: { include },
+      paramsSerializer: { indexes: null },
+      signal,
+    })
     .then((response) => response.data)
 }

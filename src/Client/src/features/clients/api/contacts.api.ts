@@ -1,5 +1,5 @@
 import { api } from '@/api/client'
-import type { ContactFilters, ContactListItem, ContactsPage, ContactStudent } from '../types'
+import type { Contact, ContactFilters, ContactsPage } from '../types'
 
 export class InvalidContactsResponseError extends Error {
   constructor(message: string) {
@@ -12,14 +12,14 @@ export function getContacts(filters: ContactFilters, signal?: AbortSignal) {
   return api
     .get<unknown>('/contacts', {
       params: {
-        PageNumber: filters.pageNumber,
-        CampaignTitle: filters.campaignTitle,
-        TrackId: filters.trackId,
-        LeadStatusId: filters.leadStatusId,
-        TagIds: filters.tagIds,
-        StudentName: filters.studentName,
-        ContactName: filters.contactName,
-        PhoneNumber: filters.phoneNumber,
+        pageNumber: filters.pageNumber,
+        campaignTitle: filters.campaignTitle,
+        trackId: filters.trackId,
+        leadStatusId: filters.leadStatusId,
+        tagIds: filters.tagIds,
+        studentName: filters.studentName,
+        contactName: filters.contactName,
+        phoneNumber: filters.phoneNumber,
       },
       paramsSerializer: { indexes: null },
       signal,
@@ -34,56 +34,37 @@ function parseContactsPage(value: unknown): ContactsPage {
 
   const rawItems = value.items ?? value.Items
   const rawPage = value.page ?? value.Page
-  if (!Array.isArray(rawItems) || !isRecord(rawPage)) {
-    throw new InvalidContactsResponseError('Expected items and page.')
-  }
-
-  const pageNumber = rawPage.pageNumber ?? rawPage.PageNumber
-  const hasNextPage = rawPage.hasNextPage ?? rawPage.HasNextPage
-  if (typeof pageNumber !== 'number' || typeof hasNextPage !== 'boolean') {
-    throw new InvalidContactsResponseError('Invalid page information.')
+  if (!Array.isArray(rawItems)) {
+    throw new InvalidContactsResponseError('Expected an items array.')
   }
 
   return {
     items: rawItems.map(parseContact),
-    page: { pageNumber, hasNextPage },
+    page: parsePageInfo(rawPage),
   }
 }
 
-function parseContact(value: unknown): ContactListItem {
+function parsePageInfo(value: unknown): ContactsPage['page'] {
+  if (!isRecord(value)) return undefined
+
+  const pageNumber = value.pageNumber ?? value.PageNumber
+  const hasNextPage = value.hasNextPage ?? value.HasNextPage
+  if (
+    typeof pageNumber !== 'number' ||
+    !Number.isInteger(pageNumber) ||
+    pageNumber < 1 ||
+    typeof hasNextPage !== 'boolean'
+  ) {
+    return undefined
+  }
+  return { pageNumber, hasNextPage }
+}
+
+function parseContact(value: unknown): Contact {
   if (!isRecord(value)) {
     throw new InvalidContactsResponseError('Contact item must be an object.')
   }
-
-  const id = value.id ?? value.Id
-  const name = value.name ?? value.Name
-  const rawStudents = value.students ?? value.Students
-  if (typeof id !== 'number' || typeof name !== 'string') {
-    throw new InvalidContactsResponseError('Contact item is missing its id or name.')
-  }
-  if (rawStudents !== undefined && !Array.isArray(rawStudents)) {
-    throw new InvalidContactsResponseError('Students must be an array.')
-  }
-
-  return {
-    id,
-    name,
-    students: rawStudents?.map(parseStudent),
-  }
-}
-
-function parseStudent(value: unknown): ContactStudent {
-  if (!isRecord(value)) {
-    throw new InvalidContactsResponseError('Student item must be an object.')
-  }
-
-  const id = value.id ?? value.Id
-  const name = value.name ?? value.Name
-  if (typeof id !== 'number' || typeof name !== 'string') {
-    throw new InvalidContactsResponseError('Student item is missing its id or name.')
-  }
-
-  return { id, name }
+  return value
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

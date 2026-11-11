@@ -13,7 +13,6 @@ export interface SessionUser {
 interface AuthState {
   user: SessionUser | null
   token: string | null
-  refreshToken: string | null
   login: (response: LoginResponse, accountName: string) => void
   logout: () => void
 }
@@ -25,7 +24,6 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       user: null,
       token: null,
-      refreshToken: null,
       login: (response, accountName) =>
         set({
           user: {
@@ -35,20 +33,15 @@ export const useAuthStore = create<AuthState>()(
             roles: mapBackendPermissions(response.permissions ?? [], accountName),
           },
           token: response.token,
-          refreshToken: response.refreshToken,
         }),
-      logout: () => set({ user: null, token: null, refreshToken: null }),
+      logout: () => set({ user: null, token: null }),
     }),
     {
       name: AUTH_STORAGE_KEY,
-      version: 2,
-      migrate: () => ({ user: null, token: null, refreshToken: null }),
+      version: 3,
+      migrate: () => ({ user: null, token: null }),
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({
-        user: state.user,
-        token: state.token,
-        refreshToken: state.refreshToken,
-      }),
+      partialize: (state) => ({ user: state.user, token: state.token }),
     },
   ),
 )

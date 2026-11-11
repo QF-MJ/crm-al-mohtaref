@@ -1,19 +1,10 @@
-import type { LookupItem, TagLookup } from '@/features/lookups/types'
+// TODO: Replace this open shape after the verified ContactsPageDto is available.
+export type Contact = Record<string, unknown>
 
-export interface ContactStudent {
-  id: number
-  name: string
-}
-
-export interface ContactListItem {
-  id: number
-  name: string
-  students?: ContactStudent[]
-}
-
+// UNVERIFIED: only the likely items/page envelope is adapted; preserve other response data.
 export interface ContactsPage {
-  items: ContactListItem[]
-  page: {
+  items: Contact[]
+  page?: {
     pageNumber: number
     hasNextPage: boolean
   }
@@ -28,10 +19,4 @@ export interface ContactFilters {
   studentName?: string
   contactName?: string
   phoneNumber?: string
-}
-
-export type ContactLookups = {
-  tracks: LookupItem[]
-  leadStatuses: LookupItem[]
-  tags?: TagLookup[]
 }

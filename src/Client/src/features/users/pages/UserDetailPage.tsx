@@ -75,6 +75,7 @@ export function UserDetailPage() {
       <section className="space-y-4 rounded-xl border bg-white p-5 sm:p-6">
         <h2 className="font-semibold">{t('users.accountDetails')}</h2>
         <dl className="grid gap-4 sm:grid-cols-2">
+          <DetailItem label={t('users.id')} value={String(user.id)} />
           <DetailItem label={t('users.username')} value={user.accountName} />
           <DetailItem label={t('users.name')} value={user.fullName ?? '—'} />
           <DetailItem label={t('users.email')} value={user.email ?? '—'} />
@@ -110,11 +111,17 @@ export function UserDetailPage() {
 }
 
 function PermissionItem({ permission }: { permission: UserPermission }) {
+  const { t } = useTranslation()
   return (
     <li className="rounded-md border p-3 text-sm">
-      <span className="font-medium">{permission.roleName}</span>
-      <span className="mx-2 text-slate-400">/</span>
-      <span>{permission.departmentName}</span>
+      <p className="text-xs text-slate-500">
+        {t('users.permissionId')}: {permission.id}
+      </p>
+      <p className="mt-1">
+        <span className="font-medium">{permission.roleName}</span>
+        <span className="mx-2 text-slate-400">/</span>
+        <span>{permission.departmentName}</span>
+      </p>
     </li>
   )
 }

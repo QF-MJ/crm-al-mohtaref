@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, ArrowRight, Search } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Plus, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { paths } from '@/app/router/paths'
@@ -12,6 +12,7 @@ import type { UserFilters, UserListItem } from '../types'
 
 export function UsersPage() {
   const { t } = useTranslation()
+  const can = usePermission()
   const [filters, setFilters] = useState<UserFilters>({ pageNumber: 1 })
   const [accountName, setAccountName] = useState('')
   const [name, setName] = useState('')
@@ -54,6 +55,15 @@ export function UsersPage() {
           <h1 className="text-2xl font-bold text-slate-800">{t('users.title')}</h1>
           <p className="mt-1 text-sm text-slate-500">{t('users.subtitle')}</p>
         </div>
+        {can('users.create') && (
+          <Link
+            to={paths.usersNew}
+            className="inline-flex h-9 items-center gap-2 rounded-md bg-teal-700 px-4 text-sm font-medium text-white hover:bg-teal-800"
+          >
+            <Plus aria-hidden="true" className="size-4" />
+            {t('users.add')}
+          </Link>
+        )}
       </header>
 
       <form
@@ -66,9 +76,10 @@ export function UsersPage() {
             label={t('users.username')}
             value={accountName}
             onChange={setAccountName}
+            maxLength={100}
           />
-          <FilterField label={t('users.name')} value={name} onChange={setName} />
-          <FilterField label={t('users.email')} value={email} onChange={setEmail} />
+          <FilterField label={t('users.name')} value={name} onChange={setName} maxLength={200} />
+          <FilterField label={t('users.email')} value={email} onChange={setEmail} maxLength={256} />
           <SelectField
             label={t('users.status')}
             value={status}
@@ -171,9 +182,10 @@ export function UsersPage() {
         ) : (
           <>
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[700px] text-start text-sm">
+              <table className="w-full min-w-[760px] text-start text-sm">
                 <thead className="bg-slate-50 text-xs font-medium text-slate-500">
                   <tr>
+                    <th scope="col" className="px-4 py-3">{t('users.id')}</th>
                     <th scope="col" className="px-4 py-3">{t('users.username')}</th>
                     <th scope="col" className="px-4 py-3">{t('users.name')}</th>
                     <th scope="col" className="px-4 py-3">{t('users.email')}</th>
@@ -230,10 +242,12 @@ function FilterField({
   label,
   value,
   onChange,
+  maxLength,
 }: {
   label: string
   value: string
   onChange: (value: string) => void
+  maxLength: number
 }) {
   return (
     <label className="space-y-1.5 text-xs font-medium text-slate-500">
@@ -241,6 +255,7 @@ function FilterField({
       <Input
         className="text-sm"
         value={value}
+        maxLength={maxLength}
         onChange={(event) => onChange(event.target.value)}
       />
     </label>
@@ -281,6 +296,7 @@ function UserRow({ user }: { user: UserListItem }) {
   const can = usePermission()
   return (
     <tr className="transition-colors hover:bg-teal-50/60">
+      <td className="whitespace-nowrap px-4 py-3 text-slate-500">{user.id}</td>
       <td className="whitespace-nowrap px-4 py-3 font-medium text-slate-700" dir="auto">
         <Link to={paths.user(String(user.id))} className="hover:text-primary hover:underline">
           {user.accountName}

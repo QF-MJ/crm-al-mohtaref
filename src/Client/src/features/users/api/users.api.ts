@@ -1,5 +1,6 @@
 import { api } from '@/api/client'
 import type {
+  UserCreateInput,
   UserDetail,
   UserFilters,
   UserUpdateInput,
@@ -10,13 +11,13 @@ export const getUsers = (filters: UserFilters, signal?: AbortSignal) =>
   api
     .get<UsersPage>('/users', {
       params: {
-        PageNumber: filters.pageNumber,
-        Name: filters.name,
-        AccountName: filters.accountName,
-        Email: filters.email,
-        IsActive: filters.isActive,
-        RoleId: filters.roleId,
-        DepartmentId: filters.departmentId,
+        pageNumber: filters.pageNumber,
+        name: filters.name,
+        accountName: filters.accountName,
+        email: filters.email,
+        isActive: filters.isActive,
+        roleId: filters.roleId,
+        departmentId: filters.departmentId,
       },
       signal,
     })
@@ -24,6 +25,9 @@ export const getUsers = (filters: UserFilters, signal?: AbortSignal) =>
 
 export const getUser = (id: number, signal?: AbortSignal) =>
   api.get<UserDetail>(`/users/${id}`, { signal }).then((response) => response.data)
+
+export const addUser = (body: UserCreateInput) =>
+  api.post<number>('/users', body).then((response) => response.data)
 
 export const updateUser = (id: number, body: UserUpdateInput) =>
   api.put<void>(`/users/${id}`, body).then((response) => response.data)

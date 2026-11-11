@@ -1,10 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
+import type { LookupType } from '../types'
 import { getLookups } from './lookups.api'
 
-export function useLookups() {
+const userLookupTypes: LookupType[] = ['Departments', 'Roles']
+
+export function useLookups(include: LookupType[] = userLookupTypes) {
   return useQuery({
-    queryKey: ['lookups'],
-    queryFn: ({ signal }) => getLookups(signal),
+    queryKey: ['lookups', include],
+    queryFn: ({ signal }) => getLookups(include, signal),
     staleTime: 5 * 60_000,
   })
 }

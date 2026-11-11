@@ -54,7 +54,7 @@ export interface UserUpdateInput {
   accountName: string
   fullName: string
   email: string
-  isActive: boolean
+  isActive?: boolean | null
   permissions: UserPermissionInput[]
 }
 
@@ -63,5 +63,5 @@ export interface UserCreateInput {
   fullName: string
   email: string
   password: string
-  permissions: UserPermissionInput[]
+  permissions?: UserPermissionInput[]
 }

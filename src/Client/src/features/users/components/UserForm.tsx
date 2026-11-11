@@ -8,13 +8,14 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { paths } from '@/app/router/paths'
 import type { LookupItem } from '../types'
-import { userSchema, type UserFormValues } from '../schemas/user.schema'
+import { createUserSchema, userSchema, type UserFormValues } from '../schemas/user.schema'
 
 interface UserFormProps {
   defaultValues: UserFormValues
   departments: LookupItem[]
   roles: LookupItem[]
   isPending: boolean
+  createMode?: boolean
   showStatus?: boolean
   showPassword?: boolean
   submitLabel?: string
@@ -27,6 +28,7 @@ export function UserForm({
   departments,
   roles,
   isPending,
+  createMode = false,
   showStatus = true,
   showPassword = false,
   submitLabel,
@@ -42,17 +44,7 @@ export function UserForm({
     control,
     formState: { errors },
   } = useForm<UserFormValues>({
-    resolver: zodResolver(
-      userSchema.superRefine((values, context) => {
-        if (showPassword && !values.password?.trim()) {
-          context.addIssue({
-            code: 'custom',
-            path: ['password'],
-            message: 'Required',
-          })
-        }
-      }),
-    ),
+    resolver: zodResolver(createMode ? createUserSchema : userSchema),
     defaultValues: { ...defaultValues, password: defaultValues.password ?? '' },
   })
   const { fields, append, remove } = useFieldArray({ control, name: 'permissions' })
@@ -64,6 +56,7 @@ export function UserForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
+      noValidate
       className="space-y-5 rounded-xl border bg-white p-5 sm:p-7"
     >
       <section className="space-y-4">
@@ -74,7 +67,12 @@ export function UserForm({
         <div className={`grid gap-5 ${accountFieldsClassName}`}>
           <div className="space-y-2">
             <Label htmlFor="fullName">{t('users.name')}</Label>
-            <Input id="fullName" dir="auto" {...register('fullName')} />
+            <Input
+              id="fullName"
+              dir="auto"
+              maxLength={createMode ? undefined : 200}
+              {...register('fullName')}
+            />
             {errors.fullName && <p className="text-sm text-destructive">{t('users.required')}</p>}
           </div>
           <div className="space-y-2">
@@ -86,7 +84,12 @@ export function UserForm({
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">{t('users.email')}</Label>
-            <Input id="email" type="email" dir="ltr" {...register('email')} />
+            <Input
+              id="email"
+              type={createMode ? 'text' : 'email'}
+              dir="ltr"
+              {...register('email')}
+            />
             {errors.email && <p className="text-sm text-destructive">{t('users.invalidEmail')}</p>}
           </div>
           {showPassword && (

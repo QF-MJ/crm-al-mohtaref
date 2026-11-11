@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { toast } from 'sonner'
 import { api } from './client'
 import { toApiError } from './errors'
 import { useAuthStore } from '@/stores/auth.store'
@@ -12,7 +13,9 @@ export function setupInterceptors() {
 
   api.interceptors.request.use((config) => {
     const token = useAuthStore.getState().token
-    if (token) config.headers.Authorization = `Bearer ${token}`
+    const isLoginRequest = /\/auth\/login(?:\?|$)/.test(config.url ?? '')
+    if (isLoginRequest) config.headers.delete('Authorization')
+    else if (token) config.headers.Authorization = `Bearer ${token}`
     return config
   })
 
@@ -25,6 +28,7 @@ export function setupInterceptors() {
 
       if (apiError.status === 401 && !isLoginRequest) {
         useAuthStore.getState().logout()
+        toast.error(apiError.message)
       }
 
       return Promise.reject(apiError)

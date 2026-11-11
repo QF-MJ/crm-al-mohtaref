@@ -2,7 +2,7 @@
   "appName": "Al-Mohtaref CRM",
   "apiUnavailable": {
     "eyebrow": "Feature not available",
-    "note": "This operation is not defined in OpenAPI contract v0.2.0. The UI will not call an undocumented route; it can be connected after the operation is added to the contract and implemented by the backend."
+    "note": "This operation is not listed among the seven endpoints in the current integration specification. The UI will not call an undocumented route."
   },
   "nav": {
     "clients": "Clients",
@@ -14,6 +14,7 @@
   },
   "users": {
     "title": "Employees",
+    "id": "ID",
     "subtitle": "Employee accounts and access status",
     "breadcrumb": "Administration / Users and permissions",
     "add": "Add employee",
@@ -49,6 +50,7 @@
     "password": "Password",
     "createTitle": "Add employee",
     "createBreadcrumb": "Administration / Users / Add employee",
+    "createDescription": "Enter the account details. The form displays server validation messages without assuming additional rules.",
     "unsaved": "Unsaved draft",
     "accountDetails": "Account details",
     "accountDetailsDescription": "Enter the new user's account information",
@@ -56,7 +58,7 @@
     "createSuccess": "Employee added successfully",
     "permissionRequired": "Add at least one role and department for this user",
     "lookupsEmpty": "No roles or departments are available for creating a user",
-    "createUnavailable": "User creation is not defined in OpenAPI contract v0.2.0, so this screen will not send a request to the backend.",
+    "createUnavailable": "User creation is not available in the current integration specification.",
     "updateSuccess": "Employee updated successfully",
     "notFound": "Employee was not found",
     "backToList": "Back to employee list",
@@ -69,6 +71,7 @@
     "addPermission": "Add permission",
     "removePermission": "Remove",
     "noPermissions": "This user has no assigned permissions",
+    "permissionId": "Permission ID",
     "invalidPermission": "Select a valid role and department",
     "permissionLookupError": "Could not match this user's permissions to the available roles and departments. No changes were saved."
   },
@@ -150,7 +153,8 @@
     "notFound": "Campaign not found",
     "backToList": "Back to campaigns",
     "reportsTitle": "Campaign reports",
-    "reportsUnavailable": "The documented API does not provide campaign report endpoints."
+    "reportsUnavailable": "The current integration specification does not include campaign report operations.",
+    "apiUnavailable": "Campaigns are not listed among the seven endpoints in the current integration specification, so this screen will not send undocumented requests."
   },
   "actions": {
     "logout": "Log out",
@@ -177,6 +181,13 @@
     "track": "Track",
     "leadStatus": "Lead status",
     "tags": "Tags",
+    "trackId": "Track ID",
+    "leadStatusId": "Lead status ID",
+    "tagIds": "Tag IDs (comma-separated)",
+    "lookupsUnverified": "Lookup sources for tracks, lead statuses, and tags are unverified; enter IDs manually.",
+    "invalidFilter": "Enter valid IDs greater than zero. Separate tag IDs with commas.",
+    "results": "Results",
+    "currentPageCount": "{{count}} contacts on this page",
     "all": "All",
     "search": "Search",
     "clear": "Clear filters",
@@ -188,8 +199,9 @@
     "invalidResponse": "The contacts API response does not match the expected contract. Check that the compatible backend version is running, then try again.",
     "tagsUnavailable": "The backend does not currently provide the tags lookup list.",
     "students": "Linked students",
-    "id": "ID",
-    "page": "Page {{page}}",
+    "studentsCount": "Students: {{count}}",
+    "noStudentNames": "No linked student names available",
+    "unnamedContact": "Unnamed contact",
     "previous": "Previous",
     "next": "Next",
     "importTitle": "Import contacts",
@@ -198,7 +210,7 @@
     "profileUnavailable": "The API provides contact search only and does not provide a contact-detail endpoint."
   },
   "errors": {
-    "logoutFailed": "The server could not revoke the session. You have been logged out locally.",
+    "logoutFailed": "The local session could not be cleared. Please try again.",
     "forbidden": "You do not have access to this page",
     "notFound": "Page not found",
     "backHome": "Back to home"

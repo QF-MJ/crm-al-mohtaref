@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { getUser, getUsers, updateUser } from './users.api'
+import { addUser, getUser, getUsers, updateUser } from './users.api'
 import { useLookups } from '@/features/lookups/api/lookups.queries'
-import type { UserFilters, UserUpdateInput } from '../types'
+import type { UserCreateInput, UserFilters, UserUpdateInput } from '../types'
 
 const usersKey = ['users'] as const
 
@@ -50,5 +50,13 @@ export function useUpdateUser(id: number) {
         queryClient.invalidateQueries({ queryKey: usersKey }),
         queryClient.invalidateQueries({ queryKey: [...usersKey, 'detail', id] }),
       ]),
+  })
+}
+
+export function useCreateUser() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (body: UserCreateInput) => addUser(body),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: usersKey }),
   })
 }

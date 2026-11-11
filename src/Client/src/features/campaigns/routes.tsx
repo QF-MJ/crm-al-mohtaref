@@ -1,8 +1,16 @@
 import type { AppRoute } from '@/types/router'
 import { ApiUnavailablePage } from '@/components/common/ApiUnavailablePage'
 import { useTranslation } from 'react-i18next'
-import { CampaignCreateUnavailablePage, CampaignFormPage } from './pages/CampaignFormPage'
-import { CampaignsPage } from './pages/CampaignsPage'
+
+function CampaignsUnavailablePage() {
+  const { t } = useTranslation()
+  return (
+    <ApiUnavailablePage
+      title={t('campaigns.title')}
+      description={t('campaigns.apiUnavailable')}
+    />
+  )
+}
 
 function CampaignReportsUnavailablePage() {
   const { t } = useTranslation()
@@ -17,17 +25,17 @@ function CampaignReportsUnavailablePage() {
 export const campaignsRoutes: AppRoute[] = [
   {
     path: 'campaigns',
-    element: <CampaignsPage />,
+    element: <CampaignsUnavailablePage />,
     handle: { permission: 'campaigns.updateStatus' },
   },
   {
     path: 'campaigns/new',
-    element: <CampaignCreateUnavailablePage />,
+    element: <CampaignsUnavailablePage />,
     handle: { permission: 'campaigns.create' },
   },
   {
     path: 'campaigns/:campaignId/edit',
-    element: <CampaignFormPage />,
+    element: <CampaignsUnavailablePage />,
     handle: { permission: 'campaigns.updateStatus' },
   },
   {
