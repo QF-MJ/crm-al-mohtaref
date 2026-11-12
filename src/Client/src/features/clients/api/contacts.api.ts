@@ -1,5 +1,5 @@
 import { api } from '@/api/client'
-import type { Contact, ContactFilters, ContactsPage } from '../types'
+import type { Contact, ContactFilters, ContactStudent, ContactsPage } from '../types'
 
 export class InvalidContactsResponseError extends Error {
   constructor(message: string) {
@@ -37,6 +37,9 @@ function parseContactsPage(value: unknown): ContactsPage {
   if (!Array.isArray(rawItems)) {
     throw new InvalidContactsResponseError('Expected an items array.')
   }
+  if (!isRecord(rawPage)) {
+    throw new InvalidContactsResponseError('Expected page information.')
+  }
 
   return {
     items: rawItems.map(parseContact),
@@ -44,9 +47,7 @@ function parseContactsPage(value: unknown): ContactsPage {
   }
 }
 
-function parsePageInfo(value: unknown): ContactsPage['page'] {
-  if (!isRecord(value)) return undefined
-
+function parsePageInfo(value: Record<string, unknown>): ContactsPage['page'] {
   const pageNumber = value.pageNumber ?? value.PageNumber
   const hasNextPage = value.hasNextPage ?? value.HasNextPage
   if (
@@ -55,7 +56,7 @@ function parsePageInfo(value: unknown): ContactsPage['page'] {
     pageNumber < 1 ||
     typeof hasNextPage !== 'boolean'
   ) {
-    return undefined
+    throw new InvalidContactsResponseError('Invalid page information.')
   }
   return { pageNumber, hasNextPage }
 }
@@ -64,7 +65,26 @@ function parseContact(value: unknown): Contact {
   if (!isRecord(value)) {
     throw new InvalidContactsResponseError('Contact item must be an object.')
   }
-  return value
+
+  const id = value.id ?? value.Id
+  const name = value.name ?? value.Name
+  const students = value.students ?? value.Students
+  if (typeof id !== 'string' || typeof name !== 'string' || !Array.isArray(students)) {
+    throw new InvalidContactsResponseError('Contact item is missing required fields.')
+  }
+  return { id, name, students: students.map(parseStudent) }
+}
+
+function parseStudent(value: unknown): ContactStudent {
+  if (!isRecord(value)) {
+    throw new InvalidContactsResponseError('Student item must be an object.')
+  }
+  const id = value.id ?? value.Id
+  const name = value.name ?? value.Name
+  if (typeof id !== 'string' || typeof name !== 'string') {
+    throw new InvalidContactsResponseError('Student item is missing required fields.')
+  }
+  return { id, name }
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

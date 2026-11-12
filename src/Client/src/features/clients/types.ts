@@ -1,10 +1,17 @@
-// TODO: Replace this open shape after the verified ContactsPageDto is available.
-export type Contact = Record<string, unknown>
+export interface ContactStudent {
+  id: string
+  name: string
+}
 
-// UNVERIFIED: only the likely items/page envelope is adapted; preserve other response data.
+export interface Contact {
+  id: string
+  name: string
+  students: ContactStudent[]
+}
+
 export interface ContactsPage {
   items: Contact[]
-  page?: {
+  page: {
     pageNumber: number
     hasNextPage: boolean
   }

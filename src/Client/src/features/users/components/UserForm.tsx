@@ -71,24 +71,36 @@ export function UserForm({
             <Input
               id="fullName"
               dir="auto"
-              maxLength={createMode ? undefined : 200}
+              maxLength={createMode ? 100 : 200}
               {...register('fullName')}
             />
-            {errors.fullName && <p className="text-sm text-destructive">{t('users.required')}</p>}
+            {errors.fullName && (
+              <p className="text-sm text-destructive">
+                {createMode ? t('users.invalidFullName') : t('users.required')}
+              </p>
+            )}
           </div>
           <div className="space-y-2">
             <Label htmlFor="accountName">{t('users.username')}</Label>
-            <Input id="accountName" dir="auto" {...register('accountName')} />
+            <Input
+              id="accountName"
+              dir="auto"
+              maxLength={createMode ? 50 : undefined}
+              {...register('accountName')}
+            />
             {errors.accountName && (
-              <p className="text-sm text-destructive">{t('users.required')}</p>
+              <p className="text-sm text-destructive">
+                {createMode ? t('users.invalidAccountName') : t('users.required')}
+              </p>
             )}
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">{t('users.email')}</Label>
             <Input
               id="email"
-              type={createMode ? 'text' : 'email'}
+              type="email"
               dir="ltr"
+              maxLength={createMode ? 150 : undefined}
               {...register('email')}
             />
             {errors.email && <p className="text-sm text-destructive">{t('users.invalidEmail')}</p>}
@@ -100,9 +112,12 @@ export function UserForm({
                 id="password"
                 type="password"
                 autoComplete="new-password"
+                maxLength={100}
                 {...register('password')}
               />
-              {errors.password && <p className="text-sm text-destructive">{t('users.required')}</p>}
+              {errors.password && (
+                <p className="text-sm text-destructive">{t('users.passwordRequirements')}</p>
+              )}
             </div>
           )}
           {showStatus && (

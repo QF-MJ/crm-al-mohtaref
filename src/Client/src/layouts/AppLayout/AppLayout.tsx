@@ -38,8 +38,7 @@ export function AppLayout() {
         >
           <div className="mb-6 rounded-2xl bg-gradient-to-br from-teal-800 to-slate-800 p-4 text-white">
             <p className="text-xs font-medium text-teal-100">{t('navigation.workspace')}</p>
-            <p className="mt-1 truncate text-base font-semibold">{user?.name || user?.accountName}</p>
-            <p className="mt-1 truncate text-xs text-white/65">{user?.accountName}</p>
+            <p className="mt-1 truncate text-base font-semibold">{user?.fullName}</p>
           </div>
           <nav aria-label={t('navigation.main')} className="flex flex-1 flex-col gap-1.5">
             {navItems.filter((item) => can(item.permission)).map((item) => {

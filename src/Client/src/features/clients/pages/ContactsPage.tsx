@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, type SelectOption } from '@/components/ui/select'
+import { GUID_PATTERN } from '@/lib/guid'
 import { getApiErrorMessage, toApiError } from '@/api/errors'
 import { usePermission } from '@/permissions/usePermission'
 import { useLookups, type LookupType } from '@/features/lookups'
@@ -11,7 +12,6 @@ import { useContacts } from '../api/contacts.queries'
 import type { Contact, ContactFilters } from '../types'
 
 const contactLookupTypes: LookupType[] = ['Tracks', 'LeadStatuses']
-const guidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 function errorText(
   error: unknown,
@@ -30,42 +30,10 @@ function parseTagIds(value: string): string[] | undefined | null {
   const ids: string[] = []
   for (const part of value.split(',')) {
     const id = part.trim()
-    if (!guidPattern.test(id)) return null
+    if (!GUID_PATTERN.test(id)) return null
     ids.push(id)
   }
   return ids
-}
-
-function isRecord(value: unknown): value is Contact {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
-}
-
-function getFieldValue(record: Contact, fieldName: string): unknown {
-  const entry = Object.entries(record).find(
-    ([field]) => field.toLowerCase() === fieldName.toLowerCase(),
-  )
-  return entry?.[1]
-}
-
-function getContactName(contact: Contact): string | undefined {
-  for (const field of ['name', 'contactName']) {
-    const value = getFieldValue(contact, field)
-    if (typeof value === 'string' && value.trim()) return value
-  }
-  return undefined
-}
-
-function getStudentNames(contact: Contact): string[] | undefined {
-  const students = getFieldValue(contact, 'students')
-  if (!Array.isArray(students)) return undefined
-
-  return students.flatMap((student) => {
-    if (typeof student === 'string' && student.trim()) return [student]
-    if (!isRecord(student)) return []
-
-    const name = getContactName(student)
-    return name ? [name] : []
-  })
 }
 
 export function ContactsPage() {
@@ -262,8 +230,8 @@ export function ContactsPage() {
           <p className="p-8 text-center text-sm text-slate-500">{t('contacts.empty')}</p>
         ) : (
           <div className="grid gap-4 p-4 sm:grid-cols-2 xl:grid-cols-3">
-            {contactsQuery.data.items.map((contact, index) => (
-              <ContactCard key={index} contact={contact} />
+            {contactsQuery.data.items.map((contact) => (
+              <ContactCard key={contact.id} contact={contact} />
             ))}
           </div>
         )}
@@ -306,40 +274,37 @@ export function ContactsPage() {
 
 function ContactCard({ contact }: { contact: Contact }) {
   const { t } = useTranslation()
-  const name = getContactName(contact)
-  const studentNames = getStudentNames(contact)
+  const studentNames = contact.students.map((student) => student.name)
 
   return (
     <article className="min-w-0 space-y-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
       <header className="border-b border-slate-100 pb-3">
-        <h3 className="truncate text-lg font-semibold text-slate-800" title={name}>
-          {name ?? t('contacts.unnamedContact')}
+        <h3 className="truncate text-lg font-semibold text-slate-800" title={contact.name}>
+          {contact.name || t('contacts.unnamedContact')}
         </h3>
       </header>
-      {studentNames !== undefined && (
-        <section className="space-y-2">
-          <div className="flex items-center justify-between gap-2">
-            <h4 className="text-sm font-medium text-slate-600">{t('contacts.students')}</h4>
-            <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs text-slate-600">
-              {t('contacts.studentsCount', { count: studentNames.length })}
-            </span>
-          </div>
-          {studentNames.length > 0 ? (
-            <ul className="flex flex-wrap gap-2">
-              {studentNames.map((studentName, index) => (
-                <li
-                  key={`${studentName}-${index}`}
-                  className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700"
-                >
-                  {studentName}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-sm text-slate-400">{t('contacts.noStudentNames')}</p>
-          )}
-        </section>
-      )}
+      <section className="space-y-2">
+        <div className="flex items-center justify-between gap-2">
+          <h4 className="text-sm font-medium text-slate-600">{t('contacts.students')}</h4>
+          <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs text-slate-600">
+            {t('contacts.studentsCount', { count: studentNames.length })}
+          </span>
+        </div>
+        {studentNames.length > 0 ? (
+          <ul className="flex flex-wrap gap-2">
+            {contact.students.map((student) => (
+              <li
+                key={student.id}
+                className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700"
+              >
+                {student.name}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-slate-400">{t('contacts.noStudentNames')}</p>
+        )}
+      </section>
     </article>
   )
 }

@@ -53,7 +53,7 @@ const seededNames = [
 ]
 
 interface MockPermission {
-  id: number
+  id: string
   departmentId: number
   roleId: number
   departmentName: string
@@ -71,7 +71,7 @@ function createSeedUsers(): MockUser[] {
 
     if (index === 0) {
       userPermissions.push({
-        id: 1,
+        id: crypto.randomUUID(),
         departmentId: 5,
         roleId: 2,
         departmentName: departments[4].name,
@@ -84,7 +84,7 @@ function createSeedUsers(): MockUser[] {
       const department = departments[departmentId - 1]
       const role = roles[roleId - 1]
       userPermissions.push({
-        id: userPermissions.length + 1,
+        id: crypto.randomUUID(),
         departmentId,
         roleId,
         departmentName: department.name,
@@ -95,7 +95,7 @@ function createSeedUsers(): MockUser[] {
         const secondDepartmentId = (index % departmentCount) + 1
         const secondDepartment = departments[secondDepartmentId - 1]
         userPermissions.push({
-          id: userPermissions.length + 1,
+          id: crypto.randomUUID(),
           departmentId: secondDepartmentId,
           roleId: 1,
           departmentName: secondDepartment.name,
@@ -209,14 +209,14 @@ export const usersHandlers = [
     }
 
     const permissions: MockPermission[] = []
-    for (const [index, input] of (body.permissions ?? []).entries()) {
+    for (const input of body.permissions ?? []) {
       const department = departments.find((item) => item.id === input.departmentId)
       const role = roles.find((item) => item.id === input.roleId)
       if (!department || !role) {
         return HttpResponse.json({ message: 'Invalid role or department' }, { status: 400 })
       }
       permissions.push({
-        id: index + 1,
+        id: crypto.randomUUID(),
         departmentId: department.id,
         roleId: role.id,
         departmentName: department.name,
@@ -233,7 +233,7 @@ export const usersHandlers = [
       permissions,
     }
     users.push(user)
-    return HttpResponse.json(userDetail(user), { status: 201 })
+    return HttpResponse.json(user.id, { status: 201 })
   }),
 
   http.put('*/api/users/:id', async ({ params, request }) => {
@@ -249,7 +249,7 @@ export const usersHandlers = [
       user.isActive = body.isActive
     }
     const updatedPermissions: MockPermission[] = []
-    for (const [index, permission] of body.permissions.entries()) {
+    for (const permission of body.permissions) {
       const department = departments.find((item) => item.id === permission.departmentId)
       const role = roles.find((item) => item.id === permission.roleId)
       if (!department || !role) {
@@ -259,7 +259,7 @@ export const usersHandlers = [
         )
       }
       updatedPermissions.push({
-        id: index + 1,
+        id: crypto.randomUUID(),
         departmentId: department.id,
         roleId: role.id,
         departmentName: department.name,

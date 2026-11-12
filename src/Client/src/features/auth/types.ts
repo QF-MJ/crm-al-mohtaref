@@ -3,8 +3,7 @@
 // يجب توحيد الأمرين مع محمد، ونحن نتبع الرد الفعلي.
 
 export interface PermissionDto {
-  /** الباك يرجّعه 0 دائماً حالياً */
-  id: number
+  id: string
   departmentName: string
   roleName: string
 }
@@ -18,13 +17,10 @@ export interface LoginDto {
   token: string
   /** الباك يرجّعه null حالياً (لا يوجد refresh بعد) */
   refreshToken: string | null
-  /** 120 = دقائق فعلياً (التوكن يعيش ساعتين)، رغم أن الـ OpenAPI يقول ثواني. لا نعتمد عليه */
-  expiresIn?: number
-  userId: number
+  /** ExpiresIn is serialized as an ISO date-time by the backend. */
+  expiresIn: string
+  userId: string
   fullName?: string
   permissions?: PermissionDto[]
 }
 
-export interface RefreshRequest {
-  refreshToken: string
-}

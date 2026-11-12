@@ -63,7 +63,7 @@ export function AppHeader({
           <p className="truncate text-sm font-semibold text-slate-800">
             {currentPage ? t(currentPage.labelKey) : t('appName')}
           </p>
-          <p className="truncate text-xs text-slate-500">{user?.name}</p>
+          <p className="truncate text-xs text-slate-500">{user?.fullName}</p>
         </div>
       </div>
 

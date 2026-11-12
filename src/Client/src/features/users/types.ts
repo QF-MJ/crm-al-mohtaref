@@ -13,7 +13,7 @@ export interface UserListItem {
 }
 
 export interface UserPermission {
-  id: number
+  id: string
   departmentName: string
   roleName: string
 }

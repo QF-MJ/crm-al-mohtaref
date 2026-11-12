@@ -112,9 +112,6 @@ function PermissionItem({ permission }: { permission: UserPermission }) {
   const { t } = useTranslation()
   return (
     <li className="rounded-md border p-3 text-sm">
-      <p className="text-xs text-slate-500">
-        {t('users.permissionId')}: {permission.id}
-      </p>
       <p className="mt-1">
         <span className="font-medium">{permission.roleName}</span>
         <span className="mx-2 text-slate-400">/</span>

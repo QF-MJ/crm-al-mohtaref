@@ -25,13 +25,6 @@ export function toApiError(error: unknown): ApiError {
   return { status: 0, message: error instanceof Error ? error.message : 'Unknown error' }
 }
 
-function fallbackMessage(status: number, fallback: string) {
-  if (status === 401) return 'انتهت الجلسة، سجّل دخولك من جديد'
-  if (status === 422) return 'محاولات كثيرة، انتظر دقيقة'
-  if (status === 403) return 'لا تملك صلاحية الوصول لهذه العملية'
-  return status >= 500 ? 'حدث خطأ غير متوقع' : fallback
-}
-
 export function getApiErrorMessage(error: unknown, fallback: string) {
   const parsed = toApiError(error)
   return parsed.status === 0 || parsed.message === 'Unknown error' ? fallback : parsed.message
