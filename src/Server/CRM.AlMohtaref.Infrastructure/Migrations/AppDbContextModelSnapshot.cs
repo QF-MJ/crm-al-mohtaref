@@ -75,7 +75,8 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
                     b.HasIndex("CreatedByUserId");
 
-                    b.HasIndex("Title");
+                    b.HasIndex("Title")
+                        .IsUnique();
 
                     b.HasIndex("TrackId");
 

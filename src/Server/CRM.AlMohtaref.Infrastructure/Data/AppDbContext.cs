@@ -26,6 +26,8 @@ public class AppDbContext : DbContext, IUnitOfWork
 
     public DbSet<Track> Tracks { get; set; }
 
+    public DbSet<Campaign> Campaigns { get; set; }
+
     public DbSet<Platform> Platforms { get; set; } = null!;
 
     public DbSet<PlatformCampaign> PlatformCampaigns { get; set; } = null!;

@@ -1,4 +1,4 @@
-using CRM.AlMohtaref.Domain.Entities.Questions;
+﻿using CRM.AlMohtaref.Domain.Entities.Questions;
 using CRM.AlMohtaref.Domain.Entities.Users;
 
 namespace CRM.AlMohtaref.Domain.Entities.Campaigns;
@@ -61,4 +61,38 @@ public class Campaign
     {
         CampaginStatusId = campaignStatusId;
     }
+
+    public void UpdateDetails(string title, string description, Guid statusId, Guid trackId, string url, decimal budget)
+    {
+        Title = title;
+        Description = description;
+        CampaginStatusId = statusId;
+        TrackId = trackId;
+        Url = url;
+        Budget = budget;
+    }
+
+    public void SynchronizePlatforms(IEnumerable<Guid> platformIds)
+    {
+        var targetIds = platformIds.Distinct()
+            .ToHashSet();
+
+        var toRemove = PlatformCampaigns
+            .Where(cp => !targetIds.Contains(cp.PlatformId))
+            .ToList();
+
+        foreach (var item in toRemove)
+        {
+            PlatformCampaigns.Remove(item);
+        }
+
+        var existingIds = PlatformCampaigns.Select(cp => cp.PlatformId).ToHashSet();
+        var toAdd = targetIds.Where(id => !existingIds.Contains(id));
+
+        foreach (var platformId in toAdd)
+        {
+            PlatformCampaigns.Add(new PlatformCampaign(platformId, Id));
+        }
+    }
+
 }

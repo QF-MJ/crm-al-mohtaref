@@ -25,4 +25,9 @@ public class Question
         Text = text;
         ConfigurationId = configurationId;
     }
+
+    public void ChangeConfiguration(Guid configurationId)
+    {
+        ConfigurationId = configurationId;
+    }
 }

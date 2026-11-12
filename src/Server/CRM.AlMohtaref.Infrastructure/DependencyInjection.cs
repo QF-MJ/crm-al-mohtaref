@@ -18,7 +18,6 @@ public static class DependencyInjection
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
         services.AddHttpContextAccessor();
-        services.AddScoped<ICurrentUserService, CurrentUserService>();
 
         services.AddDbContext<AppDbContext>(options =>
         {
@@ -42,6 +41,11 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ILookupRepository, LookupRepository>();
         services.AddScoped<IContactRepository, ContactRepository>();
+        services.AddScoped<ICampaignRepository, CampaignRepository>();
+        services.AddScoped<IQuestionCampaignRepository, QuestionCampaignRepository>();
+        services.AddScoped<IQuestionConfigurationRepository, QuestionConfigurationRepository>();
+        services.AddScoped<IOptionRepository, OptionRepository>();
+        services.AddScoped<IOptionSetRepository, OptionSetRepository>();
 
         return services;
     }
@@ -50,6 +54,8 @@ public static class DependencyInjection
     {
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
+        services.AddSingleton<IOptionSetHashService, OptionSetHashService>();
 
         return services;
     }

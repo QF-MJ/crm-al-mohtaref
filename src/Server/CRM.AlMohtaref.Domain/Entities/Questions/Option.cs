@@ -1,7 +1,6 @@
 ﻿namespace CRM.AlMohtaref.Domain.Entities.Questions;
 
-// An answer. Immutable by design: its text is never edited.
-// To "change" an answer, add a different option to the option set and remove the old one.
+
 public class Option
 {
     public Guid Id { get; private set; }
@@ -21,6 +20,20 @@ public class Option
 
     public Option(string optionText) : this()
     {
+        Id = Guid.NewGuid();
         OptionText = optionText;
+    }
+
+    public void SyncTags(IEnumerable<Guid> tagIds)
+    {
+        var target = tagIds.ToHashSet();
+
+        var toRemove = OptionTags.Where(t => !target.Contains(t.TagId)).ToList();
+        foreach (var tag in toRemove)
+            OptionTags.Remove(tag);
+
+        var existing = OptionTags.Select(t => t.TagId).ToHashSet();
+        foreach (var tagId in target.Where(id => !existing.Contains(id)))
+            OptionTags.Add(new OptionTag(Id, tagId));
     }
 }

@@ -36,4 +36,17 @@ public class QuestionCampaign
     {
         OptionSetId = optionSetId;
     }
+
+    public bool IsConfigurationChanged(Guid configurationId)
+    {
+        return Question.ConfigurationId != configurationId;
+    }
+
+    public void Update(Guid configurationId, Guid? optionSetId)
+    {
+        if (IsConfigurationChanged(configurationId))
+            Question.ChangeConfiguration(configurationId);
+
+        ChangeOptionSet(optionSetId);
+    }
 }

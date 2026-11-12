@@ -20,38 +20,25 @@ public class OptionSet
 
     public OptionSet(string contentHash) : this()
     {
+        Id = Guid.NewGuid();
         ContentHash = contentHash;
     }
 
-    public void ReHash(string hash)
+    public static OptionSet Create(string contentHash, IEnumerable<Guid> optionIds)
     {
-        ContentHash = hash;
+        var set = new OptionSet(contentHash);
+
+        foreach (var optionId in optionIds)
+            set.AddOption(optionId);
+
+        return set;
     }
 
-    
     public void AddOption(Guid optionId)
     {
         if (Items.Any(i => i.OptionId == optionId))
             return;
 
         Items.Add(new OptionSetItem(optionId));
-    }
-
-    public void RemoveOption(Guid optionId)
-    {
-        var item = Items.FirstOrDefault(i => i.OptionId == optionId);
-
-        if (item is not null)
-            Items.Remove(item);
-    }
-
-    public OptionSet CloneAs(string hash)
-    {
-        var clone = new OptionSet(hash);
-
-        foreach (var item in Items)
-            clone.Items.Add(new OptionSetItem(item.OptionId));
-
-        return clone;
     }
 }

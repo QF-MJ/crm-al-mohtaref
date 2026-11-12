@@ -17,7 +17,8 @@ public sealed class CampaignConfiguration : IEntityTypeConfiguration<Campaign>
         builder.Property(c => c.Url).HasMaxLength(500);
         builder.Property(c => c.Budget).HasPrecision(18, 2);
 
-        builder.HasIndex(c => c.Title);
+        builder.HasIndex(c => c.Title)
+            .IsUnique();
 
         builder.HasOne(c => c.Track)
             .WithMany(t => t.Campaigns)
