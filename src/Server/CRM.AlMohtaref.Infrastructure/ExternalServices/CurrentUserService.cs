@@ -4,7 +4,7 @@ using CRM.AlMohtaref.Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 
 
-namespace CRM.AlMohtaref.Infrastructure.ExternalServices
+namespace CRM.AlMohtaref.Infrastructure.Services
 {
 
     public class CurrentUserService : ICurrentUserService

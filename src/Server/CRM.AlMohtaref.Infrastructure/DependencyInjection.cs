@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using CRM.AlMohtaref.Infrastructure.Services;
 
+
 namespace CRM.AlMohtaref.Infrastructure;
 
 public static class DependencyInjection
