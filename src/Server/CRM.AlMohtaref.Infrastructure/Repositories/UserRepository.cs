@@ -4,34 +4,28 @@ using CRM.AlMohtaref.Application.Interfaces;
 using CRM.AlMohtaref.Infrastructure.Data;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
-using CRM.AlMohtaref.Infrastructure.Services;
+using CRM.AlMohtaref.Infrastructure.ExternalServices;
 
 
 namespace CRM.AlMohtaref.Infrastructure.Repositories;
 
-public sealed class UserRepository : IUserRepository
+public sealed class UserRepository(AppDbContext db) 
+    : IUserRepository
 {
-    private readonly AppDbContext _db;
-
-    public UserRepository(AppDbContext db)
+    public void Add(User user)
     {
-        _db = db;
-    }
-
-    public async Task AddAsync(User user)
-    {
-        await _db.Users.AddAsync(user);
+        db.Users.Add(user);
     }
 
     public async Task<bool> ExistsAsync(Guid userId, string email, string accountName, CancellationToken ct)
     {
-        return await _db.Users.AnyAsync(u => u.Id != userId
+        return await db.Users.AnyAsync(u => u.Id != userId
                                 && (u.Email == email || u.AccountName == accountName));
     }
 
     public async Task<User?> GetByAccountNameAsync(string accountName, CancellationToken ct = default)
     {
-        return await _db.Users
+        return await db.Users
             .Include(u => u.Person) 
             .Include(u => u.UserPermissions)
                 .ThenInclude(p => p.Role) 
@@ -42,7 +36,7 @@ public sealed class UserRepository : IUserRepository
 
     public async Task<User?> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
-        return await _db.Users
+        return await db.Users
             .Include( u => u.Person )
             .Include( u => u.UserPermissions )
             .FirstOrDefaultAsync(u => u.Id == id, ct);
@@ -50,7 +44,7 @@ public sealed class UserRepository : IUserRepository
 
     public async Task<UserDetailDto?> GetDetailAsync(Guid id, CancellationToken ct = default)
     {
-        return await _db.Users.AsNoTracking()
+        return await db.Users.AsNoTracking()
             .Where(u => u.Id == id)
             .Select(u => new UserDetailDto
             {
@@ -74,7 +68,7 @@ public sealed class UserRepository : IUserRepository
     public async Task<UsersPageDto> SearchAsync(GetUsersQuery query, CancellationToken ct = default)
     {
 
-        var rows = await _db.Users.AsNoTracking()
+        var rows = await db.Users.AsNoTracking()
             .Where(u => 
                 (query.IsActive == null || u.IsActive == query.IsActive)
                 && (string.IsNullOrEmpty(query.Name) || u.Person.FullName.Contains(query.Name))

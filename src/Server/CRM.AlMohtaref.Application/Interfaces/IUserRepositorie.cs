@@ -5,7 +5,7 @@ namespace CRM.AlMohtaref.Application.Interfaces;
 
 public interface IUserRepository
 {
-    Task AddAsync(User user);
+    void Add(User user);
 
     Task<bool> ExistsAsync(Guid userId, string email, string accountName, CancellationToken ct);
 

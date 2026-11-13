@@ -21,7 +21,7 @@ public class CreateUserCommandHandler(IUserRepository userRepository, IUnitOfWor
             request.Permissions?.Select(p => (p.RoleId, p.DepartmentId)) ?? new List<(Guid, Guid)>()
         );
 
-        await userRepository.AddAsync(user);
+        userRepository.Add(user);
         await unitOfWork.SaveChangesAsync();
 
         return user.Id;

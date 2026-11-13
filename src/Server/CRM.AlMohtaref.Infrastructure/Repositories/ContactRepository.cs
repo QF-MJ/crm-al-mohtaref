@@ -5,7 +5,7 @@ using CRM.AlMohtaref.Application.Interfaces;
 using CRM.AlMohtaref.Domain.Entities;
 using CRM.AlMohtaref.Domain.Entities.Contacts;
 using CRM.AlMohtaref.Infrastructure.Data;
-using CRM.AlMohtaref.Infrastructure.Services;
+using CRM.AlMohtaref.Infrastructure.ExternalServices;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Linq.Expressions;

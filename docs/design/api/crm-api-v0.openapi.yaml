@@ -1,13 +1,15 @@
 openapi: 3.0.3
 info:
   title: CRM المحترف API
-  version: 0.2.0
+  version: 0.3.0
   description: |
     APIs for stories UM-01, CM-05, IN-02, CP-03, UM-07.
+    Aligned with the implemented Swagger v1 (UUID identifiers, string enums for question types).
 
     Conventions:
     - Paged lists return `hasNextPage` instead of a total count (the server fetches PageSize + 1 rows).
-    - All dropdown lists come from a single endpoint: `GET /lookups`.
+    - Dropdown lists come from a single endpoint: `GET /lookups`
+      (implemented lists: Departments, Roles, Tracks, LeadStatuses).
     - Everything except login and refresh requires a JWT bearer token.
     - Every request body AND every query-string set is bound to a schema named `*Request`.
       Query-string requests are sent flattened (`?PageNumber=1&PageSize=20&Name=ali`);
@@ -24,7 +26,6 @@ tags:
   - name: Lookups
   - name: Contacts
   - name: Campaigns
-  - name: Questions
   - name: Users
 
 paths:
@@ -92,8 +93,8 @@ paths:
       operationId: getLookups
       summary: All dropdown lists in one call
       description: |
-        `Include` is optional. Without it every list is returned.
-        Campaigns are intentionally not included (too many); use `GET /campaigns?Title=`.
+        `Include` is optional. Without it every implemented list is returned.
+        Currently implemented lists: Departments, Roles, Tracks, LeadStatuses.
       parameters:
         - name: request
           in: query
@@ -142,9 +143,9 @@ paths:
       description: |
         Every filter is optional and filters are combined with AND.
         - `Title`: partial, case-insensitive match on the campaign title.
-        - `Status`: campaign status id (from `GET /lookups`, list `CampaignStatuses`).
+        - `Status`: campaign status id.
         - `TrackId`: track id (from `GET /lookups`, list `Tracks`).
-        - `PlatformId`: campaigns that run on this platform (from `GET /lookups`, list `Platforms`).
+        - `PlatformId`: campaigns that run on this platform.
       parameters:
         - name: request
           in: query
@@ -184,9 +185,7 @@ paths:
       summary: Edit campaign data (CP-03)
       description: |
         `platformIds` replaces the campaign's platforms.
-        `questionIds` replaces the campaign's questions: the questions in the array are kept, any question
-        not in the array is unlinked from the campaign (this is how the user drops a question that came from the sheet).
-        Omit `questionIds` to leave the campaign's questions unchanged.
+        `statusId` and `trackId` are UUIDs.
       requestBody:
         required: true
         content:
@@ -207,15 +206,7 @@ paths:
       operationId: getCampaignQuestions
       summary: Get the campaign's questions from its Google Sheet
       description: |
-        Called when the user presses "Edit" on a campaign. The server reads the Google Sheet from the
-        campaign's `url` and returns its questions. This call only reads: it creates and changes nothing.
-        Questions are created in the DB at import time (`POST /campaigns/{id}/import`), so every returned question
-        already has an `id`. A question that was imported but not configured yet has `type` null until the user
-        sets it with `PUT /questions/{id}`.
-        A question can be shared by several campaigns, so `isSelected` is relative to this campaign only: true when
-        the question is linked to this campaign, false when it is not (even if another campaign uses it).
-        The user picks the ones to keep and sends their ids in `questionIds` of `PUT /campaigns/{id}`.
-        A sheet question that has no DB record yet (the import never ran) is not returned.
+        Reads the Google Sheet from the campaign's `url` and returns the questions.
         Returns 400 if the campaign has no url or the sheet cannot be read.
       responses:
         "200":
@@ -223,6 +214,55 @@ paths:
           content:
             application/json:
               schema: { $ref: "#/components/schemas/CampaignQuestionsDto" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /campaigns/{id}/questions/sync:
+    parameters:
+      - $ref: "#/components/parameters/IdPath"
+    post:
+      tags: [Campaigns]
+      operationId: syncCampaignQuestions
+      summary: Sync the campaign's questions with its Google Sheet
+      description: |
+        Reads the Google Sheet from the campaign's `url`, creates the questions that do not exist yet
+        (unconfigured, `type` null), links the new questions to this campaign, and returns the synced
+        Returns 400 if the campaign has no url or the sheet cannot be read.
+      responses:
+        "200":
+          description: The questions after the sync
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CampaignQuestionsDto" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /campaigns/{id}/questions/{questionId}:
+    parameters:
+      - $ref: "#/components/parameters/IdPath"
+      - name: questionId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    put:
+      tags: [Campaigns]
+      operationId: updateCampaignQuestion
+      summary: Configure a question linked to a campaign
+      description: |
+        Sets the question type, its target (Student or Contact), the DB field, and the answer options
+        linked to tags. See `UpdateQuestionRequest` for the shape of each part.
+        A question can be shared by several campaigns, so the change applies to all of them.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateQuestionRequest" }
+      responses:
+        "204": { $ref: "#/components/responses/NoContent" }
         "400": { $ref: "#/components/responses/BadRequest" }
         "401": { $ref: "#/components/responses/Unauthorized" }
         "403": { $ref: "#/components/responses/Forbidden" }
@@ -246,52 +286,6 @@ paths:
           content:
             application/json:
               schema: { $ref: "#/components/schemas/ImportResultDto" }
-        "400": { $ref: "#/components/responses/BadRequest" }
-        "401": { $ref: "#/components/responses/Unauthorized" }
-        "403": { $ref: "#/components/responses/Forbidden" }
-        "404": { $ref: "#/components/responses/NotFound" }
-
-  /questions/{id}:
-    parameters:
-      - $ref: "#/components/parameters/IdPath"
-    put:
-      tags: [Questions]
-      operationId: updateQuestion
-      summary: Configure a question that came from the Google Sheet
-      description: |
-        Questions are created by the import from the Google Sheet (`POST /campaigns/{id}/import`).
-        This call sets what the sheet cannot provide:
-        the type, the DB field, and the answers linked to tags. See `UpdateQuestionRequest` for the rules of each type.
-        A question can be shared by several campaigns, so the change applies to all of them.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema: { $ref: "#/components/schemas/UpdateQuestionRequest" }
-            examples:
-              field:
-                summary: Type 1, linked to a DB field
-                value:
-                  question: What is the child's name?
-                  type: 1
-                  fieldId: 3
-              boolean:
-                summary: Type 2, yes/no linked to a tag
-                value:
-                  question: Do you have a laptop?
-                  type: 2
-                  answers:
-                    - { tagId: 7, answer: "Yes" }
-              choice:
-                summary: Type 3, multiple choice
-                value:
-                  question: Which course are you interested in?
-                  type: 3
-                  answers:
-                    - { tagId: 11, answer: Programming }
-                    - { tagId: 12, answer: Design }
-      responses:
-        "204": { $ref: "#/components/responses/NoContent" }
         "400": { $ref: "#/components/responses/BadRequest" }
         "401": { $ref: "#/components/responses/Unauthorized" }
         "403": { $ref: "#/components/responses/Forbidden" }
@@ -323,6 +317,24 @@ paths:
           content:
             application/json:
               schema: { $ref: "#/components/schemas/UsersPageDto" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+    post:
+      tags: [Users]
+      operationId: createUser
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CreateUserRequest" }
+      responses:
+        "200":
+          description: The id of the created user
+          content:
+            application/json:
+              schema: { type: integer, format: int32 }
+        "400": { $ref: "#/components/responses/BadRequest" }
         "401": { $ref: "#/components/responses/Unauthorized" }
         "403": { $ref: "#/components/responses/Forbidden" }
 
@@ -371,7 +383,7 @@ components:
       name: id
       in: path
       required: true
-      schema: { type: integer }
+      schema: { type: string, format: uuid }
 
   responses:
     NoContent:
@@ -408,41 +420,32 @@ components:
         message: { type: string, example: Campaign has no url }
 
     # ---------- Common ----------
-    TagItemDto:
-      type: object
-      required: [id, tag]
-      properties:
-        id: { type: integer }
-        tag: { type: string }
-
     PermissionDto:
       type: object
       required: [id, departmentName, roleName]
       properties:
-        id: { type: integer }
-        departmentName: { type: string }
-        roleName: { type: string }
+        id: { type: string, format: uuid }
+        departmentName: { type: string, nullable: true }
+        roleName: { type: string, nullable: true }
 
     # ---------- Requests ----------
     PagedRequest:
       type: object
       required: [PageNumber]
       properties:
-        PageNumber: { type: integer, minimum: 1, default: 1 }
+        PageNumber: { type: integer, format: int32, minimum: 1, default: 1 }
 
     PermissionRequest:
       type: object
-      required: [roleId, departmentId]
       properties:
-        roleId: { type: integer }
-        departmentId: { type: integer }
+        roleId: { type: string, format: uuid }
+        departmentId: { type: string, format: uuid }
 
     LoginRequest:
       type: object
-      required: [accountName, password]
       properties:
-        accountName: { type: string }
-        password: { type: string, format: password }
+        accountName: { type: string, nullable: true }
+        password: { type: string, nullable: true, format: password }
 
     RefreshRequest:
       type: object
@@ -450,26 +453,27 @@ components:
       properties:
         refreshToken: { type: string }
 
+    CreateUserRequest:
+      type: object
+      properties:
+        accountName: { type: string, nullable: true }
+        fullName: { type: string, nullable: true }
+        email: { type: string, nullable: true }
+        password: { type: string, nullable: true, format: password }
+        permissions:
+          type: array
+          nullable: true
+          items: { $ref: "#/components/schemas/PermissionRequest" }
+
     GetLookupsRequest:
       type: object
       properties:
         Include:
           type: array
-          description: Repeated key, e.g. `Include=Tracks&Include=Tags`. Omit to get every list.
+          description: Repeated key, e.g. `Include=Tracks&Include=Roles`. Omit to get every list.
           items:
             type: string
-            enum:
-              [
-                Tracks,
-                LeadStatuses,
-                Tags,
-                Platforms,
-                Fields,
-                CampaignStatuses,
-                QuestionTypes,
-                Departments,
-                Roles,
-              ]
+            enum: [Departments, Roles, Tracks, LeadStatuses]
 
     GetContactsRequest:
       allOf:
@@ -477,12 +481,12 @@ components:
         - type: object
           properties:
             CampaignTitle: { type: string }
-            TrackId: { type: integer }
-            LeadStatusId: { type: integer }
+            TrackId: { type: string, format: uuid }
+            LeadStatusId: { type: string, format: uuid }
             TagIds:
               type: array
-              description: Repeated key, e.g. `TagIds=1&TagIds=2`
-              items: { type: integer }
+              description: Repeated key, e.g. `TagIds=...&TagIds=...`
+              items: { type: string, format: uuid }
             StudentName: { type: string }
             ContactName: { type: string }
             PhoneNumber: { type: string }
@@ -496,14 +500,17 @@ components:
               type: string
               description: Partial, case-insensitive match on the campaign title.
             Status:
-              type: integer
-              description: Campaign status id (lookups `CampaignStatuses`).
+              type: string
+              format: uuid
+              description: Campaign status id.
             TrackId:
-              type: integer
+              type: string
+              format: uuid
               description: Track id (lookups `Tracks`).
             PlatformId:
-              type: integer
-              description: Campaigns that run on this platform (lookups `Platforms`).
+              type: string
+              format: uuid
+              description: Campaigns that run on this platform.
 
     GetUsersRequest:
       allOf:
@@ -523,77 +530,78 @@ components:
               type: boolean
               description: true = active users only, false = disabled users only.
             RoleId:
-              type: integer
+              type: string
+              format: uuid
               description: Users that have this role (lookups `Roles`).
             DepartmentId:
-              type: integer
+              type: string
+              format: uuid
               description: Users that have a role in this department (lookups `Departments`).
 
     UpdateCampaignRequest:
       type: object
-      required: [title, status, trackId]
       properties:
-        title: { type: string }
-        description: { type: string }
-        status: { type: integer }
-        trackId: { type: integer }
-        url: { type: string }
+        title: { type: string, nullable: true }
+        description: { type: string, nullable: true }
+        statusId: { type: string, format: uuid }
+        trackId: { type: string, format: uuid }
+        url: { type: string, nullable: true }
         budget: { type: number, format: double }
         platformIds:
           type: array
-          items: { type: integer }
-        questionIds:
-          type: array
-          description: The questions to keep on the campaign (replaces the current list). Omit to leave unchanged.
-          items: { type: integer }
+          nullable: true
+          items: { type: string, format: uuid }
 
-    UpdateQuestionAnswerRequest:
+    QuestionOptionRequest:
       type: object
-      required: [tagId, answer]
       properties:
-        tagId: { type: integer }
-        answer: { type: string }
+        optionText: { type: string, nullable: true }
+        tagIds:
+          type: array
+          nullable: true
+          items: { type: string, format: uuid }
 
     UpdateQuestionRequest:
       type: object
-      required: [question, type]
       description: |
-        Validation by type:
-        - type 1: `fieldId` required, `answers` must be empty.
-        - type 2: `fieldId` null, `answers` has exactly one item.
-        - type 3: `fieldId` null, `answers` has two or more items.
+        Configures a question that came from the Google Sheet.
+        - `type`: Text, Choice, MultipleChoice or Boolean.
+        - `target`: whether the answer applies to the Student or the Contact.
+        - `fieldId`: the DB field that stores a Text answer.
+        - `options`: the answer choices, each linked to tags.
       properties:
-        question: { type: string }
         type: { $ref: "#/components/schemas/QuestionType" }
-        fieldId: { type: integer, nullable: true }
-        answers:
+        target: { $ref: "#/components/schemas/QuestionTarget" }
+        fieldId: { type: string, format: uuid, nullable: true }
+        options:
           type: array
-          items: { $ref: "#/components/schemas/UpdateQuestionAnswerRequest" }
+          nullable: true
+          items: { $ref: "#/components/schemas/QuestionOptionRequest" }
 
     UpdateUserRequest:
       type: object
-      required: [accountName, fullName, email]
       properties:
-        accountName: { type: string }
-        fullName: { type: string }
-        email: { type: string, format: email }
-        isActive: { type: boolean }
+        accountName: { type: string, nullable: true }
+        fullName: { type: string, nullable: true }
+        email: { type: string, nullable: true, format: email }
+        isActive: { type: boolean, nullable: true }
         permissions:
           type: array
+          nullable: true
           items: { $ref: "#/components/schemas/PermissionRequest" }
 
     # ---------- Responses ----------
     LoginDto:
       type: object
-      required: [token, refreshToken, userId]
       properties:
-        token: { type: string }
-        refreshToken: { type: string }
-        expiresIn: { type: integer, description: Token lifetime in seconds }
-        userId: { type: integer }
-        fullName: { type: string }
+        token: { type: string, nullable: true }
+        refreshToken: { type: string, nullable: true }
+        expiresIn: { type: string, format: date-time }
+        userId: { type: string, format: uuid }
+        fullName: { type: string, nullable: true }
         permissions:
           type: array
+          nullable: true
           items: { $ref: "#/components/schemas/PermissionDto" }
 
     TokenDto:
@@ -605,219 +613,174 @@ components:
 
     TrackDto:
       type: object
-      required: [id, name]
       properties:
-        id: { type: integer }
-        name: { type: string }
-
-    CampaignStatuseDto:
-      type: object
-      required: [id, name]
-      properties:
-        id: { type: integer }
-        name: { type: string }
-
-    QuestionTypeDto:
-      type: object
-      required: [id, name]
-      properties:
-        id: { type: integer }
-        name: { type: string }
-
-    FieldDto:
-      type: object
-      required: [id, name]
-      properties:
-        id: { type: integer }
-        name: { type: string }
-
-    PlatformDto:
-      type: object
-      required: [id, name]
-      properties:
-        id: { type: integer }
-        name: { type: string }
-
-    DepartmentDto:
-      type: object
-      required: [id, name]
-      properties:
-        id: { type: integer }
-        name: { type: string }
-
-    RoleDto:
-      type: object
-      required: [id, name]
-      properties:
-        id: { type: integer }
-        name: { type: string }
+        id: { type: string, format: uuid }
+        name: { type: string, nullable: true }
 
     LeadStatuseDto:
       type: object
-      required: [id, name]
       properties:
-        id: { type: integer }
-        name: { type: string }
+        id: { type: string, format: uuid }
+        name: { type: string, nullable: true }
+
+    DepartmentDto:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string, nullable: true }
+
+    RoleDto:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string, nullable: true }
 
     LookupsDto:
       type: object
       description: Only the lists requested through `Include` are present.
       properties:
-        tracks:
-          type: array
-          items: { $ref: "#/components/schemas/TrackDto" }
-        leadStatuses:
-          type: array
-          items: { $ref: "#/components/schemas/LeadStatuseDto" }
-        tags:
-          type: array
-          items: { $ref: "#/components/schemas/TagItemDto" }
-        platforms:
-          type: array
-          items: { $ref: "#/components/schemas/PlatformDto" }
-        fields:
-          type: array
-          items: { $ref: "#/components/schemas/FieldDto" }
-        questionTypes:
-          type: array
-          description: "Expected values: 1 = Field, 2 = Boolean, 3 = Choice"
-          items: { $ref: "#/components/schemas/QuestionTypeDto" }
-        campaignStatuses:
-          type: array
-          items: { $ref: "#/components/schemas/CampaignStatuseDto" }
         departments:
           type: array
+          nullable: true
           items: { $ref: "#/components/schemas/DepartmentDto" }
         roles:
           type: array
+          nullable: true
           items: { $ref: "#/components/schemas/RoleDto" }
+        leadStatuses:
+          type: array
+          nullable: true
+          items: { $ref: "#/components/schemas/LeadStatuseDto" }
+        tracks:
+          type: array
+          nullable: true
+          items: { $ref: "#/components/schemas/TrackDto" }
 
     StudentDto:
       type: object
-      required: [id, name]
       properties:
-        id: { type: integer }
-        name: { type: string }
+        id: { type: string, format: uuid }
+        name: { type: string, nullable: true }
 
     ContactItemDto:
       type: object
-      required: [id, name]
       properties:
-        id: { type: integer }
-        name: { type: string }
+        id: { type: string, format: uuid }
+        name: { type: string, nullable: true }
         students:
           type: array
+          nullable: true
           items: { $ref: "#/components/schemas/StudentDto" }
 
     PageDto:
       type: object
-      required: [pageNumber, hasNextPage]
       properties:
-        pageNumber: { type: integer }
+        pageNumber: { type: integer, format: int32 }
         hasNextPage: { type: boolean }
 
     ContactsPageDto:
       type: object
-      required: [items, page]
       properties:
         items:
           type: array
+          nullable: true
           items: { $ref: "#/components/schemas/ContactItemDto" }
         page: { $ref: "#/components/schemas/PageDto" }
 
     CampaignListItemDto:
       type: object
-      required: [id, title]
       properties:
-        id: { type: integer }
-        title: { type: string }
-        status: { type: integer }
-        trackId: { type: integer }
+        id: { type: string, format: uuid }
+        title: { type: string, nullable: true }
+        statusId: { type: string, format: uuid }
+        trackId: { type: string, format: uuid }
 
     CampaignsPageDto:
       type: object
-      required: [items, page]
       properties:
         items:
           type: array
+          nullable: true
           items: { $ref: "#/components/schemas/CampaignListItemDto" }
         page: { $ref: "#/components/schemas/PageDto" }
 
+    QuestionType:
+      type: string
+      enum: [Text, Choice, MultipleChoice, Boolean]
+      description: |
+        Text: the client's free-text answer is stored in a DB field.
+        Boolean: yes/no. A "yes" answer is linked to a tag.
+        Choice / MultipleChoice: several answers, each linked to tags. The client's chosen answer attaches its tag.
+
+    QuestionTarget:
+      type: string
+      enum: [Student, Contact]
+      description: Whether the answer applies to the student or to the contact.
+
+    QuestionOptionDto:
+      type: object
+      properties:
+        optionText: { type: string, nullable: true }
+        tagIds:
+          type: array
+          nullable: true
+          items: { type: string, format: uuid }
+
+    QuestionDto:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        question: { type: string, nullable: true }
+        type:
+          allOf:
+            - $ref: "#/components/schemas/QuestionType"
+          nullable: true
+          description: null until the question is configured.
+        target:
+          allOf:
+            - $ref: "#/components/schemas/QuestionTarget"
+          nullable: true
+        fieldId: { type: string, format: uuid, nullable: true }
+        options:
+          type: array
+          nullable: true
+          items: { $ref: "#/components/schemas/QuestionOptionDto" }
+
     CampaignDetailDto:
       type: object
-      required: [id, title]
       properties:
-        id: { type: integer }
-        title: { type: string }
-        description: { type: string }
-        status: { type: integer }
-        trackId: { type: integer }
+        id: { type: string, format: uuid }
+        title: { type: string, nullable: true }
+        description: { type: string, nullable: true }
+        statusId: { type: string, format: uuid }
+        trackId: { type: string, format: uuid }
         url:
           {
             type: string,
+            nullable: true,
             description: Google Sheet link used by the import and by the questions endpoint,
           }
         budget: { type: number, format: double }
         platforms:
           type: array
+          nullable: true
           items:
             type: object
-            required: [id, name]
             properties:
-              id: { type: integer }
-              name: { type: string }
-        questions:
-          type: array
-          items: { $ref: "#/components/schemas/QuestionDto" }
-
-    QuestionType:
-      type: integer
-      enum: [1, 2, 3]
-      description: |
-        1 = Field: the client's free-text answer is stored in a DB field (e.g. Student.Name).
-        2 = Boolean: yes/no. A "yes" answer is linked to a tag and creates the link between the student/contact and that tag.
-        3 = Choice: several answers, each linked to a tag. The client's chosen answer attaches its tag.
-
-    QuestionAnswerDto:
-      type: object
-      required: [tagId, answer]
-      properties:
-        tagId: { type: integer }
-        answer: { type: string }
-
-    QuestionDto:
-      type: object
-      required: [id, question]
-      properties:
-        id: { type: integer }
-        question: { type: string }
-        type:
-          allOf:
-            - $ref: "#/components/schemas/QuestionType"
-          nullable: true
-          description: null until the question is configured with `PUT /questions/{id}`.
-        fieldId: { type: integer, nullable: true }
-        answers:
-          type: array
-          items: { $ref: "#/components/schemas/QuestionAnswerDto" }
-
+              id: { type: string, format: uuid }
+              name: { type: string, nullable: true }
     CampaignQuestionItemDto:
       allOf:
         - $ref: "#/components/schemas/QuestionDto"
         - type: object
-          required: [isSelected]
-          properties:
-            isSelected:
-              type: boolean
-              description: Whether the question is linked to this campaign (a question can be linked to several campaigns).
 
     CampaignQuestionsDto:
       type: object
-      required: [campaignId, questions]
       properties:
-        campaignId: { type: integer }
+        campaignId: { type: string, format: uuid }
         questions:
           type: array
+          nullable: true
           items: { $ref: "#/components/schemas/CampaignQuestionItemDto" }
 
     ImportResultDto:
@@ -825,32 +788,31 @@ components:
       required: [importedCount, skippedCount]
       description: Row-level problems are listed in `errors`; a failed import as a whole returns an ErrorDto.
       properties:
-        importedCount: { type: integer }
-        skippedCount: { type: integer }
+        importedCount: { type: integer, format: int32 }
+        skippedCount: { type: integer, format: int32 }
         errors:
           type: array
           items:
             type: object
             properties:
-              row: { type: integer }
+              row: { type: integer, format: int32 }
               message: { type: string }
 
     UserListItemDto:
       type: object
-      required: [id, accountName]
       properties:
-        id: { type: integer }
-        accountName: { type: string }
-        fullName: { type: string }
-        email: { type: string, format: email }
+        id: { type: string, format: uuid }
+        accountName: { type: string, nullable: true }
+        fullName: { type: string, nullable: true }
+        email: { type: string, nullable: true, format: email }
         isActive: { type: boolean }
 
     UsersPageDto:
       type: object
-      required: [items, page]
       properties:
         items:
           type: array
+          nullable: true
           items: { $ref: "#/components/schemas/UserListItemDto" }
         page: { $ref: "#/components/schemas/PageDto" }
 
@@ -861,4 +823,5 @@ components:
           properties:
             permissions:
               type: array
+              nullable: true
               items: { $ref: "#/components/schemas/PermissionDto" }

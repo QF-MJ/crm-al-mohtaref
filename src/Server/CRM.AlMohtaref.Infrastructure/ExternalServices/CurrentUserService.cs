@@ -1,5 +1,4 @@
-﻿
-using CRM.AlMohtaref.Application.Common.Dtos;
+﻿using CRM.AlMohtaref.Application.Common.Dtos;
 using CRM.AlMohtaref.Application.Interfaces;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using Microsoft.AspNetCore.Http;
@@ -7,7 +6,7 @@ using System.Data;
 using System.Security.Claims;
 
 
-namespace CRM.AlMohtaref.Infrastructure.Services
+namespace CRM.AlMohtaref.Infrastructure.ExternalServices
 {
 
     public class CurrentUserService : ICurrentUserService
