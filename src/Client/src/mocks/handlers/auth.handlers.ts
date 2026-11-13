@@ -1,24 +1,58 @@
 import { http, HttpResponse, delay } from 'msw'
 import { env } from '@/lib/env'
-import type { LoginDto, LoginRequest, RefreshRequest } from '@/features/auth/types'
+import type { LoginDto, LoginRequest } from '@/features/auth/types'
 
 // يحاكي سلوك الباك الفعلي (Seed تطوير):
 //   كلمة المرور لكل الحسابات: 12345678
 //   user01 مبيعات/موظف، user05 مبيعات/مدير، user10 تسويق/مدير،
 //   user15 خدمة عملاء/مدير، user20 توجيه أكاديمي/مدير
-//   admin: بلا صلاحيات (مثل الباك حالياً)
+//   admin: مدير في قسم الإدارة
 //   locked: يرجّع 403 (مثل الباك) | أي شيء آخر: 401 برسالة عامة
 export const MOCK_PASSWORD = '12345678'
 
-const dept = (departmentName: string, roleName: string) => [{ id: 0, departmentName, roleName }]
+const dept = (
+  departmentName: string,
+  roleName: string,
+): NonNullable<LoginDto['permissions']> => [
+  { id: crypto.randomUUID(), departmentName, roleName },
+]
 
-const accounts: Record<string, { userId: number; fullName: string; permissions: LoginDto['permissions'] }> = {
-  admin: { userId: 1, fullName: 'مدير النظام', permissions: [] },
-  user01: { userId: 2, fullName: 'أحمد خالد الحسن', permissions: dept('المبيعات', 'موظف') },
-  user05: { userId: 6, fullName: 'مدير مبيعات تجريبي', permissions: dept('المبيعات', 'مدير') },
-  user10: { userId: 11, fullName: 'مدير تسويق تجريبي', permissions: dept('التسويق', 'مدير') },
-  user15: { userId: 16, fullName: 'مدير خدمة عملاء تجريبي', permissions: dept('خدمة العملاء', 'مدير') },
-  user20: { userId: 21, fullName: 'مدير توجيه تجريبي', permissions: dept('التوجيه الأكاديمي', 'مدير') },
+const mockUserId = (id: number) => `00000000-0000-4000-8000-${String(id).padStart(12, '0')}`
+
+const accounts: Record<
+  string,
+  { userId: string; fullName: string; permissions: LoginDto['permissions'] }
+> = {
+  admin: {
+    userId: mockUserId(1),
+    fullName: 'مدير النظام',
+    permissions: [...dept('المبيعات', 'مدير'), ...dept('الإدارة', 'مدير')],
+  },
+  user01: {
+    userId: mockUserId(2),
+    fullName: 'أحمد خالد الحسن',
+    permissions: dept('المبيعات', 'موظف'),
+  },
+  user05: {
+    userId: mockUserId(6),
+    fullName: 'مدير مبيعات تجريبي',
+    permissions: dept('المبيعات', 'مدير'),
+  },
+  user10: {
+    userId: mockUserId(11),
+    fullName: 'مدير تسويق تجريبي',
+    permissions: dept('التسويق', 'مدير'),
+  },
+  user15: {
+    userId: mockUserId(16),
+    fullName: 'مدير خدمة عملاء تجريبي',
+    permissions: dept('خدمة العملاء', 'مدير'),
+  },
+  user20: {
+    userId: mockUserId(21),
+    fullName: 'مدير توجيه تجريبي',
+    permissions: dept('التوجيه الأكاديمي', 'مدير'),
+  },
 }
 
 export const authHandlers = [
@@ -41,19 +75,10 @@ export const authHandlers = [
     const body: LoginDto = {
       token: 'mock-token',
       refreshToken: null,
-      expiresIn: 120,
+      expiresIn: new Date(Date.now() + 2 * 60 * 60_000).toISOString(),
       ...account,
     }
     return HttpResponse.json(body)
   }),
 
-  // الباك الحقيقي لا يملك /auth/logout بعد، نبقيه بالـ mock للمستقبل
-  http.post(`${env.apiUrl}/auth/logout`, async ({ request }) => {
-    const { refreshToken } = (await request.json()) as RefreshRequest
-    await delay(100)
-    if (!refreshToken) {
-      return HttpResponse.json({ status: 401, message: 'Invalid token' }, { status: 401 })
-    }
-    return new HttpResponse(null, { status: 204 })
-  }),
 ]

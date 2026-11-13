@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { api } from './client'
 import { toApiError } from './errors'
 import { useAuthStore } from '@/stores/auth.store'
@@ -5,7 +6,7 @@ import { useAuthStore } from '@/stores/auth.store'
 let installed = false
 
 // مسارات لا تحتاج Token، و401 منها معناه "بيانات خاطئة" وليس "انتهت الجلسة"
-const PUBLIC_PATHS = ['/auth/login', '/auth/refresh']
+const PUBLIC_PATHS = ['/auth/login']
 
 const isPublic = (url?: string) => PUBLIC_PATHS.some((p) => url?.endsWith(p))
 

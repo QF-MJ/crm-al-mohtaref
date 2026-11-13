@@ -295,7 +295,7 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CreatedByUserId")
+                    b.Property<Guid?>("CreatedByUserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FullName")
@@ -742,8 +742,7 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedByUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("CreatedByUser");
                 });

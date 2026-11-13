@@ -1,6 +1,5 @@
 ﻿using CRM.AlMohtaref.Api.Contracts.Users;
 using CRM.AlMohtaref.Application.Features.Users;
-using CRM.AlMohtaref.Application.Features.Users.AddUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,19 +15,9 @@ public class UsersController(ISender sender)
 
 
     [HttpPost]
-    public async Task<ActionResult<int>> AddUser([FromBody] AddUserRequest request, CancellationToken ct)
+    public async Task<ActionResult<int>> AddUser([FromBody] CreateUserRequest request, CancellationToken ct)
     {
-        var userId = await sender.Send(
-                new AddUserCommand(
-                        request.Email,
-                        request.AccountName,
-                        request.FullName,
-                        request.Password,
-                        request.Permissions.Select(p => new PermissionCommand(p.RoleId, p.DepartmentId))
-                                .ToList()
-                    )
-            , ct);
-
+        var userId = await sender.Send(request.ToCommand(), ct);
         return CreatedAtAction(nameof(GetUser), new { id = userId }, userId);
     }
 

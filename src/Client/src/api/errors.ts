@@ -21,5 +21,22 @@ export function toApiError(error: unknown): ApiError {
       fieldErrors: data?.errors,
     }
   }
+  if (isApiError(error)) return error
   return { status: 0, message: error instanceof Error ? error.message : 'Unknown error' }
+}
+
+export function getApiErrorMessage(error: unknown, fallback: string) {
+  const parsed = toApiError(error)
+  return parsed.status === 0 || parsed.message === 'Unknown error' ? fallback : parsed.message
+}
+
+function isApiError(error: unknown): error is ApiError {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'status' in error &&
+    typeof error.status === 'number' &&
+    'message' in error &&
+    typeof error.message === 'string'
+  )
 }

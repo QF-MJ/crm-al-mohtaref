@@ -33,12 +33,13 @@ public class User
         UserPermissions = new List<UserPermission>();
     }
 
-    public User(string accountName, string passwordHash, Guid personId, string email)
+    public User(Guid id, string accountName, string passwordHash, Person person, string email)
         : this()
     {
+        Id = id;
         AccountName = accountName;
         PasswordHash = passwordHash;
-        PersonId = personId;
+        Person = person;
         Email = email;
         IsActive = true;
     }

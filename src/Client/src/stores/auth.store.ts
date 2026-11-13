@@ -6,7 +6,7 @@ import type { LoginDto, PermissionDto } from '@/features/auth/types'
 // لكن stores غير مذكورة. الأنواع فقط (type import) فلا يوجد اعتماد وقت التشغيل.
 
 export interface SessionUser {
-  id: number
+  id: string
   fullName: string
   /** أزواج قسم + دور كما يرسلها الباك، بدون أي تحويل */
   permissions: PermissionDto[]

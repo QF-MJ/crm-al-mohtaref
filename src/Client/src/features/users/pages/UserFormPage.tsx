@@ -3,21 +3,15 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { paths } from '@/app/router/paths'
+import { getApiErrorMessage } from '@/api/errors'
 import { useUpdateUser, useUser, useUserLookups } from '../api/users.queries'
 import { UserForm } from '../components/UserForm'
 import type { UserFormValues } from '../schemas/user.schema'
 import type { UserDetail, UserLookups } from '../types'
 
-function getErrorMessage(error: unknown) {
-  if (typeof error === 'object' && error !== null && 'message' in error) {
-    return String(error.message)
-  }
-  return ''
-}
-
 function getDefaultValues(user: UserDetail, lookups: UserLookups) {
   const permissions: UserFormValues['permissions'] = []
-  for (const permission of user.permissions) {
+  for (const permission of user.permissions ?? []) {
     const role = lookups.roles.find(
       (item) =>
         item.name.localeCompare(permission.roleName, undefined, { sensitivity: 'base' }) === 0,
@@ -31,9 +25,9 @@ function getDefaultValues(user: UserDetail, lookups: UserLookups) {
 
   return {
     accountName: user.accountName,
-    fullName: user.fullName,
-    email: user.email,
-    isActive: user.isActive,
+    fullName: user.fullName ?? '',
+    email: user.email ?? '',
+    isActive: user.isActive ?? false,
     permissions,
   }
 }
@@ -42,10 +36,10 @@ export function UserFormPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { userId: userIdParam } = useParams()
-  const userId = userIdParam && /^\d+$/.test(userIdParam) ? Number(userIdParam) : undefined
+  const userId = userIdParam || undefined
   const userQuery = useUser(userId)
   const lookupsQuery = useUserLookups()
-  const updateMutation = useUpdateUser(userId ?? 0)
+  const updateMutation = useUpdateUser(userId ?? '')
   const defaultValues = useMemo(() => {
     if (!userQuery.data || !lookupsQuery.data) return undefined
     return getDefaultValues(userQuery.data, lookupsQuery.data)
@@ -66,7 +60,7 @@ export function UserFormPage() {
           toast.success(t('users.updateSuccess'))
           navigate(paths.users)
         },
-        onError: (error) => toast.error(getErrorMessage(error) || t('users.unknownError')),
+        onError: (error) => toast.error(getApiErrorMessage(error, t('users.unknownError'))),
       },
     )
   }
@@ -82,7 +76,7 @@ export function UserFormPage() {
   if (userQuery.isError || lookupsQuery.isError || !userQuery.data || !lookupsQuery.data) {
     const error = userQuery.error ?? lookupsQuery.error
     return (
-      <UserPageError message={getErrorMessage(error) || t('users.unknownError')} />
+      <UserPageError message={getApiErrorMessage(error, t('users.unknownError'))} />
     )
   }
 

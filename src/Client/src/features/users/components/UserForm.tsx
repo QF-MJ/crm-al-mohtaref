@@ -6,15 +6,17 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Select } from '@/components/ui/select'
 import { paths } from '@/app/router/paths'
 import type { LookupItem } from '../types'
-import { userSchema, type UserFormValues } from '../schemas/user.schema'
+import { createUserSchema, userSchema, type UserFormValues } from '../schemas/user.schema'
 
 interface UserFormProps {
   defaultValues: UserFormValues
   departments: LookupItem[]
   roles: LookupItem[]
   isPending: boolean
+  createMode?: boolean
   showStatus?: boolean
   showPassword?: boolean
   submitLabel?: string
@@ -27,6 +29,7 @@ export function UserForm({
   departments,
   roles,
   isPending,
+  createMode = false,
   showStatus = true,
   showPassword = false,
   submitLabel,
@@ -42,17 +45,7 @@ export function UserForm({
     control,
     formState: { errors },
   } = useForm<UserFormValues>({
-    resolver: zodResolver(
-      userSchema.superRefine((values, context) => {
-        if (showPassword && !values.password?.trim()) {
-          context.addIssue({
-            code: 'custom',
-            path: ['password'],
-            message: 'Required',
-          })
-        }
-      }),
-    ),
+    resolver: zodResolver(createMode ? createUserSchema : userSchema),
     defaultValues: { ...defaultValues, password: defaultValues.password ?? '' },
   })
   const { fields, append, remove } = useFieldArray({ control, name: 'permissions' })
@@ -64,6 +57,7 @@ export function UserForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
+      noValidate
       className="space-y-5 rounded-xl border bg-white p-5 sm:p-7"
     >
       <section className="space-y-4">
@@ -74,19 +68,41 @@ export function UserForm({
         <div className={`grid gap-5 ${accountFieldsClassName}`}>
           <div className="space-y-2">
             <Label htmlFor="fullName">{t('users.name')}</Label>
-            <Input id="fullName" dir="auto" {...register('fullName')} />
-            {errors.fullName && <p className="text-sm text-destructive">{t('users.required')}</p>}
+            <Input
+              id="fullName"
+              dir="auto"
+              maxLength={createMode ? 100 : 200}
+              {...register('fullName')}
+            />
+            {errors.fullName && (
+              <p className="text-sm text-destructive">
+                {createMode ? t('users.invalidFullName') : t('users.required')}
+              </p>
+            )}
           </div>
           <div className="space-y-2">
             <Label htmlFor="accountName">{t('users.username')}</Label>
-            <Input id="accountName" dir="auto" {...register('accountName')} />
+            <Input
+              id="accountName"
+              dir="auto"
+              maxLength={createMode ? 50 : undefined}
+              {...register('accountName')}
+            />
             {errors.accountName && (
-              <p className="text-sm text-destructive">{t('users.required')}</p>
+              <p className="text-sm text-destructive">
+                {createMode ? t('users.invalidAccountName') : t('users.required')}
+              </p>
             )}
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">{t('users.email')}</Label>
-            <Input id="email" type="email" dir="ltr" {...register('email')} />
+            <Input
+              id="email"
+              type="email"
+              dir="ltr"
+              maxLength={createMode ? 150 : undefined}
+              {...register('email')}
+            />
             {errors.email && <p className="text-sm text-destructive">{t('users.invalidEmail')}</p>}
           </div>
           {showPassword && (
@@ -96,9 +112,12 @@ export function UserForm({
                 id="password"
                 type="password"
                 autoComplete="new-password"
+                maxLength={100}
                 {...register('password')}
               />
-              {errors.password && <p className="text-sm text-destructive">{t('users.required')}</p>}
+              {errors.password && (
+                <p className="text-sm text-destructive">{t('users.passwordRequirements')}</p>
+              )}
             </div>
           )}
           {showStatus && (
@@ -108,18 +127,17 @@ export function UserForm({
                 name="isActive"
                 control={control}
                 render={({ field }) => (
-                  <select
+                  <Select
                     id="isActive"
-                    name={field.name}
                     ref={field.ref}
                     onBlur={field.onBlur}
                     value={String(field.value)}
-                    onChange={(event) => field.onChange(event.target.value === 'true')}
-                    className="h-9 w-full rounded-md border border-input bg-white px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-                  >
-                    <option value="true">{t('users.active')}</option>
-                    <option value="false">{t('users.inactive')}</option>
-                  </select>
+                    onValueChange={(value) => field.onChange(value === 'true')}
+                    options={[
+                      { value: 'true', label: t('users.active') },
+                      { value: 'false', label: t('users.inactive') },
+                    ]}
+                  />
                 )}
               />
             </div>
@@ -152,29 +170,48 @@ export function UserForm({
           <div key={field.id} className="grid gap-3 sm:grid-cols-[1fr_1fr_auto]">
             <label className="space-y-1.5 text-xs font-medium text-slate-500">
               <span>{t('users.role')}</span>
-              <select
-                className="h-9 w-full rounded-md border border-input bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-                {...register(`permissions.${index}.roleId`, { valueAsNumber: true })}
-              >
-                {roles.map((role) => (
-                  <option key={role.id} value={role.id}>
-                    {role.name}
-                  </option>
-                ))}
-              </select>
+              <Controller
+                name={`permissions.${index}.roleId`}
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    ref={field.ref}
+                    onBlur={field.onBlur}
+                    value={String(field.value)}
+                    onValueChange={(value) =>
+                      field.onChange(roles.find((role) => String(role.id) === value)?.id ?? value)
+                    }
+                    options={roles.map((role) => ({
+                      value: String(role.id),
+                      label: role.name,
+                    }))}
+                  />
+                )}
+              />
             </label>
             <label className="space-y-1.5 text-xs font-medium text-slate-500">
               <span>{t('users.department')}</span>
-              <select
-                className="h-9 w-full rounded-md border border-input bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-                {...register(`permissions.${index}.departmentId`, { valueAsNumber: true })}
-              >
-                {departments.map((department) => (
-                  <option key={department.id} value={department.id}>
-                    {department.name}
-                  </option>
-                ))}
-              </select>
+              <Controller
+                name={`permissions.${index}.departmentId`}
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    ref={field.ref}
+                    onBlur={field.onBlur}
+                    value={String(field.value)}
+                    onValueChange={(value) =>
+                      field.onChange(
+                        departments.find((department) => String(department.id) === value)?.id ??
+                          value,
+                      )
+                    }
+                    options={departments.map((department) => ({
+                      value: String(department.id),
+                      label: department.name,
+                    }))}
+                  />
+                )}
+              />
             </label>
             <Button
               type="button"
