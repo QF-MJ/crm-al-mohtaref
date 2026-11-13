@@ -5,7 +5,7 @@ import { toast } from 'sonner'
 import { PageHeader } from '@/components/common/PageHeader'
 import { ErrorState } from '@/components/common/ErrorState'
 import { paths } from '@/app/router/paths'
-import { toApiError } from '@/api/errors'
+import { describeApiError } from '@/api/errors'
 import { UserForm } from '../components/UserForm'
 import { useCreateUser, useUserLookups } from '../api/users.queries'
 import type { UserFormValues } from '../schemas/user.schema'
@@ -46,8 +46,7 @@ export function CreateUserPage() {
           }
         },
         onError: (error) => {
-          const { message } = toApiError(error)
-          setErrorMessage(message || t('users.unknownError'))
+          setErrorMessage(describeApiError(error, t))
           toast.error(t('users.createFailed'))
         },
       },

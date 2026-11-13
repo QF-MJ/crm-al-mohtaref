@@ -1,31 +1,18 @@
 import { AlertTriangle, RefreshCw } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { toApiError } from '@/api/errors'
+import { describeApiError } from '@/api/errors'
 import { Button } from '@/components/ui/button'
 
 interface ErrorStateProps {
   error: unknown
   onRetry?: () => void
   isRetrying?: boolean
-  /** رسالة بديلة عندما لا يرسل الخادم نصاً مفيداً */
-  fallback?: string
 }
 
-// يجمع كل حالات الفشل في مكان واحد: شبكة، صلاحية، او رسالة الخادم
-export function ErrorState({ error, onRetry, isRetrying, fallback }: ErrorStateProps) {
+// يجمع كل حالات الفشل: شبكة، صلاحية، أو رسالة الخادم — مع رسائل مفهومة دائماً
+export function ErrorState({ error, onRetry, isRetrying }: ErrorStateProps) {
   const { t } = useTranslation()
-  const { status, message } = toApiError(error)
-
-  const text =
-    status === 0
-      ? t('errors.connection')
-      : status === 403
-        ? t('errors.forbiddenAction')
-        : status >= 500
-          ? t('errors.server')
-          : message && message !== 'Unknown error'
-            ? message
-            : (fallback ?? t('errors.requestFailed'))
+  const text = describeApiError(error, t)
 
   return (
     <div role="alert" className="flex flex-col items-center gap-4 px-6 py-12 text-center">

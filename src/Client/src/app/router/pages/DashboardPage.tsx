@@ -1,15 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import {
-  ArrowUpLeft,
-  BriefcaseBusiness,
-  GraduationCap,
-  Megaphone,
-  ShieldCheck,
-  UserRound,
-  UsersRound,
-  Wrench,
-} from 'lucide-react'
+import { ArrowUpLeft, BriefcaseBusiness, ShieldCheck, UserRound, UsersRound } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { PageHeader } from '@/components/common/PageHeader'
 import { paths } from '@/app/router/paths'
@@ -49,12 +40,6 @@ const SHORTCUTS: Shortcut[] = [
   },
 ]
 
-const ROADMAP = [
-  { labelKey: 'dashboard.roadmap.campaigns', icon: Megaphone },
-  { labelKey: 'dashboard.roadmap.academic', icon: GraduationCap },
-  { labelKey: 'dashboard.roadmap.issues', icon: Wrench },
-]
-
 export function DashboardPage() {
   const { t } = useTranslation()
   const access = useAccess()
@@ -77,26 +62,28 @@ export function DashboardPage() {
         }
       />
 
-      <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
-        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-          <h2 className="font-semibold text-slate-900">{t('dashboard.workspaceTitle')}</h2>
-          <p className="mt-1 text-sm leading-6 text-slate-500">
-            {t('dashboard.workspaceDescription')}
-          </p>
+      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="grid gap-6 lg:grid-cols-[1.35fr_1fr]">
+          <div>
+            <h2 className="font-semibold text-slate-900">{t('dashboard.workspaceTitle')}</h2>
+            <p className="mt-1 text-sm leading-6 text-slate-500">
+              {t('dashboard.workspaceDescription')}
+            </p>
 
-          <div className="mt-5 flex flex-wrap gap-2">
-            {access.pairs.length === 0 ? (
-              <Badge variant="warning">{t('permissions.none')}</Badge>
-            ) : (
-              access.pairs.map((pair) => (
-                <Badge key={`${pair.departmentName}-${pair.roleName}-${pair.id}`} variant="info">
-                  {pair.roleName} · {pair.departmentName}
-                </Badge>
-              ))
-            )}
+            <div className="mt-4 flex flex-wrap gap-2">
+              {access.pairs.length === 0 ? (
+                <Badge variant="warning">{t('permissions.none')}</Badge>
+              ) : (
+                access.pairs.map((pair) => (
+                  <Badge key={`${pair.departmentName}-${pair.roleName}-${pair.id}`} variant="info">
+                    {pair.roleName} · {pair.departmentName}
+                  </Badge>
+                ))
+              )}
+            </div>
           </div>
 
-          <dl className="mt-6 grid gap-3 sm:grid-cols-2">
+          <dl className="grid content-start gap-3 sm:grid-cols-2 lg:grid-cols-1">
             <div className="rounded-xl bg-slate-50 p-4">
               <dt className="text-xs text-slate-500">{t('dashboard.scope')}</dt>
               <dd className="mt-1 text-sm font-medium text-slate-800">
@@ -118,35 +105,8 @@ export function DashboardPage() {
               </dd>
             </div>
           </dl>
-        </section>
-
-        <section className="rounded-2xl border border-amber-200 bg-amber-50/70 p-5 sm:p-6">
-          <h2 className="flex items-center gap-2 font-semibold text-amber-900">
-            <Wrench aria-hidden="true" className="size-4" />
-            {t('dashboard.roadmap.title')}
-          </h2>
-          <p className="mt-1 text-sm leading-6 text-amber-800/90">
-            {t('dashboard.roadmap.description')}
-          </p>
-          <ul className="mt-4 space-y-2">
-            {ROADMAP.map((item) => {
-              const Icon = item.icon
-              return (
-                <li
-                  key={item.labelKey}
-                  className="flex items-center justify-between gap-3 rounded-lg bg-white/70 px-3 py-2 text-sm text-amber-900"
-                >
-                  <span className="inline-flex items-center gap-2">
-                    <Icon aria-hidden="true" className="size-4" />
-                    {t(item.labelKey)}
-                  </span>
-                  <Badge variant="warning">{t('dashboard.roadmap.status')}</Badge>
-                </li>
-              )
-            })}
-          </ul>
-        </section>
-      </div>
+        </div>
+      </section>
 
       <section className="space-y-3">
         <h2 className="font-semibold text-slate-900">{t('dashboard.quickAccess')}</h2>

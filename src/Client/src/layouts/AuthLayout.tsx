@@ -1,63 +1,68 @@
 import { Navigate, Outlet } from 'react-router-dom'
-import { ShieldCheck } from 'lucide-react'
+import { Languages, ShieldCheck } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import logo from '@/assets/brand/logo.png'
 import { ThemeToggle } from '@/components/common/ThemeToggle'
 import { useAuthStore } from '@/stores/auth.store'
+import '@/styles/login.css'
 
+// شاشة دخول Clean Minimalist: بطاقة واحدة هادئة على خلفية ناعمة،
+// مع ترويسة بسيطة (شعار + تبديل اللغة/الثيم) وتذييل صغير.
 export function AuthLayout() {
-  const { t } = useTranslation('auth')
-  const user = useAuthStore((s) => s.user)
+  const { t, i18n } = useTranslation()
+  const { t: ta } = useTranslation('auth')
+  const user = useAuthStore((state) => state.user)
   if (user) return <Navigate to="/" replace />
 
+  const nextLanguage = i18n.language.startsWith('ar') ? 'en' : 'ar'
+
   return (
-    <main className="grid min-h-screen place-items-center bg-[#f1f6f5] p-4 sm:p-8">
-      <div className="grid min-h-[640px] w-full max-w-6xl overflow-hidden rounded-[2rem] bg-white shadow-[0_30px_90px_-40px_rgba(15,55,60,0.35)] lg:min-h-[min(760px,calc(100vh-4rem))] lg:grid-cols-[0.92fr_1.08fr]">
-        <section className="relative isolate flex min-h-52 flex-col justify-between overflow-hidden bg-gradient-to-br from-[#0b6e6e] via-[#105e67] to-[#173d54] p-7 text-white sm:p-10 lg:p-12">
-          <div
-            aria-hidden="true"
-            className="absolute -end-24 -top-32 -z-10 size-96 rounded-full border border-white/10"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute -bottom-40 -start-24 -z-10 size-[30rem] rounded-full border border-white/10"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute bottom-16 end-10 -z-10 size-40 rounded-full bg-teal-300/10 blur-3xl"
-          />
+    <main className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[#f5f7f8]">
+      <div aria-hidden="true" className="login-canvas pointer-events-none absolute inset-0" />
 
-          <div className="flex items-center gap-4">
-            <img
-              src="/vertical%20logo%20white.svg"
-              alt={t('logoAlt')}
-              className="h-14 w-auto object-contain object-right sm:h-[4.5rem]"
+      <header className="relative z-10 flex items-center justify-between gap-3 px-5 py-4 sm:px-8 sm:py-5">
+        <div className="flex min-w-0 items-center gap-3">
+          <img src={logo} alt={ta('logoAlt')} className="app-logo h-8 w-auto" />
+          <span aria-hidden="true" className="hidden h-6 w-px bg-border sm:block" />
+          <span className="hidden truncate text-xs font-medium text-muted-foreground sm:block">
+            {ta('employeePortal')}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            onClick={() => void i18n.changeLanguage(nextLanguage)}
+            className="inline-flex h-9 items-center gap-1.5 rounded-lg px-2.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
+            aria-label={t('actions.switchLanguage')}
+          >
+            <Languages aria-hidden="true" className="size-4" />
+            <span>{t(nextLanguage === 'ar' ? 'actions.arabic' : 'actions.english')}</span>
+          </button>
+          <ThemeToggle />
+        </div>
+      </header>
+
+      <div className="relative z-10 flex flex-1 items-center justify-center px-4 pb-6 pt-2 sm:pb-10">
+        <div className="w-full max-w-[420px]">
+          <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-6 shadow-[0_20px_55px_-38px_rgba(11,60,55,0.45)] sm:p-8">
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-primary/45 to-transparent"
             />
-            <span className="h-10 w-px bg-white/25" />
-            <span className="text-sm font-medium leading-6 text-white/85">{t('systemName')}</span>
-          </div>
-
-          <div className="my-8 max-w-md space-y-5 lg:my-0">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium text-teal-50">
-              <ShieldCheck aria-hidden="true" className="size-4" />
-              {t('secureAccess')}
-            </span>
-            <h2 className="text-3xl font-bold leading-relaxed sm:text-4xl">{t('heroTitle')}</h2>
-            <p className="max-w-sm text-sm leading-8 text-teal-50/80 sm:text-base">
-              {t('heroDescription')}
-            </p>
-          </div>
-
-          <p className="hidden text-xs text-white/55 lg:block">{t('copyright')}</p>
-        </section>
-
-        <section className="relative flex items-center justify-center px-6 py-10 sm:px-12 lg:px-16">
-          {/* متاح قبل تسجيل الدخول أيضاً */}
-          <ThemeToggle className="absolute end-3 top-3 z-10" />
-          <div className="w-full">
             <Outlet />
           </div>
-        </section>
+        </div>
       </div>
+
+      <footer className="relative z-10 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 px-6 pb-5 text-[11px] text-muted-foreground sm:pb-6">
+        <span>{ta('copyright')}</span>
+        <span aria-hidden="true" className="hidden h-3 w-px bg-border sm:block" />
+        <span className="inline-flex items-center gap-1.5">
+          <ShieldCheck aria-hidden="true" className="size-3.5" />
+          {ta('secureLabel')}
+        </span>
+      </footer>
     </main>
   )
 }

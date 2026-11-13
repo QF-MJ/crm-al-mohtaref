@@ -6,7 +6,7 @@ import { AlertTriangle } from 'lucide-react'
 import { PageHeader } from '@/components/common/PageHeader'
 import { ErrorState } from '@/components/common/ErrorState'
 import { paths } from '@/app/router/paths'
-import { toApiError } from '@/api/errors'
+import { describeApiError } from '@/api/errors'
 import { useUpdateUser, useUser, useUserLookups } from '../api/users.queries'
 import { UserForm } from '../components/UserForm'
 import type { UserFormValues } from '../schemas/user.schema'
@@ -154,8 +154,7 @@ export function UserFormPage() {
           navigate(paths.user(userId))
         },
         onError: (error) => {
-          const { message } = toApiError(error)
-          setErrorMessage(message || t('users.unknownError'))
+          setErrorMessage(describeApiError(error, t))
           toast.error(t('users.updateFailed'))
         },
       },

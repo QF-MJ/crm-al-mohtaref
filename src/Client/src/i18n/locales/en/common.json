@@ -64,14 +64,6 @@
     "accountCard": {
       "title": "My account",
       "description": "Review your account details and the department/role pairs granted to you."
-    },
-    "roadmap": {
-      "title": "Modules in progress",
-      "description": "These modules are not available in the API yet; the UI sends no requests for them.",
-      "status": "Soon",
-      "campaigns": "Marketing campaigns",
-      "academic": "Academic guidance",
-      "issues": "Issues & tickets"
     }
   },
   "account": {
@@ -206,6 +198,13 @@
     "server": "A server error occurred. Try again later or contact the administrator.",
     "requestFailed": "The request could not be completed. Please try again.",
     "sessionExpired": "Your session has expired. Please sign in again.",
+    "invalidCredentials": "Incorrect account name or password",
+    "accountLocked": "The account is temporarily locked after repeated failed attempts",
+    "invalidRequest": "Check the entered data and try again",
+    "notFoundItem": "The requested item was not found or has been deleted",
+    "conflict": "This data is already in use, try another value",
+    "tooManyAttempts": "Too many attempts. Wait a minute and try again",
+    "unavailable": "The service is currently unavailable. Make sure the server is running and try again",
     "notFound": "Page not found",
     "notFoundHint": "The link you opened is invalid or has been removed.",
     "backHome": "Back to home"

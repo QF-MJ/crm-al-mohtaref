@@ -4,6 +4,9 @@
    بدل رموز الثيم. هذه القواعد تُعيد تعيين تلك الأدوات داخل .dark
    حتى لا نضطر لإضافة dark: لكل عنصر في كل صفحة.
    القواعد هنا خارج @layer فتتغلب على أدوات Tailwind (المعرّفة داخل layer).
+
+   اللوحة: رمادي فحمي فاتح (Dimmed) — تباين ناعم وإجهاد أقل للعين،
+   بدون أزرق داكن عميق وبدون نسيج نقطي.
 ------------------------------------------------------------------- */
 
 .dark {
@@ -16,115 +19,117 @@
 }
 
 .dark .bg-white\/95 {
-  background-color: rgb(17 26 43 / 0.95);
+  background-color: rgb(36 42 49 / 0.95);
 }
 
 .dark .bg-white\/70 {
-  background-color: rgb(255 255 255 / 0.06);
+  background-color: rgb(255 255 255 / 0.05);
 }
 
+/* أسطح غائرة قليلاً: رؤوس الجداول، شرائح داخلية */
 .dark .bg-slate-50,
 .dark .bg-slate-50\/50,
 .dark .bg-slate-50\/60,
 .dark .bg-slate-50\/70 {
-  background-color: #0f1a2c;
+  background-color: #20262c;
 }
 
+/* أسطح مرتفعة: شرائح، شارات، هياكل تحميل */
 .dark .bg-slate-100 {
-  background-color: #1b2740;
+  background-color: #2d343c;
 }
 
 .dark .bg-slate-200 {
-  background-color: #243349;
+  background-color: #363e48;
 }
 
 .dark .bg-\[\#f5f7f8\],
 .dark .bg-\[\#f1f6f5\] {
-  background-color: #080f1c;
+  background-color: #1b1f24;
 }
 
 .dark .bg-teal-50 {
-  background-color: #0d2f2f;
+  background-color: #1a3b39;
 }
 
 .dark .bg-amber-50 {
-  background-color: #2a1f0a;
+  background-color: #3a2e14;
 }
 
 .dark .bg-amber-50\/70 {
-  background-color: rgb(42 31 10 / 0.8);
+  background-color: rgb(58 46 20 / 0.85);
 }
 
 .dark .bg-rose-50 {
-  background-color: #2a1216;
+  background-color: #3a2024;
 }
 
 .dark .bg-sky-50 {
-  background-color: #0b2431;
+  background-color: #193341;
 }
 
 .dark .hover\:bg-slate-50:hover {
-  background-color: #1b2740;
+  background-color: #2b323a;
 }
 
 .dark .hover\:bg-slate-100:hover {
-  background-color: #22304a;
+  background-color: #353d47;
 }
 
 .dark .hover\:bg-teal-50\/40:hover,
 .dark .hover\:bg-teal-50\/50:hover,
 .dark .hover\:bg-teal-50\/60:hover {
-  background-color: #0d2f2f;
+  background-color: #1e4744;
 }
 
 .dark .hover\:bg-teal-100:hover {
-  background-color: #11403f;
+  background-color: #245550;
 }
 
 .dark .hover\:bg-rose-50:hover {
-  background-color: #2a1216;
+  background-color: #3a2024;
 }
 
 .dark .focus-visible\:bg-white:focus-visible {
-  background-color: #16233a;
+  background-color: #2d343c;
 }
 
 .dark .disabled\:bg-slate-50:disabled {
-  background-color: #16233a;
+  background-color: #2d343c;
 }
 
 .dark .disabled\:text-slate-400:disabled {
-  color: #7f8ea6;
+  color: #8d97a2;
 }
 
 /* ---------- النصوص ---------- */
 .dark .text-slate-900,
 .dark .hover\:text-slate-900:hover {
-  color: #f1f5f9;
+  color: #f2f4f6;
 }
 
 .dark .text-slate-800 {
-  color: #e2e8f0;
+  color: #e5e9ed;
 }
 
 .dark .text-slate-700 {
-  color: #cbd5e1;
+  color: #cfd6de;
 }
 
 .dark .text-slate-600 {
-  color: #b6c2d4;
+  color: #b7c0c9;
 }
 
 .dark .text-slate-500 {
-  color: #94a3b8;
+  color: #9ca6b1;
 }
 
 .dark .text-slate-400 {
-  color: #7f8ea6;
+  color: #8d97a2;
 }
 
 .dark .text-teal-800 {
-  color: #7dd3c7;
+  color: #7fd9cd;
 }
 
 .dark .text-teal-700 {
@@ -133,38 +138,38 @@
 
 .dark .text-amber-900,
 .dark .text-amber-900\/90 {
-  color: #fcd34d;
+  color: #f5c86b;
 }
 
 .dark .text-amber-800,
 .dark .text-amber-800\/90 {
-  color: #fde68a;
+  color: #f8dc9a;
 }
 
 .dark .text-amber-700 {
-  color: #fcd34d;
+  color: #f5c86b;
 }
 
 .dark .text-rose-800,
 .dark .text-rose-700,
 .dark .hover\:text-rose-700:hover {
-  color: #fda4af;
+  color: #f7a3ad;
 }
 
 .dark .text-rose-600 {
-  color: #fb7185;
+  color: #fb8f9e;
 }
 
 .dark .text-sky-900 {
-  color: #bae6fd;
+  color: #b9dff5;
 }
 
 .dark .text-sky-800 {
-  color: #7dd3fc;
+  color: #8ecdf0;
 }
 
 .dark .hover\:text-slate-700:hover {
-  color: #e2e8f0;
+  color: #e5e9ed;
 }
 
 .dark .group:hover .group-hover\:text-teal-600 {
@@ -174,56 +179,56 @@
 /* ---------- الحدود والفواصل ---------- */
 .dark .border-slate-200,
 .dark .border-slate-200\/80 {
-  border-color: #243349;
+  border-color: #363e48;
 }
 
 .dark .border-slate-100 {
-  border-color: #1c2940;
+  border-color: #2c333c;
 }
 
 .dark .border-teal-200 {
-  border-color: #115e59;
+  border-color: #237068;
 }
 
 .dark .border-amber-200 {
-  border-color: #6b4e12;
+  border-color: #755c22;
 }
 
 .dark .border-rose-200 {
-  border-color: #7f1d2d;
+  border-color: #843740;
 }
 
 .dark .border-sky-200 {
-  border-color: #155e75;
+  border-color: #215d76;
 }
 
 .dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]) {
-  border-color: #1c2940;
+  border-color: #2c333c;
 }
 
 /* ---------- حلقات الشارات (Badge) ---------- */
 .dark .ring-slate-200 {
-  --tw-ring-color: #2b3a52;
+  --tw-ring-color: #3b434e;
 }
 
 .dark .ring-teal-200 {
-  --tw-ring-color: #115e59;
+  --tw-ring-color: #237068;
 }
 
 .dark .ring-amber-200 {
-  --tw-ring-color: #6b4e12;
+  --tw-ring-color: #755c22;
 }
 
 .dark .ring-rose-200 {
-  --tw-ring-color: #7f1d2d;
+  --tw-ring-color: #843740;
 }
 
 .dark .ring-sky-200 {
-  --tw-ring-color: #155e75;
+  --tw-ring-color: #215d76;
 }
 
 .dark .ring-teal-700\/10 {
-  --tw-ring-color: rgb(79 209 197 / 0.2);
+  --tw-ring-color: rgb(79 209 197 / 0.18);
 }
 
 /* ---------- شعار الترويسة (PNG غامق) ---------- */

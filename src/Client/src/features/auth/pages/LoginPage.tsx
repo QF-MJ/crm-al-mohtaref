@@ -3,7 +3,7 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { paths } from '@/app/router/paths'
 import { useAuthStore } from '@/stores/auth.store'
-import { toApiError } from '@/api/errors'
+import { describeApiError, isHumanMessage, toApiError } from '@/api/errors'
 import { useLogin } from '../api/auth.queries'
 import { LoginForm } from '../components/LoginForm'
 import type { LoginForm as LoginFormValues } from '../schemas/login.schema'
@@ -13,13 +13,9 @@ interface LocationState {
   from?: { pathname?: string; search?: string }
 }
 
-// الباك يرجّع 403 للحساب المقفل (الـ OpenAPI يقول 423)، و422 عند تجاوز حد المحاولات
-const LOCKED_STATUSES = [403, 423]
-const RATE_LIMITED_STATUSES = [422, 429]
-
 // الأخطاء تُعرض داخل النموذج، لا كـ toast يختفي
 export function LoginPage() {
-  const { t } = useTranslation('auth')
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const location = useLocation()
   const isLoggedIn = useAuthStore((state) => state.user !== null)
@@ -35,21 +31,22 @@ export function LoginPage() {
 
   if (isLoggedIn) return <Navigate to={target} replace />
 
-  const resolveError = (status: number, message: string) => {
-    if (status === 0) return t('network')
-    if (RATE_LIMITED_STATUSES.includes(status)) return t('tooManyAttempts')
-    if (LOCKED_STATUSES.includes(status)) return message || t('locked')
-    return message || t('failed')
+  const resolveError = (error: unknown) => {
+    const { status, message } = toApiError(error)
+    // 403 في تسجيل الدخول = الحساب مقفول (الباك يرسل رسالة عربية عادة)
+    if (status === 403) {
+      return isHumanMessage(message) ? message.trim() : t('errors.accountLocked')
+    }
+    // 422/429 = تجاوز حد محاولات الدخول
+    if (status === 422 || status === 429) return t('errors.tooManyAttempts')
+    return describeApiError(error, t)
   }
 
   const onSubmit = (values: LoginFormValues) => {
     setErrorMessage('')
     mutate(values, {
       onSuccess: () => navigate(target, { replace: true }),
-      onError: (error) => {
-        const { status, message } = toApiError(error)
-        setErrorMessage(resolveError(status, message))
-      },
+      onError: (error) => setErrorMessage(resolveError(error)),
     })
   }
 

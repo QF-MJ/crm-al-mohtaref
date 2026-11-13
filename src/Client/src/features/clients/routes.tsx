@@ -8,6 +8,10 @@ export const clientsRoutes: AppRoute[] = [
     element: <ContactsPage />,
     handle: { capability: 'contacts.view' },
   },
+]
+
+// صفحات لم تُطلق في الباك بعد: تُسجّل في وضع التطوير فقط (انظر app/router/index.tsx)
+export const clientsPreviewRoutes: AppRoute[] = [
   {
     path: 'clients/import',
     element: (
