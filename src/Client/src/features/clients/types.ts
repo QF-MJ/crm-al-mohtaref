@@ -1,21 +1,30 @@
-// TODO: Replace this open shape after the verified ContactsPageDto is available.
-export type Contact = Record<string, unknown>
+import type { PageInfo } from '@/types/common'
 
-// UNVERIFIED: only the likely items/page envelope is adapted; preserve other response data.
+/** عنصر StudentDto: معرّف Guid واسم الطالب */
+export interface ContactStudent {
+  id: string
+  name: string
+}
+
+/** عنصر ContactItemDto كما يعيده GET /api/contacts */
+export interface Contact {
+  id: string
+  name: string
+  students: ContactStudent[]
+}
+
 export interface ContactsPage {
   items: Contact[]
-  page?: {
-    pageNumber: number
-    hasNextPage: boolean
-  }
+  page?: PageInfo
 }
 
 export interface ContactFilters {
   pageNumber: number
   campaignTitle?: string
-  trackId?: string | number
-  leadStatusId?: string | number
-  tagIds?: string[]
+  /** Guid */
+  trackId?: string
+  /** Guid */
+  leadStatusId?: string
   studentName?: string
   contactName?: string
   phoneNumber?: string

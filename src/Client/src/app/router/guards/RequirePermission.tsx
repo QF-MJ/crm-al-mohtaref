@@ -1,15 +1,15 @@
 import type { ReactNode } from 'react'
-import { Navigate } from 'react-router-dom'
-import { usePermission } from '@/permissions/usePermission'
-import type { Permission } from '@/permissions/permissions'
-import { paths } from '../paths'
+import { useAccess } from '@/permissions/useAccess'
+import type { Capability } from '@/permissions/access'
+import { ForbiddenPage } from '../pages/ForbiddenPage'
 
 interface Props {
-  permission: Permission
+  capability: Capability
   children: ReactNode
 }
 
-export function RequirePermission({ permission, children }: Props) {
-  const allowed = usePermission()(permission)
-  return allowed ? <>{children}</> : <Navigate to={paths.forbidden} replace />
+// نعرض صفحة "غير مصرّح" داخل التخطيط نفسه بدل تحويل المستخدم إلى صفحة منفصلة
+export function RequirePermission({ capability, children }: Props) {
+  const access = useAccess()
+  return access.can(capability) ? <>{children}</> : <ForbiddenPage />
 }

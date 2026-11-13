@@ -1,100 +1,61 @@
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Info, Search, UsersRound } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Badge } from '@/components/ui/badge'
 import { Select, type SelectOption } from '@/components/ui/select'
-import { getApiErrorMessage, toApiError } from '@/api/errors'
-import { usePermission } from '@/permissions/usePermission'
-import { useLookups, type LookupType } from '@/features/lookups'
-import { InvalidContactsResponseError } from '../api/contacts.api'
+import { PageHeader } from '@/components/common/PageHeader'
+import { EmptyState } from '@/components/common/EmptyState'
+import { ErrorState } from '@/components/common/ErrorState'
+import { TableSkeleton } from '@/components/common/TableSkeleton'
+import { Pagination } from '@/components/common/Pagination'
+import { useAccess } from '@/permissions/useAccess'
+import { useLookups } from '@/features/lookups'
 import { useContacts } from '../api/contacts.queries'
 import type { Contact, ContactFilters } from '../types'
 
-const contactLookupTypes: LookupType[] = ['Tracks', 'LeadStatuses']
-const guidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+const CONTACT_LOOKUPS = ['Tracks', 'LeadStatuses'] as const
 
-function errorText(
-  error: unknown,
-  fallback: string,
-  connectionError: string,
-  invalidResponse: string,
-) {
-  if (error instanceof InvalidContactsResponseError) return invalidResponse
-  const apiError = toApiError(error)
-  if (apiError.status === 0) return connectionError
-  return apiError.message === 'Unknown error' ? fallback : apiError.message
+interface DraftFilters {
+  contactName: string
+  studentName: string
+  phoneNumber: string
+  campaignTitle: string
+  trackId: string
+  leadStatusId: string
 }
 
-function parseTagIds(value: string): string[] | undefined | null {
-  if (!value.trim()) return undefined
-  const ids: string[] = []
-  for (const part of value.split(',')) {
-    const id = part.trim()
-    if (!guidPattern.test(id)) return null
-    ids.push(id)
-  }
-  return ids
-}
-
-function isRecord(value: unknown): value is Contact {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
-}
-
-function getFieldValue(record: Contact, fieldName: string): unknown {
-  const entry = Object.entries(record).find(
-    ([field]) => field.toLowerCase() === fieldName.toLowerCase(),
-  )
-  return entry?.[1]
-}
-
-function getContactName(contact: Contact): string | undefined {
-  for (const field of ['name', 'contactName']) {
-    const value = getFieldValue(contact, field)
-    if (typeof value === 'string' && value.trim()) return value
-  }
-  return undefined
-}
-
-function getStudentNames(contact: Contact): string[] | undefined {
-  const students = getFieldValue(contact, 'students')
-  if (!Array.isArray(students)) return undefined
-
-  return students.flatMap((student) => {
-    if (typeof student === 'string' && student.trim()) return [student]
-    if (!isRecord(student)) return []
-
-    const name = getContactName(student)
-    return name ? [name] : []
-  })
+const EMPTY_DRAFT: DraftFilters = {
+  contactName: '',
+  studentName: '',
+  phoneNumber: '',
+  campaignTitle: '',
+  trackId: '',
+  leadStatusId: '',
 }
 
 export function ContactsPage() {
   const { t } = useTranslation()
-  const can = usePermission()
-  const canFilter = can('clients.filter')
+  const access = useAccess()
+  const canFilter = access.can('contacts.filter')
+
+  const [draft, setDraft] = useState<DraftFilters>(EMPTY_DRAFT)
   const [filters, setFilters] = useState<ContactFilters>({ pageNumber: 1 })
-  const [filterError, setFilterError] = useState('')
-  const lookupsQuery = useLookups(contactLookupTypes)
-  const [form, setForm] = useState({
-    campaignTitle: '',
-    trackId: '',
-    leadStatusId: '',
-    tagIds: '',
-    studentName: '',
-    contactName: '',
-    phoneNumber: '',
-  })
+
+  const lookupsQuery = useLookups([...CONTACT_LOOKUPS])
   const contactsQuery = useContacts(filters)
-  const page = contactsQuery.data?.page
+
   const trackOptions: SelectOption[] = [
-    { value: '', label: t('contacts.all') },
+    { value: '', label: t('contacts.allTracks') },
     ...(lookupsQuery.data?.tracks ?? []).map((track) => ({
       value: String(track.id),
       label: track.name,
     })),
   ]
+
   const leadStatusOptions: SelectOption[] = [
-    { value: '', label: t('contacts.all') },
+    { value: '', label: t('contacts.allLeadStatuses') },
     ...(lookupsQuery.data?.leadStatuses ?? []).map((status) => ({
       value: String(status.id),
       label: status.name,
@@ -103,271 +64,266 @@ export function ContactsPage() {
 
   const applyFilters = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const tagIds = parseTagIds(form.tagIds)
-    if (tagIds === null) {
-      setFilterError(t('contacts.invalidFilter'))
-      return
-    }
-
-    setFilterError('')
     setFilters({
       pageNumber: 1,
-      campaignTitle: form.campaignTitle.trim() || undefined,
-      trackId: form.trackId || undefined,
-      leadStatusId: form.leadStatusId || undefined,
-      tagIds,
-      studentName: form.studentName.trim() || undefined,
-      contactName: form.contactName.trim() || undefined,
-      phoneNumber: form.phoneNumber.trim() || undefined,
+      contactName: draft.contactName.trim() || undefined,
+      studentName: draft.studentName.trim() || undefined,
+      phoneNumber: draft.phoneNumber.trim() || undefined,
+      campaignTitle: draft.campaignTitle.trim() || undefined,
+      trackId: draft.trackId || undefined,
+      leadStatusId: draft.leadStatusId || undefined,
     })
   }
 
   const clearFilters = () => {
-    setForm({
-      campaignTitle: '',
-      trackId: '',
-      leadStatusId: '',
-      tagIds: '',
-      studentName: '',
-      contactName: '',
-      phoneNumber: '',
-    })
-    setFilterError('')
+    setDraft(EMPTY_DRAFT)
     setFilters({ pageNumber: 1 })
   }
 
+  const hasFilters = Boolean(
+    filters.contactName ||
+    filters.studentName ||
+    filters.phoneNumber ||
+    filters.campaignTitle ||
+    filters.trackId ||
+    filters.leadStatusId,
+  )
+  const pageNumber = filters.pageNumber
+  const page = contactsQuery.data?.page
+
   return (
-    <section className="-m-4 min-h-full space-y-5 bg-slate-50 p-4 sm:-m-6 sm:p-6" dir="rtl">
-      <header>
-        <p className="mb-1 text-xs text-slate-400">{t('contacts.breadcrumb')}</p>
-        <h1 className="text-2xl font-bold text-slate-800">{t('contacts.title')}</h1>
-      </header>
+    <section className="space-y-5">
+      <PageHeader
+        breadcrumb={t('contacts.breadcrumb')}
+        title={t('contacts.title')}
+        description={t('contacts.subtitle')}
+      />
+
+      <div className="flex items-start gap-3 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-900">
+        <Info aria-hidden="true" className="mt-0.5 size-[18px] shrink-0" />
+        <p className="leading-6">{t('contacts.dataScopeNote')}</p>
+      </div>
 
       {canFilter && (
         <form
           noValidate
           onSubmit={applyFilters}
-          className="space-y-4 rounded-xl border bg-white p-4 sm:p-5"
+          aria-label={t('contacts.filters')}
+          className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5"
         >
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-            <TextFilter
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            <TextField
               label={t('contacts.contactName')}
-              value={form.contactName}
-              onChange={(contactName) => setForm((current) => ({ ...current, contactName }))}
+              value={draft.contactName}
+              onChange={(contactName) => setDraft((current) => ({ ...current, contactName }))}
             />
-            <TextFilter
+            <TextField
               label={t('contacts.studentName')}
-              value={form.studentName}
-              onChange={(studentName) => setForm((current) => ({ ...current, studentName }))}
+              value={draft.studentName}
+              onChange={(studentName) => setDraft((current) => ({ ...current, studentName }))}
             />
-            <TextFilter
+            <TextField
               label={t('contacts.phoneNumber')}
-              value={form.phoneNumber}
-              onChange={(phoneNumber) => setForm((current) => ({ ...current, phoneNumber }))}
+              value={draft.phoneNumber}
+              onChange={(phoneNumber) => setDraft((current) => ({ ...current, phoneNumber }))}
+              dir="ltr"
             />
-            <TextFilter
+            <TextField
               label={t('contacts.campaignTitle')}
-              value={form.campaignTitle}
-              onChange={(campaignTitle) => setForm((current) => ({ ...current, campaignTitle }))}
+              value={draft.campaignTitle}
+              onChange={(campaignTitle) => setDraft((current) => ({ ...current, campaignTitle }))}
             />
-            <LookupFilter
-              label={t('contacts.trackId')}
-              value={form.trackId}
+            <SelectField
+              label={t('contacts.track')}
+              value={draft.trackId}
               options={trackOptions}
               disabled={lookupsQuery.isLoading || lookupsQuery.isError}
-              onChange={(trackId) => setForm((current) => ({ ...current, trackId }))}
+              onChange={(trackId) => setDraft((current) => ({ ...current, trackId }))}
             />
-            <LookupFilter
-              label={t('contacts.leadStatusId')}
-              value={form.leadStatusId}
+            <SelectField
+              label={t('contacts.leadStatus')}
+              value={draft.leadStatusId}
               options={leadStatusOptions}
               disabled={lookupsQuery.isLoading || lookupsQuery.isError}
-              onChange={(leadStatusId) => setForm((current) => ({ ...current, leadStatusId }))}
-            />
-            <TextFilter
-              label={t('contacts.tagIds')}
-              value={form.tagIds}
-              placeholder={t('contacts.tagIdsPlaceholder')}
-              onChange={(tagIds) => setForm((current) => ({ ...current, tagIds }))}
+              onChange={(leadStatusId) => setDraft((current) => ({ ...current, leadStatusId }))}
             />
           </div>
+
           {lookupsQuery.isError && (
-            <div className="flex flex-wrap items-center justify-between gap-3" role="alert">
-              <p className="text-sm text-destructive">
-                {getApiErrorMessage(lookupsQuery.error, t('contacts.lookupError'))}
-              </p>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => void lookupsQuery.refetch()}
-                disabled={lookupsQuery.isFetching}
-              >
-                {t('contacts.retry')}
-              </Button>
-            </div>
-          )}
-          <p className="text-xs leading-5 text-amber-700">{t('contacts.tagLookupUnavailable')}</p>
-          {filterError && (
-            <p className="text-sm text-destructive" role="alert">
-              {filterError}
+            <p role="alert" className="mt-3 text-sm text-destructive">
+              {t('contacts.lookupsError')}
             </p>
           )}
-          <div className="flex justify-center gap-2">
-            <Button type="submit">{t('contacts.search')}</Button>
-            <Button type="button" variant="outline" onClick={clearFilters}>
-              {t('contacts.clear')}
+
+          <div className="mt-4 flex flex-wrap justify-center gap-2">
+            <Button type="submit" size="sm">
+              <Search aria-hidden="true" />
+              {t('actions.search')}
+            </Button>
+            <Button type="button" variant="outline" size="sm" onClick={clearFilters}>
+              {t('contacts.clearFilters')}
             </Button>
           </div>
         </form>
       )}
 
-      <section className="overflow-hidden rounded-xl border bg-white">
-        <header className="border-b px-4 py-4 sm:px-5">
-          <h2 className="font-semibold text-slate-800">{t('contacts.results')}</h2>
-          {contactsQuery.data && (
-            <p className="mt-2 text-xs text-slate-500">
-              {t('contacts.currentPageCount', { count: contactsQuery.data.items.length })}
+      <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <header className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 px-4 py-4 sm:px-5">
+          <div>
+            <h2 className="font-semibold text-slate-900">{t('contacts.results')}</h2>
+            <p className="mt-1 text-xs leading-6 text-slate-500">
+              {t('contacts.resultsDescription')}
             </p>
+          </div>
+          {contactsQuery.data && (
+            <Badge variant="neutral">
+              {t('contacts.pageCount', { count: contactsQuery.data.items.length })}
+            </Badge>
           )}
         </header>
+
         {contactsQuery.isLoading ? (
-          <p className="p-8 text-center text-sm text-slate-500" role="status">
-            {t('contacts.loading')}
-          </p>
+          <TableSkeleton rows={6} columns={3} />
         ) : contactsQuery.isError ? (
-          <div className="space-y-3 p-8 text-center" role="alert">
-            <p className="text-sm text-destructive">
-              {errorText(
-                contactsQuery.error,
-                t('contacts.error'),
-                t('contacts.connectionError'),
-                t('contacts.invalidResponse'),
-              )}
-            </p>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => void contactsQuery.refetch()}
-              disabled={contactsQuery.isFetching}
-            >
-              {t('contacts.retry')}
-            </Button>
-          </div>
-        ) : !contactsQuery.data ? (
-          <p className="p-8 text-center text-sm text-destructive" role="alert">
-            {t('contacts.invalidResponse')}
-          </p>
-        ) : !contactsQuery.data.items.length ? (
-          <p className="p-8 text-center text-sm text-slate-500">{t('contacts.empty')}</p>
+          <ErrorState
+            error={contactsQuery.error}
+            onRetry={() => void contactsQuery.refetch()}
+            isRetrying={contactsQuery.isFetching}
+          />
+        ) : !contactsQuery.data?.items.length ? (
+          <EmptyState
+            icon={UsersRound}
+            title={hasFilters ? t('contacts.emptyFiltered') : t('contacts.empty')}
+            description={hasFilters ? t('contacts.emptyFilteredHint') : t('contacts.emptyHint')}
+            action={
+              pageNumber > 1 || hasFilters ? (
+                <div className="flex flex-wrap justify-center gap-2">
+                  {pageNumber > 1 && (
+                    <Button
+                      type="button"
+                      size="sm"
+                      onClick={() =>
+                        setFilters((current) => ({
+                          ...current,
+                          pageNumber: Math.max(1, current.pageNumber - 1),
+                        }))
+                      }
+                    >
+                      {t('pagination.previous')}
+                    </Button>
+                  )}
+                  {hasFilters && (
+                    <Button type="button" variant="outline" size="sm" onClick={clearFilters}>
+                      {t('contacts.clearFilters')}
+                    </Button>
+                  )}
+                </div>
+              ) : null
+            }
+          />
         ) : (
-          <div className="grid gap-4 p-4 sm:grid-cols-2 xl:grid-cols-3">
-            {contactsQuery.data.items.map((contact, index) => (
-              <ContactCard key={index} contact={contact} />
-            ))}
-          </div>
-        )}
-        {page && (
-          <footer className="flex justify-between gap-2 border-t px-4 py-3">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              disabled={page.pageNumber <= 1 || contactsQuery.isFetching}
-              onClick={() =>
+          <>
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[640px] text-start text-sm">
+                <thead className="bg-slate-50 text-xs font-medium text-slate-500">
+                  <tr>
+                    <th scope="col" className="px-4 py-3 text-start">
+                      {t('contacts.contactName')}
+                    </th>
+                    <th scope="col" className="px-4 py-3 text-start">
+                      {t('contacts.students')}
+                    </th>
+                    <th scope="col" className="px-4 py-3 text-start">
+                      {t('contacts.studentsCountLabel')}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {contactsQuery.data.items.map((contact) => (
+                    <ContactRow key={contact.id} contact={contact} />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <Pagination
+              pageNumber={pageNumber}
+              hasNextPage={Boolean(page?.hasNextPage)}
+              isFetching={contactsQuery.isFetching}
+              onPrevious={() =>
                 setFilters((current) => ({
                   ...current,
                   pageNumber: Math.max(1, current.pageNumber - 1),
                 }))
               }
-            >
-              {t('contacts.previous')}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              disabled={!page.hasNextPage || contactsQuery.isFetching}
-              onClick={() =>
-                setFilters((current) => ({
-                  ...current,
-                  pageNumber: current.pageNumber + 1,
-                }))
+              onNext={() =>
+                setFilters((current) => ({ ...current, pageNumber: current.pageNumber + 1 }))
               }
-            >
-              {t('contacts.next')}
-            </Button>
-          </footer>
+            />
+          </>
         )}
       </section>
     </section>
   )
 }
 
-function ContactCard({ contact }: { contact: Contact }) {
+function ContactRow({ contact }: { contact: Contact }) {
   const { t } = useTranslation()
-  const name = getContactName(contact)
-  const studentNames = getStudentNames(contact)
 
   return (
-    <article className="min-w-0 space-y-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-      <header className="border-b border-slate-100 pb-3">
-        <h3 className="truncate text-lg font-semibold text-slate-800" title={name}>
-          {name ?? t('contacts.unnamedContact')}
-        </h3>
-      </header>
-      {studentNames !== undefined && (
-        <section className="space-y-2">
-          <div className="flex items-center justify-between gap-2">
-            <h4 className="text-sm font-medium text-slate-600">{t('contacts.students')}</h4>
-            <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs text-slate-600">
-              {t('contacts.studentsCount', { count: studentNames.length })}
-            </span>
-          </div>
-          {studentNames.length > 0 ? (
-            <ul className="flex flex-wrap gap-2">
-              {studentNames.map((studentName, index) => (
-                <li
-                  key={`${studentName}-${index}`}
-                  className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700"
-                >
-                  {studentName}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-sm text-slate-400">{t('contacts.noStudentNames')}</p>
-          )}
-        </section>
-      )}
-    </article>
+    <tr className="align-top transition-colors hover:bg-teal-50/40">
+      <td className="px-4 py-3">
+        <p className="font-medium text-slate-800" dir="auto">
+          {contact.name?.trim() || t('contacts.unnamedContact')}
+        </p>
+        <p className="mt-1 text-xs text-slate-400">{t('contacts.parentAccount')}</p>
+      </td>
+      <td className="px-4 py-3">
+        {contact.students.length === 0 ? (
+          <span className="text-xs text-slate-400">{t('contacts.noStudents')}</span>
+        ) : (
+          <ul className="flex flex-wrap gap-1.5">
+            {contact.students.map((student) => (
+              <li
+                key={student.id}
+                className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs text-slate-700"
+                dir="auto"
+              >
+                {student.name?.trim() || '—'}
+              </li>
+            ))}
+          </ul>
+        )}
+      </td>
+      <td className="px-4 py-3">
+        <Badge variant={contact.students.length > 0 ? 'info' : 'neutral'}>
+          {contact.students.length}
+        </Badge>
+      </td>
+    </tr>
   )
 }
 
-function TextFilter({
+function TextField({
   label,
   value,
   onChange,
-  placeholder,
+  dir,
 }: {
   label: string
   value: string
   onChange: (value: string) => void
-  placeholder?: string
+  dir?: 'ltr' | 'rtl'
 }) {
   return (
     <label className="space-y-1.5 text-xs font-medium text-slate-500">
       <span>{label}</span>
-      <Input
-        value={value}
-        placeholder={placeholder}
-        onChange={(event) => onChange(event.target.value)}
-      />
+      <Input dir={dir} value={value} onChange={(event) => onChange(event.target.value)} />
     </label>
   )
 }
 
-function LookupFilter({
+function SelectField({
   label,
   value,
   options,
@@ -377,7 +333,7 @@ function LookupFilter({
   label: string
   value: string
   options: SelectOption[]
-  disabled: boolean
+  disabled?: boolean
   onChange: (value: string) => void
 }) {
   return (

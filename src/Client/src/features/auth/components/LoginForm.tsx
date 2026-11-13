@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Eye, EyeOff, KeyRound, LoaderCircle, UserRound } from 'lucide-react'
+import { AlertCircle, Eye, EyeOff, KeyRound, LoaderCircle, UserRound } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -11,16 +11,20 @@ import { loginSchema, type LoginForm as LoginFormValues } from '../schemas/login
 interface LoginFormProps {
   onSubmit: (values: LoginFormValues) => void
   isPending: boolean
+  errorMessage?: string
 }
 
-export function LoginForm({ onSubmit, isPending }: LoginFormProps) {
+export function LoginForm({ onSubmit, isPending, errorMessage }: LoginFormProps) {
   const { t } = useTranslation('auth')
   const [showPassword, setShowPassword] = useState(false)
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormValues>({ resolver: zodResolver(loginSchema) })
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { accountName: '', password: '' },
+  })
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="w-full max-w-md">
@@ -29,6 +33,17 @@ export function LoginForm({ onSubmit, isPending }: LoginFormProps) {
         <h1 className="text-3xl font-bold tracking-tight text-slate-900">{t('title')}</h1>
         <p className="text-sm leading-7 text-slate-500">{t('subtitle')}</p>
       </header>
+
+      {errorMessage && (
+        <div
+          role="alert"
+          aria-live="polite"
+          className="mb-5 flex items-start gap-3 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800"
+        >
+          <AlertCircle aria-hidden="true" className="mt-0.5 size-[18px] shrink-0" />
+          <p className="leading-6">{errorMessage}</p>
+        </div>
+      )}
 
       <div className="mb-5 space-y-2">
         <Label htmlFor="accountName" className="text-slate-700">

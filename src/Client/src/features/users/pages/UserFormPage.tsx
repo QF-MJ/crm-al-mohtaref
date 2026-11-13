@@ -1,52 +1,145 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
+import { AlertTriangle } from 'lucide-react'
+import { PageHeader } from '@/components/common/PageHeader'
+import { ErrorState } from '@/components/common/ErrorState'
 import { paths } from '@/app/router/paths'
-import { getApiErrorMessage } from '@/api/errors'
+import { toApiError } from '@/api/errors'
 import { useUpdateUser, useUser, useUserLookups } from '../api/users.queries'
 import { UserForm } from '../components/UserForm'
 import type { UserFormValues } from '../schemas/user.schema'
 import type { UserDetail, UserLookups } from '../types'
 
-function getDefaultValues(user: UserDetail, lookups: UserLookups) {
+interface MappedPermissions {
+  permissions: UserFormValues['permissions']
+  unmatched: string[]
+}
+
+const normalizeName = (value: string) => value.trim().replace(/\s+/g, ' ').toLocaleLowerCase('ar')
+
+// الباك يرسل أسماء القسم والدور في تفاصيل المستخدم، والقوائم ترسل المعرّفات:
+// نطابق بالأسماء لنعيد بناء الحقول القابلة للتعديل.
+function mapPermissions(user: UserDetail, lookups: UserLookups): MappedPermissions {
   const permissions: UserFormValues['permissions'] = []
-  for (const permission of user.permissions ?? []) {
+  const unmatched: string[] = []
+
+  for (const permission of user.permissions) {
     const role = lookups.roles.find(
-      (item) =>
-        item.name.localeCompare(permission.roleName, undefined, { sensitivity: 'base' }) === 0,
+      (item) => normalizeName(item.name) === normalizeName(permission.roleName),
     )
-    const department = lookups.departments.find((item) =>
-      item.name.localeCompare(permission.departmentName, undefined, { sensitivity: 'base' }) === 0,
+    const department = lookups.departments.find(
+      (item) => normalizeName(item.name) === normalizeName(permission.departmentName),
     )
-    if (!role || !department) return undefined
-    permissions.push({ roleId: role.id, departmentId: department.id })
+
+    if (!role || !department) {
+      unmatched.push(`${permission.roleName} · ${permission.departmentName}`)
+      continue
+    }
+
+    permissions.push({ roleId: String(role.id), departmentId: String(department.id) })
   }
 
-  return {
-    accountName: user.accountName,
-    fullName: user.fullName ?? '',
-    email: user.email ?? '',
-    isActive: user.isActive ?? false,
-    permissions,
-  }
+  return { permissions, unmatched }
 }
 
 export function UserFormPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { userId: userIdParam } = useParams()
-  const userId = userIdParam || undefined
+  const { userId } = useParams<{ userId: string }>()
   const userQuery = useUser(userId)
   const lookupsQuery = useUserLookups()
   const updateMutation = useUpdateUser(userId ?? '')
-  const defaultValues = useMemo(() => {
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const mapped = useMemo(() => {
     if (!userQuery.data || !lookupsQuery.data) return undefined
-    return getDefaultValues(userQuery.data, lookupsQuery.data)
+    return mapPermissions(userQuery.data, lookupsQuery.data)
   }, [userQuery.data, lookupsQuery.data])
 
+  const defaultValues = useMemo<UserFormValues | undefined>(() => {
+    if (!userQuery.data || !mapped) return undefined
+    return {
+      accountName: userQuery.data.accountName,
+      fullName: userQuery.data.fullName ?? '',
+      email: userQuery.data.email ?? '',
+      isActive: userQuery.data.isActive ?? false,
+      password: undefined,
+      permissions: mapped.permissions,
+    }
+  }, [userQuery.data, mapped])
+
+  if (!userId) {
+    return (
+      <section className="space-y-5">
+        <ErrorState error={{ status: 404, message: t('users.notFound') }} />
+      </section>
+    )
+  }
+
+  if (userQuery.isLoading || lookupsQuery.isLoading) {
+    return (
+      <section className="space-y-5">
+        <PageHeader breadcrumb={t('users.breadcrumb')} title={t('users.editTitle')} />
+        <div
+          className="space-y-3 rounded-2xl border border-slate-200 bg-white p-6"
+          aria-busy="true"
+        >
+          {Array.from({ length: 6 }, (_, index) => (
+            <div key={index} className="h-10 animate-pulse rounded-lg bg-slate-100" />
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  if (userQuery.isError || lookupsQuery.isError || !userQuery.data || !lookupsQuery.data) {
+    return (
+      <section className="space-y-5">
+        <PageHeader breadcrumb={t('users.breadcrumb')} title={t('users.editTitle')} />
+        <div className="rounded-2xl border border-slate-200 bg-white">
+          <ErrorState
+            error={userQuery.error ?? lookupsQuery.error}
+            onRetry={() => {
+              void userQuery.refetch()
+              void lookupsQuery.refetch()
+            }}
+          />
+        </div>
+        <BackLink />
+      </section>
+    )
+  }
+
+  // لا نحفظ على بيانات ناقصة: حذف صلاحية دون علم المستخدم أسوأ من منع التعديل
+  if (!defaultValues || !mapped || mapped.unmatched.length > 0) {
+    return (
+      <section className="space-y-5">
+        <PageHeader breadcrumb={t('users.breadcrumb')} title={t('users.editTitle')} />
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6">
+          <h2 className="flex items-center gap-2 font-semibold text-amber-900">
+            <AlertTriangle aria-hidden="true" className="size-5" />
+            {t('users.permissionLookupTitle')}
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-amber-900/90">
+            {t('users.permissionLookupError')}
+          </p>
+          {mapped?.unmatched.length ? (
+            <ul className="mt-3 list-inside list-disc text-sm text-amber-900">
+              {mapped.unmatched.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
+        <BackLink />
+      </section>
+    )
+  }
+
   const submit = (values: UserFormValues) => {
-    if (userId === undefined) return
+    setErrorMessage('')
     updateMutation.mutate(
       {
         accountName: values.accountName,
@@ -58,64 +151,44 @@ export function UserFormPage() {
       {
         onSuccess: () => {
           toast.success(t('users.updateSuccess'))
-          navigate(paths.users)
+          navigate(paths.user(userId))
         },
-        onError: (error) => toast.error(getApiErrorMessage(error, t('users.unknownError'))),
+        onError: (error) => {
+          const { message } = toApiError(error)
+          setErrorMessage(message || t('users.unknownError'))
+          toast.error(t('users.updateFailed'))
+        },
       },
     )
   }
 
-  if (userId === undefined) {
-    return <UserPageError message={t('users.notFound')} />
-  }
-
-  if (userQuery.isLoading || lookupsQuery.isLoading) {
-    return <p className="p-8 text-center text-sm text-slate-500">{t('users.loading')}</p>
-  }
-
-  if (userQuery.isError || lookupsQuery.isError || !userQuery.data || !lookupsQuery.data) {
-    const error = userQuery.error ?? lookupsQuery.error
-    return (
-      <UserPageError message={getApiErrorMessage(error, t('users.unknownError'))} />
-    )
-  }
-
-  if (!defaultValues) {
-    return <UserPageError message={t('users.permissionLookupError')} />
-  }
-
   return (
-    <section className="mx-auto max-w-3xl space-y-5" dir="rtl">
-      <header>
-        <p className="mb-1 text-xs text-slate-400">{t('users.breadcrumb')}</p>
-        <h1 className="text-2xl font-bold text-slate-800">{t('users.editTitle')}</h1>
-        <p className="mt-1 text-sm text-slate-500">{t('users.formDescription')}</p>
-      </header>
+    <section className="space-y-5">
+      <PageHeader
+        breadcrumb={t('users.breadcrumb')}
+        title={t('users.editTitle')}
+        description={t('users.editSubtitle')}
+      />
       <UserForm
         defaultValues={defaultValues}
         departments={lookupsQuery.data.departments}
         roles={lookupsQuery.data.roles}
         isPending={updateMutation.isPending}
+        submitLabel={t('users.saveChanges')}
+        errorMessage={errorMessage || undefined}
         onSubmit={submit}
+        onCancel={() => navigate(paths.user(userId))}
       />
+      <BackLink />
     </section>
   )
 }
 
-function UserPageError({ message }: { message: string }) {
+function BackLink() {
   const { t } = useTranslation()
   return (
-    <section
-      className="mx-auto max-w-3xl space-y-4 rounded-xl border bg-white p-6 text-center"
-      role="alert"
-    >
-      <p className="text-sm text-destructive">{message}</p>
-      <Link
-        to={paths.users}
-        className="inline-flex h-8 items-center justify-center rounded-md border bg-white px-3 text-sm font-medium hover:bg-accent"
-      >
-        {t('users.backToList')}
-      </Link>
-    </section>
+    <Link to={paths.users} className="inline-flex text-sm font-medium text-primary hover:underline">
+      {t('users.backToList')}
+    </Link>
   )
 }

@@ -1,15 +1,15 @@
 import type { ReactNode } from 'react'
-import { usePermission } from './usePermission'
-import type { Permission } from './permissions'
+import { useAccess } from './useAccess'
+import type { Capability } from './access'
 
 interface CanProps {
-  permission: Permission
+  capability: Capability
   children: ReactNode
   fallback?: ReactNode
 }
 
-// مثال: <Can permission="clients.distribute"><Button>توزيع</Button></Can>
-export function Can({ permission, children, fallback = null }: CanProps) {
-  const allowed = usePermission()(permission)
-  return <>{allowed ? children : fallback}</>
+// مثال: <Can capability="users.create"><Link …/></Can>
+export function Can({ capability, children, fallback = null }: CanProps) {
+  const access = useAccess()
+  return <>{access.can(capability) ? children : fallback}</>
 }

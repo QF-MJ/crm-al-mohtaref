@@ -1,5 +1,5 @@
 import type { RouteObject } from 'react-router-dom'
-import type { Permission } from '@/permissions/permissions'
+import type { Capability } from '@/permissions/access'
 
-// كل راوت يحمل صلاحيته بـ handle، وحارس واحد (RequirePermission) يقرأها
-export type AppRoute = RouteObject & { handle?: { permission?: Permission } }
+// كل راوت يحمل قدرته بـ handle، وحارس واحد (RequirePermission) يقرأها
+export type AppRoute = RouteObject & { handle?: { capability?: Capability } }

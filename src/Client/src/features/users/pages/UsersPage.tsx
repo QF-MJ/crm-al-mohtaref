@@ -1,94 +1,174 @@
-import { useState, type FormEvent } from 'react'
+import { useMemo, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, ArrowRight, Plus, Search } from 'lucide-react'
+import { Search, ShieldCheck, UserPlus, UsersRound } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Badge } from '@/components/ui/badge'
 import { Select, type SelectOption } from '@/components/ui/select'
+import { PageHeader } from '@/components/common/PageHeader'
+import { EmptyState } from '@/components/common/EmptyState'
+import { ErrorState } from '@/components/common/ErrorState'
+import { TableSkeleton } from '@/components/common/TableSkeleton'
+import { Pagination } from '@/components/common/Pagination'
 import { paths } from '@/app/router/paths'
-import { getApiErrorMessage } from '@/api/errors'
-import { usePermission } from '@/permissions/usePermission'
+import { useAccess } from '@/permissions/useAccess'
 import { useUserLookups, useUsers } from '../api/users.queries'
 import type { UserFilters, UserListItem } from '../types'
 
+interface DraftFilters {
+  name: string
+  accountName: string
+  email: string
+  status: string
+  roleId: string
+  departmentId: string
+}
+
+const EMPTY_DRAFT: DraftFilters = {
+  name: '',
+  accountName: '',
+  email: '',
+  status: '',
+  roleId: '',
+  departmentId: '',
+}
+
 export function UsersPage() {
   const { t } = useTranslation()
-  const can = usePermission()
+  const access = useAccess()
+  const [draft, setDraft] = useState<DraftFilters>(EMPTY_DRAFT)
   const [filters, setFilters] = useState<UserFilters>({ pageNumber: 1 })
-  const [accountName, setAccountName] = useState('')
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [status, setStatus] = useState('')
-  const [roleId, setRoleId] = useState('')
-  const [departmentId, setDepartmentId] = useState('')
-  const usersQuery = useUsers(filters)
+
   const lookupsQuery = useUserLookups()
-  const page = usersQuery.data?.page
-  const selectedRoleId = lookupsQuery.data?.roles.find((role) => String(role.id) === roleId)?.id
-  const selectedDepartmentId = lookupsQuery.data?.departments.find(
-    (department) => String(department.id) === departmentId,
-  )?.id
+  const departments = lookupsQuery.data?.departments
+  const roles = lookupsQuery.data?.roles ?? []
+
+  // مدير الإدارة يرى كل الأقسام، وغيره يرى أقسامه فقط (الباك يفرض ذلك)
+  const departmentOptions = useMemo(() => {
+    const all = departments ?? []
+    return access.isAdmin
+      ? all
+      : all.filter((department) => access.managerDepartments.includes(department.name.trim()))
+  }, [departments, access.isAdmin, access.managerDepartments])
+
+  const defaultDepartmentId =
+    !access.isAdmin && departmentOptions[0] ? String(departmentOptions[0].id) : undefined
+
+  // مدير القسم يجب أن يرسل departmentId، وإلا يرفض الباك الطلب:
+  // نبنيه أثناء العرض بدل تعديل الحالة داخل effect
+  const effectiveDepartmentId = access.isAdmin
+    ? filters.departmentId
+    : filters.departmentId || defaultDepartmentId
+
+  const effectiveFilters = useMemo<UserFilters>(
+    () => ({ ...filters, departmentId: effectiveDepartmentId }),
+    [filters, effectiveDepartmentId],
+  )
+
+  const canQuery = access.isAdmin || Boolean(effectiveDepartmentId)
+  const usersQuery = useUsers(effectiveFilters, canQuery)
+
+  const roleOptions: SelectOption[] = [
+    { value: '', label: t('users.allRoles') },
+    ...roles.map((role) => ({ value: String(role.id), label: role.name })),
+  ]
+
+  const departmentFilterOptions: SelectOption[] = [
+    ...(access.isAdmin ? [{ value: '', label: t('users.allDepartments') }] : []),
+    ...departmentOptions.map((department) => ({
+      value: String(department.id),
+      label: department.name,
+    })),
+  ]
 
   const applyFilters = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    const departmentId = access.isAdmin
+      ? draft.departmentId || undefined
+      : draft.departmentId || defaultDepartmentId
+
     setFilters({
       pageNumber: 1,
-      accountName: accountName.trim() || undefined,
-      name: name.trim() || undefined,
-      email: email.trim() || undefined,
-      isActive: status === '' ? undefined : status === 'true',
-      roleId: roleId ? (selectedRoleId ?? roleId) : undefined,
-      departmentId: departmentId ? (selectedDepartmentId ?? departmentId) : undefined,
+      name: draft.name.trim() || undefined,
+      accountName: draft.accountName.trim() || undefined,
+      email: draft.email.trim() || undefined,
+      isActive: draft.status === '' ? undefined : draft.status === 'true',
+      roleId: draft.roleId || undefined,
+      departmentId,
     })
   }
 
   const clearFilters = () => {
-    setAccountName('')
-    setName('')
-    setEmail('')
-    setStatus('')
-    setRoleId('')
-    setDepartmentId('')
+    setDraft(EMPTY_DRAFT)
     setFilters({ pageNumber: 1 })
   }
 
+  const hasFilters = Boolean(
+    filters.name ||
+    filters.accountName ||
+    filters.email ||
+    filters.roleId ||
+    filters.isActive !== undefined,
+  )
+  const pageNumber = filters.pageNumber
+  const page = usersQuery.data?.page
+
   return (
-    <section className="-m-4 min-h-full space-y-5 bg-slate-50 p-4 sm:-m-6 sm:p-6" dir="rtl">
-      <header className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="mb-1 text-xs text-slate-400">{t('users.breadcrumb')}</p>
-          <h1 className="text-2xl font-bold text-slate-800">{t('users.title')}</h1>
-          <p className="mt-1 text-sm text-slate-500">{t('users.subtitle')}</p>
+    <section className="space-y-5">
+      <PageHeader
+        breadcrumb={t('users.breadcrumb')}
+        title={t('users.title')}
+        description={
+          access.isAdmin
+            ? t('users.subtitleAll')
+            : t('users.subtitleScope', { department: access.managerDepartments.join('، ') })
+        }
+        actions={
+          access.can('users.create') ? (
+            <Link
+              to={paths.usersNew}
+              className="inline-flex h-9 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+            >
+              <UserPlus aria-hidden="true" className="size-4" />
+              {t('users.add')}
+            </Link>
+          ) : null
+        }
+      />
+
+      {!access.isAdmin && (
+        <div className="flex items-start gap-3 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-900">
+          <ShieldCheck aria-hidden="true" className="mt-0.5 size-[18px] shrink-0" />
+          <p className="leading-6">{t('users.scopeNote')}</p>
         </div>
-        {can('users.create') && (
-          <Link
-            to={paths.usersNew}
-            className="inline-flex h-9 items-center gap-2 rounded-md bg-teal-700 px-4 text-sm font-medium text-white hover:bg-teal-800"
-          >
-            <Plus aria-hidden="true" className="size-4" />
-            {t('users.add')}
-          </Link>
-        )}
-      </header>
+      )}
 
       <form
         onSubmit={applyFilters}
         aria-label={t('users.filters')}
-        className="rounded-xl border bg-white p-4 sm:p-5"
+        className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5"
       >
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
-          <FilterField
-            label={t('users.username')}
-            value={accountName}
-            onChange={setAccountName}
-            maxLength={100}
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          <TextField
+            label={t('users.fullName')}
+            value={draft.name}
+            onChange={(name) => setDraft((current) => ({ ...current, name }))}
           />
-          <FilterField label={t('users.name')} value={name} onChange={setName} maxLength={200} />
-          <FilterField label={t('users.email')} value={email} onChange={setEmail} maxLength={256} />
+          <TextField
+            label={t('users.username')}
+            value={draft.accountName}
+            onChange={(accountName) => setDraft((current) => ({ ...current, accountName }))}
+          />
+          <TextField
+            label={t('users.email')}
+            value={draft.email}
+            onChange={(email) => setDraft((current) => ({ ...current, email }))}
+          />
           <SelectField
             label={t('users.status')}
-            value={status}
-            onChange={setStatus}
+            value={draft.status}
+            onChange={(status) => setDraft((current) => ({ ...current, status }))}
             options={[
               { value: '', label: t('users.allStatuses') },
               { value: 'true', label: t('users.active') },
@@ -97,38 +177,29 @@ export function UsersPage() {
           />
           <SelectField
             label={t('users.role')}
-            value={roleId}
-            onChange={setRoleId}
-            options={[
-              { value: '', label: t('users.allRoles') },
-              ...(lookupsQuery.data?.roles ?? []).map((role) => ({
-                value: String(role.id),
-                label: role.name,
-              })),
-            ]}
+            value={draft.roleId}
+            onChange={(roleId) => setDraft((current) => ({ ...current, roleId }))}
+            options={roleOptions}
           />
           <SelectField
             label={t('users.department')}
-            value={departmentId}
-            onChange={setDepartmentId}
-            options={[
-              { value: '', label: t('users.allDepartments') },
-              ...(lookupsQuery.data?.departments ?? []).map((department) => ({
-                value: String(department.id),
-                label: department.name,
-              })),
-            ]}
+            value={draft.departmentId || defaultDepartmentId || ''}
+            onChange={(departmentId) => setDraft((current) => ({ ...current, departmentId }))}
+            options={departmentFilterOptions}
+            disabled={departmentFilterOptions.length <= 1}
           />
         </div>
+
         {lookupsQuery.isError && (
-          <p className="mt-3 text-sm text-destructive" role="alert">
-            {getApiErrorMessage(lookupsQuery.error, t('users.unknownError'))}
+          <p role="alert" className="mt-3 text-sm text-destructive">
+            {t('users.lookupsError')}
           </p>
         )}
-        <div className="mt-4 flex justify-center gap-2">
-          <Button type="submit" size="sm" className="bg-teal-700 text-white hover:bg-teal-800">
+
+        <div className="mt-4 flex flex-wrap justify-center gap-2">
+          <Button type="submit" size="sm" disabled={!canQuery}>
             <Search aria-hidden="true" />
-            {t('users.search')}
+            {t('actions.search')}
           </Button>
           <Button type="button" variant="outline" size="sm" onClick={clearFilters}>
             {t('users.clearFilters')}
@@ -136,115 +207,109 @@ export function UsersPage() {
         </div>
       </form>
 
-      <section className="overflow-hidden rounded-xl border bg-white">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-4 sm:px-5">
+      <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <header className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 px-4 py-4 sm:px-5">
           <div>
-            <h2 className="font-semibold text-slate-800">{t('users.listTitle')}</h2>
-            <p className="mt-1 text-xs text-slate-500">{t('users.listDescription')}</p>
+            <h2 className="font-semibold text-slate-900">{t('users.listTitle')}</h2>
+            <p className="mt-1 text-xs leading-6 text-slate-500">{t('users.listDescription')}</p>
           </div>
-          {!usersQuery.isLoading && !usersQuery.isError && (
-            <span className="text-xs text-slate-500">
-              {t('users.pageCount', {
-                count: usersQuery.data?.items.length ?? 0,
-                page: page?.pageNumber ?? filters.pageNumber,
-              })}
-            </span>
+          {usersQuery.data && (
+            <Badge variant="neutral">
+              {t('users.pageCount', { count: usersQuery.data.items.length })}
+            </Badge>
           )}
-        </div>
+        </header>
 
         {usersQuery.isLoading ? (
-          <p className="p-8 text-center text-sm text-slate-500" role="status">
-            {t('users.loading')}
-          </p>
+          <TableSkeleton rows={6} columns={5} />
         ) : usersQuery.isError ? (
-          <div className="space-y-3 p-8 text-center" role="alert">
-            <p className="text-sm text-destructive">
-              {getApiErrorMessage(usersQuery.error, t('users.unknownError'))}
-            </p>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => void usersQuery.refetch()}
-              disabled={usersQuery.isFetching}
-            >
-              {t('users.retry')}
-            </Button>
-          </div>
-        ) : !usersQuery.data ? (
-          <div className="space-y-3 p-8 text-center" role="alert">
-            <p className="text-sm text-destructive">{t('users.unknownError')}</p>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => void usersQuery.refetch()}
-              disabled={usersQuery.isFetching}
-            >
-              {t('users.retry')}
-            </Button>
-          </div>
-        ) : usersQuery.data.items.length === 0 ? (
-          <p className="p-8 text-center text-sm text-slate-500">{t('users.empty')}</p>
+          <ErrorState
+            error={usersQuery.error}
+            onRetry={() => void usersQuery.refetch()}
+            isRetrying={usersQuery.isFetching}
+          />
+        ) : !canQuery ? (
+          <EmptyState
+            icon={ShieldCheck}
+            title={t('users.scopeUnavailableTitle')}
+            description={t('users.scopeUnavailableDescription')}
+          />
+        ) : !usersQuery.data?.items.length ? (
+          <EmptyState
+            icon={UsersRound}
+            title={hasFilters ? t('users.emptyFiltered') : t('users.empty')}
+            description={hasFilters ? t('users.emptyFilteredHint') : t('users.emptyHint')}
+            action={
+              pageNumber > 1 || hasFilters ? (
+                <div className="flex flex-wrap justify-center gap-2">
+                  {pageNumber > 1 && (
+                    <Button
+                      type="button"
+                      size="sm"
+                      onClick={() =>
+                        setFilters((current) => ({
+                          ...current,
+                          pageNumber: Math.max(1, current.pageNumber - 1),
+                        }))
+                      }
+                    >
+                      {t('pagination.previous')}
+                    </Button>
+                  )}
+                  {hasFilters && (
+                    <Button type="button" variant="outline" size="sm" onClick={clearFilters}>
+                      {t('users.clearFilters')}
+                    </Button>
+                  )}
+                </div>
+              ) : null
+            }
+          />
         ) : (
           <>
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[680px] text-start text-sm">
+              <table className="w-full min-w-[720px] text-start text-sm">
                 <thead className="bg-slate-50 text-xs font-medium text-slate-500">
                   <tr>
-                    <th scope="col" className="px-4 py-3">
+                    <th scope="col" className="px-4 py-3 text-start">
+                      {t('users.fullName')}
+                    </th>
+                    <th scope="col" className="px-4 py-3 text-start">
                       {t('users.username')}
                     </th>
-                    <th scope="col" className="px-4 py-3">
-                      {t('users.name')}
-                    </th>
-                    <th scope="col" className="px-4 py-3">
+                    <th scope="col" className="px-4 py-3 text-start">
                       {t('users.email')}
                     </th>
-                    <th scope="col" className="px-4 py-3">
+                    <th scope="col" className="px-4 py-3 text-start">
                       {t('users.status')}
                     </th>
-                    <th scope="col" className="px-4 py-3">
+                    <th scope="col" className="px-4 py-3 text-start">
                       {t('users.actions')}
                     </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {usersQuery.data.items.map((user) => (
-                    <UserRow key={user.id} user={user} />
+                    <UserRow key={user.id} user={user} canEdit={access.can('users.update')} />
                   ))}
                 </tbody>
               </table>
             </div>
-            <footer className="flex items-center justify-between border-t px-4 py-4 text-xs text-slate-500 sm:px-5">
-              <span>
-                {t('users.pageNumber', { page: page?.pageNumber ?? filters.pageNumber })}
-              </span>
-              <div className="flex gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  disabled={(page?.pageNumber ?? filters.pageNumber) <= 1 || usersQuery.isFetching}
-                  onClick={() =>
-                    setFilters((current) => ({ ...current, pageNumber: current.pageNumber - 1 }))
-                  }
-                >
-                  <ArrowRight aria-hidden="true" />
-                  {t('users.previousPage')}
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  disabled={!page?.hasNextPage || usersQuery.isFetching}
-                  onClick={() =>
-                    setFilters((current) => ({ ...current, pageNumber: current.pageNumber + 1 }))
-                  }
-                >
-                  {t('users.nextPage')}
-                  <ArrowLeft aria-hidden="true" />
-                </Button>
-              </div>
-            </footer>
+
+            <Pagination
+              pageNumber={pageNumber}
+              hasNextPage={Boolean(page?.hasNextPage)}
+              isFetching={usersQuery.isFetching}
+              onPrevious={() =>
+                setFilters((current) => ({
+                  ...current,
+                  pageNumber: Math.max(1, current.pageNumber - 1),
+                }))
+              }
+              onNext={() =>
+                setFilters((current) => ({ ...current, pageNumber: current.pageNumber + 1 }))
+              }
+            />
           </>
         )}
       </section>
@@ -252,26 +317,73 @@ export function UsersPage() {
   )
 }
 
-function FilterField({
+function UserRow({ user, canEdit }: { user: UserListItem; canEdit: boolean }) {
+  const { t } = useTranslation()
+
+  return (
+    <tr className="transition-colors hover:bg-teal-50/50">
+      <td className="px-4 py-3 font-medium text-slate-800">
+        <Link
+          to={paths.user(user.id)}
+          className="hover:text-primary hover:underline"
+          dir="auto"
+          title={user.fullName}
+        >
+          {user.fullName?.trim() || '—'}
+        </Link>
+      </td>
+      <td className="px-4 py-3 text-slate-600" dir="ltr">
+        {user.accountName}
+      </td>
+      <td className="px-4 py-3 text-slate-500" dir="ltr">
+        {user.email || '—'}
+      </td>
+      <td className="px-4 py-3">
+        {user.isActive ? (
+          <Badge variant="success" dot>
+            {t('users.active')}
+          </Badge>
+        ) : (
+          <Badge variant="danger" dot>
+            {t('users.inactive')}
+          </Badge>
+        )}
+      </td>
+      <td className="px-4 py-3">
+        <div className="flex flex-wrap gap-2">
+          <Link
+            to={paths.user(user.id)}
+            className="inline-flex h-8 items-center rounded-lg border border-slate-200 bg-white px-3 text-xs font-medium text-slate-700 hover:bg-slate-50"
+          >
+            {t('actions.view')}
+          </Link>
+          {canEdit && (
+            <Link
+              to={paths.userEdit(user.id)}
+              className="inline-flex h-8 items-center rounded-lg border border-teal-200 bg-teal-50 px-3 text-xs font-medium text-teal-800 hover:bg-teal-100"
+            >
+              {t('actions.edit')}
+            </Link>
+          )}
+        </div>
+      </td>
+    </tr>
+  )
+}
+
+function TextField({
   label,
   value,
   onChange,
-  maxLength,
 }: {
   label: string
   value: string
   onChange: (value: string) => void
-  maxLength: number
 }) {
   return (
     <label className="space-y-1.5 text-xs font-medium text-slate-500">
       <span>{label}</span>
-      <Input
-        className="text-sm"
-        value={value}
-        maxLength={maxLength}
-        onChange={(event) => onChange(event.target.value)}
-      />
+      <Input value={value} onChange={(event) => onChange(event.target.value)} />
     </label>
   )
 }
@@ -281,70 +393,18 @@ function SelectField({
   value,
   onChange,
   options,
+  disabled = false,
 }: {
   label: string
   value: string
   onChange: (value: string) => void
   options: SelectOption[]
+  disabled?: boolean
 }) {
   return (
     <label className="space-y-1.5 text-xs font-medium text-slate-500">
       <span>{label}</span>
-      <Select value={value} onValueChange={onChange} options={options} />
+      <Select value={value} onValueChange={onChange} options={options} disabled={disabled} />
     </label>
-  )
-}
-
-function UserRow({ user }: { user: UserListItem }) {
-  const { t } = useTranslation()
-  const can = usePermission()
-  return (
-    <tr className="transition-colors hover:bg-teal-50/60">
-      <td className="whitespace-nowrap px-4 py-3 font-medium text-slate-700" dir="auto">
-        <Link to={paths.user(String(user.id))} className="hover:text-primary hover:underline">
-          {user.accountName}
-        </Link>
-      </td>
-      <td className="whitespace-nowrap px-4 py-3 text-slate-700" dir="auto">
-        {user.fullName ?? '—'}
-      </td>
-      <td className="whitespace-nowrap px-4 py-3 text-slate-500" dir="ltr">
-        {user.email ?? '—'}
-      </td>
-      <td className="whitespace-nowrap px-4 py-3">
-        {user.isActive === undefined ? (
-          <span className="text-slate-400">—</span>
-        ) : (
-          <span
-            className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium ${
-              user.isActive ? 'bg-teal-50 text-teal-800' : 'bg-slate-100 text-slate-500'
-            }`}
-          >
-            <span
-              className={`size-1.5 rounded-full ${user.isActive ? 'bg-teal-700' : 'bg-slate-400'}`}
-            />
-            {t(user.isActive ? 'users.active' : 'users.inactive')}
-          </span>
-        )}
-      </td>
-      <td className="whitespace-nowrap px-4 py-3">
-        {can('users.suspend') && (
-          <div className="flex gap-2">
-            <Link
-              to={paths.user(String(user.id))}
-              className="inline-flex h-8 items-center rounded-md border bg-white px-3 text-sm font-medium hover:bg-accent"
-            >
-              {t('users.view')}
-            </Link>
-            <Link
-              to={paths.userEdit(String(user.id))}
-              className="inline-flex h-8 items-center rounded-md border bg-white px-3 text-sm font-medium hover:bg-accent"
-            >
-              {t('users.edit')}
-            </Link>
-          </div>
-        )}
-      </td>
-    </tr>
   )
 }

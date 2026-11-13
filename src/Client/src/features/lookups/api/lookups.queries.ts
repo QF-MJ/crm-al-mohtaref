@@ -3,11 +3,15 @@ import type { LookupType } from '../types'
 import { getLookups } from './lookups.api'
 
 const userLookupTypes: LookupType[] = ['Departments', 'Roles']
+const emptyLookupTypes: LookupType[] = []
 
-export function useLookups(include: LookupType[] = userLookupTypes) {
+// include ثابتة لكل مجموعة حتى لا تتغير queryKey مع كل render
+export function useLookups(include: LookupType[] = userLookupTypes, enabled = true) {
+  const types = include.length > 0 ? include : emptyLookupTypes
   return useQuery({
-    queryKey: ['lookups', include],
-    queryFn: ({ signal }) => getLookups(include, signal),
+    queryKey: ['lookups', types],
+    queryFn: ({ signal }) => getLookups(types, signal),
     staleTime: 5 * 60_000,
+    enabled: enabled && types.length > 0,
   })
 }

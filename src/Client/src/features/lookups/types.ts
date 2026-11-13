@@ -1,26 +1,17 @@
-export type LookupId = string | number
+/** معرّفات القوائم Guid كما يرسلها الباك */
+export type LookupId = string
 
 export interface LookupItem {
   id: LookupId
   name: string
 }
 
-export interface NumericLookupItem {
-  id: number
-  name: string
-}
-
+// GET /api/lookups يعيد فقط المجموعات المطلوبة في include
 export interface LookupsResponse {
   departments?: LookupItem[] | null
   roles?: LookupItem[] | null
-  tracks?: LookupItem[]
-  leadStatuses?: LookupItem[]
-  tags?: Array<{ id: number; tag: string }>
-  // These collections are not returned by the current backend lookup endpoint.
-  platforms?: NumericLookupItem[]
-  fields?: NumericLookupItem[]
-  campaignStatuses?: NumericLookupItem[]
-  questionTypes?: NumericLookupItem[]
+  tracks?: LookupItem[] | null
+  leadStatuses?: LookupItem[] | null
 }
 
 export type LookupType = 'Departments' | 'Roles' | 'Tracks' | 'LeadStatuses'

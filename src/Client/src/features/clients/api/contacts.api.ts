@@ -1,72 +1,42 @@
 import { api } from '@/api/client'
-import type { Contact, ContactFilters, ContactsPage } from '../types'
+import type { Contact, ContactsPage, ContactFilters } from '../types'
 
-export class InvalidContactsResponseError extends Error {
-  constructor(message: string) {
-    super(message)
-    this.name = 'InvalidContactsResponseError'
-  }
-}
-
+// الاستجابة الفعلية: { items: [{ id, name, students: [{ id, name }] }], page: { pageNumber, hasNextPage } }
+// pageNumber القادم من /contacts غير موثوق (الباك يرسل PageSize بدلاً منه)،
+// لذلك الواجهة تتتبع رقم الصفحة محلياً وتعتمد hasNextPage فقط.
 export function getContacts(filters: ContactFilters, signal?: AbortSignal) {
   return api
-    .get<unknown>('/contacts', {
+    .get<ContactsPage>('/contacts', {
       params: {
         pageNumber: filters.pageNumber,
         campaignTitle: filters.campaignTitle,
         trackId: filters.trackId,
         leadStatusId: filters.leadStatusId,
-        tagIds: filters.tagIds,
         studentName: filters.studentName,
         contactName: filters.contactName,
         phoneNumber: filters.phoneNumber,
       },
-      paramsSerializer: { indexes: null },
       signal,
     })
-    .then((response) => parseContactsPage(response.data))
+    .then((response) => normalizePage(response.data))
 }
 
-function parseContactsPage(value: unknown): ContactsPage {
-  if (!isRecord(value)) {
-    throw new InvalidContactsResponseError('Expected an object.')
-  }
-
-  const rawItems = value.items ?? value.Items
-  const rawPage = value.page ?? value.Page
-  if (!Array.isArray(rawItems)) {
-    throw new InvalidContactsResponseError('Expected an items array.')
-  }
-
+function normalizePage(data: ContactsPage): ContactsPage {
   return {
-    items: rawItems.map(parseContact),
-    page: parsePageInfo(rawPage),
+    items: Array.isArray(data?.items) ? data.items.map(normalizeContact) : [],
+    page: data?.page,
   }
 }
 
-function parsePageInfo(value: unknown): ContactsPage['page'] {
-  if (!isRecord(value)) return undefined
-
-  const pageNumber = value.pageNumber ?? value.PageNumber
-  const hasNextPage = value.hasNextPage ?? value.HasNextPage
-  if (
-    typeof pageNumber !== 'number' ||
-    !Number.isInteger(pageNumber) ||
-    pageNumber < 1 ||
-    typeof hasNextPage !== 'boolean'
-  ) {
-    return undefined
+function normalizeContact(contact: Contact): Contact {
+  return {
+    id: String(contact?.id ?? ''),
+    name: contact?.name ?? '',
+    students: Array.isArray(contact?.students)
+      ? contact.students.map((student) => ({
+          id: String(student?.id ?? ''),
+          name: student?.name ?? '',
+        }))
+      : [],
   }
-  return { pageNumber, hasNextPage }
-}
-
-function parseContact(value: unknown): Contact {
-  if (!isRecord(value)) {
-    throw new InvalidContactsResponseError('Contact item must be an object.')
-  }
-  return value
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
 }

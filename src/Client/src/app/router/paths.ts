@@ -1,8 +1,9 @@
 // كل المسارات كثوابت. لا تكتب مساراً نصياً داخل المكونات
 export const paths = {
   login: '/login',
-  home: '/',
+  dashboard: '/',
   forbidden: '/403',
+  account: '/account',
   accountPassword: '/account/password',
   notifications: '/notifications',
   users: '/users',
@@ -22,4 +23,5 @@ export const paths = {
   issues: '/issues',
   issuesNew: '/issues/new',
   issue: (id: string) => `/issues/${id}`,
+  home: '/',
 } as const

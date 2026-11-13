@@ -5,6 +5,27 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CRM المحترف</title>
+    <script>
+      // نطبّق الوضع المحفوظ قبل الرسم لتفادي وميض الوضع الفاتح.
+      // المفتاح نفسه المستخدم في stores/theme.store.ts (zustand persist).
+      ;(function () {
+        try {
+          var raw = localStorage.getItem('crm-theme')
+          var stored = raw ? JSON.parse(raw) : null
+          var theme = stored && stored.state ? stored.state.theme : null
+          if (theme !== 'light' && theme !== 'dark') {
+            theme =
+              window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light'
+          }
+          document.documentElement.classList.toggle('dark', theme === 'dark')
+          document.documentElement.style.colorScheme = theme
+        } catch (error) {
+          /* تجاهل: نكمل بالوضع الفاتح */
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

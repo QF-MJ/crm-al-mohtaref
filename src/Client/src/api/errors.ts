@@ -1,43 +1,53 @@
 import axios from 'axios'
 import type { ApiError } from '@/types/common'
 
-// الباك يرجّع ErrorDto: { status, message } (camelCase بالرد الفعلي، والـ OpenAPI يكتبها بحرف كبير).
-// نقبل الشكلين + title/errors كاحتياط لأخطاء ProblemDetails التي قد يرسلها ASP.NET قبل الـ middleware.
+// الباك يرجّع ErrorDto: { status, message } (camelCase). نقبل أيضاً ProblemDetails
+// التي قد يرسلها ASP.NET قبل الـ middleware، وأي جسم نصي.
 interface ErrorBody {
   status?: number
   message?: string
   Status?: number
   Message?: string
   title?: string
+  detail?: string
   errors?: Record<string, string[]>
+}
+
+function parseBody(data: unknown): ErrorBody | undefined {
+  if (!data) return undefined
+  if (typeof data === 'string') return { message: data }
+  if (typeof data === 'object') return data as ErrorBody
+  return undefined
 }
 
 export function toApiError(error: unknown): ApiError {
   if (axios.isAxiosError(error)) {
-    const data = error.response?.data as ErrorBody | undefined
+    const body = parseBody(error.response?.data)
+    const fieldErrors = body?.errors
+    const firstFieldError = fieldErrors
+      ? Object.values(fieldErrors)
+          .flat()
+          .find((value) => Boolean(value))
+      : undefined
+
     return {
-      status: error.response?.status ?? data?.status ?? data?.Status ?? 0,
-      message: data?.message ?? data?.Message ?? data?.title ?? error.message,
-      fieldErrors: data?.errors,
+      status: error.response?.status ?? body?.status ?? body?.Status ?? 0,
+      message:
+        body?.message ??
+        body?.Message ??
+        body?.title ??
+        firstFieldError ??
+        body?.detail ??
+        error.message,
+      fieldErrors,
     }
   }
+
   if (isApiError(error)) return error
   return { status: 0, message: error instanceof Error ? error.message : 'Unknown error' }
 }
 
-function fallbackMessage(status: number, fallback: string) {
-  if (status === 401) return 'انتهت الجلسة، سجّل دخولك من جديد'
-  if (status === 422) return 'محاولات كثيرة، انتظر دقيقة'
-  if (status === 403) return 'لا تملك صلاحية الوصول لهذه العملية'
-  return status >= 500 ? 'حدث خطأ غير متوقع' : fallback
-}
-
-export function getApiErrorMessage(error: unknown, fallback: string) {
-  const parsed = toApiError(error)
-  return parsed.status === 0 || parsed.message === 'Unknown error' ? fallback : parsed.message
-}
-
-function isApiError(error: unknown): error is ApiError {
+export function isApiError(error: unknown): error is ApiError {
   return (
     typeof error === 'object' &&
     error !== null &&

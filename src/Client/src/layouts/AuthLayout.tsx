@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom'
 import { ShieldCheck } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { ThemeToggle } from '@/components/common/ThemeToggle'
 import { useAuthStore } from '@/stores/auth.store'
 
 export function AuthLayout() {
@@ -49,7 +50,9 @@ export function AuthLayout() {
           <p className="hidden text-xs text-white/55 lg:block">{t('copyright')}</p>
         </section>
 
-        <section className="flex items-center justify-center px-6 py-10 sm:px-12 lg:px-16">
+        <section className="relative flex items-center justify-center px-6 py-10 sm:px-12 lg:px-16">
+          {/* متاح قبل تسجيل الدخول أيضاً */}
+          <ThemeToggle className="absolute end-3 top-3 z-10" />
           <div className="w-full">
             <Outlet />
           </div>

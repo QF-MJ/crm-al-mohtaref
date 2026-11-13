@@ -1,0 +1,182 @@
+import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import {
+  ArrowUpLeft,
+  BriefcaseBusiness,
+  GraduationCap,
+  Megaphone,
+  ShieldCheck,
+  UserRound,
+  UsersRound,
+  Wrench,
+} from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
+import { PageHeader } from '@/components/common/PageHeader'
+import { paths } from '@/app/router/paths'
+import { useAccess } from '@/permissions/useAccess'
+import type { Capability } from '@/permissions/access'
+import { useAuthStore } from '@/stores/auth.store'
+
+interface Shortcut {
+  titleKey: string
+  descriptionKey: string
+  to: string
+  capability: Capability
+  icon: typeof UsersRound
+}
+
+const SHORTCUTS: Shortcut[] = [
+  {
+    titleKey: 'dashboard.clientsCard.title',
+    descriptionKey: 'dashboard.clientsCard.description',
+    to: paths.clients,
+    capability: 'contacts.view',
+    icon: BriefcaseBusiness,
+  },
+  {
+    titleKey: 'dashboard.usersCard.title',
+    descriptionKey: 'dashboard.usersCard.description',
+    to: paths.users,
+    capability: 'users.view',
+    icon: UsersRound,
+  },
+  {
+    titleKey: 'dashboard.accountCard.title',
+    descriptionKey: 'dashboard.accountCard.description',
+    to: paths.account,
+    capability: 'account.view',
+    icon: UserRound,
+  },
+]
+
+const ROADMAP = [
+  { labelKey: 'dashboard.roadmap.campaigns', icon: Megaphone },
+  { labelKey: 'dashboard.roadmap.academic', icon: GraduationCap },
+  { labelKey: 'dashboard.roadmap.issues', icon: Wrench },
+]
+
+export function DashboardPage() {
+  const { t } = useTranslation()
+  const access = useAccess()
+  const user = useAuthStore((state) => state.user)
+  const shortcuts = SHORTCUTS.filter((shortcut) => access.can(shortcut.capability))
+
+  return (
+    <section className="space-y-6">
+      <PageHeader
+        breadcrumb={t('dashboard.breadcrumb')}
+        title={t('dashboard.greeting', { name: user?.fullName || t('account.unknownUser') })}
+        description={t('dashboard.subtitle')}
+        actions={
+          access.isAdmin ? (
+            <Badge variant="success" dot>
+              <ShieldCheck aria-hidden="true" className="size-3.5" />
+              {t('permissions.admin')}
+            </Badge>
+          ) : null
+        }
+      />
+
+      <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
+        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+          <h2 className="font-semibold text-slate-900">{t('dashboard.workspaceTitle')}</h2>
+          <p className="mt-1 text-sm leading-6 text-slate-500">
+            {t('dashboard.workspaceDescription')}
+          </p>
+
+          <div className="mt-5 flex flex-wrap gap-2">
+            {access.pairs.length === 0 ? (
+              <Badge variant="warning">{t('permissions.none')}</Badge>
+            ) : (
+              access.pairs.map((pair) => (
+                <Badge key={`${pair.departmentName}-${pair.roleName}-${pair.id}`} variant="info">
+                  {pair.roleName} · {pair.departmentName}
+                </Badge>
+              ))
+            )}
+          </div>
+
+          <dl className="mt-6 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-xl bg-slate-50 p-4">
+              <dt className="text-xs text-slate-500">{t('dashboard.scope')}</dt>
+              <dd className="mt-1 text-sm font-medium text-slate-800">
+                {access.isAdmin
+                  ? t('dashboard.scopeAll')
+                  : access.managerDepartments.length > 0
+                    ? access.managerDepartments.join('، ')
+                    : t('dashboard.scopeOwn')}
+              </dd>
+            </div>
+            <div className="rounded-xl bg-slate-50 p-4">
+              <dt className="text-xs text-slate-500">{t('dashboard.accessLevel')}</dt>
+              <dd className="mt-1 text-sm font-medium text-slate-800">
+                {access.isAdmin
+                  ? t('permissions.levelAdmin')
+                  : access.isManager
+                    ? t('permissions.levelManager')
+                    : t('permissions.levelEmployee')}
+              </dd>
+            </div>
+          </dl>
+        </section>
+
+        <section className="rounded-2xl border border-amber-200 bg-amber-50/70 p-5 sm:p-6">
+          <h2 className="flex items-center gap-2 font-semibold text-amber-900">
+            <Wrench aria-hidden="true" className="size-4" />
+            {t('dashboard.roadmap.title')}
+          </h2>
+          <p className="mt-1 text-sm leading-6 text-amber-800/90">
+            {t('dashboard.roadmap.description')}
+          </p>
+          <ul className="mt-4 space-y-2">
+            {ROADMAP.map((item) => {
+              const Icon = item.icon
+              return (
+                <li
+                  key={item.labelKey}
+                  className="flex items-center justify-between gap-3 rounded-lg bg-white/70 px-3 py-2 text-sm text-amber-900"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <Icon aria-hidden="true" className="size-4" />
+                    {t(item.labelKey)}
+                  </span>
+                  <Badge variant="warning">{t('dashboard.roadmap.status')}</Badge>
+                </li>
+              )
+            })}
+          </ul>
+        </section>
+      </div>
+
+      <section className="space-y-3">
+        <h2 className="font-semibold text-slate-900">{t('dashboard.quickAccess')}</h2>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {shortcuts.map((shortcut) => {
+            const Icon = shortcut.icon
+            return (
+              <Link
+                key={shortcut.to}
+                to={shortcut.to}
+                className="group flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-teal-300 hover:bg-teal-50/40"
+              >
+                <span className="flex items-center justify-between">
+                  <span className="grid size-10 place-items-center rounded-xl bg-teal-50 text-teal-700">
+                    <Icon aria-hidden="true" className="size-5" />
+                  </span>
+                  <ArrowUpLeft
+                    aria-hidden="true"
+                    className="size-4 text-slate-300 transition-colors group-hover:text-teal-600"
+                  />
+                </span>
+                <span className="text-sm font-semibold text-slate-900">{t(shortcut.titleKey)}</span>
+                <span className="text-xs leading-6 text-slate-500">
+                  {t(shortcut.descriptionKey)}
+                </span>
+              </Link>
+            )
+          })}
+        </div>
+      </section>
+    </section>
+  )
+}

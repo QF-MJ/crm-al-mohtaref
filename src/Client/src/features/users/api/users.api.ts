@@ -29,8 +29,9 @@ export const getUser = (id: UserId, signal?: AbortSignal) =>
     .get<UserDetail>(`/users/${encodeURIComponent(id)}`, { signal })
     .then((response) => response.data)
 
+// الباك يرجّع Guid الجديد كنص في جسم الرد 201
 export const addUser = (body: UserCreateInput) =>
   api.post<UserId>('/users', body).then((response) => response.data)
 
 export const updateUser = (id: UserId, body: UserUpdateInput) =>
-  api.put<void>(`/users/${encodeURIComponent(id)}`, body).then((response) => response.data)
+  api.put<void>(`/users/${encodeURIComponent(id)}`, body).then(() => undefined)
