@@ -20,4 +20,10 @@ public class CampaignRepository(AppDbContext db)
              .Include(c => c.PlatformCampaigns)
              .FirstOrDefaultAsync(c => c.Id == id, ct);
     }
+
+    public async Task<bool> HasLeadsAsync(IEnumerable<Guid> platformCampaignIds, CancellationToken cancellationToken)
+    {
+        return await db.CampaignLeads
+            .AnyAsync(l => platformCampaignIds.Contains(l.PlatformCampaignId), cancellationToken);
+    }
 }

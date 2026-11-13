@@ -11,6 +11,7 @@ public class QuestionCampaignRepository(AppDbContext context) : IQuestionCampaig
     {
         return context.QuestionCampaigns
             .Include(x => x.Question)
+            .Include(x => x.OptionSet)
             .FirstOrDefaultAsync(x => x.CampaignId == campaignId && x.QuestionId == questionId, cancellationToken);
     }
 

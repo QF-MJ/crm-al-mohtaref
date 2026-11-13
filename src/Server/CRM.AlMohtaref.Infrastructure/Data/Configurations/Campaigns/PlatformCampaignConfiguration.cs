@@ -23,6 +23,6 @@ public sealed class PlatformCampaignConfiguration : IEntityTypeConfiguration<Pla
         builder.HasOne(p => p.Campaign)
             .WithMany(c => c.PlatformCampaigns)
             .HasForeignKey(p => p.CampaignId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

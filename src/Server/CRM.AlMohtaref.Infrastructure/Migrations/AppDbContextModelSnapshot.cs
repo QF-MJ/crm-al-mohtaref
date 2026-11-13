@@ -668,7 +668,7 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.HasOne("CRM.AlMohtaref.Domain.Entities.Campaigns.Campaign", "Campaign")
                         .WithMany("PlatformCampaigns")
                         .HasForeignKey("CampaignId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CRM.AlMohtaref.Domain.Entities.Campaigns.Platform", "Platform")

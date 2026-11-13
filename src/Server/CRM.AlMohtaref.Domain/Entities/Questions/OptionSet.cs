@@ -41,4 +41,17 @@ public class OptionSet
 
         Items.Add(new OptionSetItem(optionId));
     }
+
+
+    public void Update(string newContentHash, IEnumerable<Guid> newItems)
+    {
+        ContentHash = newContentHash;
+
+        Items.Clear();
+        foreach (var item in newItems)
+        {
+            AddOption(item);
+        }
+    }
+
 }
