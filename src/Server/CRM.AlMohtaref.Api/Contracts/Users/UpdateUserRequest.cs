@@ -1,4 +1,6 @@
-﻿namespace CRM.AlMohtaref.Api.Contracts.Users;
+﻿using CRM.AlMohtaref.Application.Features.Users;
+
+namespace CRM.AlMohtaref.Api.Contracts.Users;
 
 public class UpdateUserRequest
 {
@@ -11,4 +13,12 @@ public class UpdateUserRequest
     public bool? IsActive { get; set; }
 
     public List<PermissionRequest>? Permissions { get; set; }
+
+    public UpdateUserCommand ToCommand(Guid id) => new(
+        id,
+        AccountName,
+        FullName,
+        Email,
+        IsActive,
+        Permissions?.Select(p => p.ToCommand()).ToList());
 }

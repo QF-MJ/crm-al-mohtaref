@@ -1,4 +1,6 @@
-﻿namespace CRM.AlMohtaref.Api.Contracts.Contacts;
+﻿using CRM.AlMohtaref.Application.Features.Contacts.GetContacts;
+
+namespace CRM.AlMohtaref.Api.Contracts.Contacts;
 
 public sealed class GetContactsRequest : PagedRequest
 {
@@ -15,4 +17,15 @@ public sealed class GetContactsRequest : PagedRequest
     public string? ContactName { get; set; }
 
     public string? PhoneNumber { get; set; }
+
+    public GetContactsQuery ToQuery() => new(
+        PageNumber,
+        CampaignTitle,
+        TrackId,
+        LeadStatusId,
+        TagIds,
+        StudentName,
+        ContactName,
+        PhoneNumber
+    );
 }

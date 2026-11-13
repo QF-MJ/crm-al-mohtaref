@@ -1,0 +1,301 @@
+<mxfile host="Electron">
+  <diagram name="Edit Campaign - Sequence" id="seq_edit_campaign">
+    <mxGraphModel dx="1598" dy="811" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1240" pageHeight="2362" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c66" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;" value="مخطط التسلسل: تعديل بيانات الحملة (Edit Campaign Data)" vertex="1">
+          <mxGeometry height="36" width="1100" x="60" y="15" as="geometry" />
+        </mxCell>
+        <mxCell id="c62" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=56;fontSize=13;fontStyle=1;strokeWidth=1.5;" value="مدير التسويق&lt;br&gt;(الفاعل)" vertex="1">
+          <mxGeometry height="2158" width="140" x="100" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="c63" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=56;fontSize=13;fontStyle=1;strokeWidth=1.5;" value="واجهة المستخدم&lt;br&gt;(UI)" vertex="1">
+          <mxGeometry height="2158" width="140" x="400" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="c64" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=56;fontSize=13;fontStyle=1;strokeWidth=1.5;" value="النظام&lt;br&gt;(System)" vertex="1">
+          <mxGeometry height="2158" width="140" x="700" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="c65" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=56;fontSize=13;fontStyle=1;strokeWidth=1.5;" value="قاعدة البيانات&lt;br&gt;(Database)" vertex="1">
+          <mxGeometry height="2158" width="140" x="1000" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="c1" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="1. يفتح قائمة الحملات">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="170" y="194" as="sourcePoint" />
+            <mxPoint x="470" y="194" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c2" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="2. طلب قائمة الحملات">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="246" as="sourcePoint" />
+            <mxPoint x="770" y="246" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c3" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="3. قائمة الحملات">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="770" y="298" as="sourcePoint" />
+            <mxPoint x="470" y="298" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c4" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="4. عرض قائمة الحملات المتاحة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="350" as="sourcePoint" />
+            <mxPoint x="170" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c5" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="5. يختار الحملة ثم «تعديل»">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="170" y="402" as="sourcePoint" />
+            <mxPoint x="470" y="402" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c6" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="6. طلب بيانات الحملة للتعديل">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="454" as="sourcePoint" />
+            <mxPoint x="770" y="454" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c7" edge="1" parent="1" style="html=1;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="820" y="484" />
+              <mxPoint x="820" y="522" />
+            </Array>
+            <mxPoint x="770" y="484" as="sourcePoint" />
+            <mxPoint x="770" y="522" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c8" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=12;" value="7. التحقق من صلاحية المستخدم" vertex="1">
+          <mxGeometry height="40" width="215" x="828" y="483" as="geometry" />
+        </mxCell>
+        <mxCell id="c9" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=60;height=24;fontSize=12;fontStyle=1;fillColor=none;strokeColor=#666666;swimlaneFillColor=none;" value="break" vertex="1">
+          <mxGeometry height="134" width="780" x="60" y="538" as="geometry" />
+        </mxCell>
+        <mxCell id="c10" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a1a1a;" value="[&amp;nbsp; لا يملك صلاحية ]" vertex="1">
+          <mxGeometry height="24" width="700" x="126" y="538" as="geometry" />
+        </mxCell>
+        <mxCell id="c11" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="8. منع الوصول">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="770" y="602" as="sourcePoint" />
+            <mxPoint x="470" y="602" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c12" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="9. رسالة «لا تملك صلاحية الوصول»">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="654" as="sourcePoint" />
+            <mxPoint x="170" y="654" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c13" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="10. جلب بيانات الحملة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="770" y="720" as="sourcePoint" />
+            <mxPoint x="1070" y="720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c14" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="11. بيانات الحملة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1070" y="772" as="sourcePoint" />
+            <mxPoint x="770" y="772" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c15" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="12. بيانات الحملة الحالية">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="770" y="824" as="sourcePoint" />
+            <mxPoint x="470" y="824" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c16" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="13. عرض البيانات في نموذج قابل للتعديل">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="876" as="sourcePoint" />
+            <mxPoint x="170" y="876" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c18" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="14. يعدّل البيانات المطلوبة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="170" y="938" as="sourcePoint" />
+            <mxPoint x="470" y="938" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c19" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=60;height=24;fontSize=12;fontStyle=1;fillColor=none;strokeColor=#666666;swimlaneFillColor=none;" value="break" vertex="1">
+          <mxGeometry height="134" width="470" x="60" y="956" as="geometry" />
+        </mxCell>
+        <mxCell id="c20" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a1a1a;" value="[&amp;nbsp; يختار «إلغاء» ]" vertex="1">
+          <mxGeometry height="24" width="390" x="126" y="956" as="geometry" />
+        </mxCell>
+        <mxCell id="c21" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="15. الضغط على «إلغاء»">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="170" y="1020" as="sourcePoint" />
+            <mxPoint x="470" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c22" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="16. تجاهل التعديلات والعودة لتفاصيل الحملة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="1072" as="sourcePoint" />
+            <mxPoint x="170" y="1072" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c23" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=60;height=24;fontSize=12;fontStyle=1;fillColor=none;strokeColor=#666666;swimlaneFillColor=none;" value="loop" vertex="1">
+          <mxGeometry height="686" width="1100" x="60" y="1104" as="geometry" />
+        </mxCell>
+        <mxCell id="c24" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a1a1a;" value="[ حتى تصبح البيانات صحيحة ]" vertex="1">
+          <mxGeometry height="24" width="1020" x="126" y="1104" as="geometry" />
+        </mxCell>
+        <mxCell id="c25" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="17. يضغط «حفظ»">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="170" y="1168" as="sourcePoint" />
+            <mxPoint x="470" y="1168" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c26" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="18. إرسال البيانات المعدّلة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="1220" as="sourcePoint" />
+            <mxPoint x="770" y="1220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c27" edge="1" parent="1" style="html=1;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="820" y="1250" />
+              <mxPoint x="820" y="1288" />
+            </Array>
+            <mxPoint x="770" y="1250" as="sourcePoint" />
+            <mxPoint x="770" y="1288" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c28" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=12;" value="19. مقارنة البيانات بالقيم الأصلية" vertex="1">
+          <mxGeometry height="40" width="215" x="828" y="1249" as="geometry" />
+        </mxCell>
+        <mxCell id="c29" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=60;height=24;fontSize=12;fontStyle=1;fillColor=none;strokeColor=#666666;swimlaneFillColor=none;" value="alt" vertex="1">
+          <mxGeometry height="472" width="1072" x="74" y="1304" as="geometry" />
+        </mxCell>
+        <mxCell id="c30" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a1a1a;" value="[&amp;nbsp; لا توجد تغييرات ]" vertex="1">
+          <mxGeometry height="24" width="992" x="140" y="1304" as="geometry" />
+        </mxCell>
+        <mxCell id="c31" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="20. لا توجد تغييرات">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="770" y="1368" as="sourcePoint" />
+            <mxPoint x="470" y="1368" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c32" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="21. تنبيه: لا توجد تعديلات">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="1420" as="sourcePoint" />
+            <mxPoint x="170" y="1420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c33" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontSize=12;fontStyle=2;fontColor=#555555;" value="← انتهاء السيناريو بدون حفظ" vertex="1">
+          <mxGeometry height="24" width="400" x="374" y="1440" as="geometry" />
+        </mxCell>
+        <mxCell id="c34" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#666666;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="74" y="1468" as="sourcePoint" />
+            <mxPoint x="1146" y="1468" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c35" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a1a1a;" value="[ توجد تغييرات ]" vertex="1">
+          <mxGeometry height="24" width="1052" x="82" y="1470" as="geometry" />
+        </mxCell>
+        <mxCell id="c36" edge="1" parent="1" style="html=1;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="820" y="1510" />
+              <mxPoint x="820" y="1548" />
+            </Array>
+            <mxPoint x="770" y="1510" as="sourcePoint" />
+            <mxPoint x="770" y="1548" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c37" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=12;" value="22. التحقق من الحقول الإلزامية وصحة القيم" vertex="1">
+          <mxGeometry height="40" width="215" x="828" y="1509" as="geometry" />
+        </mxCell>
+        <mxCell id="c38" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=60;height=24;fontSize=12;fontStyle=1;fillColor=none;strokeColor=#666666;swimlaneFillColor=none;" value="alt" vertex="1">
+          <mxGeometry height="198" width="1044" x="88" y="1564" as="geometry" />
+        </mxCell>
+        <mxCell id="c39" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a1a1a;" value="[&amp;nbsp; بيانات ناقصة أو غير صحيحة ]" vertex="1">
+          <mxGeometry height="24" width="964" x="154" y="1564" as="geometry" />
+        </mxCell>
+        <mxCell id="c40" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="23. تحديد الحقول المطلوب تصحيحها">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="770" y="1628" as="sourcePoint" />
+            <mxPoint x="470" y="1628" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c41" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="24. عرض رسالة الخطأ (لا يتم الحفظ)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="1680" as="sourcePoint" />
+            <mxPoint x="170" y="1680" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c42" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#666666;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="88" y="1698" as="sourcePoint" />
+            <mxPoint x="1132" y="1698" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c43" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a1a1a;" value="[ البيانات صحيحة ]" vertex="1">
+          <mxGeometry height="24" width="1024" x="96" y="1700" as="geometry" />
+        </mxCell>
+        <mxCell id="c44" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontSize=12;fontStyle=2;fontColor=#555555;" value="← الخروج من الحلقة والمتابعة" vertex="1">
+          <mxGeometry height="24" width="400" x="288" y="1732" as="geometry" />
+        </mxCell>
+        <mxCell id="c45" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;endFill=1;fontSize=12;labelBackgroundColor=none;strokeWidth=1.5;" value="25. حفظ التعديلات">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="770" y="1838" as="sourcePoint" />
+            <mxPoint x="1070" y="1838" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c46" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=60;height=24;fontSize=12;fontStyle=1;fillColor=none;strokeColor=#666666;swimlaneFillColor=none;" value="alt" vertex="1">
+          <mxGeometry height="372" width="1100" x="60" y="1856" as="geometry" />
+        </mxCell>
+        <mxCell id="c47" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a1a1a;" value="[&amp;nbsp; الحملة لم تعد موجودة ]" vertex="1">
+          <mxGeometry height="24" width="1020" x="126" y="1856" as="geometry" />
+        </mxCell>
+        <mxCell id="c48" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="26. الحملة غير موجودة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1070" y="1920" as="sourcePoint" />
+            <mxPoint x="770" y="1920" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c49" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="27. إرجاع الخطأ">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="770" y="1972" as="sourcePoint" />
+            <mxPoint x="470" y="1972" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c50" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="28. رسالة توضح ذلك والعودة لقائمة الحملات">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="2024" as="sourcePoint" />
+            <mxPoint x="170" y="2024" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c51" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;strokeColor=#666666;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="2042" as="sourcePoint" />
+            <mxPoint x="1160" y="2042" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c52" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1a1a1a;" value="[ الحملة موجودة ]" vertex="1">
+          <mxGeometry height="24" width="1080" x="68" y="2044" as="geometry" />
+        </mxCell>
+        <mxCell id="c53" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="29. تأكيد الحفظ">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1070" y="2106" as="sourcePoint" />
+            <mxPoint x="770" y="2106" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c54" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="30. نجاح العملية">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="770" y="2158" as="sourcePoint" />
+            <mxPoint x="470" y="2158" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c55" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;endFill=0;dashed=1;fontSize=12;labelBackgroundColor=none;strokeColor=#555555;fontColor=#333333;" value="31. رسالة نجاح وبيانات الحملة بعد التحديث">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="2210" as="sourcePoint" />
+            <mxPoint x="170" y="2210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -11,31 +11,13 @@ namespace CRM.AlMohtaref.Api.Controllers
     [Route("api/contacts")]
     [ApiController]
     [Authorize]
-    public class ContactsController : ControllerBase
+    public class ContactsController(ISender sender) 
+        : ControllerBase
     {
-        private readonly ISender _sender;
-
-        public ContactsController(ISender sender)
-        {
-            _sender = sender;
-        }
-
         [HttpGet]
         public async Task<ActionResult<ContactsPageDto>> GetContacts([FromQuery] GetContactsRequest request, CancellationToken ct)
         {
-
-            var query = new GetContactsQuery(
-                                request.PageNumber,
-                                request.CampaignTitle,
-                                request.TrackId,
-                                request.LeadStatusId,
-                                request.TagIds,
-                                request.StudentName,
-                                request.ContactName,
-                                request.PhoneNumber
-                            );
-
-            return await _sender.Send(query, ct);
+            return await sender.Send(request.ToQuery(), ct);
         }
     }
 }
