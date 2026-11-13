@@ -27,7 +27,7 @@ public class UsersController(ISender sender)
                 .ToList()
         );
 
-        var userId = await _sender.Send(command, ct);
+        var userId = await sender.Send(command, ct);
         return CreatedAtAction(nameof(GetUser), new { id = userId }, userId);
     }
 
