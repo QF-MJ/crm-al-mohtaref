@@ -20,4 +20,10 @@ public class CampaignRepository(AppDbContext db)
              .Include(c => c.PlatformCampaigns)
              .FirstOrDefaultAsync(c => c.Id == id, ct);
     }
+
+    public async Task AddAsync(Campaign campaign)
+    {
+        await db.Campaigns.AddAsync(campaign);
+        await db.SaveChangesAsync();
+    }
 }

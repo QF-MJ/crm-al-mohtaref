@@ -11,6 +11,23 @@ namespace CRM.AlMohtaref.Api.Controllers
     public class CampaignsController(ISender sender)
         : ControllerBase
     {
+
+
+        [HttpPost]
+        public async Task<ActionResult<Guid>> CreateCampaign([FromBody] CreateCampaignRequest request, CancellationToken ct)
+        {
+            var command = request.ToCommand();
+            var campaignId = await sender.Send(command, ct);
+            return CreatedAtAction(nameof(GetCampaign), new { id = campaignId }, campaignId);
+        }
+
+        [HttpGet("{id:Guid}")]
+        public async Task<ActionResult<object>> GetCampaign(Guid id, CancellationToken ct)
+        {
+            return Ok();
+        }
+
+
         [HttpPut("{id:Guid}")]
         public async Task<IActionResult> UpadteCampaign(Guid id, [FromBody] UpdateCampaignRequest request, CancellationToken ct)
         {
@@ -26,5 +43,7 @@ namespace CRM.AlMohtaref.Api.Controllers
 
             return NoContent();
         }
+
+        
     }
 }
