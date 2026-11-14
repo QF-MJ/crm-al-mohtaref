@@ -52,6 +52,14 @@
   background-color: #1a3b39;
 }
 
+/* نفس التعيين لنسخ الشفافية (صفوف/أشرطة التحديد) */
+.dark .bg-teal-50\/40,
+.dark .bg-teal-50\/50,
+.dark .bg-teal-50\/60,
+.dark .bg-teal-50\/70 {
+  background-color: #1a3b39;
+}
+
 .dark .bg-amber-50 {
   background-color: #3a2e14;
 }
@@ -132,6 +140,14 @@
   color: #7fd9cd;
 }
 
+.dark .text-teal-800\/80 {
+  color: rgb(127 217 205 / 0.85);
+}
+
+.dark .text-teal-900 {
+  color: #8ee8dc;
+}
+
 .dark .text-teal-700 {
   color: #5eead4;
 }
@@ -184,6 +200,10 @@
 
 .dark .border-slate-100 {
   border-color: #2c333c;
+}
+
+.dark .border-slate-300 {
+  border-color: #4a5560;
 }
 
 .dark .border-teal-200 {

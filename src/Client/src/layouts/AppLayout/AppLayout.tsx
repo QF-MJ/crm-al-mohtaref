@@ -34,12 +34,12 @@ export function AppLayout() {
             navigationExpanded ? 'flex' : 'hidden'
           } fixed inset-x-0 top-[4.5rem] z-20 max-h-[calc(100vh-4.5rem)] flex-col overflow-y-auto border-b border-slate-200 bg-white p-4 shadow-xl lg:sticky lg:top-[4.5rem] lg:flex lg:h-[calc(100vh-4.5rem)] lg:w-64 lg:shrink-0 lg:border-b-0 lg:border-e lg:shadow-none`}
         >
-          <div className="mb-6 rounded-2xl bg-gradient-to-br from-teal-800 to-slate-800 p-4 text-white">
-            <p className="text-xs font-medium text-teal-100">{t('navigation.workspace')}</p>
-            <p className="mt-1 truncate text-base font-semibold" dir="auto">
+          <div className="mb-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
+            <p className="text-xs font-medium text-slate-500">{t('navigation.workspace')}</p>
+            <p className="mt-1 truncate text-sm font-semibold text-slate-900" dir="auto">
               {user?.fullName || t('account.unknownUser')}
             </p>
-            <p className="mt-1 line-clamp-2 text-xs leading-5 text-white/65" dir="auto">
+            <p className="mt-0.5 line-clamp-2 text-xs leading-5 text-slate-500" dir="auto">
               {roleSummary || t('permissions.none')}
             </p>
           </div>

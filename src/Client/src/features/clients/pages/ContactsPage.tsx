@@ -42,9 +42,37 @@ export function ContactsPage() {
 
   const [draft, setDraft] = useState<DraftFilters>(EMPTY_DRAFT)
   const [filters, setFilters] = useState<ContactFilters>({ pageNumber: 1 })
+  const [selected, setSelected] = useState<Set<string>>(new Set())
 
   const lookupsQuery = useLookups([...CONTACT_LOOKUPS])
   const contactsQuery = useContacts(filters)
+
+  const pageItems = contactsQuery.data?.items ?? []
+  const pageIds = pageItems.map((contact) => contact.id)
+  const selectedOnPage = pageIds.filter((id) => selected.has(id)).length
+  const allOnPageSelected = pageIds.length > 0 && selectedOnPage === pageIds.length
+  const someOnPageSelected = selectedOnPage > 0 && !allOnPageSelected
+
+  const toggleOne = (id: string) => {
+    setSelected((current) => {
+      const next = new Set(current)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  // تحديد/إلغاء تحديد كل المعروضين في الصفحة الحالية
+  const toggleAllOnPage = () => {
+    setSelected((current) => {
+      const next = new Set(current)
+      if (allOnPageSelected) pageIds.forEach((id) => next.delete(id))
+      else pageIds.forEach((id) => next.add(id))
+      return next
+    })
+  }
+
+  const clearSelection = () => setSelected(new Set())
 
   const trackOptions: SelectOption[] = [
     { value: '', label: t('contacts.allTracks') },
@@ -64,6 +92,7 @@ export function ContactsPage() {
 
   const applyFilters = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    setSelected(new Set())
     setFilters({
       pageNumber: 1,
       contactName: draft.contactName.trim() || undefined,
@@ -77,6 +106,7 @@ export function ContactsPage() {
 
   const clearFilters = () => {
     setDraft(EMPTY_DRAFT)
+    setSelected(new Set())
     setFilters({ pageNumber: 1 })
   }
 
@@ -175,15 +205,44 @@ export function ContactsPage() {
               {t('contacts.resultsDescription')}
             </p>
           </div>
-          {contactsQuery.data && (
-            <Badge variant="neutral">
-              {t('contacts.pageCount', { count: contactsQuery.data.items.length })}
-            </Badge>
-          )}
+          <div className="flex flex-wrap items-center gap-2">
+            {pageItems.length > 0 && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={toggleAllOnPage}
+                className="text-teal-800 hover:bg-teal-50"
+              >
+                {allOnPageSelected ? t('contacts.unselectAllPage') : t('contacts.selectAllPage')}
+              </Button>
+            )}
+            {contactsQuery.data && (
+              <Badge variant="neutral">
+                {t('contacts.pageCount', { count: contactsQuery.data.items.length })}
+              </Badge>
+            )}
+          </div>
         </header>
 
+        {selected.size > 0 && (
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 bg-teal-50/50 px-4 py-3 sm:px-5">
+            <p className="text-sm font-medium text-teal-900">
+              {t('contacts.selectedCount', { count: selected.size })}
+            </p>
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="hidden text-xs text-teal-800/80 sm:block">
+                {t('contacts.selectionHint')}
+              </span>
+              <Button type="button" variant="outline" size="sm" onClick={clearSelection}>
+                {t('contacts.clearSelection')}
+              </Button>
+            </div>
+          </div>
+        )}
+
         {contactsQuery.isLoading ? (
-          <TableSkeleton rows={6} columns={3} />
+          <TableSkeleton rows={6} columns={4} />
         ) : contactsQuery.isError ? (
           <ErrorState
             error={contactsQuery.error}
@@ -224,9 +283,21 @@ export function ContactsPage() {
         ) : (
           <>
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[640px] text-start text-sm">
+              <table className="w-full min-w-[680px] text-start text-sm">
                 <thead className="bg-slate-50 text-xs font-medium text-slate-500">
                   <tr>
+                    <th scope="col" className="w-12 px-4 py-3">
+                      <input
+                        type="checkbox"
+                        checked={allOnPageSelected}
+                        ref={(element) => {
+                          if (element) element.indeterminate = someOnPageSelected
+                        }}
+                        onChange={toggleAllOnPage}
+                        aria-label={t('contacts.selectAllPage')}
+                        className="size-4 cursor-pointer rounded border-slate-300 accent-teal-700"
+                      />
+                    </th>
                     <th scope="col" className="px-4 py-3 text-start">
                       {t('contacts.contactName')}
                     </th>
@@ -239,8 +310,13 @@ export function ContactsPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
-                  {contactsQuery.data.items.map((contact) => (
-                    <ContactRow key={contact.id} contact={contact} />
+                  {pageItems.map((contact) => (
+                    <ContactRow
+                      key={contact.id}
+                      contact={contact}
+                      selected={selected.has(contact.id)}
+                      onToggle={() => toggleOne(contact.id)}
+                    />
                   ))}
                 </tbody>
               </table>
@@ -267,14 +343,34 @@ export function ContactsPage() {
   )
 }
 
-function ContactRow({ contact }: { contact: Contact }) {
+function ContactRow({
+  contact,
+  selected,
+  onToggle,
+}: {
+  contact: Contact
+  selected: boolean
+  onToggle: () => void
+}) {
   const { t } = useTranslation()
+  const displayName = contact.name?.trim() || t('contacts.unnamedContact')
 
   return (
-    <tr className="align-top transition-colors hover:bg-teal-50/40">
+    <tr
+      className={`align-top transition-colors ${selected ? 'bg-teal-50/60' : 'hover:bg-teal-50/40'}`}
+    >
+      <td className="px-4 py-3">
+        <input
+          type="checkbox"
+          checked={selected}
+          onChange={onToggle}
+          aria-label={t('contacts.selectRow', { name: displayName })}
+          className="mt-0.5 size-4 cursor-pointer rounded border-slate-300 accent-teal-700"
+        />
+      </td>
       <td className="px-4 py-3">
         <p className="font-medium text-slate-800" dir="auto">
-          {contact.name?.trim() || t('contacts.unnamedContact')}
+          {displayName}
         </p>
         <p className="mt-1 text-xs text-slate-400">{t('contacts.parentAccount')}</p>
       </td>

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowUpLeft, BriefcaseBusiness, ShieldCheck, UserRound, UsersRound } from 'lucide-react'
+import { BriefcaseBusiness, ShieldCheck, UserRound, UsersRound } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { PageHeader } from '@/components/common/PageHeader'
 import { paths } from '@/app/router/paths'
@@ -84,7 +84,7 @@ export function DashboardPage() {
           </div>
 
           <dl className="grid content-start gap-3 sm:grid-cols-2 lg:grid-cols-1">
-            <div className="rounded-xl bg-slate-50 p-4">
+            <div className="rounded-xl border border-slate-200/70 bg-slate-50 p-4">
               <dt className="text-xs text-slate-500">{t('dashboard.scope')}</dt>
               <dd className="mt-1 text-sm font-medium text-slate-800">
                 {access.isAdmin
@@ -94,7 +94,7 @@ export function DashboardPage() {
                     : t('dashboard.scopeOwn')}
               </dd>
             </div>
-            <div className="rounded-xl bg-slate-50 p-4">
+            <div className="rounded-xl border border-slate-200/70 bg-slate-50 p-4">
               <dt className="text-xs text-slate-500">{t('dashboard.accessLevel')}</dt>
               <dd className="mt-1 text-sm font-medium text-slate-800">
                 {access.isAdmin
@@ -117,20 +117,16 @@ export function DashboardPage() {
               <Link
                 key={shortcut.to}
                 to={shortcut.to}
-                className="group flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-teal-300 hover:bg-teal-50/40"
+                className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4 transition-colors hover:border-slate-300 hover:bg-slate-50"
               >
-                <span className="flex items-center justify-between">
-                  <span className="grid size-10 place-items-center rounded-xl bg-teal-50 text-teal-700">
-                    <Icon aria-hidden="true" className="size-5" />
+                <Icon aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-teal-700" />
+                <span className="min-w-0">
+                  <span className="block text-sm font-semibold text-slate-900">
+                    {t(shortcut.titleKey)}
                   </span>
-                  <ArrowUpLeft
-                    aria-hidden="true"
-                    className="size-4 text-slate-300 transition-colors group-hover:text-teal-600"
-                  />
-                </span>
-                <span className="text-sm font-semibold text-slate-900">{t(shortcut.titleKey)}</span>
-                <span className="text-xs leading-6 text-slate-500">
-                  {t(shortcut.descriptionKey)}
+                  <span className="mt-1 block text-xs leading-6 text-slate-500">
+                    {t(shortcut.descriptionKey)}
+                  </span>
                 </span>
               </Link>
             )
