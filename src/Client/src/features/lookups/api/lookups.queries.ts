@@ -24,8 +24,18 @@ export function useContactLookups(enabled = true) {
     queryKey: ['lookups', 'contacts'],
     queryFn: async ({ signal }) => {
       try {
-        return await getLookups([...contactLookupTypes, 'Tags'], signal)
-      } catch {
+        const result = await getLookups([...contactLookupTypes, 'Tags'], signal)
+        if (import.meta.env.DEV && !result.tags?.length) {
+          console.warn(
+            '[lookups] الرد لا يحتوي وسوم. تأكد أن الباك يضيف Tags إلى LookupType و LookupsDto و GetLookupsQueryHandler.',
+            result,
+          )
+        }
+        return result
+      } catch (error) {
+        if (import.meta.env.DEV) {
+          console.warn('[lookups] فشل طلب الوسوم، تم الرجوع للمسارات والحالات فقط.', error)
+        }
         return await getLookups(contactLookupTypes, signal)
       }
     },
