@@ -25,6 +25,8 @@ export interface ContactFilters {
   trackId?: string
   /** Guid */
   leadStatusId?: string
+  /** Guids — الباك يطابق كل الوسوم المحددة (AND) */
+  tagIds?: string[]
   studentName?: string
   contactName?: string
   phoneNumber?: string

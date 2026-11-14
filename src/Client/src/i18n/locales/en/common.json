@@ -2,10 +2,11 @@
   "appName": "Al-Mohtaref CRM",
   "nav": {
     "dashboard": "Dashboard",
+    "tasks": "Tasks",
     "clients": "Clients",
     "users": "Employees & roles",
     "account": "My account",
-    "campaigns": "Campaigns",
+    "campaigns": "Ad campaigns",
     "academic": "Academic guidance",
     "issues": "Issues",
     "notifications": "Notifications"
@@ -41,6 +42,14 @@
     "levelAdmin": "Full system access",
     "levelManager": "Department manager",
     "levelEmployee": "Employee"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "open": "Open notifications",
+    "empty": "No notifications yet",
+    "emptyHint": "Task notifications and updates will appear here.",
+    "markAllRead": "Mark all as read",
+    "unread": "{{count}} unread notifications"
   },
   "dashboard": {
     "breadcrumb": "Home",
@@ -156,6 +165,9 @@
     "allTracks": "All tracks",
     "leadStatus": "Lead status",
     "allLeadStatuses": "All statuses",
+    "tags": "Tags",
+    "tagsSelected": "{{count}} tags selected",
+    "tagsHint": "Results must carry every selected tag.",
     "lookupsError": "Couldn't load tracks and lead statuses. Try again.",
     "results": "Results",
     "resultsDescription": "Clients matching the current filters",
@@ -240,21 +252,7 @@
       "passwordDescription": "This service isn't available yet."
     }
   },
-  "campaigns": {
-    "title": "Campaigns",
-    "reportsTitle": "Campaign reports",
-    "reportsUnavailable": "Campaign reports aren't available yet.",
-    "apiUnavailable": "Campaigns aren't available yet.",
-    "loading": "Loading...",
-    "previous": "Previous",
-    "next": "Next",
-    "backToList": "Back to campaigns",
-    "newCampaign": "New campaign",
-    "createUnavailable": "Creating campaigns isn't available yet.",
-    "review": "Review campaign",
-    "saving": "Saving...",
-    "save": "Save campaign",
-    "error": "The request could not be completed. Please try again.",
-    "retry": "Try again"
+  "comingSoon": {
+    "description": "This service will be available soon"
   }
 }

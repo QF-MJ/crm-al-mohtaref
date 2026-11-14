@@ -4,11 +4,11 @@ import { AppLayout } from '@/layouts/AppLayout/AppLayout'
 import type { AppRoute } from '@/types/router'
 // الاستيراد من index.ts للميزة فقط (قاعدة الحدود)
 import { authRoutes, LoginPage } from '@/features/auth'
-import { notificationsRoutes } from '@/features/notifications'
 import { usersRoutes } from '@/features/users'
 import { clientsPreviewRoutes, clientsRoutes } from '@/features/clients'
 import { communicationsRoutes } from '@/features/communications'
 import { campaignsRoutes } from '@/features/campaigns'
+import { tasksRoutes } from '@/features/tasks'
 import { academicRoutes } from '@/features/academic'
 import { issuesRoutes } from '@/features/issues'
 import { RequireAuth } from './guards/RequireAuth'
@@ -18,14 +18,12 @@ import { ForbiddenPage } from './pages/ForbiddenPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import { paths } from './paths'
 
-// وحدات لم تُطلق في الباك بعد (حملات، مشاكل، توجيه، إشعارات، تواصل، استيراد، كلمة مرور):
+// وحدات لم تُطلق في الباك بعد (مشاكل، توجيه، إشعارات، تواصل، استيراد، كلمة مرور):
 // تُسجّل في وضع التطوير فقط ولا تدخل نسخة الإنتاج، حتى لا تظهر للعميل.
 const previewRoutes: AppRoute[] = [
   ...clientsPreviewRoutes,
-  ...campaignsRoutes,
   ...academicRoutes,
   ...issuesRoutes,
-  ...notificationsRoutes,
   ...communicationsRoutes,
   ...authRoutes,
 ]
@@ -34,6 +32,8 @@ const previewRoutes: AppRoute[] = [
 const featureRoutes: AppRoute[] = [
   ...usersRoutes,
   ...clientsRoutes,
+  ...tasksRoutes,
+  ...campaignsRoutes,
   ...(import.meta.env.DEV ? previewRoutes : []),
 ]
 

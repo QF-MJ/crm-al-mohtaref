@@ -40,6 +40,10 @@ export type Capability =
   // GET /api/contacts: مدير الإدارة أو مدير المبيعات فقط
   | 'contacts.view'
   | 'contacts.filter'
+  // المهام: كل مدير قسم (والإدارة ضمنهم)
+  | 'tasks.view'
+  // الحملات الإعلانية: مدير الإدارة فقط حالياً
+  | 'campaigns.view'
   // وحدات لم تُطلق في الباك بعد: تبقى صفحاتها التوضيحية متاحة بدل 403
   | 'modules.preview'
 
@@ -92,6 +96,11 @@ export function buildAccess(pairs: readonly PermissionPair[]): Access {
       case 'contacts.view':
       case 'contacts.filter':
         return isAdmin || isSalesManager
+      case 'tasks.view':
+        // كل مدير قسم يرى المهام، وليس الأدمن فقط
+        return isManager
+      case 'campaigns.view':
+        return isAdmin
       default:
         return false
     }

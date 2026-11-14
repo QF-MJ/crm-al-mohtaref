@@ -41,6 +41,17 @@ const leadStatuses = [
   { id: guid(404), name: 'غير مهتم' },
 ]
 
+const tags = [
+  { id: guid(501), name: 'مهتم بالبرمجة' },
+  { id: guid(502), name: 'مهتم باللغة الإنجليزية' },
+  { id: guid(503), name: 'العمر 6-9 سنوات' },
+  { id: guid(504), name: 'العمر 10-14 سنة' },
+  { id: guid(505), name: 'يتوفر جهاز' },
+  { id: guid(506), name: 'لا يتوفر جهاز' },
+  { id: guid(507), name: 'يرغب بالبدء فوراً' },
+  { id: guid(508), name: 'عميل ساخن' },
+]
+
 const seededNames = [
   'مدير النظام',
   'أحمد خالد الحسن',
@@ -185,6 +196,7 @@ export const usersHandlers = [
       roles: includes('Roles') ? roles : undefined,
       tracks: includes('Tracks') ? tracks : undefined,
       leadStatuses: includes('LeadStatuses') ? leadStatuses : undefined,
+      tags: includes('Tags') ? tags : undefined,
     }
     return HttpResponse.json(body)
   }),

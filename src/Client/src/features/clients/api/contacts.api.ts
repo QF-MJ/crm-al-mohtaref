@@ -12,10 +12,13 @@ export function getContacts(filters: ContactFilters, signal?: AbortSignal) {
         campaignTitle: filters.campaignTitle,
         trackId: filters.trackId,
         leadStatusId: filters.leadStatusId,
+        tagIds: filters.tagIds,
         studentName: filters.studentName,
         contactName: filters.contactName,
         phoneNumber: filters.phoneNumber,
       },
+      // مفاتيح متكررة: tagIds=a&tagIds=b
+      paramsSerializer: { indexes: null },
       signal,
     })
     .then((response) => normalizePage(response.data))

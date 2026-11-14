@@ -11,11 +11,9 @@ import { ErrorState } from '@/components/common/ErrorState'
 import { TableSkeleton } from '@/components/common/TableSkeleton'
 import { Pagination } from '@/components/common/Pagination'
 import { useAccess } from '@/permissions/useAccess'
-import { useLookups } from '@/features/lookups'
+import { useContactLookups } from '@/features/lookups'
 import { useContacts } from '../api/contacts.queries'
 import type { Contact, ContactFilters } from '../types'
-
-const CONTACT_LOOKUPS = ['Tracks', 'LeadStatuses'] as const
 
 interface DraftFilters {
   contactName: string
@@ -24,6 +22,7 @@ interface DraftFilters {
   campaignTitle: string
   trackId: string
   leadStatusId: string
+  tagIds: string[]
 }
 
 const EMPTY_DRAFT: DraftFilters = {
@@ -33,6 +32,7 @@ const EMPTY_DRAFT: DraftFilters = {
   campaignTitle: '',
   trackId: '',
   leadStatusId: '',
+  tagIds: [],
 }
 
 export function ContactsPage() {
@@ -44,8 +44,19 @@ export function ContactsPage() {
   const [filters, setFilters] = useState<ContactFilters>({ pageNumber: 1 })
   const [selected, setSelected] = useState<Set<string>>(new Set())
 
-  const lookupsQuery = useLookups([...CONTACT_LOOKUPS])
+  const lookupsQuery = useContactLookups()
   const contactsQuery = useContacts(filters)
+
+  const tags = lookupsQuery.data?.tags ?? []
+
+  const toggleTag = (id: string) => {
+    setDraft((current) => ({
+      ...current,
+      tagIds: current.tagIds.includes(id)
+        ? current.tagIds.filter((tagId) => tagId !== id)
+        : [...current.tagIds, id],
+    }))
+  }
 
   const pageItems = contactsQuery.data?.items ?? []
   const pageIds = pageItems.map((contact) => contact.id)
@@ -101,6 +112,7 @@ export function ContactsPage() {
       campaignTitle: draft.campaignTitle.trim() || undefined,
       trackId: draft.trackId || undefined,
       leadStatusId: draft.leadStatusId || undefined,
+      tagIds: draft.tagIds.length > 0 ? draft.tagIds : undefined,
     })
   }
 
@@ -116,7 +128,8 @@ export function ContactsPage() {
     filters.phoneNumber ||
     filters.campaignTitle ||
     filters.trackId ||
-    filters.leadStatusId,
+    filters.leadStatusId ||
+    filters.tagIds?.length,
   )
   const pageNumber = filters.pageNumber
   const page = contactsQuery.data?.page
@@ -177,6 +190,44 @@ export function ContactsPage() {
               disabled={lookupsQuery.isLoading || lookupsQuery.isError}
               onChange={(leadStatusId) => setDraft((current) => ({ ...current, leadStatusId }))}
             />
+
+            {tags.length > 0 && (
+              <div className="sm:col-span-2 xl:col-span-3">
+                <div className="flex items-baseline justify-between gap-2">
+                  <span className="text-xs font-medium text-slate-500">{t('contacts.tags')}</span>
+                  {draft.tagIds.length > 0 && (
+                    <span className="text-[11px] text-slate-400">
+                      {t('contacts.tagsSelected', { count: draft.tagIds.length })}
+                    </span>
+                  )}
+                </div>
+
+                <div className="mt-1.5 flex max-h-24 flex-wrap gap-1.5 overflow-y-auto pe-1">
+                  {tags.map((tag) => {
+                    const active = draft.tagIds.includes(String(tag.id))
+                    return (
+                      <button
+                        key={tag.id}
+                        type="button"
+                        aria-pressed={active}
+                        onClick={() => toggleTag(String(tag.id))}
+                        className={`rounded-full border px-2.5 py-1 text-[11px] transition-colors ${
+                          active
+                            ? 'border-teal-600 bg-teal-50 text-teal-800'
+                            : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50'
+                        }`}
+                      >
+                        {tag.name}
+                      </button>
+                    )
+                  })}
+                </div>
+
+                {draft.tagIds.length > 0 && (
+                  <p className="mt-1.5 text-[11px] text-slate-400">{t('contacts.tagsHint')}</p>
+                )}
+              </div>
+            )}
           </div>
 
           {lookupsQuery.isError && (

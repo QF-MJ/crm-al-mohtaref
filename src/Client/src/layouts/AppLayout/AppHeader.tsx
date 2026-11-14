@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { useAuthStore } from '@/stores/auth.store'
 import { AccessBadge } from '@/components/common/AccessBadge'
 import { ThemeToggle } from '@/components/common/ThemeToggle'
+import { NotificationsMenu } from './NotificationsMenu'
 
 interface AppHeaderProps {
   className?: string
@@ -62,6 +63,7 @@ export function AppHeader({ className, navigationExpanded, onToggleNavigation }:
         <div className="hidden md:block">
           <AccessBadge />
         </div>
+        <NotificationsMenu />
         <ThemeToggle />
         <Button
           type="button"

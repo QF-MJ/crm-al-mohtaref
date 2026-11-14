@@ -2,10 +2,11 @@
   "appName": "CRM المحترف",
   "nav": {
     "dashboard": "لوحة التحكم",
+    "tasks": "المهام",
     "clients": "العملاء",
     "users": "الموظفون والصلاحيات",
     "account": "حسابي",
-    "campaigns": "الحملات",
+    "campaigns": "الحملات الإعلانية",
     "academic": "التوجيه الأكاديمي",
     "issues": "المشاكل",
     "notifications": "الإشعارات"
@@ -41,6 +42,14 @@
     "levelAdmin": "صلاحية كاملة على النظام",
     "levelManager": "إدارة قسم",
     "levelEmployee": "موظف"
+  },
+  "notifications": {
+    "title": "الإشعارات",
+    "open": "فتح الإشعارات",
+    "empty": "لا توجد إشعارات حالياً",
+    "emptyHint": "ستظهر هنا إشعارات المهام والتحديثات.",
+    "markAllRead": "تحديد الكل كمقروء",
+    "unread": "{{count}} إشعار غير مقروء"
   },
   "dashboard": {
     "breadcrumb": "الرئيسية",
@@ -156,6 +165,9 @@
     "allTracks": "كل المسارات",
     "leadStatus": "حالة العميل المحتمل",
     "allLeadStatuses": "كل الحالات",
+    "tags": "الوسوم",
+    "tagsSelected": "{{count}} وسم محدد",
+    "tagsHint": "تُعرض النتائج التي تحمل كل الوسوم المحددة.",
     "lookupsError": "تعذّر تحميل المسارات وحالات العملاء. حاول مرة أخرى.",
     "results": "النتائج",
     "resultsDescription": "عملاء مطابقون للتصفية الحالية",
@@ -240,21 +252,7 @@
       "passwordDescription": "هذه الخدمة غير متاحة حالياً."
     }
   },
-  "campaigns": {
-    "title": "الحملات",
-    "reportsTitle": "تقارير الحملات",
-    "reportsUnavailable": "تقارير الحملات غير متاحة حالياً.",
-    "apiUnavailable": "الحملات غير متاحة حالياً.",
-    "loading": "جارٍ التحميل...",
-    "previous": "السابق",
-    "next": "التالي",
-    "backToList": "العودة إلى قائمة الحملات",
-    "newCampaign": "إضافة حملة",
-    "createUnavailable": "إنشاء الحملات غير متاح حالياً.",
-    "review": "مراجعة الحملة",
-    "saving": "جارٍ الحفظ...",
-    "save": "حفظ الحملة",
-    "error": "تعذّر إكمال الطلب. حاول مرة أخرى.",
-    "retry": "إعادة المحاولة"
+  "comingSoon": {
+    "description": "ستتوفر الخدمة قريباً"
   }
 }
