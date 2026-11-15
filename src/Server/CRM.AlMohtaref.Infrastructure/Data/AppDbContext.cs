@@ -18,8 +18,6 @@ public class AppDbContext : DbContext, IUnitOfWork
 
     public DbSet<Contact> Contacts { get; set; }
 
-    public DbSet<LeadStatus> LeadStatuses { get; set; }
-
     public DbSet<Track> Tracks { get; set; }
 
     public DbSet<Campaign> Campaigns { get; set; }

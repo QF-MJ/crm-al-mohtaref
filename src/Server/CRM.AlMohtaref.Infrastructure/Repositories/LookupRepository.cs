@@ -33,14 +33,6 @@ namespace CRM.AlMohtaref.Infrastructure.Repositories
                 .ToListAsync(ct);
         }
 
-        public async Task<IEnumerable<LeadStatusDto>> GetLeadStatusesAsync(CancellationToken ct = default)
-        {
-            return await _db.LeadStatuses
-                .AsNoTracking()
-               .Select(d => new LeadStatusDto(d.Id, d.Name))
-               .ToListAsync(ct);
-        }
-
         public async Task<IEnumerable<TrackDto>> GetTracksAsync(CancellationToken ct = default)
         {
             return await _db.Tracks

@@ -10,6 +10,5 @@ namespace CRM.AlMohtaref.Application.Interfaces
 
         Task<IEnumerable<TrackDto>> GetTracksAsync(CancellationToken ct = default);
 
-        Task<IEnumerable<LeadStatusDto>> GetLeadStatusesAsync(CancellationToken ct = default);
     }
 }

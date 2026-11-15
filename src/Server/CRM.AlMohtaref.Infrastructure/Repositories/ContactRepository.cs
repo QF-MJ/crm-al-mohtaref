@@ -25,7 +25,7 @@ namespace CRM.AlMohtaref.Infrastructure.Repositories
         {
             bool hasStudentFilters = query.CampaignTitle != null
                 || query.TrackId != null
-                || query.LeadStatusId != null
+                || query.LeadStatus != null
                 || (query.TagIds != null && query.TagIds.Any())
                 || query.StudentName != null;
 
@@ -33,12 +33,12 @@ namespace CRM.AlMohtaref.Infrastructure.Repositories
                 (query.StudentName == null || s.FullName.Contains(query.StudentName))
                 && (query.TagIds == null || !query.TagIds.Any() || s.ContactTags.Count(ct => query.TagIds.Contains(ct.TagId)) == query.TagIds.Count)
                 && (
-                    (query.CampaignTitle == null && query.TrackId == null && query.LeadStatusId == null)
+                    (query.CampaignTitle == null && query.TrackId == null && query.LeadStatus == null)
                     || s.CampaignLeads.Any
                         (
                             cl => (query.CampaignTitle == null || cl.Campaign.Title.Contains(query.CampaignTitle))
                                 && (query.TrackId == null || cl.Campaign.TrackId == query.TrackId)
-                                && (query.LeadStatusId == null || cl.StatusId == query.LeadStatusId)
+                                && (query.LeadStatus == null || cl.Status == query.LeadStatus)
                         )
                 )
             );

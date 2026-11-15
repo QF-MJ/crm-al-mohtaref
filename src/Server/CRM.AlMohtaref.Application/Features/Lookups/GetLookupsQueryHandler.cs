@@ -18,8 +18,6 @@ public class GetLookupsQueryHandler(ILookupRepository lookup) : IRequestHandler<
         if (includes.Contains(LookupType.Tracks))
             lookupsDto.Tracks = await lookup.GetTracksAsync(cancellationToken);
 
-        if (includes.Contains(LookupType.LeadStatuses))
-            lookupsDto.LeadStatuses = await lookup.GetLeadStatusesAsync(cancellationToken);
 
         return lookupsDto;
     }

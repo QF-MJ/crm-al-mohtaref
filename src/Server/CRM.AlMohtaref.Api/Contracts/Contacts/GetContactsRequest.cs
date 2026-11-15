@@ -1,4 +1,5 @@
 ﻿using CRM.AlMohtaref.Application.Features.Contacts.GetContacts;
+using CRM.AlMohtaref.Domain.Entities.Campaigns;
 
 namespace CRM.AlMohtaref.Api.Contracts.Contacts;
 
@@ -8,7 +9,7 @@ public sealed class GetContactsRequest : PagedRequest
 
     public Guid? TrackId { get; set; }
 
-    public Guid? LeadStatusId { get; set; }
+    public LeadStatus? LeadStatus { get; set; }
 
     public List<Guid>? TagIds { get; set; }
 
@@ -22,7 +23,7 @@ public sealed class GetContactsRequest : PagedRequest
         PageNumber,
         CampaignTitle,
         TrackId,
-        LeadStatusId,
+        LeadStatus,
         TagIds,
         StudentName,
         ContactName,

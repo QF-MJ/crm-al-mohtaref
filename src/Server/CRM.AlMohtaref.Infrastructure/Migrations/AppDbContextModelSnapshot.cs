@@ -95,8 +95,8 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.Property<Guid>("PlatformCampaignId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("StatusId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("StudentId")
                         .HasColumnType("uniqueidentifier");
@@ -107,30 +107,9 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
                     b.HasIndex("PlatformCampaignId");
 
-                    b.HasIndex("StatusId");
-
                     b.HasIndex("StudentId");
 
                     b.ToTable("CampaignLeads", (string)null);
-                });
-
-            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.LeadStatus", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("LeadStatuses", (string)null);
                 });
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.Platform", b =>
@@ -622,12 +601,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Campaigns.LeadStatus", "Status")
-                        .WithMany("Leads")
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("CRM.AlMohtaref.Domain.Entities.Contacts.Student", "Student")
                         .WithMany("CampaignLeads")
                         .HasForeignKey("StudentId")
@@ -637,8 +610,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.Navigation("Campaign");
 
                     b.Navigation("PlatformCampaign");
-
-                    b.Navigation("Status");
 
                     b.Navigation("Student");
                 });
@@ -841,11 +812,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.Navigation("PlatformCampaigns");
 
                     b.Navigation("QuestionCampaigns");
-                });
-
-            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.LeadStatus", b =>
-                {
-                    b.Navigation("Leads");
                 });
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.Platform", b =>
