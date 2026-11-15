@@ -6,10 +6,11 @@ import type { UserCreateInput, UserFilters, UserId, UserUpdateInput } from '../t
 
 const usersKey = ['users'] as const
 
-export function useUsers(filters: UserFilters) {
+export function useUsers(filters: UserFilters, enabled = true) {
   return useQuery({
     queryKey: [...usersKey, filters],
     queryFn: ({ signal }) => getUsers(filters, signal),
+    enabled,
   })
 }
 
@@ -20,25 +21,24 @@ export function useUser(id: UserId | undefined) {
       if (id === undefined) throw new Error('A user ID is required')
       return getUser(id, signal)
     },
-    enabled: id !== undefined,
+    enabled: Boolean(id),
   })
 }
 
-export function useUserLookups() {
-  const query = useLookups()
+// قوائم الأقسام والأدوار من /lookups (معرّفاتها Guid)
+export function useUserLookups(enabled = true) {
+  const query = useLookups(undefined, enabled)
   const data = useMemo(
-    () => query.data
-      ? {
-          departments: query.data.departments ?? [],
-          roles: query.data.roles ?? [],
-        }
-      : undefined,
+    () =>
+      query.data
+        ? {
+            departments: query.data.departments ?? [],
+            roles: query.data.roles ?? [],
+          }
+        : undefined,
     [query.data],
   )
-  return {
-    ...query,
-    data,
-  }
+  return { ...query, data }
 }
 
 export function useUpdateUser(id: UserId) {

@@ -1,8 +1,12 @@
+import type { PageInfo } from '@/types/common'
+
+/** عنصر StudentDto: معرّف Guid واسم الطالب */
 export interface ContactStudent {
   id: string
   name: string
 }
 
+/** عنصر ContactItemDto كما يعيده GET /api/contacts */
 export interface Contact {
   id: string
   name: string
@@ -11,17 +15,17 @@ export interface Contact {
 
 export interface ContactsPage {
   items: Contact[]
-  page: {
-    pageNumber: number
-    hasNextPage: boolean
-  }
+  page?: PageInfo
 }
 
 export interface ContactFilters {
   pageNumber: number
   campaignTitle?: string
-  trackId?: string | number
-  leadStatusId?: string | number
+  /** Guid */
+  trackId?: string
+  /** Guid */
+  leadStatusId?: string
+  /** Guids — الباك يطابق كل الوسوم المحددة (AND) */
   tagIds?: string[]
   studentName?: string
   contactName?: string

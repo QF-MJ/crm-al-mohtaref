@@ -1,16 +1,12 @@
 import { api } from '@/api/client'
-import type { Contact, ContactFilters, ContactStudent, ContactsPage } from '../types'
+import type { Contact, ContactsPage, ContactFilters } from '../types'
 
-export class InvalidContactsResponseError extends Error {
-  constructor(message: string) {
-    super(message)
-    this.name = 'InvalidContactsResponseError'
-  }
-}
-
+// الاستجابة الفعلية: { items: [{ id, name, students: [{ id, name }] }], page: { pageNumber, hasNextPage } }
+// pageNumber القادم من /contacts غير موثوق (الباك يرسل PageSize بدلاً منه)،
+// لذلك الواجهة تتتبع رقم الصفحة محلياً وتعتمد hasNextPage فقط.
 export function getContacts(filters: ContactFilters, signal?: AbortSignal) {
   return api
-    .get<unknown>('/contacts', {
+    .get<ContactsPage>('/contacts', {
       params: {
         pageNumber: filters.pageNumber,
         campaignTitle: filters.campaignTitle,
@@ -21,72 +17,29 @@ export function getContacts(filters: ContactFilters, signal?: AbortSignal) {
         contactName: filters.contactName,
         phoneNumber: filters.phoneNumber,
       },
+      // مفاتيح متكررة: tagIds=a&tagIds=b
       paramsSerializer: { indexes: null },
       signal,
     })
-    .then((response) => parseContactsPage(response.data))
+    .then((response) => normalizePage(response.data))
 }
 
-function parseContactsPage(value: unknown): ContactsPage {
-  if (!isRecord(value)) {
-    throw new InvalidContactsResponseError('Expected an object.')
-  }
-
-  const rawItems = value.items ?? value.Items
-  const rawPage = value.page ?? value.Page
-  if (!Array.isArray(rawItems)) {
-    throw new InvalidContactsResponseError('Expected an items array.')
-  }
-  if (!isRecord(rawPage)) {
-    throw new InvalidContactsResponseError('Expected page information.')
-  }
-
+function normalizePage(data: ContactsPage): ContactsPage {
   return {
-    items: rawItems.map(parseContact),
-    page: parsePageInfo(rawPage),
+    items: Array.isArray(data?.items) ? data.items.map(normalizeContact) : [],
+    page: data?.page,
   }
 }
 
-function parsePageInfo(value: Record<string, unknown>): ContactsPage['page'] {
-  const pageNumber = value.pageNumber ?? value.PageNumber
-  const hasNextPage = value.hasNextPage ?? value.HasNextPage
-  if (
-    typeof pageNumber !== 'number' ||
-    !Number.isInteger(pageNumber) ||
-    pageNumber < 1 ||
-    typeof hasNextPage !== 'boolean'
-  ) {
-    throw new InvalidContactsResponseError('Invalid page information.')
+function normalizeContact(contact: Contact): Contact {
+  return {
+    id: String(contact?.id ?? ''),
+    name: contact?.name ?? '',
+    students: Array.isArray(contact?.students)
+      ? contact.students.map((student) => ({
+          id: String(student?.id ?? ''),
+          name: student?.name ?? '',
+        }))
+      : [],
   }
-  return { pageNumber, hasNextPage }
-}
-
-function parseContact(value: unknown): Contact {
-  if (!isRecord(value)) {
-    throw new InvalidContactsResponseError('Contact item must be an object.')
-  }
-
-  const id = value.id ?? value.Id
-  const name = value.name ?? value.Name
-  const students = value.students ?? value.Students
-  if (typeof id !== 'string' || typeof name !== 'string' || !Array.isArray(students)) {
-    throw new InvalidContactsResponseError('Contact item is missing required fields.')
-  }
-  return { id, name, students: students.map(parseStudent) }
-}
-
-function parseStudent(value: unknown): ContactStudent {
-  if (!isRecord(value)) {
-    throw new InvalidContactsResponseError('Student item must be an object.')
-  }
-  const id = value.id ?? value.Id
-  const name = value.name ?? value.Name
-  if (typeof id !== 'string' || typeof name !== 'string') {
-    throw new InvalidContactsResponseError('Student item is missing required fields.')
-  }
-  return { id, name }
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
