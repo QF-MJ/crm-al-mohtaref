@@ -8,8 +8,6 @@ namespace CRM.AlMohtaref.Application.Interfaces
 
         Task<DepartmentDto?> GetDepartmentByIdAsync(Guid Id, CancellationToken ct = default);
 
-        Task<IEnumerable<RoleDto>> GetRolesAsync(CancellationToken ct = default);
-
         Task<IEnumerable<TrackDto>> GetTracksAsync(CancellationToken ct = default);
 
         Task<IEnumerable<LeadStatusDto>> GetLeadStatusesAsync(CancellationToken ct = default);

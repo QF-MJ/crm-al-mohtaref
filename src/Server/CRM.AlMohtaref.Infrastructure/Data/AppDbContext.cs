@@ -12,13 +12,9 @@ public class AppDbContext : DbContext, IUnitOfWork
 {
     public DbSet<User> Users { get; set; }
 
-    public DbSet<Person> People { get; set; }
-
     public DbSet<UserPermission> UserPermissions { get; set; }
 
     public DbSet<Department> Departments { get; set; }
-
-    public DbSet<Role> Roles { get; set; }
 
     public DbSet<Contact> Contacts { get; set; }
 

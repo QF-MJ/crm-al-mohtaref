@@ -20,7 +20,7 @@ namespace CRM.AlMohtaref.Api.Contracts.Users
             AccountName,
             FullName,
             Password,
-            Permissions?.Select(p => new PermissionCommand(p.RoleId, p.DepartmentId)).ToList()
+            Permissions?.Select(p => new PermissionCommand(p.Role, p.DepartmentId)).ToList()
         );
 
     }

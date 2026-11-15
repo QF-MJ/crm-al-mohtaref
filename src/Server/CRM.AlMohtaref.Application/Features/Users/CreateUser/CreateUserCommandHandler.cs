@@ -11,14 +11,14 @@ public class CreateUserCommandHandler(IUserRepository userRepository, IUnitOfWor
 {
     public async Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        var person = new Person(Guid.NewGuid(), request.FullName, currentUser.UserId);
+        var person = new Person(request.FullName, currentUser.UserId);
        
         var user = new User(Guid.NewGuid(), request.AccountName, password.HashPassword(request.Password),
             person, request.Email);
 
         user.SynchronizePermissions
         (
-            request.Permissions?.Select(p => (p.RoleId, p.DepartmentId)) ?? new List<(Guid, Guid)>()
+            request.Permissions?.Select(p => (p.Role, p.DepartmentId)) ?? new List<(Role, Guid)>()
         );
 
         userRepository.Add(user);

@@ -41,14 +41,6 @@ namespace CRM.AlMohtaref.Infrastructure.Repositories
                .ToListAsync(ct);
         }
 
-        public async Task<IEnumerable<RoleDto>> GetRolesAsync(CancellationToken ct = default)
-        {
-            return await _db.Roles
-                .AsNoTracking()
-                .Select(d => new RoleDto(d.Id, d.Name))
-                .ToListAsync(ct);
-        }
-
         public async Task<IEnumerable<TrackDto>> GetTracksAsync(CancellationToken ct = default)
         {
             return await _db.Tracks

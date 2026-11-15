@@ -30,7 +30,7 @@ namespace CRM.AlMohtaref.Infrastructure.Repositories
                 || query.StudentName != null;
 
             Expression<Func<Student, bool>> studentFilter = s => !hasStudentFilters || (
-                (query.StudentName == null || s.Person.FullName.Contains(query.StudentName))
+                (query.StudentName == null || s.FullName.Contains(query.StudentName))
                 && (query.TagIds == null || !query.TagIds.Any() || s.ContactTags.Count(ct => query.TagIds.Contains(ct.TagId)) == query.TagIds.Count)
                 && (
                     (query.CampaignTitle == null && query.TrackId == null && query.LeadStatusId == null)
@@ -45,7 +45,7 @@ namespace CRM.AlMohtaref.Infrastructure.Repositories
 
             var items = await _db.Contacts
               .AsNoTracking()
-              .Where(c => (query.ContactName == null || c.Person.FullName.Contains(query.ContactName))
+              .Where(c => (query.ContactName == null || c.FullName.Contains(query.ContactName))
                     && (query.PhoneNumber == null || c.PhoneNumber.Contains(query.PhoneNumber))
                     && (!hasStudentFilters || c.Students.AsQueryable().Any(studentFilter))
               )
@@ -55,12 +55,12 @@ namespace CRM.AlMohtaref.Infrastructure.Repositories
               .Select(c => new ContactItemDto
               {
                   Id = c.Id,
-                  Name = c.Person.FullName,
+                  Name = c.FullName,
                   Students = c.Students
                     .AsQueryable()
                     .Where(studentFilter)
                     .Select(
-                        s => new StudentDto(s.Id, s.Person.FullName)
+                        s => new StudentDto(s.Id, s.FullName)
                     )
                     .ToList()
               }

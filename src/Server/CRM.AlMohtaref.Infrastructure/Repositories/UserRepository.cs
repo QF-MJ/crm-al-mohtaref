@@ -5,6 +5,7 @@ using CRM.AlMohtaref.Infrastructure.Data;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using CRM.AlMohtaref.Infrastructure.ExternalServices;
+using CRM.AlMohtaref.Domain.Extensions;
 
 
 namespace CRM.AlMohtaref.Infrastructure.Repositories;
@@ -26,9 +27,6 @@ public sealed class UserRepository(AppDbContext db)
     public async Task<User?> GetByAccountNameAsync(string accountName, CancellationToken ct = default)
     {
         return await db.Users
-            .Include(u => u.Person) 
-            .Include(u => u.UserPermissions)
-                .ThenInclude(p => p.Role) 
             .Include(u => u.UserPermissions)
                 .ThenInclude(p => p.Department) 
             .FirstOrDefaultAsync(u => u.AccountName == accountName, ct);
@@ -37,7 +35,6 @@ public sealed class UserRepository(AppDbContext db)
     public async Task<User?> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
         return await db.Users
-            .Include( u => u.Person )
             .Include( u => u.UserPermissions )
             .FirstOrDefaultAsync(u => u.Id == id, ct);
     }
@@ -50,15 +47,15 @@ public sealed class UserRepository(AppDbContext db)
             {
                 Id = u.Id,
                 AccountName = u.AccountName,
-                FullName = u.Person.FullName, 
+                FullName = u.FullName,
                 Email = u.Email,
                 IsActive = u.IsActive,
                 Permissions = u.UserPermissions
                     .Select(up => new PermissionDto
                     {
                         Id = up.Id,
-                        DepartmentName = up.Department.Name, 
-                        RoleName = up.Role.Name
+                        DepartmentName = up.Department.Name,
+                        RoleName = up.Role.ToRoleString()
                     })
                     .ToList()
             })
@@ -71,11 +68,11 @@ public sealed class UserRepository(AppDbContext db)
         var rows = await db.Users.AsNoTracking()
             .Where(u => 
                 (query.IsActive == null || u.IsActive == query.IsActive)
-                && (string.IsNullOrEmpty(query.Name) || u.Person.FullName.Contains(query.Name))
+                && (string.IsNullOrEmpty(query.Name) || u.FullName.Contains(query.Name))
                 && (string.IsNullOrEmpty(query.AccountName) || u.AccountName.Contains(query.AccountName))
                 && (string.IsNullOrEmpty(query.Email) || u.Email.Contains(query.Email))
-                    && ((query.RoleId == null && query.DepartmentId == null) 
-                    || u.UserPermissions.Any(p => (query.RoleId == null || p.RoleId == query.RoleId) 
+                    && ((query.Role == null && query.DepartmentId == null) 
+                    || u.UserPermissions.Any(p => (query.Role == null || p.Role == query.Role) 
                     && (query.DepartmentId == null || p.DepartmentId == query.DepartmentId)))
             )
             .OrderBy(u => u.Id) 
@@ -85,7 +82,7 @@ public sealed class UserRepository(AppDbContext db)
             {
                 Id = u.Id,
                 AccountName = u.AccountName,
-                FullName = u.Person.FullName,
+                FullName = u.FullName,
                 Email = u.Email,
                 IsActive = u.IsActive
             })

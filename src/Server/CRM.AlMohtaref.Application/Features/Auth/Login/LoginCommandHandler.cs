@@ -1,6 +1,7 @@
 ﻿using CRM.AlMohtaref.Application.Common.Dtos;
 using CRM.AlMohtaref.Application.Common.Exceptions;
 using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Domain.Entities.Users;
 using MediatR;
 
 namespace CRM.AlMohtaref.Application.Features.Auth.Login
@@ -56,7 +57,7 @@ namespace CRM.AlMohtaref.Application.Features.Auth.Login
             string token = await _token.GenerateAccessToken(user);
 
             List<PermissionDto> permissions = user.UserPermissions
-                .Select(p => new PermissionDto { Id = p.Id, RoleName = p.Role.Name, DepartmentName = p.Department.Name })
+                .Select(p => new PermissionDto { Id = p.Id, RoleName = p.Role == Role.Manager ? "مدير" : "موظف", DepartmentName = p.Department.Name })
                 .ToList();
 
             return new LoginDto
@@ -65,7 +66,7 @@ namespace CRM.AlMohtaref.Application.Features.Auth.Login
                 null,
                 _token.GetExpireAt(),
                 user.Id,
-                user.Person.FullName ?? string.Empty,
+                user.FullName ?? string.Empty,
                 permissions
             );
         }

@@ -199,6 +199,14 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("CreatedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<Guid>("PersonId")
                         .HasColumnType("uniqueidentifier");
 
@@ -209,7 +217,7 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("CreatedByUserId");
 
                     b.HasIndex("PhoneNumber");
 
@@ -256,6 +264,14 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.Property<Guid>("ContactId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("CreatedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<Guid>("PersonId")
                         .HasColumnType("uniqueidentifier");
 
@@ -263,8 +279,7 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
                     b.HasIndex("ContactId");
 
-                    b.HasIndex("PersonId")
-                        .IsUnique();
+                    b.HasIndex("CreatedByUserId");
 
                     b.ToTable("Students", (string)null);
                 });
@@ -287,27 +302,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Tags", (string)null);
-                });
-
-            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Person", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CreatedByUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedByUserId");
-
-                    b.ToTable("People", (string)null);
                 });
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.Field", b =>
@@ -511,25 +505,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.ToTable("Departments", (string)null);
                 });
 
-            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.Role", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("Roles", (string)null);
-                });
-
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -540,12 +515,20 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
+                    b.Property<Guid?>("CreatedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("varchar(256)");
 
                     b.Property<int>("FailedLoginCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -565,10 +548,9 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.HasIndex("AccountName")
                         .IsUnique();
 
-                    b.HasIndex("Email")
-                        .IsUnique();
+                    b.HasIndex("CreatedByUserId");
 
-                    b.HasIndex("PersonId")
+                    b.HasIndex("Email")
                         .IsUnique();
 
                     b.ToTable("Users", (string)null);
@@ -583,8 +565,8 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.Property<Guid>("DepartmentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -593,9 +575,7 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId", "RoleId", "DepartmentId")
+                    b.HasIndex("UserId", "Role", "DepartmentId")
                         .IsUnique();
 
                     b.ToTable("UserPermissions", (string)null);
@@ -684,13 +664,12 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Contacts.Contact", b =>
                 {
-                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Person", "Person")
-                        .WithMany("Contacts")
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("Person");
+                    b.Navigation("CreatedByUser");
                 });
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Contacts.ContactTag", b =>
@@ -726,23 +705,12 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Person", "Person")
-                        .WithOne("Student")
-                        .HasForeignKey("CRM.AlMohtaref.Domain.Entities.Contacts.Student", "PersonId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Contact");
-
-                    b.Navigation("Person");
-                });
-
-            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Person", b =>
-                {
                     b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedByUserId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Contact");
 
                     b.Navigation("CreatedByUser");
                 });
@@ -834,13 +802,12 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.User", b =>
                 {
-                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Person", "Person")
-                        .WithOne("User")
-                        .HasForeignKey("CRM.AlMohtaref.Domain.Entities.Users.User", "PersonId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("Person");
+                    b.Navigation("CreatedByUser");
                 });
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.UserPermission", b =>
@@ -851,12 +818,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.Role", "Role")
-                        .WithMany("UserPermissions")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.User", "User")
                         .WithMany("UserPermissions")
                         .HasForeignKey("UserId")
@@ -864,8 +825,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Department");
-
-                    b.Navigation("Role");
 
                     b.Navigation("User");
                 });
@@ -925,16 +884,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.Navigation("OptionTags");
                 });
 
-            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Person", b =>
-                {
-                    b.Navigation("Contacts");
-
-                    b.Navigation("Student");
-
-                    b.Navigation("User")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.Field", b =>
                 {
                     b.Navigation("Configuration")
@@ -966,11 +915,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.Department", b =>
-                {
-                    b.Navigation("UserPermissions");
-                });
-
-            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.Role", b =>
                 {
                     b.Navigation("UserPermissions");
                 });

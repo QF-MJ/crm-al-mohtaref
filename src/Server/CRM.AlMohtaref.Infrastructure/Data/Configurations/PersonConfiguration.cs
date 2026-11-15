@@ -2,17 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CRM.AlMohtaref.Infrastructure.Data.Configurations.Users;
+namespace CRM.AlMohtaref.Infrastructure.Data.Configurations;
 
-public sealed class PersonConfiguration : IEntityTypeConfiguration<Person>
+public abstract class PersonConfiguration<TEntity> : IEntityTypeConfiguration<TEntity>
+    where TEntity : Person
 {
-    public void Configure(EntityTypeBuilder<Person> builder)
+    public virtual void Configure(EntityTypeBuilder<TEntity> builder)
     {
-        builder.ToTable("People");
-
-        builder.HasKey(p => p.Id);
-        builder.Property(p => p.Id);
-
         builder.Property(p => p.FullName)
             .IsRequired()
             .HasMaxLength(200);

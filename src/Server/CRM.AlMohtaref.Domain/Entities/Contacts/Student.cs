@@ -2,7 +2,7 @@
 
 namespace CRM.AlMohtaref.Domain.Entities.Contacts;
 
-public class Student
+public class Student : Person
 {
     public Guid Id { get; private set; }
 
@@ -10,8 +10,6 @@ public class Student
 
     // the guardian
     public Guid ContactId { get; private set; }
-
-    public Person Person { get; private set; }
 
     public Contact Contact { get; private set; }
 
@@ -21,7 +19,6 @@ public class Student
 
     private Student()
     {
-        Person = null!;
         Contact = null!;
         CampaignLeads = new List<CampaignLead>();
         ContactTags = new List<ContactTag>();

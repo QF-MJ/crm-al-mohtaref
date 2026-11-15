@@ -10,9 +10,9 @@ namespace CRM.AlMohtaref.Application.Features.Users
                 .NotEmpty()
                 .WithMessage("معرف القسم غير صالح");
 
-            RuleFor(x => x.RoleId)
-                .NotEmpty()
-                .WithMessage("معرف الدور غير صالح");
+            RuleFor(x => x.Role)
+                .IsInEnum()
+                .WithMessage("الدور غير صالح");
         }
     }
 }

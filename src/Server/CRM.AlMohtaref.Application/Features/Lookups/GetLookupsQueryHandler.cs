@@ -15,9 +15,6 @@ public class GetLookupsQueryHandler(ILookupRepository lookup) : IRequestHandler<
         if (includes.Contains(LookupType.Departments))
             lookupsDto.Departments = await lookup.GetDepartmentsAsync(cancellationToken);
 
-        if (includes.Contains(LookupType.Roles))
-            lookupsDto.Roles = await lookup.GetRolesAsync(cancellationToken);
-
         if (includes.Contains(LookupType.Tracks))
             lookupsDto.Tracks = await lookup.GetTracksAsync(cancellationToken);
 

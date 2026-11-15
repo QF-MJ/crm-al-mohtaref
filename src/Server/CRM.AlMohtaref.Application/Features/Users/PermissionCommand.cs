@@ -1,4 +1,6 @@
-﻿namespace CRM.AlMohtaref.Application.Features.Users;
+﻿using CRM.AlMohtaref.Domain.Entities.Users;
 
-public record PermissionCommand(Guid RoleId, Guid DepartmentId);
+namespace CRM.AlMohtaref.Application.Features.Users;
+
+public record PermissionCommand(Role Role, Guid DepartmentId);
         
