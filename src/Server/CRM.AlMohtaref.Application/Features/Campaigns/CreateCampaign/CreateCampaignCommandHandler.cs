@@ -20,10 +20,10 @@ public class CreateCampaignCommandHandler(ICampaignRepository campaignRepository
 
         Campaign campaign = new Campaign(request.Title, request.TrackId, currentUser!.UserId!.Value, Guid.NewGuid() , request.Description, request.Url, request.Budget);
 
-        campaign.SynchronizePlatforms
-        (
-            request.PlatformIds ?? new List<Guid>()
-        );
+        //campaign.SynchronizePlatforms
+        //(
+        //    request.PlatformIds ?? new List<Guid>()
+        //);
 
         //campaign.SynchronizeQuastions();
 
