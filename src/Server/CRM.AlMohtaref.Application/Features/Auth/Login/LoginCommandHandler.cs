@@ -1,6 +1,7 @@
 ﻿using CRM.AlMohtaref.Application.Common.Dtos;
 using CRM.AlMohtaref.Application.Common.Exceptions;
 using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Application.Interfaces.Common;
 using MediatR;
 
 namespace CRM.AlMohtaref.Application.Features.Auth.Login

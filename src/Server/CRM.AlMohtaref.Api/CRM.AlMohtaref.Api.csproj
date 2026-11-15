@@ -24,4 +24,10 @@
     <ProjectReference Include="..\CRM.AlMohtaref.Infrastructure\CRM.AlMohtaref.Infrastructure.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<None Update="secrets\google-credentials.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
 </Project>
