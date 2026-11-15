@@ -1,8 +1,7 @@
-﻿
-using CRM.AlMohtaref.Application.Common.Dtos;
+﻿using CRM.AlMohtaref.Application.Common.Dtos;
 using CRM.AlMohtaref.Domain.Entities.Users;
 
-namespace CRM.AlMohtaref.Application.Interfaces
+namespace CRM.AlMohtaref.Application.Interfaces.Common
 {
     public interface ICurrentUserService
     {

@@ -1,4 +1,5 @@
 ﻿using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Application.Interfaces.Common;
 using CRM.AlMohtaref.Domain.Entities;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using MediatR;
