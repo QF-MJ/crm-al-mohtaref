@@ -1,4 +1,4 @@
-using CRM.AlMohtaref.Domain.Entities.Questions;
+﻿using CRM.AlMohtaref.Domain.Entities.Questions;
 
 namespace CRM.AlMohtaref.Domain.Entities.Contacts;
 
@@ -9,6 +9,8 @@ public class Tag
     public string Name { get; private set; }
 
     public ICollection<ContactTag> ContactTags { get; private set; }
+
+    public ICollection<StudentTag> StudentTags { get; private set; }
 
     public ICollection<OptionTag> OptionTags { get; private set; }
 

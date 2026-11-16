@@ -18,6 +18,9 @@ public class GetLookupsQueryHandler(ILookupRepository lookup) : IRequestHandler<
         if (includes.Contains(LookupType.Tracks))
             lookupsDto.Tracks = await lookup.GetTracksAsync(cancellationToken);
 
+        if (includes.Contains(LookupType.Tags))
+            lookupsDto.Tags = await lookup.GetTagsAsync(cancellationToken);
+
 
         return lookupsDto;
     }

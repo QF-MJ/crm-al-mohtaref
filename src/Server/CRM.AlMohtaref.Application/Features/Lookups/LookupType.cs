@@ -7,4 +7,5 @@ public enum LookupType
 {
     Departments,
     Tracks,
+    Tags
 }
