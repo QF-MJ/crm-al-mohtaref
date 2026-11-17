@@ -18,11 +18,15 @@ public class Tag
     {
         Name = string.Empty;
         ContactTags = new List<ContactTag>();
+        StudentTags = new List<StudentTag>();
         OptionTags = new List<OptionTag>();
     }
 
     public Tag(string name) : this()
     {
         Name = name;
+        ContactTags = new List<ContactTag>();
+        StudentTags = new List<StudentTag>();
+        OptionTags = new List<OptionTag>();
     }
 }

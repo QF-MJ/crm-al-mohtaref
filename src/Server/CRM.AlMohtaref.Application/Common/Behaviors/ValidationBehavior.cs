@@ -1,4 +1,4 @@
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR;
 
 namespace CRM.AlMohtaref.Application.Common.Behaviors;
@@ -28,6 +28,7 @@ public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
             var failures = results
                 .SelectMany(r => r.Errors)
                 .Where(f => f is not null)
+                .DistinctBy(f => new { f.PropertyName, f.ErrorMessage })
                 .ToList();
 
             if (failures.Count != 0)
