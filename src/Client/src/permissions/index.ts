@@ -1,5 +1,3 @@
-export * from './roles'
-export * from './permissions'
-export * from './can'
-export * from './usePermission'
+export * from './access'
+export * from './useAccess'
 export * from './Can'

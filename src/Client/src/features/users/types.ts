@@ -1,8 +1,11 @@
-import type { LookupId, LookupItem } from '@/features/lookups'
+import type { PageInfo } from '@/types/common'
+import type { LookupItem } from '@/features/lookups'
 
-export type { LookupId, LookupItem } from '@/features/lookups'
+export type { PageInfo } from '@/types/common'
+export type { LookupItem } from '@/features/lookups'
 
-export type UserId = string | number
+/** معرّف المستخدم Guid كما يرسله الباك */
+export type UserId = string
 
 export interface UserListItem {
   id: UserId
@@ -12,8 +15,9 @@ export interface UserListItem {
   isActive: boolean
 }
 
+/** عنصر PermissionDto: اسم القسم والدور، والمعرّف Guid */
 export interface UserPermission {
-  id: number
+  id: string
   departmentName: string
   roleName: string
 }
@@ -22,14 +26,9 @@ export interface UserDetail extends UserListItem {
   permissions: UserPermission[]
 }
 
-export interface UserPage {
-  pageNumber: number
-  hasNextPage: boolean
-}
-
 export interface UsersPage {
   items: UserListItem[]
-  page: UserPage
+  page?: PageInfo
 }
 
 export interface UserFilters {
@@ -38,8 +37,10 @@ export interface UserFilters {
   accountName?: string
   email?: string
   isActive?: boolean
-  roleId?: LookupId
-  departmentId?: LookupId
+  /** Guid */
+  roleId?: string
+  /** Guid — إلزامي لمدير القسم، والباك يرفض الطلب بدونه */
+  departmentId?: string
 }
 
 export interface UserLookups {
@@ -48,8 +49,10 @@ export interface UserLookups {
 }
 
 export interface UserPermissionInput {
-  roleId: LookupId
-  departmentId: LookupId
+  /** Guid */
+  roleId: string
+  /** Guid */
+  departmentId: string
 }
 
 export interface UserUpdateInput {

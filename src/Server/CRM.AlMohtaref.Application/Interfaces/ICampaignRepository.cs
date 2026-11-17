@@ -10,4 +10,6 @@ public interface ICampaignRepository
     Task<bool> ExistsAsync(Guid id, string title, CancellationToken ct = default);
 
     Task AddAsync(Campaign campaign);
+    
+    Task<bool> HasLeadsAsync(IEnumerable<Guid> platformCampaignIds, CancellationToken cancellationToken);
 }

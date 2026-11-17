@@ -9,6 +9,7 @@ export interface PermissionPair {
 // هذه الأسماء يجب أن تطابق حرفياً Data\Seed\DepartmentSeed.cs و RoleSeed.cs بالباك
 const EMPLOYEE = 'موظف'
 const MANAGER = 'مدير'
+const ADMIN_DEPARTMENT = 'الإدارة'
 
 const DEPARTMENT_ROLES: Record<string, { employee: Role; manager: Role }> = {
   المبيعات: { employee: 'salesEmployee', manager: 'salesManager' },
@@ -22,8 +23,12 @@ const DEPARTMENT_ROLES: Record<string, { employee: Role; manager: Role }> = {
 export function mapRoles(pairs: readonly PermissionPair[]): Role[] {
   const roles = new Set<Role>()
   for (const { departmentName, roleName } of pairs) {
+    if (departmentName === ADMIN_DEPARTMENT && roleName === MANAGER) {
+      roles.add('admin')
+      continue
+    }
+    if (!Object.prototype.hasOwnProperty.call(DEPARTMENT_ROLES, departmentName)) continue
     const entry = DEPARTMENT_ROLES[departmentName]
-    if (!entry) continue
     if (roleName === EMPLOYEE) roles.add(entry.employee)
     else if (roleName === MANAGER) roles.add(entry.manager)
   }

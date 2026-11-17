@@ -1,6 +1,7 @@
 ﻿using CRM.AlMohtaref.Api.Contracts.Campaigns;
 using CRM.AlMohtaref.Api.Contracts.Questions;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace CRM.AlMohtaref.Api.Controllers
 {
     [Route("api/campaigns")]
     [ApiController]
+    [Authorize]
     public class CampaignsController(ISender sender)
         : ControllerBase
     {

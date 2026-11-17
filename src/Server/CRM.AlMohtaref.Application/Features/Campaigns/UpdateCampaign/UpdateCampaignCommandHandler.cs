@@ -12,13 +12,25 @@ public class UpdateCampaignCommandHandler(ICampaignRepository campaignRepository
         var campaign = await campaignRepository.GetByIdAsync(request.Id);
 
         if (campaign == null)
-            throw new NotFoundException($"الحملة بالمعرف {request.Id} غير موجودة ");
+            throw new NotFoundException($"الحملة بالمعرف {request.Id} غير موجودة");
 
-        if(await campaignRepository.ExistsAsync(request.Id, request.Title, cancellationToken))
+        if (await campaignRepository.ExistsAsync(request.Id, request.Title, cancellationToken))
             throw new ConflictException("عنوان الحملة مستخدم مسبقاً");
 
-        campaign.UpdateDetails
-        (
+        var targetPlatformIds = (request.PlatformIds ?? Enumerable.Empty<Guid>())
+            .ToHashSet();
+
+        var removedPlatformCampaignIds = campaign.PlatformCampaigns
+            .Where(pc => !targetPlatformIds.Contains(pc.PlatformId))
+            .Select(pc => pc.Id)
+            .ToList();
+
+        if (removedPlatformCampaignIds.Count > 0 &&  await campaignRepository.HasLeadsAsync(removedPlatformCampaignIds, cancellationToken))
+        {
+            throw new ConflictException("لا يمكن إزالة منصة تحتوي على عملاء محتملين مرتبطين بها");
+        }
+
+        campaign.UpdateDetails(
             request.Title,
             request.Description,
             request.StatusId,
@@ -27,10 +39,7 @@ public class UpdateCampaignCommandHandler(ICampaignRepository campaignRepository
             request.Budget
         );
 
-        campaign.SynchronizePlatforms
-        (
-            request.PlatformIds ?? new List<Guid>()
-        );
+        campaign.SynchronizePlatforms(targetPlatformIds);
 
         await unitOfWork.SaveChangesAsync();
     }

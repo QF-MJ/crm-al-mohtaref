@@ -1,4 +1,6 @@
-﻿namespace CRM.AlMohtaref.Api.Contracts.Users
+﻿using CRM.AlMohtaref.Application.Features.Users;
+
+namespace CRM.AlMohtaref.Api.Contracts.Users
 {
     public class CreateUserRequest
     {
@@ -11,5 +13,15 @@
         public string Password { get; set; } = string.Empty;
 
         public List<PermissionRequest>? Permissions { get; set; }
+
+
+        public CreateUserCommand ToCommand() => new CreateUserCommand(
+            Email,
+            AccountName,
+            FullName,
+            Password,
+            Permissions?.Select(p => new PermissionCommand(p.Role, p.DepartmentId)).ToList()
+        );
+
     }
 }

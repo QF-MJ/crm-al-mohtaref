@@ -12,17 +12,11 @@ public class AppDbContext : DbContext, IUnitOfWork
 {
     public DbSet<User> Users { get; set; }
 
-    public DbSet<Person> People { get; set; }
-
     public DbSet<UserPermission> UserPermissions { get; set; }
 
     public DbSet<Department> Departments { get; set; }
 
-    public DbSet<Role> Roles { get; set; }
-
     public DbSet<Contact> Contacts { get; set; }
-
-    public DbSet<LeadStatus> LeadStatuses { get; set; }
 
     public DbSet<Track> Tracks { get; set; }
 
@@ -47,6 +41,8 @@ public class AppDbContext : DbContext, IUnitOfWork
     public DbSet<OptionSetItem> OptionSetItems { get; set; } = null!;
 
     public DbSet<QuestionCampaign> QuestionCampaigns { get; set; } = null!;
+
+    public DbSet<CampaignLead> CampaignLeads { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {

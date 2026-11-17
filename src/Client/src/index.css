@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -51,31 +51,36 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --background: #1b1f24;
+  --foreground: #e9edf1;
+  --card: #242a31;
+  --card-foreground: #e9edf1;
+  --popover: #242a31;
+  --popover-foreground: #e9edf1;
+  --primary: #4fd1c5;
+  --primary-foreground: #10201d;
+  --secondary: #2d343c;
+  --secondary-foreground: #e9edf1;
+  --muted: #20262c;
+  --muted-foreground: #9ca6b1;
+  --accent: #2d343c;
+  --accent-foreground: #e9edf1;
+  --destructive: #f87171;
+  --border: #363e48;
+  --input: #3b434e;
+  --ring: #4fd1c5;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    /* الخط محمّل من brand.css؛ نطبّقه هنا حتى لا يعتمد على utility غير مستخدمة */
+    font-family: 'Cairo Variable', ui-sans-serif, system-ui, sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
   }
 }

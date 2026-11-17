@@ -1,35 +1,30 @@
-import { useMutation } from '@tanstack/react-query'
+import { useCallback } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuthStore } from '@/stores/auth.store'
-import { loginRequest, logoutRequest } from './auth.api'
+import { loginRequest } from './auth.api'
 import type { LoginForm } from '../schemas/login.schema'
+import type { LoginDto } from '../types'
 
 export function useLogin() {
   const login = useAuthStore((state) => state.login)
-  return useMutation<LoginResponse, ApiError, LoginForm>({
-    mutationFn: loginRequest,
-    onSuccess: (response, request) => login(response, request.accountName),
-  })
-}
-
-export function useLogout() {
-  const clearSession = useAuthStore((state) => state.logout)
+  const queryClient = useQueryClient()
 
   return useMutation({
-    // Ù†Ø¨Ù†ÙŠ Ø·Ù„Ø¨ Ø§Ù„Ø¨Ø§Ùƒ Ù…Ù† Ø­Ù‚ÙˆÙ„ Ø§Ù„ÙÙˆØ±Ù… Ù‡Ù†Ø§ ÙÙ‚Ø·
-    mutationFn: (form: LoginForm) =>
-      loginRequest({ accountName: form.accountName, password: form.password }),
-    onSuccess: (dto) => login(dto),
-  })
-}
-
-export function useLogout() {
-  const logout = useAuthStore((s) => s.logout)
-  return useMutation({
-    mutationFn: async () => {
-      const refreshToken = useAuthStore.getState().refreshToken
-      // Ù†Ø­Ø§ÙˆÙ„ Ø¥Ù„ØºØ§Ø¡ Ø§Ù„Ù€ refresh token Ø¨Ø§Ù„Ø³ÙŠØ±ÙØ±ØŒ Ù„ÙƒÙ† Ø§Ù„Ø®Ø±ÙˆØ¬ Ø§Ù„Ù…Ø­Ù„ÙŠ ÙŠØ­ØµÙ„ Ø¯Ø§Ø¦Ù…Ø§Ù‹
-      if (refreshToken) await logoutRequest({ refreshToken })
+    mutationFn: (values: LoginForm) => loginRequest(values),
+    // äãÓÍ ßÇÔ ÇáãÓÊÎÏã ÇáÓÇÈÞ ÞÈá ÊËÈíÊ ÇáÌáÓÉ ÇáÌÏíÏÉ¡ ÍÊì áÇ ÊÙåÑ ÈíÇäÇÊå áÕÇÍÈ ÕáÇÍíÉ ÃÎÑì
+    onSuccess: (dto) => {
+      queryClient.clear()
+      login(dto)
     },
-    onSettled: () => logout(),
   })
+}
+
+export function useLogout() {
+  const logout = useAuthStore((state) => state.logout)
+  const queryClient = useQueryClient()
+
+  return useCallback(() => {
+    queryClient.clear()
+    logout()
+  }, [logout, queryClient])
 }
