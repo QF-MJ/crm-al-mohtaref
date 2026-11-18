@@ -91,7 +91,6 @@ export function CreateUserPage() {
       <UserForm
         defaultValues={CREATE_DEFAULTS}
         departments={lookupsQuery.data.departments}
-        roles={lookupsQuery.data.roles}
         isPending={createMutation.isPending}
         createMode
         submitLabel={t('users.create')}

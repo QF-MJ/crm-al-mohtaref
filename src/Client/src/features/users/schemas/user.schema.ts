@@ -1,9 +1,5 @@
 import { z } from 'zod'
-import { GUID_PATTERN } from '@/lib/guid'
 
-<<<<<<< HEAD
-const lookupIdSchema = z.union([z.string().regex(GUID_PATTERN), z.number().int().positive()])
-=======
 // رسائل التحقق مفاتيح ترجمة (لا نصوص عربية داخل المكونات) — انظر i18n/validation.*
 export const VALIDATION = {
   required: 'validation.required',
@@ -41,10 +37,9 @@ const passwordSchema = z
   .regex(/[a-z]/, VALIDATION.passwordLower)
   .regex(/[0-9]/, VALIDATION.passwordDigit)
   .regex(/[^a-zA-Z0-9]/, VALIDATION.passwordSpecial)
->>>>>>> 545414813dff8fc231338f2b361d81ca342c53e7
 
 const permissionSchema = z.object({
-  roleId: z.string().min(1, VALIDATION.required),
+  role: z.coerce.number().int().min(1, VALIDATION.required),
   departmentId: z.string().min(1, VALIDATION.required),
 })
 
@@ -69,54 +64,14 @@ function buildUserSchema(createMode: boolean) {
         }
       }
 
-<<<<<<< HEAD
-export const createUserSchema = z
-  .object({
-    accountName: z.string().trim(),
-    fullName: z.string().trim(),
-    email: z.string().trim().email(),
-    isActive: z.boolean(),
-    password: z.string().optional(),
-    permissions: z.array(permissionSchema),
-  })
-  .superRefine((values, context) => {
-    if (
-      values.accountName.length < 3 ||
-      values.accountName.length > 50 ||
-      !/^[a-zA-Z0-9._-]+$/.test(values.accountName)
-    ) {
-      context.addIssue({ code: 'custom', path: ['accountName'], message: 'invalidAccountName' })
-    }
-
-    if (values.fullName.length < 3 || values.fullName.length > 100) {
-      context.addIssue({ code: 'custom', path: ['fullName'], message: 'invalidFullName' })
-    }
-
-    if (values.email.length > 150) {
-      context.addIssue({ code: 'custom', path: ['email'], message: 'invalidEmail' })
-    }
-
-    const password = values.password ?? ''
-    if (
-      password.length < 8 ||
-      password.length > 100 ||
-      !/[A-Z]/.test(password) ||
-      !/[a-z]/.test(password) ||
-      !/[0-9]/.test(password) ||
-      !/[^a-zA-Z0-9]/.test(password)
-    ) {
-      context.addIssue({ code: 'custom', path: ['password'], message: 'passwordRequirements' })
-    }
-  })
-=======
       // الباك يرفض الأزواج المكرّرة (فهرس فريد)، فنمنعها قبل الإرسال
       const seen = new Set<string>()
       values.permissions.forEach((permission, index) => {
-        const key = `${permission.roleId}:${permission.departmentId}`
+        const key = `${permission.role}:${permission.departmentId}`
         if (seen.has(key)) {
           ctx.addIssue({
             code: 'custom',
-            path: ['permissions', index, 'roleId'],
+            path: ['permissions', index, 'role'],
             message: VALIDATION.duplicatePermission,
           })
         }
@@ -124,7 +79,6 @@ export const createUserSchema = z
       })
     })
 }
->>>>>>> 545414813dff8fc231338f2b361d81ca342c53e7
 
 export const userFormSchema = buildUserSchema(false)
 export const createUserSchema = buildUserSchema(true)

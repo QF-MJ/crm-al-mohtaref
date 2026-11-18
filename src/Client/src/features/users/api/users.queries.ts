@@ -25,15 +25,14 @@ export function useUser(id: UserId | undefined) {
   })
 }
 
-// قوائم الأقسام والأدوار من /lookups (معرّفاتها Guid)
+// قوائم الأقسام من /lookups. الأدوار أصبحت ثابتة في الفرونت (enum).
 export function useUserLookups(enabled = true) {
-  const query = useLookups(undefined, enabled)
+  const query = useLookups(['Departments'], enabled)
   const data = useMemo(
     () =>
       query.data
         ? {
             departments: query.data.departments ?? [],
-            roles: query.data.roles ?? [],
           }
         : undefined,
     [query.data],

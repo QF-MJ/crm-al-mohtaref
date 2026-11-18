@@ -37,20 +37,19 @@ export interface UserFilters {
   accountName?: string
   email?: string
   isActive?: boolean
-  /** Guid */
-  roleId?: string
+  /** enum Role */
+  role?: number
   /** Guid — إلزامي لمدير القسم، والباك يرفض الطلب بدونه */
   departmentId?: string
 }
 
 export interface UserLookups {
   departments: LookupItem[]
-  roles: LookupItem[]
 }
 
 export interface UserPermissionInput {
-  /** Guid */
-  roleId: string
+  /** enum Role */
+  role: number
   /** Guid */
   departmentId: string
 }

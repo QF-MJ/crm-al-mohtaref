@@ -56,10 +56,6 @@ export function AppHeader({ className, navigationExpanded, onToggleNavigation }:
           <p className="truncate text-xs text-slate-500" dir="auto">
             {user?.fullName}
           </p>
-<<<<<<< HEAD
-          <p className="truncate text-xs text-slate-500">{user?.fullName}</p>
-=======
->>>>>>> 545414813dff8fc231338f2b361d81ca342c53e7
         </div>
       </div>
 

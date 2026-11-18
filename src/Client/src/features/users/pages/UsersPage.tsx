@@ -13,6 +13,7 @@ import { TableSkeleton } from '@/components/common/TableSkeleton'
 import { Pagination } from '@/components/common/Pagination'
 import { paths } from '@/app/router/paths'
 import { useAccess } from '@/permissions/useAccess'
+import { ROLE_ITEMS } from '../roles'
 import { useUserLookups, useUsers } from '../api/users.queries'
 import type { UserFilters, UserListItem } from '../types'
 
@@ -21,7 +22,7 @@ interface DraftFilters {
   accountName: string
   email: string
   status: string
-  roleId: string
+  role: string
   departmentId: string
 }
 
@@ -30,7 +31,7 @@ const EMPTY_DRAFT: DraftFilters = {
   accountName: '',
   email: '',
   status: '',
-  roleId: '',
+  role: '',
   departmentId: '',
 }
 
@@ -42,7 +43,6 @@ export function UsersPage() {
 
   const lookupsQuery = useUserLookups()
   const departments = lookupsQuery.data?.departments
-  const roles = lookupsQuery.data?.roles ?? []
 
   // مدير الإدارة يرى كل الأقسام، وغيره يرى أقسامه فقط (الباك يفرض ذلك)
   const departmentOptions = useMemo(() => {
@@ -69,9 +69,10 @@ export function UsersPage() {
   const canQuery = access.isAdmin || Boolean(effectiveDepartmentId)
   const usersQuery = useUsers(effectiveFilters, canQuery)
 
+  // الأدوار قائمة ثابتة (enum) ولم تعد تُجلب من الـ API
   const roleOptions: SelectOption[] = [
     { value: '', label: t('users.allRoles') },
-    ...roles.map((role) => ({ value: String(role.id), label: role.name })),
+    ...ROLE_ITEMS.map((role) => ({ value: String(role.id), label: role.name })),
   ]
 
   const departmentFilterOptions: SelectOption[] = [
@@ -94,7 +95,7 @@ export function UsersPage() {
       accountName: draft.accountName.trim() || undefined,
       email: draft.email.trim() || undefined,
       isActive: draft.status === '' ? undefined : draft.status === 'true',
-      roleId: draft.roleId || undefined,
+      role: draft.role ? Number(draft.role) : undefined,
       departmentId,
     })
   }
@@ -108,7 +109,7 @@ export function UsersPage() {
     filters.name ||
     filters.accountName ||
     filters.email ||
-    filters.roleId ||
+    filters.role !== undefined ||
     filters.isActive !== undefined,
   )
   const pageNumber = filters.pageNumber
@@ -177,8 +178,8 @@ export function UsersPage() {
           />
           <SelectField
             label={t('users.role')}
-            value={draft.roleId}
-            onChange={(roleId) => setDraft((current) => ({ ...current, roleId }))}
+            value={draft.role}
+            onChange={(role) => setDraft((current) => ({ ...current, role }))}
             options={roleOptions}
           />
           <SelectField

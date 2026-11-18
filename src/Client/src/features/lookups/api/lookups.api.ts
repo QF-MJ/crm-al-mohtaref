@@ -14,9 +14,7 @@ function normalizeLookups(data: LookupsResponse): LookupsResponse {
   const raw = data as Record<string, unknown>
   return {
     departments: data.departments ?? firstArray(raw, ['Departments']),
-    roles: data.roles ?? firstArray(raw, ['Roles']),
     tracks: data.tracks ?? firstArray(raw, ['Tracks']),
-    leadStatuses: data.leadStatuses ?? firstArray(raw, ['LeadStatuses']),
     tags: data.tags ?? firstArray(raw, ['Tags', 'tagList', 'tagsList']),
   }
 }

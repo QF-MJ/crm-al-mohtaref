@@ -9,6 +9,7 @@ import { paths } from '@/app/router/paths'
 import { describeApiError } from '@/api/errors'
 import { useUpdateUser, useUser, useUserLookups } from '../api/users.queries'
 import { UserForm } from '../components/UserForm'
+import { roleValueFromName } from '../roles'
 import type { UserFormValues } from '../schemas/user.schema'
 import type { UserDetail, UserLookups } from '../types'
 
@@ -19,16 +20,13 @@ interface MappedPermissions {
 
 const normalizeName = (value: string) => value.trim().replace(/\s+/g, ' ').toLocaleLowerCase('ar')
 
-// الباك يرسل أسماء القسم والدور في تفاصيل المستخدم، والقوائم ترسل المعرّفات:
-// نطابق بالأسماء لنعيد بناء الحقول القابلة للتعديل.
+// الباك يرسل أسماء القسم والدور في تفاصيل المستخدم. الأدوار أصبحت enum ثابتة في الفرونت.
 function mapPermissions(user: UserDetail, lookups: UserLookups): MappedPermissions {
   const permissions: UserFormValues['permissions'] = []
   const unmatched: string[] = []
 
   for (const permission of user.permissions) {
-    const role = lookups.roles.find(
-      (item) => normalizeName(item.name) === normalizeName(permission.roleName),
-    )
+    const role = roleValueFromName(permission.roleName)
     const department = lookups.departments.find(
       (item) => normalizeName(item.name) === normalizeName(permission.departmentName),
     )
@@ -38,7 +36,7 @@ function mapPermissions(user: UserDetail, lookups: UserLookups): MappedPermissio
       continue
     }
 
-    permissions.push({ roleId: String(role.id), departmentId: String(department.id) })
+    permissions.push({ role, departmentId: String(department.id) })
   }
 
   return { permissions, unmatched }
@@ -171,7 +169,6 @@ export function UserFormPage() {
       <UserForm
         defaultValues={defaultValues}
         departments={lookupsQuery.data.departments}
-        roles={lookupsQuery.data.roles}
         isPending={updateMutation.isPending}
         submitLabel={t('users.saveChanges')}
         errorMessage={errorMessage || undefined}

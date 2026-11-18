@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Info, Search, UsersRound } from 'lucide-react'
+import { Check, Info, Search, UsersRound, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
@@ -13,6 +13,7 @@ import { Pagination } from '@/components/common/Pagination'
 import { useAccess } from '@/permissions/useAccess'
 import { useContactLookups } from '@/features/lookups'
 import { useContacts } from '../api/contacts.queries'
+import { LEAD_STATUS_OPTIONS } from '../leadStatuses'
 import type { Contact, ContactFilters } from '../types'
 
 interface DraftFilters {
@@ -21,7 +22,7 @@ interface DraftFilters {
   phoneNumber: string
   campaignTitle: string
   trackId: string
-  leadStatusId: string
+  leadStatus: string
   tagIds: string[]
 }
 
@@ -31,7 +32,7 @@ const EMPTY_DRAFT: DraftFilters = {
   phoneNumber: '',
   campaignTitle: '',
   trackId: '',
-  leadStatusId: '',
+  leadStatus: '',
   tagIds: [],
 }
 
@@ -43,6 +44,7 @@ export function ContactsPage() {
   const [draft, setDraft] = useState<DraftFilters>(EMPTY_DRAFT)
   const [filters, setFilters] = useState<ContactFilters>({ pageNumber: 1 })
   const [selected, setSelected] = useState<Set<string>>(new Set())
+  const [tagQuery, setTagQuery] = useState('')
 
   const lookupsQuery = useContactLookups()
   const contactsQuery = useContacts(filters)
@@ -57,6 +59,15 @@ export function ContactsPage() {
         : [...current.tagIds, id],
     }))
   }
+
+  const selectedTagItems = draft.tagIds
+    .map((id) => tags.find((tag) => String(tag.id) === id))
+    .filter((tag): tag is NonNullable<typeof tag> => Boolean(tag))
+
+  const normalizedTagQuery = tagQuery.trim().toLocaleLowerCase()
+  const visibleTags = normalizedTagQuery
+    ? tags.filter((tag) => tag.name.toLocaleLowerCase().includes(normalizedTagQuery))
+    : tags
 
   const pageItems = contactsQuery.data?.items ?? []
   const pageIds = pageItems.map((contact) => contact.id)
@@ -93,12 +104,10 @@ export function ContactsPage() {
     })),
   ]
 
+  // حالات العميل enum ثابتة (لا تُجلب من الـ API)
   const leadStatusOptions: SelectOption[] = [
     { value: '', label: t('contacts.allLeadStatuses') },
-    ...(lookupsQuery.data?.leadStatuses ?? []).map((status) => ({
-      value: String(status.id),
-      label: status.name,
-    })),
+    ...LEAD_STATUS_OPTIONS,
   ]
 
   const applyFilters = (event: FormEvent<HTMLFormElement>) => {
@@ -111,7 +120,7 @@ export function ContactsPage() {
       phoneNumber: draft.phoneNumber.trim() || undefined,
       campaignTitle: draft.campaignTitle.trim() || undefined,
       trackId: draft.trackId || undefined,
-      leadStatusId: draft.leadStatusId || undefined,
+      leadStatus: draft.leadStatus ? Number(draft.leadStatus) : undefined,
       tagIds: draft.tagIds.length > 0 ? draft.tagIds : undefined,
     })
   }
@@ -120,6 +129,7 @@ export function ContactsPage() {
     setDraft(EMPTY_DRAFT)
     setSelected(new Set())
     setFilters({ pageNumber: 1 })
+    setTagQuery('')
   }
 
   const hasFilters = Boolean(
@@ -128,7 +138,7 @@ export function ContactsPage() {
     filters.phoneNumber ||
     filters.campaignTitle ||
     filters.trackId ||
-    filters.leadStatusId ||
+    filters.leadStatus !== undefined ||
     filters.tagIds?.length,
   )
   const pageNumber = filters.pageNumber
@@ -185,47 +195,111 @@ export function ContactsPage() {
             />
             <SelectField
               label={t('contacts.leadStatus')}
-              value={draft.leadStatusId}
+              value={draft.leadStatus}
               options={leadStatusOptions}
-              disabled={lookupsQuery.isLoading || lookupsQuery.isError}
-              onChange={(leadStatusId) => setDraft((current) => ({ ...current, leadStatusId }))}
+              onChange={(leadStatus) => setDraft((current) => ({ ...current, leadStatus }))}
             />
 
             {tags.length > 0 && (
-              <div className="sm:col-span-2 xl:col-span-3">
-                <div className="flex items-baseline justify-between gap-2">
-                  <span className="text-xs font-medium text-slate-500">{t('contacts.tags')}</span>
-                  {draft.tagIds.length > 0 && (
-                    <span className="text-[11px] text-slate-400">
-                      {t('contacts.tagsSelected', { count: draft.tagIds.length })}
+              <div className="sm:col-span-2 xl:col-span-3 rounded-xl border border-slate-200 bg-slate-50/50 p-3.5 sm:p-4">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-semibold text-slate-700">
+                      {t('contacts.tags')}
                     </span>
+                    {draft.tagIds.length > 0 && (
+                      <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-teal-600 px-1.5 text-[11px] font-semibold leading-none text-white">
+                        {draft.tagIds.length}
+                      </span>
+                    )}
+                  </div>
+                  {draft.tagIds.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => setDraft((current) => ({ ...current, tagIds: [] }))}
+                      className="text-xs font-medium text-teal-700 underline-offset-2 hover:text-teal-800 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2"
+                    >
+                      {t('contacts.clearTags')}
+                    </button>
                   )}
                 </div>
 
-                <div className="mt-1.5 flex max-h-24 flex-wrap gap-1.5 overflow-y-auto pe-1">
-                  {tags.map((tag) => {
-                    const active = draft.tagIds.includes(String(tag.id))
-                    return (
-                      <button
-                        key={tag.id}
-                        type="button"
-                        aria-pressed={active}
-                        onClick={() => toggleTag(String(tag.id))}
-                        className={`rounded-full border px-2.5 py-1 text-[11px] transition-colors ${
-                          active
-                            ? 'border-teal-600 bg-teal-50 text-teal-800'
-                            : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50'
-                        }`}
-                      >
-                        {tag.name}
-                      </button>
-                    )
-                  })}
-                </div>
+                <p className="mt-1 text-xs leading-5 text-slate-500">{t('contacts.tagsHint')}</p>
 
-                {draft.tagIds.length > 0 && (
-                  <p className="mt-1.5 text-[11px] text-slate-400">{t('contacts.tagsHint')}</p>
+                {selectedTagItems.length > 0 && (
+                  <div className="mt-3">
+                    <p className="mb-1.5 text-[11px] font-medium text-slate-500">
+                      {t('contacts.selectedTagsLabel')}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedTagItems.map((tag) => (
+                        <button
+                          key={tag.id}
+                          type="button"
+                          onClick={() => toggleTag(String(tag.id))}
+                          className="group inline-flex max-w-full items-center gap-1.5 rounded-full border border-teal-600 bg-teal-600 pe-2 ps-3 py-1.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-teal-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2"
+                          title={tag.name}
+                        >
+                          <span className="truncate">{tag.name}</span>
+                          <span className="grid size-5 place-items-center rounded-full bg-white/15 transition-colors group-hover:bg-white/25">
+                            <X aria-hidden="true" className="size-3.5" />
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 )}
+
+                {tags.length > 8 && (
+                  <div className="mt-3">
+                    <label className="sr-only" htmlFor="contacts-tag-search">
+                      {t('contacts.searchTags')}
+                    </label>
+                    <div className="relative">
+                      <Search
+                        aria-hidden="true"
+                        className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-slate-400"
+                      />
+                      <Input
+                        id="contacts-tag-search"
+                        value={tagQuery}
+                        onChange={(event) => setTagQuery(event.target.value)}
+                        placeholder={t('contacts.searchTags')}
+                        className="h-9 bg-white ps-9 text-sm"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                <div
+                  className="mt-3 flex max-h-48 flex-wrap gap-2 overflow-y-auto pe-1"
+                  role="group"
+                  aria-label={t('contacts.tags')}
+                >
+                  {visibleTags.length === 0 ? (
+                    <p className="py-2 text-sm text-slate-500">{t('contacts.noTagsMatch')}</p>
+                  ) : (
+                    visibleTags.map((tag) => {
+                      const active = draft.tagIds.includes(String(tag.id))
+                      return (
+                        <button
+                          key={tag.id}
+                          type="button"
+                          aria-pressed={active}
+                          onClick={() => toggleTag(String(tag.id))}
+                          className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-1 ${
+                            active
+                              ? 'border-teal-600 bg-teal-50 text-teal-800 shadow-sm'
+                              : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800'
+                          }`}
+                        >
+                          {active && <Check aria-hidden="true" className="size-3.5" />}
+                          <span>{tag.name}</span>
+                        </button>
+                      )
+                    })
+                  )}
+                </div>
               </div>
             )}
           </div>
