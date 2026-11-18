@@ -42,6 +42,8 @@ public class AppDbContext : DbContext, IUnitOfWork
 
     public DbSet<QuestionCampaign> QuestionCampaigns { get; set; } = null!;
 
+    public DbSet<UserRefreshToken> userRefreshTokens { get; set; } = null!;
+
     public DbSet<CampaignLead> CampaignLeads { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)

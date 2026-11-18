@@ -86,7 +86,8 @@ internal sealed class AutoSeeder
                && !et.HasSharedClrType
                && et.FindPrimaryKey() != null
                && et.GetTableName() != null
-               && et.GetViewName() == null;
+               && et.GetViewName() == null
+               && et.ClrType.Name != "UserRefreshToken";
     }
 
     // parents first (required FKs). A required FK that closes a circle is stored in _backEdges.

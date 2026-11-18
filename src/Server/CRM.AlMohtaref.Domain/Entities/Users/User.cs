@@ -19,7 +19,7 @@ public class User : Person
 
     public DateTime? LockoutEnd { get; private set; }
 
-
+    public ICollection<UserRefreshToken> userRefreshTokens { get; private set; }
 
     public ICollection<UserPermission> UserPermissions { get;  set; }
 
@@ -29,6 +29,7 @@ public class User : Person
         PasswordHash = string.Empty;
         Email = string.Empty;
         UserPermissions = new List<UserPermission>();
+        userRefreshTokens = new List<UserRefreshToken>();
     }
 
     public User(Guid id, string accountName, string passwordHash, Person person, string email)
