@@ -13,7 +13,7 @@ using MediatR;
 
 namespace CRM.AlMohtaref.Application.Fseatures.Auth.RefreshToken
 {
-    public class  RefreshRefreshTokenCommandHandler(IUserRepository _user , IUserRefreshTokenRepository _refreshToken , ITokenService _token) : IRequestHandler<RefreshRefreshTokenCommand, RefreshTokenDto>
+    public class  RefreshRefreshTokenCommandHandler(IUserRepository _user , IUserRefreshTokenRepository _refreshToken , ITokenService _token , IPasswordHasher _passwordHasher) : IRequestHandler<RefreshRefreshTokenCommand, RefreshTokenDto>
     {
         public async Task<RefreshTokenDto> Handle(RefreshRefreshTokenCommand request , CancellationToken ct)
         {
@@ -27,7 +27,7 @@ namespace CRM.AlMohtaref.Application.Fseatures.Auth.RefreshToken
 
             if (refreshToken == null)
             {
-                throw new UnauthorizedAccessException("Refresh token not found");
+                throw new UnauthorizedException("Refresh token not found");
             }
 
             User? user = await _user.GetByIdAsync(refreshToken.UserId);
@@ -39,7 +39,7 @@ namespace CRM.AlMohtaref.Application.Fseatures.Auth.RefreshToken
 
             if (refreshToken.RefreshTokenExpiryTime > DateTime.UtcNow)
             {
-                throw new UnauthorizedAccessException("Refresh token expired");
+                throw new UnauthorizedException("Refresh token expired");
             }
 
             if (refreshToken.RefreshTokenRevokedAt != null)
@@ -47,11 +47,11 @@ namespace CRM.AlMohtaref.Application.Fseatures.Auth.RefreshToken
                 await _refreshToken.RevokeUserTokens(user.Id);
             }
 
-            bool isValid = BCrypt.Net.BCrypt.Verify(RequestRefreshToken, refreshToken.RefreshTokenHash);
+            bool isValid = _passwordHasher.VerifyPassword(RequestRefreshToken, refreshToken.RefreshTokenHash!);
 
             if (!isValid)
             {
-                throw new UnauthorizedAccessException("Refresh token is not valid");
+                throw new UnauthorizedException("Refresh token is not valid");
             }
 
             if(!await _refreshToken.RevokeToken(refreshToken.Id, ct))
@@ -69,7 +69,7 @@ namespace CRM.AlMohtaref.Application.Fseatures.Auth.RefreshToken
             var newRefreshToken = _token.GenerateRefreshToken();
 
             //Store refresh token securely (hash + expiry + not revoked)
-            var refreshTokenHash = BCrypt.Net.BCrypt.HashPassword(newRefreshToken);
+            var refreshTokenHash = _passwordHasher.HashPassword(newRefreshToken);
             Guid RefreshId = Guid.NewGuid();
             newRefreshToken = RefreshId.ToString() + "." + newRefreshToken;
             var refreshTokenExpiredAt = DateTime.UtcNow.AddDays(7);

@@ -1,11 +1,12 @@
 ﻿
+using CRM.AlMohtaref.Application.Common.Exceptions;
 using CRM.AlMohtaref.Application.Interfaces;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using MediatR;
 
 namespace CRM.AlMohtaref.Application.Features.Auth.Logout
 {
-    public class LogOutCommandHandler(IUserRefreshTokenRepository _refreshRepo) : IRequestHandler<LogOutCommand , bool>
+    public class LogOutCommandHandler(IUserRefreshTokenRepository _refreshRepo , IPasswordHasher _passwordHasher) : IRequestHandler<LogOutCommand , bool>
     {
         public async Task<bool> Handle(LogOutCommand request, CancellationToken cancellationToken)
         {
@@ -19,14 +20,14 @@ namespace CRM.AlMohtaref.Application.Features.Auth.Logout
 
             if (token == null)
             {
-                throw new UnauthorizedAccessException("Refresh token not found");
+                throw new NotFoundException("Refresh token not found");
             }
 
-            bool valid = BCrypt.Net.BCrypt.Verify(refreshToken, token.RefreshTokenHash);
+            bool valid = _passwordHasher.VerifyPassword(refreshToken, token.RefreshTokenHash!);
 
             if (!valid)
             {
-                throw new UnauthorizedAccessException("Refresh token is not valid");
+                throw new UnauthorizedException("Refresh token is not valid");
             }
 
             return await _refreshRepo.RevokeToken(tokenId, cancellationToken);
