@@ -8,23 +8,14 @@ public sealed class ContactTagConfiguration : IEntityTypeConfiguration<ContactTa
 {
     public void Configure(EntityTypeBuilder<ContactTag> builder)
     {
-        // a tag belongs to exactly one of: student or contact
-        builder.ToTable("ContactTags", t => t.HasCheckConstraint(
-            "CK_ContactTags_Target",
-            "([StudentId] IS NOT NULL AND [ContactId] IS NULL) OR ([StudentId] IS NULL AND [ContactId] IS NOT NULL)"));
-
+        builder.ToTable("ContactTags");
         builder.HasKey(x => x.Id);
 
-        builder.HasIndex(x => new { x.TagId, x.StudentId, x.ContactId }).IsUnique();
+        builder.HasIndex(x => new { x.TagId, x.ContactId }).IsUnique();
 
         builder.HasOne(x => x.Tag)
             .WithMany(t => t.ContactTags)
             .HasForeignKey(x => x.TagId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasOne(x => x.Student)
-            .WithMany(s => s.ContactTags)
-            .HasForeignKey(x => x.StudentId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(x => x.Contact)

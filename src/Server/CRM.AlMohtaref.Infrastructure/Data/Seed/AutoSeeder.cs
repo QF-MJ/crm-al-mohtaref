@@ -519,6 +519,9 @@ internal sealed class AutoSeeder
 
             if (n.Contains("password")) return _passwordHash;
 
+            if (n == "title" && SeedRules.Titles.TryGetValue(entity, out var titles))
+                return titles[i % titles.Length];
+
             string s;
             var exact = false; // already unique, no suffix needed
 
