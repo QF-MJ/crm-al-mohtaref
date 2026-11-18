@@ -3,9 +3,9 @@ using CRM.AlMohtaref.Application.Features.Auth.RefreshToken;
 
 namespace CRM.AlMohtaref.Api.Contracts.Auth
 {
-    public sealed record RefreshTokenRequest(string RefreshToken, string AccountName)
+    public sealed record RefreshTokenRequest(string RefreshToken)
     {
-        public RefreshRefreshTokenCommand ToCommand() => new(RefreshToken, AccountName);
+        public RefreshRefreshTokenCommand ToCommand() => new(RefreshToken);
     }
     
 }

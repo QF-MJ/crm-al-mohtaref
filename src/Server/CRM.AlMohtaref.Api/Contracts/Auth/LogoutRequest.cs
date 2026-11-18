@@ -1,10 +1,12 @@
 ﻿
 
+using CRM.AlMohtaref.Application.Features.Auth.Logout;
+
 namespace CRM.AlMohtaref.Api.Contracts.Auth
 {
 
-    public sealed record LogoutRequest(string RefreshToken, string AccountName)
+    public sealed record LogoutRequest(string RefreshToken)
     {
-       // public LogoutCommand ToCommand() => new(RefreshToken, AccountName);
+        public LogOutCommand ToCommand() => new(RefreshToken);
     }
 }

@@ -17,13 +17,6 @@ namespace CRM.AlMohtaref.Application.Fseatures.Auth.RefreshToken
     {
         public async Task<RefreshTokenDto> Handle(RefreshRefreshTokenCommand request , CancellationToken ct)
         {
-            User? user = await _user.GetByAccountNameAsync(request.AccountName!);
-
-            if(user == null)
-            {
-                throw new NotFoundException("User account name not found");
-            }
-
             var refreshTokenRequest = request.RefreshToken!.Split(".");
 
             Guid Id = (Guid)refreshTokenRequest.GetValue(0)!;
@@ -32,9 +25,16 @@ namespace CRM.AlMohtaref.Application.Fseatures.Auth.RefreshToken
 
             UserRefreshToken? refreshToken = await _refreshToken.GetById(Id);
 
-            if (refreshToken == null || refreshToken.UserId != user.Id)
+            if (refreshToken == null)
             {
                 throw new UnauthorizedAccessException("Refresh token not found");
+            }
+
+            User? user = await _user.GetByIdAsync(refreshToken.UserId);
+
+            if(user == null)
+            {
+                throw new NotFoundException("User account name not found");
             }
 
             if (refreshToken.RefreshTokenExpiryTime > DateTime.UtcNow)
