@@ -70,7 +70,7 @@ public class DependencyInjectionTests : IDisposable
     public async Task Pipeline_ExecutesHandler_ForValidRequest()
     {
         _lookup.Setup(l => l.GetTagsAsync(It.IsAny<CancellationToken>()))
-               .ReturnsAsync(new[] { new TagDto(Guid.NewGuid(), "VIP") });
+               .ReturnsAsync(new[] { new LookupItemDto(Guid.NewGuid(), "VIP") });
         var mediator = _provider.GetRequiredService<IMediator>();
 
         var result = await mediator.Send(new GetLookupsQuery(new List<LookupType> { LookupType.Tags }));

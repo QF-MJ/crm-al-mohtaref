@@ -16,7 +16,7 @@ namespace CRM.AlMohtaref.Infrastructure.Repositories
 
         public async Task<ContactsPageDto> SearchAsync(GetContactsQuery query, CancellationToken ct)
         {
-            bool hasStudentFilters = query.CampaignTitle != null
+            bool hasStudentFilters = query.CampaignId != null
                 || query.TrackId != null
                 || query.LeadStatus != null
                 || (query.TagIds != null && query.TagIds.Any())
@@ -32,9 +32,9 @@ namespace CRM.AlMohtaref.Infrastructure.Repositories
                         || s.StudentTags.Any(st => st.TagId == tagId))
                 )
                 && (
-                    (query.CampaignTitle == null && query.TrackId == null && query.LeadStatus == null)
+                    (query.CampaignId == null && query.TrackId == null && query.LeadStatus == null)
                     || s.CampaignLeads.Any(cl =>
-                        (query.CampaignTitle == null || cl.Campaign.Title.Contains(query.CampaignTitle))
+                        (query.CampaignId == null || cl.Campaign.Id == query.CampaignId)
                         && (query.TrackId == null || cl.Campaign.TrackId == query.TrackId)
                         && (query.LeadStatus == null || cl.Status == query.LeadStatus))
                 )

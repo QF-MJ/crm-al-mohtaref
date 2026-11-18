@@ -4,13 +4,17 @@ namespace CRM.AlMohtaref.Application.Interfaces
 {
     public interface ILookupRepository
     {
-        Task<IEnumerable<DepartmentDto>> GetDepartmentsAsync(CancellationToken ct = default);
+        Task<IEnumerable<LookupItemDto>> GetDepartmentsAsync(CancellationToken ct = default);
 
-        Task<DepartmentDto?> GetDepartmentByIdAsync(Guid Id, CancellationToken ct = default);
+        Task<LookupItemDto?> GetDepartmentByIdAsync(Guid Id, CancellationToken ct = default);
 
-        Task<IEnumerable<TrackDto>> GetTracksAsync(CancellationToken ct = default);
+        Task<IEnumerable<LookupItemDto>> GetTracksAsync(CancellationToken ct = default);
         
-        Task<IEnumerable<TagDto>> GetTagsAsync(CancellationToken ct = default);
+        Task<IEnumerable<LookupItemDto>> GetCampaignsAsync(CancellationToken ct = default);
+
+        Task<IEnumerable<LookupItemDto>> GetTagsAsync(CancellationToken ct = default);
+
+
 
     }
 }

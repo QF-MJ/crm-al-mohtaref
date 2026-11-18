@@ -2,10 +2,12 @@
 
 public class LookupsDto {
 
-    public IEnumerable<DepartmentDto>? Departments { get; set; }
+    public IEnumerable<LookupItemDto>? Departments { get; set; }
         
-    public IEnumerable<TagDto>? Tags { get; set; }
+    public IEnumerable<LookupItemDto>? Tags { get; set; }
         
-    public IEnumerable<TrackDto>? Tracks { get; set; }
+    public IEnumerable<LookupItemDto>? Tracks { get; set; }
+
+    public IEnumerable<LookupItemDto>? Campaigns { get; set; }
 
 }

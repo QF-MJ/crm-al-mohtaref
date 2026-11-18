@@ -29,12 +29,10 @@ public class GetContactsQueryValidator : AbstractValidator<GetContactsQuery>
             .WithMessage("معرف الوسم غير صالح")
             .When(x => x.TagIds != null);
 
-        RuleFor(x => x.CampaignTitle)
+        RuleFor(x => x.CampaignId)
             .NotEmpty()
-            .WithMessage("عنوان الحملة لا يمكن أن يكون مسافات فارغة فقط")
-            .MaximumLength(200)
-            .WithMessage("عنوان الحملة يجب ألا يتجاوز 200 حرف")
-            .When(x => x.CampaignTitle != null);
+            .WithMessage("معرف الحملة غير صالح")
+            .When(x => x.CampaignId != null);
 
         RuleFor(x => x.StudentName)
             .NotEmpty()
@@ -55,7 +53,7 @@ public class GetContactsQueryValidator : AbstractValidator<GetContactsQuery>
             .WithMessage("رقم الهاتف لا يمكن أن يكون مسافات فارغة فقط")
             .MaximumLength(20)
             .WithMessage("رقم الهاتف يجب ألا يتجاوز 20 خانة")
-            .Matches(@"^\+?[0-9\s\-()]+$")
+            .Matches(@"^\+?[0-9\s\-()]*[0-9][0-9\s\-()]*$")
             .WithMessage("رقم الهاتف يجب أن يحتوي على أرقام ورموز هاتف صالحة فقط")
             .When(x => x.PhoneNumber != null);
     }

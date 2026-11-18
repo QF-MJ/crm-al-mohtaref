@@ -11,8 +11,7 @@ public class GetContactsQueryValidatorExtraTests
     public void PageNumberZero_IsRejected_ByIncludedPagedValidator() =>
         Assert.True(_validator.Validate(new GetContactsQuery(PageNumber: 0)).HasErrorFor("PageNumber"));
 
-    // EXPECTED BUG: duplicated tag ids are accepted; they make the search query do redundant
-    // work (and, depending on the repository, can return wrong results).
+    
     [Fact]
     public void DuplicateTagIds_AreInvalid()
     {
@@ -21,8 +20,7 @@ public class GetContactsQueryValidatorExtraTests
         Assert.True(_validator.Validate(new GetContactsQuery(TagIds: new List<Guid> { id, id })).HasErrorFor("TagIds"));
     }
 
-    // EXPECTED BUG: whitespace-only filters pass validation and will be sent to the repository
-    // as real search terms.
+   
     [Theory]
     [InlineData("   ")]
     public void WhitespaceOnlyFilters_AreInvalid(string value)
@@ -32,7 +30,7 @@ public class GetContactsQueryValidatorExtraTests
         Assert.True(_validator.Validate(new GetContactsQuery(PhoneNumber: value)).HasErrorFor("PhoneNumber"));
     }
 
-    // EXPECTED BUG: PhoneNumber is only length-checked, so letters and symbols are accepted.
+  
     [Theory]
     [InlineData("abc")]
     [InlineData("09-99; DROP TABLE")]
