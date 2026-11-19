@@ -75,6 +75,18 @@ public class User : Person
             IsActive = isActive.Value;
     }
 
+    public bool HasPermissionsChanged(IEnumerable<(Role RoleId, Guid DepartmentId)> permissions)
+    {
+        var requestedPermissions = permissions.ToHashSet();
+
+        var currentPermissions = UserPermissions
+            .Select(p => (p.Role, p.DepartmentId))
+            .ToHashSet();
+
+        return !currentPermissions.SetEquals(requestedPermissions);
+    }
+
+
     public void SynchronizePermissions(IEnumerable<(Role RoleId, Guid DepartmentId)> permissions)
     {
         var requestedPermissions = permissions.Distinct().ToHashSet();
@@ -91,4 +103,5 @@ public class User : Person
         {
             UserPermissions.Add(new UserPermission(Id, departmentId, role));
         }
-    }}
+    }
+}
