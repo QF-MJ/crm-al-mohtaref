@@ -7,12 +7,12 @@ namespace CRM.AlMohtaref.Application.Features.Users
         public PermissionCommandValidator()
         {
             RuleFor(x => x.DepartmentId)
-                .GreaterThan(0)
-                .WithMessage("معرف القسم غير صحيح، يجب أن يكون أكبر من 0");
+                .NotEmpty()
+                .WithMessage("معرف القسم غير صالح");
 
             RuleFor(x => x.RoleId)
-                .GreaterThan(0)
-                .WithMessage("معرف الدور غير صحيح، يجب أن يكون أكبر من 0");
+                .NotEmpty()
+                .WithMessage("معرف الدور غير صالح");
         }
     }
 }

@@ -2,10 +2,10 @@
 using System.Reflection;
 using CRM.AlMohtaref.Application.Common.Attributes;
 using CRM.AlMohtaref.Application.Common.Exceptions;
-using CRM.AlMohtaref.Application.Interfaces;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using MediatR;
 using System.Linq;
+using CRM.AlMohtaref.Application.Interfaces.Common;
 
 namespace CRM.AlMohtaref.Application.Common.Behaviors;
 
@@ -34,14 +34,11 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
 
         var userPermissions = _currentUser.Permissions;
 
-        UserPermission[] parsedPermissions = userPermissions
-            .Select(p => p.Split(':'))
-            .Where(parts => parts.Length == 2)    
-            .Select(parts => new UserPermission(parts[0], parts[1]))
-            .ToArray();
+        if(userPermissions == null)
+            throw new ForbiddenException("ليس لديك صلاحية لتنفيذ هذا الإجراء");
 
         bool allowed = attributes.Any(attribute =>
-           parsedPermissions.Any(p =>
+           userPermissions.Any(p =>
                p.Role.Name.Equals(attribute.Role, StringComparison.OrdinalIgnoreCase) &&
                p.Department.Name.Equals(attribute.Department, StringComparison.OrdinalIgnoreCase)));
 

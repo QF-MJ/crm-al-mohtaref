@@ -4,17 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { ArrowLeft, ArrowRight, Plus, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Select, type SelectOption } from '@/components/ui/select'
 import { paths } from '@/app/router/paths'
+import { getApiErrorMessage } from '@/api/errors'
 import { usePermission } from '@/permissions/usePermission'
 import { useUserLookups, useUsers } from '../api/users.queries'
 import type { UserFilters, UserListItem } from '../types'
-
-function getErrorMessage(error: unknown, fallback: string) {
-  if (typeof error === 'object' && error !== null && 'message' in error) {
-    return String(error.message)
-  }
-  return fallback
-}
 
 export function UsersPage() {
   const { t } = useTranslation()
@@ -29,6 +24,10 @@ export function UsersPage() {
   const usersQuery = useUsers(filters)
   const lookupsQuery = useUserLookups()
   const page = usersQuery.data?.page
+  const selectedRoleId = lookupsQuery.data?.roles.find((role) => String(role.id) === roleId)?.id
+  const selectedDepartmentId = lookupsQuery.data?.departments.find(
+    (department) => String(department.id) === departmentId,
+  )?.id
 
   const applyFilters = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -38,8 +37,8 @@ export function UsersPage() {
       name: name.trim() || undefined,
       email: email.trim() || undefined,
       isActive: status === '' ? undefined : status === 'true',
-      roleId: roleId ? Number(roleId) : undefined,
-      departmentId: departmentId ? Number(departmentId) : undefined,
+      roleId: roleId ? (selectedRoleId ?? roleId) : undefined,
+      departmentId: departmentId ? (selectedDepartmentId ?? departmentId) : undefined,
     })
   }
 
@@ -54,7 +53,7 @@ export function UsersPage() {
   }
 
   return (
-    <section className="-m-6 min-h-full space-y-5 bg-slate-50 p-5 sm:p-6" dir="rtl">
+    <section className="-m-4 min-h-full space-y-5 bg-slate-50 p-4 sm:-m-6 sm:p-6" dir="rtl">
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="mb-1 text-xs text-slate-400">{t('users.breadcrumb')}</p>
@@ -64,10 +63,9 @@ export function UsersPage() {
         {can('users.create') && (
           <Link
             to={paths.usersNew}
-            className="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-teal-700 px-4 text-sm font-medium text-white transition-colors hover:bg-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-            aria-label={t('users.add')}
+            className="inline-flex h-9 items-center gap-2 rounded-md bg-teal-700 px-4 text-sm font-medium text-white hover:bg-teal-800"
           >
-            <Plus aria-hidden="true" />
+            <Plus aria-hidden="true" className="size-4" />
             {t('users.add')}
           </Link>
         )}
@@ -83,9 +81,10 @@ export function UsersPage() {
             label={t('users.username')}
             value={accountName}
             onChange={setAccountName}
+            maxLength={100}
           />
-          <FilterField label={t('users.name')} value={name} onChange={setName} />
-          <FilterField label={t('users.email')} value={email} onChange={setEmail} />
+          <FilterField label={t('users.name')} value={name} onChange={setName} maxLength={200} />
+          <FilterField label={t('users.email')} value={email} onChange={setEmail} maxLength={256} />
           <SelectField
             label={t('users.status')}
             value={status}
@@ -123,7 +122,7 @@ export function UsersPage() {
         </div>
         {lookupsQuery.isError && (
           <p className="mt-3 text-sm text-destructive" role="alert">
-            {getErrorMessage(lookupsQuery.error, t('users.unknownError'))}
+            {getApiErrorMessage(lookupsQuery.error, t('users.unknownError'))}
           </p>
         )}
         <div className="mt-4 flex justify-center gap-2">
@@ -160,8 +159,20 @@ export function UsersPage() {
         ) : usersQuery.isError ? (
           <div className="space-y-3 p-8 text-center" role="alert">
             <p className="text-sm text-destructive">
-              {getErrorMessage(usersQuery.error, t('users.unknownError'))}
+              {getApiErrorMessage(usersQuery.error, t('users.unknownError'))}
             </p>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => void usersQuery.refetch()}
+              disabled={usersQuery.isFetching}
+            >
+              {t('users.retry')}
+            </Button>
+          </div>
+        ) : !usersQuery.data ? (
+          <div className="space-y-3 p-8 text-center" role="alert">
+            <p className="text-sm text-destructive">{t('users.unknownError')}</p>
             <Button
               type="button"
               variant="outline"
@@ -176,14 +187,24 @@ export function UsersPage() {
         ) : (
           <>
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[700px] text-start text-sm">
+              <table className="w-full min-w-[680px] text-start text-sm">
                 <thead className="bg-slate-50 text-xs font-medium text-slate-500">
                   <tr>
-                    <th scope="col" className="px-4 py-3">{t('users.username')}</th>
-                    <th scope="col" className="px-4 py-3">{t('users.name')}</th>
-                    <th scope="col" className="px-4 py-3">{t('users.email')}</th>
-                    <th scope="col" className="px-4 py-3">{t('users.status')}</th>
-                    <th scope="col" className="px-4 py-3">{t('users.actions')}</th>
+                    <th scope="col" className="px-4 py-3">
+                      {t('users.username')}
+                    </th>
+                    <th scope="col" className="px-4 py-3">
+                      {t('users.name')}
+                    </th>
+                    <th scope="col" className="px-4 py-3">
+                      {t('users.email')}
+                    </th>
+                    <th scope="col" className="px-4 py-3">
+                      {t('users.status')}
+                    </th>
+                    <th scope="col" className="px-4 py-3">
+                      {t('users.actions')}
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -235,10 +256,12 @@ function FilterField({
   label,
   value,
   onChange,
+  maxLength,
 }: {
   label: string
   value: string
   onChange: (value: string) => void
+  maxLength: number
 }) {
   return (
     <label className="space-y-1.5 text-xs font-medium text-slate-500">
@@ -246,6 +269,7 @@ function FilterField({
       <Input
         className="text-sm"
         value={value}
+        maxLength={maxLength}
         onChange={(event) => onChange(event.target.value)}
       />
     </label>
@@ -261,22 +285,12 @@ function SelectField({
   label: string
   value: string
   onChange: (value: string) => void
-  options: { value: string; label: string }[]
+  options: SelectOption[]
 }) {
   return (
     <label className="space-y-1.5 text-xs font-medium text-slate-500">
       <span>{label}</span>
-      <select
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className="h-9 w-full rounded-md border border-input bg-white px-3 text-sm text-slate-700 outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-      >
-        {options.map((option) => (
-          <option key={option.value || option.label} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+      <Select value={value} onValueChange={onChange} options={options} />
     </label>
   )
 }
@@ -287,34 +301,48 @@ function UserRow({ user }: { user: UserListItem }) {
   return (
     <tr className="transition-colors hover:bg-teal-50/60">
       <td className="whitespace-nowrap px-4 py-3 font-medium text-slate-700" dir="auto">
-        {user.accountName}
+        <Link to={paths.user(String(user.id))} className="hover:text-primary hover:underline">
+          {user.accountName}
+        </Link>
       </td>
       <td className="whitespace-nowrap px-4 py-3 text-slate-700" dir="auto">
-        {user.fullName}
+        {user.fullName ?? '—'}
       </td>
       <td className="whitespace-nowrap px-4 py-3 text-slate-500" dir="ltr">
-        {user.email}
+        {user.email ?? '—'}
       </td>
       <td className="whitespace-nowrap px-4 py-3">
-        <span
-          className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium ${
-            user.isActive ? 'bg-teal-50 text-teal-800' : 'bg-slate-100 text-slate-500'
-          }`}
-        >
+        {user.isActive === undefined ? (
+          <span className="text-slate-400">—</span>
+        ) : (
           <span
-            className={`size-1.5 rounded-full ${user.isActive ? 'bg-teal-700' : 'bg-slate-400'}`}
-          />
-          {t(user.isActive ? 'users.active' : 'users.inactive')}
-        </span>
+            className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium ${
+              user.isActive ? 'bg-teal-50 text-teal-800' : 'bg-slate-100 text-slate-500'
+            }`}
+          >
+            <span
+              className={`size-1.5 rounded-full ${user.isActive ? 'bg-teal-700' : 'bg-slate-400'}`}
+            />
+            {t(user.isActive ? 'users.active' : 'users.inactive')}
+          </span>
+        )}
       </td>
       <td className="whitespace-nowrap px-4 py-3">
         {can('users.suspend') && (
-          <Link
-            to={paths.userEdit(String(user.id))}
-            className="inline-flex h-8 min-w-20 items-center justify-center rounded-md border bg-white px-3 text-sm font-medium transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-          >
-            {t('users.edit')}
-          </Link>
+          <div className="flex gap-2">
+            <Link
+              to={paths.user(String(user.id))}
+              className="inline-flex h-8 items-center rounded-md border bg-white px-3 text-sm font-medium hover:bg-accent"
+            >
+              {t('users.view')}
+            </Link>
+            <Link
+              to={paths.userEdit(String(user.id))}
+              className="inline-flex h-8 items-center rounded-md border bg-white px-3 text-sm font-medium hover:bg-accent"
+            >
+              {t('users.edit')}
+            </Link>
+          </div>
         )}
       </td>
     </tr>

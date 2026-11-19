@@ -22,13 +22,13 @@ public sealed class GetUsersQueryValidator : AbstractValidator<GetUsersQuery>
             .WithMessage("يجب ألا يتجاوز البريد الإلكتروني 256 حرف");
 
         RuleFor(x => x.RoleId)
-            .GreaterThan(0)
-            .WithMessage("يجب أن يكون معرف الدور أكبر من 0")
+            .NotEmpty()
+            .WithMessage("معرف الدور غير صالح")
             .When(x => x.RoleId.HasValue);
 
         RuleFor(x => x.DepartmentId)
-            .GreaterThan(0)
-            .WithMessage("يجب أن يكون معرف الأقسام أكبر من 0")
+            .NotEmpty()
+            .WithMessage("معرف القسم غير صالح")
             .When(x => x.DepartmentId.HasValue);
     }
 }

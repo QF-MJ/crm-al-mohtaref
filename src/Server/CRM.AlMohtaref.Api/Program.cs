@@ -98,16 +98,19 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    await dbContext.Database.MigrateAsync();
-}
-
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
+    using var scope = app.Services.CreateScope();
+    var services = scope.ServiceProvider;
+
+    var dbContext = services.GetRequiredService<AppDbContext>();
+    await dbContext.Database.EnsureDeletedAsync();
+    await dbContext.Database.MigrateAsync();
+
+    await DataSeeder.SeedAsync(services);
+
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -121,11 +124,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-if (app.Environment.IsDevelopment())
-{
-    using var scope = app.Services.CreateScope();
-    DataSeeder.SeedAsync(scope.ServiceProvider).GetAwaiter().GetResult();
-}
 
 app.Run();

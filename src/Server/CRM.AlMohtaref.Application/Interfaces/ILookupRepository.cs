@@ -6,6 +6,8 @@ namespace CRM.AlMohtaref.Application.Interfaces
     {
         Task<IEnumerable<DepartmentDto>> GetDepartmentsAsync(CancellationToken ct = default);
 
+        Task<DepartmentDto?> GetDepartmentByIdAsync(Guid Id, CancellationToken ct = default);
+
         Task<IEnumerable<RoleDto>> GetRolesAsync(CancellationToken ct = default);
 
         Task<IEnumerable<TrackDto>> GetTracksAsync(CancellationToken ct = default);

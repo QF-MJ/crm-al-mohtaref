@@ -1,10 +1,14 @@
-﻿
+﻿using CRM.AlMohtaref.Application.Common.Dtos;
+using CRM.AlMohtaref.Application.Interfaces.Common;
+using CRM.AlMohtaref.Domain.Entities.Users;
+using Microsoft.AspNetCore.Http;
+using System.Data;
 using System.Security.Claims;
 using CRM.AlMohtaref.Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 
 
-namespace CRM.AlMohtaref.Infrastructure.Services
+namespace CRM.AlMohtaref.Infrastructure.ExternalServices
 {
 
     public class CurrentUserService : ICurrentUserService
@@ -21,9 +25,42 @@ namespace CRM.AlMohtaref.Infrastructure.Services
 
         public string? Email => User?.FindFirstValue(ClaimTypes.Email);
 
-        public IReadOnlyCollection<string> Permissions =>
-            User?.FindAll("permission").Select(c => c.Value).ToList() ?? [];
-
         public bool IsAuthenticated => User?.Identity?.IsAuthenticated ?? false;
+
+        public List<UserPermission>? Permissions 
+        {
+            get
+            {
+               return  User?.FindAll("permission").Select(p => p.Value.Split(':'))
+                        .Where(parts => parts.Length == 2)
+                        .Select(parts => new UserPermission(parts[0], parts[1]))
+                        .ToList();
+            }
+        }
+
+        public bool HasDepartment(string? department)
+        {
+            if (department == null)
+                return false;
+
+            return Permissions?.Any(p => p.Department.Name == department) ?? false;
+        }
+
+        public bool HasAnyDepartment(IEnumerable<PermissionDto>? permissions)
+        {
+            if (Permissions is null || permissions is null)
+                return false;
+
+            var targetDepartments = permissions
+                .Select(pr => pr.DepartmentName)
+                .Where(name => !string.IsNullOrEmpty(name))
+                .ToHashSet();
+
+            if (targetDepartments.Count == 0)
+                return false;
+
+            return Permissions.Any(p => p.Department?.Name != null && targetDepartments.Contains(p.Department.Name));
+        }
+
     }
 }

@@ -3,13 +3,13 @@
 // A tag attached to exactly one of: a student or a contact.
 public class ContactTag
 {
-    public int Id { get; private set; }
+    public Guid Id { get; private set; }
 
-    public int TagId { get; private set; }
+    public Guid TagId { get; private set; }
 
-    public int? StudentId { get; private set; }
+    public Guid? StudentId { get; private set; }
 
-    public int? ContactId { get; private set; }
+    public Guid? ContactId { get; private set; }
 
     public Tag Tag { get; private set; }
 
@@ -22,12 +22,12 @@ public class ContactTag
         Tag = null!;
     }
 
-    public static ContactTag ForStudent(int tagId, int studentId)
+    public static ContactTag ForStudent(Guid tagId, Guid studentId)
     {
         return new ContactTag { TagId = tagId, StudentId = studentId };
     }
 
-    public static ContactTag ForContact(int tagId, int contactId)
+    public static ContactTag ForContact(Guid tagId, Guid contactId)
     {
         return new ContactTag { TagId = tagId, ContactId = contactId };
     }

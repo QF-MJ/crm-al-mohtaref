@@ -17,7 +17,8 @@ public sealed class CampaignConfiguration : IEntityTypeConfiguration<Campaign>
         builder.Property(c => c.Url).HasMaxLength(500);
         builder.Property(c => c.Budget).HasPrecision(18, 2);
 
-        builder.HasIndex(c => c.Title);
+        builder.HasIndex(c => c.Title)
+            .IsUnique();
 
         builder.HasOne(c => c.Track)
             .WithMany(t => t.Campaigns)
@@ -28,10 +29,5 @@ public sealed class CampaignConfiguration : IEntityTypeConfiguration<Campaign>
             .WithMany()
             .HasForeignKey(c => c.CreatedByUserId)
             .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasOne(c => c.CampaignStatus)
-          .WithMany(cs => cs.Campaigns)
-          .HasForeignKey(c => c.CampaginStatusId)
-          .OnDelete(DeleteBehavior.Restrict);
     }
 }

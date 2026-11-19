@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace CRM.AlMohtaref.Domain.Enums;
 
-namespace CRM.AlMohtaref.Domain.Entities.Campaigns
+public enum CampaignStatus
 {
-    public class CampaginStatus
-    {
-        public Guid Id { get; set; }
-
-        public string? Name { get; set; }
-
-        public ICollection<Campaign>? Campaigns { get; set; }
-
-
-
-
-    }
+    New = 1,
+    Approved = 2,
+    InProgress = 3,
+    Completed = 4,
+    NeedsModification = 5,
+    Cancelled = 6,
+    Rejected = 7
 }

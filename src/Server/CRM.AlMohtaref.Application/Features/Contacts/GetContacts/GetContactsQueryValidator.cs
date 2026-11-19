@@ -10,18 +10,19 @@ public class GetContactsQueryValidator : AbstractValidator<GetContactsQuery>
         Include(new PagedQueryValidator());
 
         RuleFor(x => x.TrackId)
-            .GreaterThan(0)
-            .WithMessage("معرف المسار يجب أن يكون أكبر من الصفر")
-            .When(x => x.TrackId.HasValue);
+             .NotEmpty()
+             .WithMessage("معرف المسار غير صالح")
+             .When(x => x.TrackId.HasValue);
 
         RuleFor(x => x.LeadStatusId)
-            .GreaterThan(0)
-            .WithMessage("معرف حالة العميل المحتمل يجب أن يكون أكبر من الصفر")
+            .NotEmpty()
+            .WithMessage("معرف حالة العميل المحتمل غير صالح")
             .When(x => x.LeadStatusId.HasValue);
 
+
         RuleForEach(x => x.TagIds)
-            .GreaterThan(0)
-            .WithMessage("معرف الوسم يجب أن يكون أكبر من الصفر")
+            .NotEmpty()
+            .WithMessage("معرف الوسم غير صالح")
             .When(x => x.TagIds != null);
 
         RuleFor(x => x.CampaignTitle)

@@ -1,9 +1,12 @@
-﻿using MediatR;
+﻿using CRM.AlMohtaref.Application.Common.Attributes;
+using MediatR;
 
 namespace CRM.AlMohtaref.Application.Features.Users;
 
+[AuthorizePermisions(Role = "مدير", Department = "الإدارة")]
+
 public sealed record UpdateUserCommand(
-    int Id,
+    Guid Id,
     string AccountName,
     string FullName,
     string Email,

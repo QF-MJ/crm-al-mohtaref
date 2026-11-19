@@ -1,18 +1,22 @@
-﻿using CRM.AlMohtaref.Domain.Entities.Contacts;
+using CRM.AlMohtaref.Domain.Entities.Contacts;
 
 namespace CRM.AlMohtaref.Domain.Entities.Campaigns;
 
 public class CampaignLead
 {
-    public int Id { get; private set; }
+    public Guid Id { get; private set; }
 
-    public int CampaignId { get; private set; }
+    public Guid CampaignId { get; private set; }
 
-    public int StatusId { get; private set; }
+    public Guid PlatformCampaignId { get; private set; }
 
-    public int StudentId { get; private set; }
+    public Guid StatusId { get; private set; }
+
+    public Guid StudentId { get; private set; }
 
     public Campaign Campaign { get; private set; }
+
+    public PlatformCampaign PlatformCampaign { get; private set; }
 
     public LeadStatus Status { get; private set; }
 
@@ -21,14 +25,21 @@ public class CampaignLead
     private CampaignLead()
     {
         Campaign = null!;
+        PlatformCampaign = null!;
         Status = null!;
         Student = null!;
     }
 
-    public CampaignLead(int campaignId, int statusId, int studentId) : this()
+    public CampaignLead(Guid campaignId, Guid platformCampaignId, Guid statusId, Guid studentId) : this()
     {
         CampaignId = campaignId;
+        PlatformCampaignId = platformCampaignId;
         StatusId = statusId;
         StudentId = studentId;
+    }
+
+    public void ChangeStatus(Guid statusId)
+    {
+        StatusId = statusId;
     }
 }

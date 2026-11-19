@@ -1,15 +1,37 @@
 import type { AppRoute } from '@/types/router'
-import { PagePlaceholder } from '@/components/common/PagePlaceholder'
+import { ApiUnavailablePage } from '@/components/common/ApiUnavailablePage'
+import { useTranslation } from 'react-i18next'
+
+function AcademicUnavailablePage({
+  titleKey,
+  descriptionKey,
+}: {
+  titleKey: string
+  descriptionKey: string
+}) {
+  const { t } = useTranslation()
+  return <ApiUnavailablePage title={t(titleKey)} description={t(descriptionKey)} />
+}
 
 export const academicRoutes: AppRoute[] = [
   {
     path: 'academic/subscribed-clients',
-    element: <PagePlaceholder name="SubscribedClients" fr="FR-18 FR-19" />,
+    element: (
+      <AcademicUnavailablePage
+        titleKey="features.unavailable.academicSubscribedTitle"
+        descriptionKey="features.unavailable.academicSubscribedDescription"
+      />
+    ),
     handle: { permission: 'academic.viewSubscribed' },
   },
   {
     path: 'academic/records/:studentId',
-    element: <PagePlaceholder name="StudentRecord" fr="FR-20" />,
+    element: (
+      <AcademicUnavailablePage
+        titleKey="features.unavailable.studentRecordTitle"
+        descriptionKey="features.unavailable.studentRecordDescription"
+      />
+    ),
     handle: { permission: 'academic.records' },
   },
 ]

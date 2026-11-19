@@ -1,5 +1,5 @@
 export const env = {
-  apiUrl: import.meta.env.VITE_API_URL ?? '/api',
+  apiUrl: import.meta.env.VITE_API_URL ?? 'https://localhost:7271',
   // المحاكاة تعمل في وضع التطوير فقط، حتى لا تصل للنسخة النهائية بالغلط
   useMocks: import.meta.env.DEV && import.meta.env.VITE_USE_MOCKS === 'true',
 }

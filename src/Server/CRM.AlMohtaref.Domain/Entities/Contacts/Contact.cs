@@ -2,9 +2,9 @@
 
 public class Contact
 {
-    public int Id { get; private set; }
+    public Guid Id { get; private set; }
 
-    public int PersonId { get; private set; }
+    public Guid PersonId { get; private set; }
 
     public string PhoneNumber { get; private set; }
 
@@ -23,7 +23,7 @@ public class Contact
         ContactTags = new List<ContactTag>();
     }
 
-    public Contact(int personId, string phoneNumber) : this()
+    public Contact(Guid personId, string phoneNumber) : this()
     {
         PersonId = personId;
         PhoneNumber = phoneNumber;

@@ -22,28 +22,11 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.CampaginStatus", b =>
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.Campaign", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CampaignStatuses", (string)null);
-                });
-
-            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.Campaign", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal?>("Budget")
                         .HasPrecision(18, 2)
@@ -52,8 +35,11 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.Property<Guid>("CampaginStatusId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("CreatedByUserId")
+                    b.Property<int>("CampaignStatus")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("CreatedByUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .HasMaxLength(2000)
@@ -64,8 +50,8 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("TrackId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("TrackId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Url")
                         .HasMaxLength(500)
@@ -73,11 +59,10 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CampaginStatusId");
-
                     b.HasIndex("CreatedByUserId");
 
-                    b.HasIndex("Title");
+                    b.HasIndex("Title")
+                        .IsUnique();
 
                     b.HasIndex("TrackId");
 
@@ -86,24 +71,27 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.CampaignLead", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<Guid>("CampaignId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("CampaignId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PlatformCampaignId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("StatusId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CampaignId");
+
+                    b.HasIndex("PlatformCampaignId");
 
                     b.HasIndex("StatusId");
 
@@ -114,11 +102,9 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.LeadStatus", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -133,13 +119,52 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.ToTable("LeadStatuses", (string)null);
                 });
 
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.Platform", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Platforms", (string)null);
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.PlatformCampaign", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CampaignId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PlatformId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CampaignId");
+
+                    b.HasIndex("PlatformId", "CampaignId")
+                        .IsUnique();
+
+                    b.ToTable("PlatformCampaigns", (string)null);
+                });
+
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.Track", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -156,14 +181,12 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Contacts.Contact", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("PersonId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PersonId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
@@ -181,20 +204,18 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Contacts.ContactTag", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<Guid?>("ContactId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("ContactId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("StudentId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TagId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("TagId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -214,17 +235,15 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Contacts.Student", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<Guid>("ContactId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ContactId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PersonId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PersonId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -238,11 +257,9 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Contacts.Tag", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -260,15 +277,12 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Person", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("PersonId");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CreatedByUserId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedByUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -282,13 +296,193 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.ToTable("People", (string)null);
                 });
 
-            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.Department", b =>
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.Field", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Fields", (string)null);
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.Option", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("OptionText")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OptionText")
+                        .IsUnique();
+
+                    b.ToTable("Options", (string)null);
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.OptionSet", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ContentHash")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .IsUnicode(false)
+                        .HasColumnType("char(64)")
+                        .IsFixedLength();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContentHash")
+                        .IsUnique();
+
+                    b.ToTable("OptionSets", (string)null);
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.OptionSetItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OptionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OptionSetId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OptionId");
+
+                    b.HasIndex("OptionSetId", "OptionId")
+                        .IsUnique();
+
+                    b.ToTable("OptionSetItems", (string)null);
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.OptionTag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OptionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TagId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TagId");
+
+                    b.HasIndex("OptionId", "TagId")
+                        .IsUnique();
+
+                    b.ToTable("OptionTags", (string)null);
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.Question", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ConfigurationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConfigurationId");
+
+                    b.HasIndex("Text")
+                        .IsUnique();
+
+                    b.ToTable("Questions", (string)null);
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.QuestionCampaign", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CampaignId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("OptionSetId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("QuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OptionSetId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.HasIndex("CampaignId", "QuestionId")
+                        .IsUnique();
+
+                    b.ToTable("QuestionCampaigns", (string)null);
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.QuestionConfiguration", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("FieldId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Target")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FieldId")
+                        .IsUnique()
+                        .HasFilter("[FieldId] IS NOT NULL");
+
+                    b.ToTable("QuestionConfigurations", (string)null);
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.Department", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -305,11 +499,9 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.Role", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -326,11 +518,9 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AccountName")
                         .IsRequired()
@@ -353,8 +543,8 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(500)");
 
-                    b.Property<int>("PersonId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PersonId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -372,36 +562,24 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.UserPermission", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<Guid>("DepartmentId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("DepartmentId1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RoleId1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DepartmentId");
 
-                    b.HasIndex("DepartmentId1");
-
                     b.HasIndex("RoleId");
-
-                    b.HasIndex("RoleId1");
 
                     b.HasIndex("UserId", "RoleId", "DepartmentId")
                         .IsUnique();
@@ -411,12 +589,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.Campaign", b =>
                 {
-                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Campaigns.CampaginStatus", "CampaignStatus")
-                        .WithMany("Campaigns")
-                        .HasForeignKey("CampaginStatusId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedByUserId")
@@ -429,8 +601,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("CampaignStatus");
-
                     b.Navigation("CreatedByUser");
 
                     b.Navigation("Track");
@@ -441,6 +611,12 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.HasOne("CRM.AlMohtaref.Domain.Entities.Campaigns.Campaign", "Campaign")
                         .WithMany("Leads")
                         .HasForeignKey("CampaignId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Campaigns.PlatformCampaign", "PlatformCampaign")
+                        .WithMany("Leads")
+                        .HasForeignKey("PlatformCampaignId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -458,9 +634,30 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
                     b.Navigation("Campaign");
 
+                    b.Navigation("PlatformCampaign");
+
                     b.Navigation("Status");
 
                     b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.PlatformCampaign", b =>
+                {
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Campaigns.Campaign", "Campaign")
+                        .WithMany("PlatformCampaigns")
+                        .HasForeignKey("CampaignId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Campaigns.Platform", "Platform")
+                        .WithMany("PlatformCampaigns")
+                        .HasForeignKey("PlatformId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Campaign");
+
+                    b.Navigation("Platform");
                 });
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Contacts.Contact", b =>
@@ -523,10 +720,94 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedByUser");
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.OptionSetItem", b =>
+                {
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Questions.Option", "Option")
+                        .WithMany("OptionSetItems")
+                        .HasForeignKey("OptionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("CreatedByUser");
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Questions.OptionSet", "OptionSet")
+                        .WithMany("Items")
+                        .HasForeignKey("OptionSetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Option");
+
+                    b.Navigation("OptionSet");
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.OptionTag", b =>
+                {
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Questions.Option", "Option")
+                        .WithMany("OptionTags")
+                        .HasForeignKey("OptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Contacts.Tag", "Tag")
+                        .WithMany("OptionTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Option");
+
+                    b.Navigation("Tag");
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.Question", b =>
+                {
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Questions.QuestionConfiguration", "Configuration")
+                        .WithMany("Questions")
+                        .HasForeignKey("ConfigurationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Configuration");
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.QuestionCampaign", b =>
+                {
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Campaigns.Campaign", "Campaign")
+                        .WithMany("QuestionCampaigns")
+                        .HasForeignKey("CampaignId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Questions.OptionSet", "OptionSet")
+                        .WithMany("QuestionCampaigns")
+                        .HasForeignKey("OptionSetId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Questions.Question", "Question")
+                        .WithMany("QuestionCampaigns")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Campaign");
+
+                    b.Navigation("OptionSet");
+
+                    b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.QuestionConfiguration", b =>
+                {
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Questions.Field", "Field")
+                        .WithOne("Configuration")
+                        .HasForeignKey("CRM.AlMohtaref.Domain.Entities.Questions.QuestionConfiguration", "FieldId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Field");
                 });
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.User", b =>
@@ -543,24 +824,16 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.UserPermission", b =>
                 {
                     b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.Department", "Department")
-                        .WithMany()
+                        .WithMany("UserPermissions")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.Department", null)
-                        .WithMany("UserPermissions")
-                        .HasForeignKey("DepartmentId1");
-
                     b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.Role", "Role")
-                        .WithMany()
+                        .WithMany("UserPermissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.Role", null)
-                        .WithMany("UserPermissions")
-                        .HasForeignKey("RoleId1");
 
                     b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.User", "User")
                         .WithMany("UserPermissions")
@@ -575,17 +848,26 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.CampaginStatus", b =>
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.Campaign", b =>
                 {
-                    b.Navigation("Campaigns");
+                    b.Navigation("Leads");
+
+                    b.Navigation("PlatformCampaigns");
+
+                    b.Navigation("QuestionCampaigns");
                 });
 
-            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.Campaign", b =>
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.LeadStatus", b =>
                 {
                     b.Navigation("Leads");
                 });
 
-            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.LeadStatus", b =>
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.Platform", b =>
+                {
+                    b.Navigation("PlatformCampaigns");
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.PlatformCampaign", b =>
                 {
                     b.Navigation("Leads");
                 });
@@ -612,6 +894,8 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Contacts.Tag", b =>
                 {
                     b.Navigation("ContactTags");
+
+                    b.Navigation("OptionTags");
                 });
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Person", b =>
@@ -622,6 +906,36 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
                     b.Navigation("User")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.Field", b =>
+                {
+                    b.Navigation("Configuration")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.Option", b =>
+                {
+                    b.Navigation("OptionSetItems");
+
+                    b.Navigation("OptionTags");
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.OptionSet", b =>
+                {
+                    b.Navigation("Items");
+
+                    b.Navigation("QuestionCampaigns");
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.Question", b =>
+                {
+                    b.Navigation("QuestionCampaigns");
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.QuestionConfiguration", b =>
+                {
+                    b.Navigation("Questions");
                 });
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.Department", b =>

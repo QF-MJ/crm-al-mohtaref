@@ -7,8 +7,8 @@ public sealed class UpdateUserCommandValidator : AbstractValidator<UpdateUserCom
     public UpdateUserCommandValidator()
     {
         RuleFor(x => x.Id)
-            .GreaterThan(0)
-            .WithMessage("معرف المستخدم غير صحيح");
+            .NotEmpty()
+            .WithMessage("معرف المستخدم غير صالح");
 
         RuleFor(x => x.AccountName)
             .NotEmpty()

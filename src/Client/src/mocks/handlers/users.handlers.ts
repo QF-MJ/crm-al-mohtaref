@@ -1,21 +1,25 @@
 import { http, HttpResponse } from 'msw'
 import type {
   LookupItem,
-  UserCreateInput,
   UserDetail,
   UserListItem,
   UserUpdateInput,
   UsersPage,
 } from '@/features/users/types'
 
-const departments: LookupItem[] = [
+interface MockLookupItem extends LookupItem {
+  id: number
+}
+
+const departments: MockLookupItem[] = [
   { id: 1, name: 'المبيعات' },
   { id: 2, name: 'التسويق' },
   { id: 3, name: 'خدمة العملاء' },
   { id: 4, name: 'التوجيه الأكاديمي' },
+  { id: 5, name: 'الإدارة' },
 ]
 
-const roles: LookupItem[] = [
+const roles: MockLookupItem[] = [
   { id: 1, name: 'موظف' },
   { id: 2, name: 'مدير' },
 ]
@@ -65,8 +69,17 @@ function createSeedUsers(): MockUser[] {
     const accountName = index === 0 ? 'admin' : `user${String(index).padStart(2, '0')}`
     const userPermissions: MockPermission[] = []
 
-    if (index > 0) {
-      const departmentId = ((index - 1) % departments.length) + 1
+    if (index === 0) {
+      userPermissions.push({
+        id: 1,
+        departmentId: 5,
+        roleId: 2,
+        departmentName: departments[4].name,
+        roleName: roles[1].name,
+      })
+    } else {
+      const departmentCount = departments.length - 1
+      const departmentId = ((index - 1) % departmentCount) + 1
       const roleId = index % 5 === 0 ? 2 : 1
       const department = departments[departmentId - 1]
       const role = roles[roleId - 1]
@@ -79,7 +92,7 @@ function createSeedUsers(): MockUser[] {
       })
 
       if (index % 6 === 0) {
-        const secondDepartmentId = (index % departments.length) + 1
+        const secondDepartmentId = (index % departmentCount) + 1
         const secondDepartment = departments[secondDepartmentId - 1]
         userPermissions.push({
           id: userPermissions.length + 1,
@@ -131,12 +144,14 @@ function userDetail(user: MockUser): UserDetail {
 }
 
 export const usersHandlers = [
-  http.get('*/api/lookups', () =>
-    HttpResponse.json({
+  http.get('*/api/lookups', () => {
+    return HttpResponse.json({
       departments,
       roles,
-    }),
-  ),
+      tracks: [],
+      leadStatuses: [],
+    })
+  }),
 
   http.get('*/api/users', ({ request }) => {
     const params = new URL(request.url).searchParams
@@ -172,7 +187,7 @@ export const usersHandlers = [
     const user = users.find((item) => item.id === id)
     return user
       ? HttpResponse.json(userDetail(user))
-      : HttpResponse.json({ message: 'User not found' }, { status: 404 })
+      : HttpResponse.json({ status: 404, message: 'User not found' }, { status: 404 })
   }),
 
   http.post('*/api/users', async ({ request }) => {
@@ -188,13 +203,13 @@ export const usersHandlers = [
       )
     ) {
       return HttpResponse.json(
-        { message: 'اسم المستخدم أو البريد الإلكتروني مستخدم مسبقاً' },
+        { message: 'Account name or email is already in use' },
         { status: 409 },
       )
     }
 
     const permissions: MockPermission[] = []
-    for (const [index, input] of body.permissions.entries()) {
+    for (const [index, input] of (body.permissions ?? []).entries()) {
       const department = departments.find((item) => item.id === input.departmentId)
       const role = roles.find((item) => item.id === input.roleId)
       if (!department || !role) {
@@ -209,10 +224,6 @@ export const usersHandlers = [
       })
     }
 
-    if (permissions.length === 0) {
-      return HttpResponse.json({ message: 'At least one permission is required' }, { status: 400 })
-    }
-
     const user: MockUser = {
       id: Math.max(...users.map((item) => item.id)) + 1,
       accountName,
@@ -222,33 +233,40 @@ export const usersHandlers = [
       permissions,
     }
     users.push(user)
-    return HttpResponse.json(user.id, { status: 201 })
+    return HttpResponse.json(userDetail(user), { status: 201 })
   }),
 
   http.put('*/api/users/:id', async ({ params, request }) => {
     const id = Number(params.id)
     const user = users.find((item) => item.id === id)
-    if (!user) return HttpResponse.json({ message: 'User not found' }, { status: 404 })
+    if (!user) return HttpResponse.json({ status: 404, message: 'User not found' }, { status: 404 })
 
     const body = (await request.json()) as UserUpdateInput
     user.accountName = body.accountName
     user.fullName = body.fullName
     user.email = body.email
-    user.isActive = body.isActive
-    user.permissions = body.permissions.map((permission, index) => {
+    if (body.isActive !== undefined && body.isActive !== null) {
+      user.isActive = body.isActive
+    }
+    const updatedPermissions: MockPermission[] = []
+    for (const [index, permission] of body.permissions.entries()) {
       const department = departments.find((item) => item.id === permission.departmentId)
       const role = roles.find((item) => item.id === permission.roleId)
       if (!department || !role) {
-        throw new Error('Unknown department or role ID in user update')
+        return HttpResponse.json(
+          { status: 400, message: 'Unknown department or role ID in user update' },
+          { status: 400 },
+        )
       }
-      return {
+      updatedPermissions.push({
         id: index + 1,
         departmentId: department.id,
         roleId: role.id,
         departmentName: department.name,
         roleName: role.name,
-      }
-    })
+      })
+    }
+    user.permissions = updatedPermissions
     return new HttpResponse(null, { status: 204 })
   }),
 ]

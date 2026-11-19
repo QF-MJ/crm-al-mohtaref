@@ -1,20 +1,32 @@
 import type { AppRoute } from '@/types/router'
-import { PagePlaceholder } from '@/components/common/PagePlaceholder'
+import { ApiUnavailablePage } from '@/components/common/ApiUnavailablePage'
+import { useTranslation } from 'react-i18next'
+import { ContactsPage } from './pages/ContactsPage'
+
+function ContactsImportUnavailablePage() {
+  const { t } = useTranslation()
+  return <ApiUnavailablePage title={t('contacts.importTitle')} description={t('contacts.importUnavailable')} />
+}
+
+function ContactProfileUnavailablePage() {
+  const { t } = useTranslation()
+  return <ApiUnavailablePage title={t('contacts.profileTitle')} description={t('contacts.profileUnavailable')} />
+}
 
 export const clientsRoutes: AppRoute[] = [
   {
     path: 'clients',
-    element: <PagePlaceholder name="ClientsList" fr="FR-07 FR-08 FR-09" />,
+    element: <ContactsPage />,
     handle: { permission: 'clients.view' },
   },
   {
     path: 'clients/import',
-    element: <PagePlaceholder name="ClientsImport" fr="FR-06" />,
+    element: <ContactsImportUnavailablePage />,
     handle: { permission: 'clients.import' },
   },
   {
     path: 'clients/:clientId',
-    element: <PagePlaceholder name="ClientProfile" fr="FR-10" />,
+    element: <ContactProfileUnavailablePage />,
     handle: { permission: 'clients.viewProfile' },
   },
 ]

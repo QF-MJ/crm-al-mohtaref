@@ -4,12 +4,12 @@ namespace CRM.AlMohtaref.Domain.Entities.Contacts;
 
 public class Student
 {
-    public int Id { get; private set; }
+    public Guid Id { get; private set; }
 
-    public int PersonId { get; private set; }
+    public Guid PersonId { get; private set; }
 
     // the guardian
-    public int ContactId { get; private set; }
+    public Guid ContactId { get; private set; }
 
     public Person Person { get; private set; }
 
@@ -27,7 +27,7 @@ public class Student
         ContactTags = new List<ContactTag>();
     }
 
-    public Student(int personId, int contactId) : this()
+    public Student(Guid personId, Guid contactId) : this()
     {
         PersonId = personId;
         ContactId = contactId;

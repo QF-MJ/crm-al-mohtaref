@@ -1,8 +1,12 @@
-﻿namespace CRM.AlMohtaref.Api.Contracts.Users;
+﻿using CRM.AlMohtaref.Application.Features.Users;
+
+namespace CRM.AlMohtaref.Api.Contracts.Users;
 
 public class PermissionRequest
 {
-    public int RoleId { get; set; }
+    public Guid RoleId { get; set; }
 
-    public int DepartmentId { get; set; }
+    public Guid DepartmentId { get; set; }
+
+    public PermissionCommand ToCommand() => new(RoleId, DepartmentId);
 }

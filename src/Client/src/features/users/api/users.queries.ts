@@ -1,9 +1,10 @@
+import { useMemo } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createUser, getUser, getUserLookups, getUsers, updateUser } from './users.api'
-import type { UserCreateInput, UserFilters, UserUpdateInput } from '../types'
+import { addUser, getUser, getUsers, updateUser } from './users.api'
+import { useLookups } from '@/features/lookups'
+import type { UserCreateInput, UserFilters, UserId, UserUpdateInput } from '../types'
 
 const usersKey = ['users'] as const
-const userLookupsKey = ['users', 'lookups'] as const
 
 export function useUsers(filters: UserFilters) {
   return useQuery({
@@ -12,7 +13,7 @@ export function useUsers(filters: UserFilters) {
   })
 }
 
-export function useUser(id: number | undefined) {
+export function useUser(id: UserId | undefined) {
   return useQuery({
     queryKey: [...usersKey, 'detail', id],
     queryFn: ({ signal }) => {
@@ -24,14 +25,23 @@ export function useUser(id: number | undefined) {
 }
 
 export function useUserLookups() {
-  return useQuery({
-    queryKey: userLookupsKey,
-    queryFn: ({ signal }) => getUserLookups(signal),
-    staleTime: 5 * 60_000,
-  })
+  const query = useLookups()
+  const data = useMemo(
+    () => query.data
+      ? {
+          departments: query.data.departments ?? [],
+          roles: query.data.roles ?? [],
+        }
+      : undefined,
+    [query.data],
+  )
+  return {
+    ...query,
+    data,
+  }
 }
 
-export function useUpdateUser(id: number) {
+export function useUpdateUser(id: UserId) {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (body: UserUpdateInput) => updateUser(id, body),
@@ -46,7 +56,7 @@ export function useUpdateUser(id: number) {
 export function useCreateUser() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: (body: UserCreateInput) => createUser(body),
+    mutationFn: (body: UserCreateInput) => addUser(body),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: usersKey }),
   })
 }

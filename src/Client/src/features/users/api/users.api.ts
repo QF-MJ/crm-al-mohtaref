@@ -1,33 +1,36 @@
 import { api } from '@/api/client'
 import type {
-  UserDetail,
   UserCreateInput,
+  UserDetail,
   UserFilters,
-  UserLookups,
+  UserId,
   UserUpdateInput,
   UsersPage,
 } from '../types'
 
 export const getUsers = (filters: UserFilters, signal?: AbortSignal) =>
-  api.get<UsersPage>('/users', { params: filters, signal }).then((response) => response.data)
-
-export const getUser = (id: number, signal?: AbortSignal) =>
-  api.get<UserDetail>(`/users/${id}`, { signal }).then((response) => response.data)
-
-export const updateUser = (id: number, body: UserUpdateInput) =>
-  api.put<void>(`/users/${id}`, body).then((response) => response.data)
-
-export const createUser = (body: UserCreateInput) =>
-  api.post<number>('/users', body).then((response) => response.data)
-
-export const getUserLookups = (signal?: AbortSignal) =>
   api
-    .get<UserLookups>('/lookups', {
-      params: { include: ['Departments', 'Roles'] },
-      paramsSerializer: { indexes: null },
+    .get<UsersPage>('/users', {
+      params: {
+        pageNumber: filters.pageNumber,
+        name: filters.name,
+        accountName: filters.accountName,
+        email: filters.email,
+        isActive: filters.isActive,
+        roleId: filters.roleId,
+        departmentId: filters.departmentId,
+      },
       signal,
     })
-    .then((response) => ({
-      departments: response.data.departments ?? [],
-      roles: response.data.roles ?? [],
-    }))
+    .then((response) => response.data)
+
+export const getUser = (id: UserId, signal?: AbortSignal) =>
+  api
+    .get<UserDetail>(`/users/${encodeURIComponent(id)}`, { signal })
+    .then((response) => response.data)
+
+export const addUser = (body: UserCreateInput) =>
+  api.post<UserId>('/users', body).then((response) => response.data)
+
+export const updateUser = (id: UserId, body: UserUpdateInput) =>
+  api.put<void>(`/users/${encodeURIComponent(id)}`, body).then((response) => response.data)

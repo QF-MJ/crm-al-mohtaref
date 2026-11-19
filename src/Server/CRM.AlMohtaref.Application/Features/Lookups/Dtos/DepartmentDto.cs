@@ -1,3 +1,3 @@
 ﻿namespace CRM.AlMohtaref.Application.Features.Lookups.Dtos;
 
-public sealed record DepartmentDto(int Id, string Name);
+public sealed record DepartmentDto(Guid Id, string Name);

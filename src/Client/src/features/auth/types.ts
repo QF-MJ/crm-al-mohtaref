@@ -1,11 +1,30 @@
-import type { SessionUser } from '@/stores/auth.store'
+// أنواع الـ Auth مطابقة للرد الفعلي من الباك (تم التحقق منه من Swagger بتاريخ 11/11/2026).
+// ملاحظة: الـ OpenAPI يكتب الحقول بحرف كبير (Token) لكن الباك يرجّعها camelCase (token).
+// يجب توحيد الأمرين مع محمد، ونحن نتبع الرد الفعلي.
+
+export interface PermissionDto {
+  /** الباك يرجّعه 0 دائماً حالياً */
+  id: number
+  departmentName: string
+  roleName: string
+}
 
 export interface LoginRequest {
-  username: string
+  accountName: string
   password: string
 }
 
-export interface LoginResponse {
+export interface LoginDto {
   token: string
-  user: SessionUser
+  /** الباك يرجّعه null حالياً (لا يوجد refresh بعد) */
+  refreshToken: string | null
+  /** 120 = دقائق فعلياً (التوكن يعيش ساعتين)، رغم أن الـ OpenAPI يقول ثواني. لا نعتمد عليه */
+  expiresIn?: number
+  userId: number
+  fullName?: string
+  permissions?: PermissionDto[]
+}
+
+export interface RefreshRequest {
+  refreshToken: string
 }
