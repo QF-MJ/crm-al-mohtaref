@@ -13,5 +13,5 @@ public sealed record GetCampaignsPageQuery(
     decimal ? Budget = null,
     string ? TrackName = null,
     string ? CampaignStatus = null) 
-    : PagedQuery(PageNumber), IRequest<CampaignListItemDto>;
+    : PagedQuery(PageNumber), IRequest<List<CampaignListItemDto>>;
 

@@ -11,14 +11,15 @@ namespace CRM.AlMohtaref.Api.Contracts.Campaigns
         public string? TrackName { get; set; }
         public string? CampaignStatus { get; set; }
 
-        public GetCampaignsRequest(string? title, decimal? budget, string? trackName, string? campaignStatus)
-        {
-            Title = title;
-            Budget = budget;
-            TrackName = trackName;
-            CampaignStatus = campaignStatus;
-        }
+        //public GetCampaignsRequest(string? title, decimal? budget, string? trackName, string? campaignStatus)
+        //{
+        //    Title = title;
+        //    Budget = budget;
+        //    TrackName = trackName;
+        //    CampaignStatus = campaignStatus;
+        //}
 
+        public GetCampaignsRequest() { }
 
         public GetCampaignsPageQuery ToQuery()
         {
