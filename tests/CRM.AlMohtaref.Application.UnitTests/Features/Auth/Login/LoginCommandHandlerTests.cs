@@ -8,7 +8,7 @@ using CRM.AlMohtaref.Domain.Entities.Users;
 using Moq;
 using Xunit;
 
-namespace CRM.AlMohtaref.Application.UnitTests.Features.Auth;
+namespace CRM.AlMohtaref.Application.UnitTests.Features.Auth.Login;
 
 
 public class LoginCommandHandlerTests

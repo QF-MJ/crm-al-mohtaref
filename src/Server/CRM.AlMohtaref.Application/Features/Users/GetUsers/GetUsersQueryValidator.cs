@@ -27,7 +27,7 @@ public sealed class GetUsersQueryValidator : AbstractValidator<GetUsersQuery>
             .When(x => x.Role.HasValue);
 
         RuleFor(x => x.DepartmentId)
-            .NotEmpty()
+            .NotEqual(Guid.Empty)
             .WithMessage("معرف القسم غير صالح")
             .When(x => x.DepartmentId.HasValue);
     }

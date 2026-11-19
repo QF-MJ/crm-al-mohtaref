@@ -11,8 +11,6 @@ public class User : Person
 
     public bool IsActive { get; private set; }
 
-    public Guid PersonId { get; private set; }
-
     public string Email { get; private set; }
 
     public int FailedLoginCount { get; private set; }
