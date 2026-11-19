@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AlertCircle, Eye, EyeOff, LoaderCircle } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { useCharacterInteraction } from '@/features/auth/context/characterInteraction'
 import { cn } from '@/lib/utils'
 import { loginSchema, type LoginForm as LoginFormValues } from '../schemas/login.schema'
 
@@ -26,6 +27,8 @@ export function LoginForm({ onSubmit, isPending, errorMessage }: LoginFormProps)
     resolver: zodResolver(loginSchema),
     defaultValues: { accountName: '', password: '' },
   })
+  const { setInputFocused } = useCharacterInteraction()
+  const accountNameField = register('accountName')
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="w-full">
@@ -66,7 +69,15 @@ export function LoginForm({ onSubmit, isPending, errorMessage }: LoginFormProps)
             aria-invalid={Boolean(errors.accountName)}
             aria-describedby={errors.accountName ? 'accountName-error' : undefined}
             className={cn(FIELD_CLASS, errors.accountName && 'border-destructive/60')}
-            {...register('accountName')}
+            {...accountNameField}
+            onFocus={() => setInputFocused(true)}
+            onBlur={(event) => {
+              setInputFocused(false)
+              accountNameField.onBlur(event)
+            }}
+            onChange={(event) => {
+              accountNameField.onChange(event)
+            }}
           />
           {errors.accountName && (
             <p id="accountName-error" role="alert" className="mt-1.5 text-xs text-destructive">
