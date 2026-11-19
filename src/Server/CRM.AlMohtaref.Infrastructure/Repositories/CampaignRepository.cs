@@ -33,7 +33,8 @@ public class CampaignRepository(AppDbContext db)
         return await db.Campaigns
              .AsNoTracking()
              .Where(c => c.Id == id)
-             .Select(c => new CampaignDto(c.Title
+             .Select(c => new CampaignDto(c.Id
+              , c.Title
               , c.Description
               , c.Url
               , c.Budget
@@ -56,7 +57,8 @@ public class CampaignRepository(AppDbContext db)
             .OrderBy(c => c.Id)
             .Skip((query.PageNumber - 1) * PaginationSettings.PageSize)
             .Take(PaginationSettings.PageSize + 1)
-            .Select(c => new CampaignListItemDto(c.Title
+            .Select(c => new CampaignListItemDto(c.Id
+              , c.Title
               , c.Budget
               , c.Track.Name
               , c.CampaignStatus.Name))

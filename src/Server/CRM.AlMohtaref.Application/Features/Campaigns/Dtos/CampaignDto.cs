@@ -10,6 +10,7 @@ namespace CRM.AlMohtaref.Application.Features.Campaigns.Dtos
 {
     public class CampaignDto
     {
+        public Guid Id { get; private set; }
         public string? Title { get; private set; }
 
         public string? Description { get; private set; }
@@ -26,7 +27,7 @@ namespace CRM.AlMohtaref.Application.Features.Campaigns.Dtos
 
         public ICollection<string>? PlatformsNames { get; private set; }
 
-        public CampaignDto(string? title, string? description, string? url, decimal? budget, string? trackDto, string? createdByUserFullName, string? campaignStatus, ICollection<string>? platforms)
+        public CampaignDto(Guid Id, string? title, string? description, string? url, decimal? budget, string? trackDto, string? createdByUserFullName, string? campaignStatus, ICollection<string>? platforms)
         {
             Title = title;
             Description = description;
@@ -36,6 +37,7 @@ namespace CRM.AlMohtaref.Application.Features.Campaigns.Dtos
             CreatedByUserFullName = createdByUserFullName;
             CampaignStatus = campaignStatus;
             PlatformsNames = platforms;
+            this.Id = Id;
         }
 
     }

@@ -8,6 +8,7 @@ namespace CRM.AlMohtaref.Application.Features.Campaigns.Dtos
 {
     public class CampaignListItemDto
     {
+        public Guid Id { get; private set; }
         public string? Title { get; private set; }
 
         public decimal? Budget { get; private set; }
@@ -16,12 +17,13 @@ namespace CRM.AlMohtaref.Application.Features.Campaigns.Dtos
 
         public string? CampaignStatus { get; private set; }
 
-        public CampaignListItemDto(string? title, decimal? budget, string? trackDto, string? campaignStatus)
+        public CampaignListItemDto(Guid id, string? title, decimal? budget, string? trackDto, string? campaignStatus)
         {
             Title = title;
             Budget = budget;
             TrackName = trackDto;
             CampaignStatus = campaignStatus;
+            Id = id;
         }
     }
 }
