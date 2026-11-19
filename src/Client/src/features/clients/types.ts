@@ -20,7 +20,8 @@ export interface ContactsPage {
 
 export interface ContactFilters {
   pageNumber: number
-  campaignTitle?: string
+  /** Guid */
+  campaignId?: string
   /** Guid */
   trackId?: string
   /** enum LeadStatus */

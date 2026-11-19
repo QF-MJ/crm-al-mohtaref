@@ -20,7 +20,7 @@ interface DraftFilters {
   contactName: string
   studentName: string
   phoneNumber: string
-  campaignTitle: string
+  campaignId: string
   trackId: string
   leadStatus: string
   tagIds: string[]
@@ -30,7 +30,7 @@ const EMPTY_DRAFT: DraftFilters = {
   contactName: '',
   studentName: '',
   phoneNumber: '',
-  campaignTitle: '',
+  campaignId: '',
   trackId: '',
   leadStatus: '',
   tagIds: [],
@@ -104,6 +104,14 @@ export function ContactsPage() {
     })),
   ]
 
+  const campaignOptions: SelectOption[] = [
+    { value: '', label: t('contacts.allCampaigns') },
+    ...(lookupsQuery.data?.campaigns ?? []).map((campaign) => ({
+      value: String(campaign.id),
+      label: campaign.name,
+    })),
+  ]
+
   // حالات العميل enum ثابتة (لا تُجلب من الـ API)
   const leadStatusOptions: SelectOption[] = [
     { value: '', label: t('contacts.allLeadStatuses') },
@@ -118,7 +126,7 @@ export function ContactsPage() {
       contactName: draft.contactName.trim() || undefined,
       studentName: draft.studentName.trim() || undefined,
       phoneNumber: draft.phoneNumber.trim() || undefined,
-      campaignTitle: draft.campaignTitle.trim() || undefined,
+      campaignId: draft.campaignId || undefined,
       trackId: draft.trackId || undefined,
       leadStatus: draft.leadStatus ? Number(draft.leadStatus) : undefined,
       tagIds: draft.tagIds.length > 0 ? draft.tagIds : undefined,
@@ -136,7 +144,7 @@ export function ContactsPage() {
     filters.contactName ||
     filters.studentName ||
     filters.phoneNumber ||
-    filters.campaignTitle ||
+    filters.campaignId ||
     filters.trackId ||
     filters.leadStatus !== undefined ||
     filters.tagIds?.length,
@@ -181,10 +189,12 @@ export function ContactsPage() {
               onChange={(phoneNumber) => setDraft((current) => ({ ...current, phoneNumber }))}
               dir="ltr"
             />
-            <TextField
-              label={t('contacts.campaignTitle')}
-              value={draft.campaignTitle}
-              onChange={(campaignTitle) => setDraft((current) => ({ ...current, campaignTitle }))}
+            <SelectField
+              label={t('contacts.campaign')}
+              value={draft.campaignId}
+              options={campaignOptions}
+              disabled={lookupsQuery.isLoading || lookupsQuery.isError}
+              onChange={(campaignId) => setDraft((current) => ({ ...current, campaignId }))}
             />
             <SelectField
               label={t('contacts.track')}
