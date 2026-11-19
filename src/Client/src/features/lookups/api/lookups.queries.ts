@@ -16,28 +16,36 @@ export function useLookups(include: LookupType[] = departmentLookupTypes, enable
   })
 }
 
-// فلاتر العملاء: المسارات والحملات أساسية، مع محاولة جلب الوسوم اختيارياً
-// للتوافق مع اختلاف دعم الأنواع بين نسخ الباك. حالات العميل enum ثابت في الفرونت.
+// فلاتر العملاء: نحاول جلب المسارات والحملات والوسوم، مع تراجع تدريجي
+// لأن بعض نسخ الباك لا تدعم Campaigns أو Tags في /lookups بعد.
 export function useContactLookups(enabled = true) {
   return useQuery({
     queryKey: ['lookups', 'contacts'],
     queryFn: async ({ signal }) => {
-      const baseTypes: LookupType[] = ['Tracks', 'Campaigns']
-      try {
-        const result = await getLookups([...baseTypes, 'Tags'], signal)
-        if (import.meta.env.DEV && !result.tags?.length) {
-          console.warn(
-            '[lookups] الرد لا يحتوي وسوم. تأكد أن الباك يضيف Tags إلى LookupType و LookupsDto و GetLookupsQueryHandler.',
-            result,
-          )
-        }
-        return result
-      } catch (error) {
-        if (import.meta.env.DEV) {
-          console.warn('[lookups] فشل طلب الوسوم، سيتم المحاولة بدونها.', error)
+      const attempts: LookupType[][] = [
+        ['Tracks', 'Campaigns', 'Tags'],
+        ['Tracks', 'Tags'],
+        ['Tracks', 'Campaigns'],
+        ['Tracks'],
+      ]
+
+      let lastError: unknown
+      for (const types of attempts) {
+        try {
+          const result = await getLookups(types, signal)
+          if (import.meta.env.DEV && types.includes('Tags') && !result.tags?.length) {
+            console.warn(
+              '[lookups] الرد لا يحتوي وسوم. تأكد أن الباك يضيف Tags إلى LookupType و LookupsDto و GetLookupsQueryHandler.',
+              result,
+            )
+          }
+          return result
+        } catch (error) {
+          lastError = error
         }
       }
-      return await getLookups(baseTypes, signal)
+
+      throw lastError
     },
     staleTime: 5 * 60_000,
     retry: false,
