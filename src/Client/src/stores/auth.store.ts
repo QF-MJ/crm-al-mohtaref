@@ -5,10 +5,7 @@ import type { LoginDto, PermissionDto } from '@/features/auth/types'
 // ملاحظة: الأنواع فقط عبر type import، فلا اعتماد وقت تشغيل بين stores و features.
 
 export interface SessionUser {
-<<<<<<< HEAD
-=======
   /** Guid كما يرسله الباك */
->>>>>>> 545414813dff8fc231338f2b361d81ca342c53e7
   id: string
   fullName: string
   /** أزواج قسم + دور كما يرسلها الباك، دون أي تحويل */

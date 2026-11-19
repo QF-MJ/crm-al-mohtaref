@@ -1,61 +1,5 @@
 import { http, HttpResponse, delay } from 'msw'
 import { env } from '@/lib/env'
-<<<<<<< HEAD
-import type { LoginDto, LoginRequest } from '@/features/auth/types'
-
-// يحاكي سلوك الباك الفعلي (Seed تطوير):
-//   كلمة المرور لكل الحسابات: 12345678
-//   user01 مبيعات/موظف، user05 مبيعات/مدير، user10 تسويق/مدير،
-//   user15 خدمة عملاء/مدير، user20 توجيه أكاديمي/مدير
-//   admin: مدير في قسم الإدارة
-//   locked: يرجّع 403 (مثل الباك) | أي شيء آخر: 401 برسالة عامة
-export const MOCK_PASSWORD = '12345678'
-
-const dept = (
-  departmentName: string,
-  roleName: string,
-): NonNullable<LoginDto['permissions']> => [
-  { id: crypto.randomUUID(), departmentName, roleName },
-]
-
-const mockUserId = (id: number) => `00000000-0000-4000-8000-${String(id).padStart(12, '0')}`
-
-const accounts: Record<
-  string,
-  { userId: string; fullName: string; permissions: LoginDto['permissions'] }
-> = {
-  admin: {
-    userId: mockUserId(1),
-    fullName: 'مدير النظام',
-    permissions: [...dept('المبيعات', 'مدير'), ...dept('الإدارة', 'مدير')],
-  },
-  user01: {
-    userId: mockUserId(2),
-    fullName: 'أحمد خالد الحسن',
-    permissions: dept('المبيعات', 'موظف'),
-  },
-  user05: {
-    userId: mockUserId(6),
-    fullName: 'مدير مبيعات تجريبي',
-    permissions: dept('المبيعات', 'مدير'),
-  },
-  user10: {
-    userId: mockUserId(11),
-    fullName: 'مدير تسويق تجريبي',
-    permissions: dept('التسويق', 'مدير'),
-  },
-  user15: {
-    userId: mockUserId(16),
-    fullName: 'مدير خدمة عملاء تجريبي',
-    permissions: dept('خدمة العملاء', 'مدير'),
-  },
-  user20: {
-    userId: mockUserId(21),
-    fullName: 'مدير توجيه تجريبي',
-    permissions: dept('التوجيه الأكاديمي', 'مدير'),
-  },
-}
-=======
 import type { LoginDto, LoginRequest, PermissionDto } from '@/features/auth/types'
 
 // محاكاة مطابقة لرد الباك الحقيقي: معرّفات Guid، وexpiresIn تاريخ ISO، ولا logout endpoint.
@@ -107,7 +51,6 @@ const accounts: Record<string, { userId: string; fullName: string; permissions: 
       permissions: pairs('التوجيه الأكاديمي', 'مدير', 9006),
     },
   }
->>>>>>> 545414813dff8fc231338f2b361d81ca342c53e7
 
 export const authHandlers = [
   http.post(`${env.apiUrl}/auth/login`, async ({ request }) => {
@@ -132,17 +75,9 @@ export const authHandlers = [
     const body: LoginDto = {
       token: `mock-token.${accountName}`,
       refreshToken: null,
-<<<<<<< HEAD
-      expiresIn: new Date(Date.now() + 2 * 60 * 60_000).toISOString(),
-=======
       expiresIn: new Date(Date.now() + 120 * 60_000).toISOString(),
->>>>>>> 545414813dff8fc231338f2b361d81ca342c53e7
       ...account,
     }
     return HttpResponse.json(body)
   }),
-<<<<<<< HEAD
-
-=======
->>>>>>> 545414813dff8fc231338f2b361d81ca342c53e7
 ]
