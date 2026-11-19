@@ -4,40 +4,47 @@ import { AppLayout } from '@/layouts/AppLayout/AppLayout'
 import type { AppRoute } from '@/types/router'
 // الاستيراد من index.ts للميزة فقط (قاعدة الحدود)
 import { authRoutes, LoginPage } from '@/features/auth'
-import { notificationsRoutes } from '@/features/notifications'
 import { usersRoutes } from '@/features/users'
-import { clientsRoutes } from '@/features/clients'
+import { clientsPreviewRoutes, clientsRoutes } from '@/features/clients'
 import { communicationsRoutes } from '@/features/communications'
 import { campaignsRoutes } from '@/features/campaigns'
+import { tasksRoutes } from '@/features/tasks'
 import { academicRoutes } from '@/features/academic'
 import { issuesRoutes } from '@/features/issues'
 import { RequireAuth } from './guards/RequireAuth'
 import { RequirePermission } from './guards/RequirePermission'
-import { HomeRedirect } from './HomeRedirect'
+import { DashboardPage } from './pages/DashboardPage'
 import { ForbiddenPage } from './pages/ForbiddenPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import { paths } from './paths'
 
-// أضف مسارات الميزة الجديدة هنا (سطر واحد لكل ميزة)
-const featureRoutes: AppRoute[] = [
-  ...authRoutes,
-  ...notificationsRoutes,
-  ...usersRoutes,
-  ...clientsRoutes,
-  ...communicationsRoutes,
-  ...campaignsRoutes,
+// وحدات لم تُطلق في الباك بعد (مشاكل، توجيه، إشعارات، تواصل، استيراد، كلمة مرور):
+// تُسجّل في وضع التطوير فقط ولا تدخل نسخة الإنتاج، حتى لا تظهر للعميل.
+const previewRoutes: AppRoute[] = [
+  ...clientsPreviewRoutes,
   ...academicRoutes,
   ...issuesRoutes,
+  ...communicationsRoutes,
+  ...authRoutes,
 ]
 
-// يغلّف كل راوت له صلاحية بالحارس تلقائياً، فلا ifs متفرقة بالصفحات
+// أضف مسارات الميزة الجديدة هنا (سطر واحد لكل ميزة)
+const featureRoutes: AppRoute[] = [
+  ...usersRoutes,
+  ...clientsRoutes,
+  ...tasksRoutes,
+  ...campaignsRoutes,
+  ...(import.meta.env.DEV ? previewRoutes : []),
+]
+
+// يغلّف كل راوت له قدرة بالحارس تلقائياً، فلا ifs متفرقة بالصفحات
 function protect(routes: AppRoute[]): RouteObject[] {
   return routes.map((route) => {
-    const permission = route.handle?.permission
-    if (!permission) return route
+    const capability = route.handle?.capability
+    if (!capability) return route
     return {
       ...route,
-      element: <RequirePermission permission={permission}>{route.element}</RequirePermission>,
+      element: <RequirePermission capability={capability}>{route.element}</RequirePermission>,
     } as RouteObject
   })
 }
@@ -49,10 +56,13 @@ export const router = createBrowserRouter([
     children: [
       {
         element: <AppLayout />,
-        children: [{ index: true, element: <HomeRedirect /> }, ...protect(featureRoutes)],
+        children: [
+          { index: true, element: <DashboardPage /> },
+          { path: paths.forbidden.replace(/^\//, ''), element: <ForbiddenPage /> },
+          ...protect(featureRoutes),
+        ],
       },
     ],
   },
-  { path: paths.forbidden, element: <ForbiddenPage /> },
   { path: '*', element: <NotFoundPage /> },
 ])

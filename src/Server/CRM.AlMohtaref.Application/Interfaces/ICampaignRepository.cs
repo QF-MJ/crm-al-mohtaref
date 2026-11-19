@@ -16,4 +16,5 @@ public interface ICampaignRepository
     Task<List<CampaignListItemDto>> GetAll(GetCampaignsPageQuery query);
 
     Task AddAsync(Campaign campaign);
+    Task<bool> HasLeadsAsync(IEnumerable<Guid> platformCampaignIds, CancellationToken cancellationToken);
 }

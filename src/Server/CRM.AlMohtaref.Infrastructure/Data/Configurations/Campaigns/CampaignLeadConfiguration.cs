@@ -1,4 +1,4 @@
-using CRM.AlMohtaref.Domain.Entities.Campaigns;
+﻿using CRM.AlMohtaref.Domain.Entities.Campaigns;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -20,11 +20,6 @@ public sealed class CampaignLeadConfiguration : IEntityTypeConfiguration<Campaig
         builder.HasOne(l => l.PlatformCampaign)
             .WithMany(p => p.Leads)
             .HasForeignKey(l => l.PlatformCampaignId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasOne(l => l.Status)
-            .WithMany(s => s.Leads)
-            .HasForeignKey(l => l.StatusId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(l => l.Student)

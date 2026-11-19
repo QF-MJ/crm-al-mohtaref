@@ -14,10 +14,10 @@ public class GetContactsQueryValidator : AbstractValidator<GetContactsQuery>
              .WithMessage("معرف المسار غير صالح")
              .When(x => x.TrackId.HasValue);
 
-        RuleFor(x => x.LeadStatusId)
-            .NotEmpty()
-            .WithMessage("معرف حالة العميل المحتمل غير صالح")
-            .When(x => x.LeadStatusId.HasValue);
+        RuleFor(x => x.LeadStatus)
+            .IsInEnum()
+            .WithMessage("حالة العميل المحتمل غير صالحة")
+            .When(x => x.LeadStatus.HasValue);
 
 
         RuleForEach(x => x.TagIds)

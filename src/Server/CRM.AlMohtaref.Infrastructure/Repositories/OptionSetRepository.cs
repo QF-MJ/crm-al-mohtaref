@@ -20,4 +20,15 @@ public class OptionSetRepository(AppDbContext context) : IOptionSetRepository
     {
         context.OptionSets.Add(optionSet);
     }
+
+    public async Task<bool> IsUsedByOtherAsync(Guid optionSetId, Guid questionCampaignId, CancellationToken cancellationToken)
+    {
+        return await context.QuestionCampaigns
+            .AnyAsync(x => x.OptionSetId == optionSetId && x.Id != questionCampaignId, cancellationToken);
+    }
+
+    public void Delete(OptionSet optionSet)
+    {
+        context.OptionSets.Remove(optionSet);
+    }
 }

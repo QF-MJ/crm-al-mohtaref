@@ -4,6 +4,7 @@ using CRM.AlMohtaref.Application.Features.Campaigns.Dtos;
 using CRM.AlMohtaref.Application.Features.Campaigns.GetCampaign;
 using CRM.AlMohtaref.Application.Features.Users;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,7 @@ namespace CRM.AlMohtaref.Api.Controllers
 {
     [Route("api/campaigns")]
     [ApiController]
+    [Authorize]
     public class CampaignsController(ISender sender)
         : ControllerBase
     {

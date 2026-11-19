@@ -6,7 +6,5 @@ namespace CRM.AlMohtaref.Application.Features.Lookups;
 public enum LookupType
 {
     Departments,
-    Roles,
     Tracks,
-    LeadStatuses
 }

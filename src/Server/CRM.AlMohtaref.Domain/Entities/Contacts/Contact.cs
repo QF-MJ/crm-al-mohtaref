@@ -1,6 +1,6 @@
 ﻿namespace CRM.AlMohtaref.Domain.Entities.Contacts;
 
-public class Contact
+public class Contact : Person
 {
     public Guid Id { get; private set; }
 
@@ -8,7 +8,6 @@ public class Contact
 
     public string PhoneNumber { get; private set; }
 
-    public Person Person { get; private set; }
 
     // students that have this contact as their guardian
     public ICollection<Student> Students { get; private set; }
@@ -18,7 +17,6 @@ public class Contact
     private Contact()
     {
         PhoneNumber = string.Empty;
-        Person = null!;
         Students = new List<Student>();
         ContactTags = new List<ContactTag>();
     }

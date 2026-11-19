@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import './styles/brand.css'
+import './styles/theme.css'
 import App from '@/app/App'
 import { setupInterceptors } from '@/api/interceptors'
 import { env } from '@/lib/env'
@@ -10,7 +11,7 @@ import { env } from '@/lib/env'
 async function enableMocking() {
   if (!import.meta.env.DEV || !env.useMocks) return
   const { worker } = await import('@/mocks/browser')
-  await worker.start({ onUnhandledRequest: 'bypass' })
+  await worker.start()
 }
 
 setupInterceptors()

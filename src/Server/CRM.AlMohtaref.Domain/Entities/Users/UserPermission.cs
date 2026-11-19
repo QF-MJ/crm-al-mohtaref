@@ -10,32 +10,30 @@ public class UserPermission
 
     public Guid DepartmentId { get; private set; }
 
-    public Guid RoleId { get; private set; }
+    public Role Role { get; private set; }
 
     public User User { get; private set; }
 
     public Department Department { get; private set; }
 
-    public Role Role { get; private set; }
-
     private UserPermission()
     {
         User = null!;
         Department = null!;
-        Role = null!;
+        Role = Role.Employee;
     }
 
     public UserPermission(string department , string role)
     {
         Department = new Department(department);
-        Role = new Role(role);
+        Role = role == "مدير" ? Role.Manager : Role.Employee;
     }
 
 
-    public UserPermission(Guid userId, Guid departmentId, Guid roleId)
+    public UserPermission(Guid userId, Guid departmentId, Role role)
     {
         UserId = userId;
         DepartmentId = departmentId;
-        RoleId = roleId;
+        Role = role;
     }
 }

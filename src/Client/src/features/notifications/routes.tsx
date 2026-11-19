@@ -1,21 +1,15 @@
 import type { AppRoute } from '@/types/router'
-import { ApiUnavailablePage } from '@/components/common/ApiUnavailablePage'
-import { useTranslation } from 'react-i18next'
-
-function NotificationsUnavailablePage() {
-  const { t } = useTranslation()
-  return (
-    <ApiUnavailablePage
-      title={t('features.unavailable.notificationsTitle')}
-      description={t('features.unavailable.notificationsDescription')}
-    />
-  )
-}
+import { UnavailableRoute } from '@/components/common/UnavailableRoute'
 
 export const notificationsRoutes: AppRoute[] = [
   {
     path: 'notifications',
-    element: <NotificationsUnavailablePage />,
-    handle: { permission: 'notifications.view' },
+    element: (
+      <UnavailableRoute
+        titleKey="features.unavailable.notificationsTitle"
+        descriptionKey="features.unavailable.notificationsDescription"
+      />
+    ),
+    handle: { capability: 'modules.preview' },
   },
 ]

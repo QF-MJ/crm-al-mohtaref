@@ -70,4 +70,10 @@ public class CampaignRepository(AppDbContext db)
         await db.Campaigns.AddAsync(campaign);
         await db.SaveChangesAsync();
     }
+
+    public async Task<bool> HasLeadsAsync(IEnumerable<Guid> platformCampaignIds, CancellationToken cancellationToken)
+    {
+        return await db.CampaignLeads
+            .AnyAsync(l => platformCampaignIds.Contains(l.PlatformCampaignId), cancellationToken);
+    }
 }

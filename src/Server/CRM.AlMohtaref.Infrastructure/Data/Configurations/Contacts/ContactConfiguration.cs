@@ -4,11 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CRM.AlMohtaref.Infrastructure.Data.Configurations.Contacts;
 
-public sealed class ContactConfiguration : IEntityTypeConfiguration<Contact>
+public sealed class ContactConfiguration : PersonConfiguration<Contact>
 {
-    public void Configure(EntityTypeBuilder<Contact> builder)
+    public override void Configure(EntityTypeBuilder<Contact> builder)
     {
         builder.ToTable("Contacts");
+
+        base.Configure(builder);
 
         builder.HasKey(c => c.Id);
 
@@ -17,10 +19,5 @@ public sealed class ContactConfiguration : IEntityTypeConfiguration<Contact>
             .HasMaxLength(20);
 
         builder.HasIndex(c => c.PhoneNumber);
-
-        builder.HasOne(c => c.Person)
-            .WithMany(p => p.Contacts)
-            .HasForeignKey(c => c.PersonId)
-            .OnDelete(DeleteBehavior.Restrict);
     }
 }

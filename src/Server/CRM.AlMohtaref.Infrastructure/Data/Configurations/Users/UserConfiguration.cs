@@ -4,11 +4,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CRM.AlMohtaref.Infrastructure.Data.Configurations.Users;
 
-public sealed class UserConfiguration : IEntityTypeConfiguration<User>
+public sealed class UserConfiguration : PersonConfiguration<User>
 {
-    public void Configure(EntityTypeBuilder<User> builder)
+    public override void Configure(EntityTypeBuilder<User> builder)
     {
+
         builder.ToTable("Users");
+
+        base.Configure(builder);
 
         builder.HasKey(u => u.Id);
 
@@ -30,11 +33,6 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.HasIndex(u => u.AccountName).IsUnique();
         builder.HasIndex(u => u.Email).IsUnique();
-
-        builder.HasOne(u => u.Person)
-            .WithOne(p => p.User)
-            .HasForeignKey<User>(u => u.PersonId)
-            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasMany(u => u.UserPermissions)
             .WithOne(p => p.User)
