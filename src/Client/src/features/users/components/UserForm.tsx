@@ -118,6 +118,7 @@ export function UserForm({
                 type="password"
                 dir="ltr"
                 autoComplete="new-password"
+                maxLength={100}
                 {...register('password')}
               />
             </Field>
