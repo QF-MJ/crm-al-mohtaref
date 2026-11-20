@@ -4,8 +4,6 @@ public class Contact : Person
 {
     public Guid Id { get; private set; }
 
-    public Guid PersonId { get; private set; }
-
     public string PhoneNumber { get; private set; }
 
 
@@ -21,9 +19,8 @@ public class Contact : Person
         ContactTags = new List<ContactTag>();
     }
 
-    public Contact(Guid personId, string phoneNumber) : this()
+    public Contact(string phoneNumber) : this()
     {
-        PersonId = personId;
         PhoneNumber = phoneNumber;
     }
 }
