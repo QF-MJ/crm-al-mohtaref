@@ -17,9 +17,9 @@ namespace CRM.AlMohtaref.Infrastructure.Repositories
             db.Add(token);
         }
 
-        public async Task<UserRefreshToken?> GetById(Guid Id)
+        public async Task<UserRefreshToken?> GetById(Guid Id , CancellationToken ct = default)
         {
-            return await db.userRefreshTokens.AsNoTracking().FirstOrDefaultAsync(r => r.Id == Id);
+            return await db.userRefreshTokens.AsNoTracking().FirstOrDefaultAsync(r => r.Id == Id , ct);
         }
 
         public async Task<bool> RevokeToken(Guid tokenId, CancellationToken ct = default)

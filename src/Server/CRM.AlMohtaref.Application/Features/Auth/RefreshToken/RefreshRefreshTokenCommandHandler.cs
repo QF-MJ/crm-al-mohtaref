@@ -19,9 +19,14 @@ namespace CRM.AlMohtaref.Application.Fseatures.Auth.RefreshToken
         {
             var refreshTokenRequest = request.RefreshToken!.Split(".");
 
-            Guid Id = (Guid)refreshTokenRequest.GetValue(0)!;
+            if(refreshTokenRequest.Length != 2)
+            {
+                throw new BadRequestException("Refresh token is not valid");
+            }
 
-            string? RequestRefreshToken = (string)refreshTokenRequest.GetValue(1)!;
+            Guid Id = Guid.Parse(refreshTokenRequest[0]);
+
+            string? RequestRefreshToken = (string)refreshTokenRequest[1];
 
             UserRefreshToken? refreshToken = await _refreshToken.GetById(Id);
 
@@ -37,7 +42,7 @@ namespace CRM.AlMohtaref.Application.Fseatures.Auth.RefreshToken
                 throw new NotFoundException("User account name not found");
             }
 
-            if (refreshToken.RefreshTokenExpiryTime > DateTime.UtcNow)
+            if (refreshToken.RefreshTokenExpiryTime < DateTime.UtcNow)
             {
                 throw new UnauthorizedException("Refresh token expired");
             }
@@ -45,6 +50,7 @@ namespace CRM.AlMohtaref.Application.Fseatures.Auth.RefreshToken
             if (refreshToken.RefreshTokenRevokedAt != null)
             {
                 await _refreshToken.RevokeUserTokens(user.Id);
+                throw new UnauthorizedException("Refresh Token expired");
             }
 
             bool isValid = _passwordHasher.VerifyPassword(RequestRefreshToken, refreshToken.RefreshTokenHash!);

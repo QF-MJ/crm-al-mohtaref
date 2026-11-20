@@ -10,7 +10,7 @@ namespace CRM.AlMohtaref.Application.Interfaces
     public interface IUserRefreshTokenRepository
     {
         void Add(UserRefreshToken token);
-        Task<UserRefreshToken?> GetById(Guid Id);
+        Task<UserRefreshToken?> GetById(Guid Id, CancellationToken ct = default);
 
         Task<bool> RevokeToken(Guid tokenId, CancellationToken ct = default);
 

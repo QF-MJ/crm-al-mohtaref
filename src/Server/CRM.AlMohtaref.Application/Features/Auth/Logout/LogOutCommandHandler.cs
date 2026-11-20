@@ -12,11 +12,16 @@ namespace CRM.AlMohtaref.Application.Features.Auth.Logout
         {
             var refreshTokenArray = request.refreshToken.Split(".");
 
+            if (refreshTokenArray.Length != 2)
+            {
+                throw new BadRequestException("Refresh token is not valid");
+            }
+
             Guid tokenId = Guid.Parse(refreshTokenArray[0]);
 
             string refreshToken = refreshTokenArray[1];
 
-            UserRefreshToken? token = _refreshRepo.GetById(tokenId).Result;
+            UserRefreshToken? token = await _refreshRepo.GetById(tokenId);
 
             if (token == null)
             {
