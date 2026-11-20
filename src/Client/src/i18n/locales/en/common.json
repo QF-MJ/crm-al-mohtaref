@@ -13,6 +13,12 @@
     "save": "Save",
     "cancel": "Cancel"
   },
+  "logout": {
+    "title": "Log out",
+    "message": "Are you sure you want to log out?",
+    "confirm": "Log out",
+    "success": "Logged out successfully"
+  },
   "errors": {
     "forbidden": "You do not have access to this page",
     "notFound": "Page not found",

@@ -17,4 +17,8 @@ export const authHandlers = [
       user: { id: '1', name: username, role: username },
     })
   }),
+  http.post(`${env.apiUrl}/auth/logout`, async () => {
+    await delay(150)
+    return new HttpResponse(null, { status: 204 })
+  }),
 ]
