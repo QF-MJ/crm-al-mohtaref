@@ -3,19 +3,12 @@ using MediatR;
 
 namespace CRM.AlMohtaref.Application.Features.Contacts.GetContacts
 {
-    public class GetContactsQueryHandler : IRequestHandler<GetContactsQuery, ContactsPageDto>
+    public class GetContactsQueryHandler(IContactRepository contact) 
+        : IRequestHandler<GetContactsQuery, ContactsPageDto>
     {
-        private readonly IContactRepository _contact;
-
-        public GetContactsQueryHandler(IContactRepository contact)
-        {
-            _contact = contact;
-        }
-
-
         public async Task<ContactsPageDto> Handle(GetContactsQuery request, CancellationToken cancellationToken)
         {
-            return await _contact.SearchAsync(request, cancellationToken);
+            return await contact.SearchAsync(request, cancellationToken);
         }
     }
 }

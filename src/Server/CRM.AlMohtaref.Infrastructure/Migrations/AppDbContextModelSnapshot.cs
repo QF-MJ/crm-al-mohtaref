@@ -212,9 +212,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.Property<Guid?>("ContactId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("StudentId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("TagId")
                         .HasColumnType("uniqueidentifier");
 
@@ -222,16 +219,11 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
                     b.HasIndex("ContactId");
 
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("TagId", "StudentId", "ContactId")
+                    b.HasIndex("TagId", "ContactId")
                         .IsUnique()
-                        .HasFilter("[StudentId] IS NOT NULL AND [ContactId] IS NOT NULL");
+                        .HasFilter("[ContactId] IS NOT NULL");
 
-                    b.ToTable("ContactTags", null, t =>
-                        {
-                            t.HasCheckConstraint("CK_ContactTags_Target", "([StudentId] IS NOT NULL AND [ContactId] IS NULL) OR ([StudentId] IS NULL AND [ContactId] IS NOT NULL)");
-                        });
+                    b.ToTable("ContactTags", (string)null);
                 });
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Contacts.Student", b =>
@@ -261,6 +253,29 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.HasIndex("CreatedByUserId");
 
                     b.ToTable("Students", (string)null);
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Contacts.StudentTag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("StudentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TagId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("TagId", "StudentId")
+                        .IsUnique()
+                        .HasFilter("[StudentId] IS NOT NULL");
+
+                    b.ToTable("StudentTags", (string)null);
                 });
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Contacts.Tag", b =>
@@ -560,6 +575,32 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.ToTable("UserPermissions", (string)null);
                 });
 
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.UserRefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("RefreshTokenExpiryTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RefreshTokenHash")
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<DateTime?>("RefreshTokenRevokedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens", (string)null);
+                });
+
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.Campaign", b =>
                 {
                     b.HasOne("CRM.AlMohtaref.Domain.Entities.Campaigns.CampaginStatus", "CampaignStatus")
@@ -650,11 +691,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Contacts.Student", "Student")
-                        .WithMany("ContactTags")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("CRM.AlMohtaref.Domain.Entities.Contacts.Tag", "Tag")
                         .WithMany("ContactTags")
                         .HasForeignKey("TagId")
@@ -662,8 +698,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Contact");
-
-                    b.Navigation("Student");
 
                     b.Navigation("Tag");
                 });
@@ -684,6 +718,24 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.Navigation("Contact");
 
                     b.Navigation("CreatedByUser");
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Contacts.StudentTag", b =>
+                {
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Contacts.Student", "Student")
+                        .WithMany("StudentTags")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Contacts.Tag", "Tag")
+                        .WithMany("StudentTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+
+                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.OptionSetItem", b =>
@@ -800,6 +852,17 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.UserRefreshToken", b =>
+                {
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.User", "User")
+                        .WithMany("userRefreshTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.CampaginStatus", b =>
                 {
                     b.Navigation("Campaigns");
@@ -840,7 +903,7 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                 {
                     b.Navigation("CampaignLeads");
 
-                    b.Navigation("ContactTags");
+                    b.Navigation("StudentTags");
                 });
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Contacts.Tag", b =>
@@ -848,6 +911,8 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.Navigation("ContactTags");
 
                     b.Navigation("OptionTags");
+
+                    b.Navigation("StudentTags");
                 });
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.Field", b =>
@@ -888,6 +953,8 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.User", b =>
                 {
                     b.Navigation("UserPermissions");
+
+                    b.Navigation("userRefreshTokens");
                 });
 #pragma warning restore 612, 618
         }

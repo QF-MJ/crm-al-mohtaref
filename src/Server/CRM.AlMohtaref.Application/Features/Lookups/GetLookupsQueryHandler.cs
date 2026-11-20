@@ -4,19 +4,26 @@ using MediatR;
 
 namespace CRM.AlMohtaref.Application.Features.Lookups;
 
-public class GetLookupsQueryHandler(ILookupRepository lookup) : IRequestHandler<GetLookupsQuery, LookupsDto>
+public class GetLookupsQueryHandler(ILookupRepository lookup) 
+    : IRequestHandler<GetLookupsQuery, LookupsDto>
 {
     public async Task<LookupsDto> Handle(GetLookupsQuery request, CancellationToken cancellationToken)
     {
         LookupsDto lookupsDto = new();
 
-        var includes = request.Include.ToHashSet();
+        var includes = request.Include?.ToHashSet();
 
         if (includes.Contains(LookupType.Departments))
             lookupsDto.Departments = await lookup.GetDepartmentsAsync(cancellationToken);
 
         if (includes.Contains(LookupType.Tracks))
             lookupsDto.Tracks = await lookup.GetTracksAsync(cancellationToken);
+
+        if (includes.Contains(LookupType.Tags))
+            lookupsDto.Tags = await lookup.GetTagsAsync(cancellationToken);
+
+        if (includes.Contains(LookupType.Campaigns))
+            lookupsDto.Campaigns = await lookup.GetCampaignsAsync(cancellationToken);
 
 
         return lookupsDto;
