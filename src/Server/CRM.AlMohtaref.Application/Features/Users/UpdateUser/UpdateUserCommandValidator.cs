@@ -7,13 +7,13 @@ public sealed class UpdateUserCommandValidator : AbstractValidator<UpdateUserCom
     public UpdateUserCommandValidator()
     {
         RuleFor(x => x.Id)
-            .NotEmpty()
-            .WithMessage("معرف المستخدم غير صالح");
+         .NotEmpty()
+         .WithMessage("معرف المستخدم غير صالح");
 
         RuleFor(x => x.AccountName)
             .NotEmpty().WithMessage("اسم الحساب مطلوب")
             .MinimumLength(3).WithMessage("يجب أن يتكون اسم الحساب من 3 أحرف على الأقل")
-            .MaximumLength(50).WithMessage("يجب ألا يتجاوز اسم الحساب 50 حرفاً")
+            .MaximumLength(100).WithMessage("يجب ألا يتجاوز اسم الحساب 100 حرف")
             .Matches(@"\A[a-zA-Z0-9._-]+\z").WithMessage("اسم الحساب يجب أن يحتوي على أحرف إنجليزية وأرقام أو الرموز (. _ -) فقط دون مسافات");
 
         RuleFor(x => x.FullName)
@@ -24,8 +24,8 @@ public sealed class UpdateUserCommandValidator : AbstractValidator<UpdateUserCom
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("البريد الإلكتروني مطلوب")
             .EmailAddress().WithMessage("صيغة البريد الإلكتروني غير صحيحة")
-            .Matches(@"^\S+$").WithMessage("يجب ألا يحتوي البريد الإلكتروني على مسافات")
-            .MaximumLength(150).WithMessage("يجب ألا يتجاوز البريد الإلكتروني 150 حرفاً");
+            .Matches(@"\A\S+\z").WithMessage("يجب ألا يحتوي البريد الإلكتروني على مسافات")
+            .MaximumLength(256).WithMessage("يجب ألا يتجاوز البريد الإلكتروني 256 حرفاً");
 
         RuleFor(x => x.Permissions)
             .NotNull()

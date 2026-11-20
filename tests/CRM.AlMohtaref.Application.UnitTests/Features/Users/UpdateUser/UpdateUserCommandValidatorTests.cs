@@ -50,14 +50,15 @@ public class UpdateUserCommandValidatorTests
         => _sut.TestValidate(Valid with { FullName = value! }).ShouldHaveValidationErrorFor(x => x.FullName);
 
     [Theory]
-    [InlineData(200, false)]
-    [InlineData(201, true)]
+    [InlineData(100, false)]
+    [InlineData(101, true)]
     public void FullName_MaxLength(int length, bool shouldFail)
     {
         var result = _sut.TestValidate(Valid with { FullName = new string('a', length) });
         if (shouldFail) result.ShouldHaveValidationErrorFor(x => x.FullName);
         else result.ShouldNotHaveValidationErrorFor(x => x.FullName);
     }
+
 
     // Email
     [Theory]
@@ -114,8 +115,8 @@ public class UpdateUserCommandValidatorTests
 
     [Fact]
     [Trait("Category", "BugProbe")]
-    public void AccountName_Longer_Than_50_ShouldFail_LikeCreate()
-        => _sut.TestValidate(Valid with { AccountName = new string('a', 51) }).ShouldHaveValidationErrorFor(x => x.AccountName);
+    public void AccountName_Longer_Than_100_ShouldFail_LikeCreate()
+     => _sut.TestValidate(Valid with { AccountName = new string('a', 101) }).ShouldHaveValidationErrorFor(x => x.AccountName);
 
     [Fact]
     [Trait("Category", "BugProbe")]
@@ -134,8 +135,8 @@ public class UpdateUserCommandValidatorTests
 
     [Fact]
     [Trait("Category", "BugProbe")]
-    public void Email_Longer_Than_150_ShouldFail_LikeCreate()
-        => _sut.TestValidate(Valid with { Email = new string('a', 142) + "@test.com" }).ShouldHaveValidationErrorFor(x => x.Email);
+    public void Email_Longer_Than_256_ShouldFail_LikeCreate()
+        => _sut.TestValidate(Valid with { Email = new string('a', 248) + "@test.com" }).ShouldHaveValidationErrorFor(x => x.Email);
 
     [Fact]
     [Trait("Category", "BugProbe")]

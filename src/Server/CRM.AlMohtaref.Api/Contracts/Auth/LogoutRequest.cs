@@ -7,6 +7,6 @@ namespace CRM.AlMohtaref.Api.Contracts.Auth
 
     public sealed record LogoutRequest(string RefreshToken)
     {
-        public LogoutCommand ToCommand() => new(RefreshToken);
+        public LooutCommand ToCommand() => new(RefreshToken);
     }
 }

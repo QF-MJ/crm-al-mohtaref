@@ -141,8 +141,8 @@ export const authHandlers = [
     }
     return HttpResponse.json(body)
   }),
-<<<<<<< HEAD
-
-=======
->>>>>>> 545414813dff8fc231338f2b361d81ca342c53e7
+  http.post(`${env.apiUrl}/auth/logout`, async () => {
+    await delay(150)
+    return new HttpResponse(null, { status: 204 })
+  }),
 ]

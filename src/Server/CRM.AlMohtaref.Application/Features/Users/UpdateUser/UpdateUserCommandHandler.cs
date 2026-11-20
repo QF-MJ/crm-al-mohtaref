@@ -27,10 +27,10 @@ public sealed class UpdateUserCommandHandler(IUserRepository userRepository, IUs
         );
 
         var permissions = request.Permissions?.Select(p => (p.Role, p.DepartmentId));
-        bool permissionsChanged = user.HasPermissionsChanged(permissions ?? []);
+        bool permissionsChanged = permissions != null && user.HasPermissionsChanged(permissions);
 
         if(permissionsChanged)
-            user.SynchronizePermissions(permissions ?? []);
+            user.SynchronizePermissions(permissions);
 
         if (user.IsActive == false || permissionsChanged)
         {

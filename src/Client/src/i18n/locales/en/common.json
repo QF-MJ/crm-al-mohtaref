@@ -358,6 +358,12 @@
     "permissionRequired": "Add at least one permission (role + department)",
     "duplicatePermission": "This role/department pair is duplicated; keep only one"
   },
+  "logout": {
+    "title": "Log out",
+    "message": "Are you sure you want to log out?",
+    "confirm": "Log out",
+    "success": "Logged out successfully"
+  },
   "errors": {
     "connection": "Couldn't connect to the system. Check your internet connection and try again.",
     "forbidden": "You do not have access to this page",

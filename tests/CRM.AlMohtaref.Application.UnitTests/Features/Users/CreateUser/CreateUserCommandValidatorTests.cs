@@ -47,9 +47,10 @@ public class CreateUserCommandValidatorTests
                .ShouldHaveValidationErrorFor(x => x.Email);
 
     [Fact]
-    public void Email_Longer_Than_150_Fails()
-        => _sut.TestValidate(Valid with { Email = new string('a', 142) + "@test.com" })
-               .ShouldHaveValidationErrorFor(x => x.Email);
+    public void Email_Longer_Than_256_Fails()
+      => _sut.TestValidate(Valid with { Email = new string('a', 248) + "@test.com" })
+          .ShouldHaveValidationErrorFor(x => x.Email);
+
 
     [Theory]
     [InlineData("john@example.com")]
@@ -80,16 +81,17 @@ public class CreateUserCommandValidatorTests
         => _sut.TestValidate(Valid with { AccountName = name }).ShouldHaveValidationErrorFor(x => x.AccountName);
 
     [Fact]
-    public void AccountName_Longer_Than_50_Fails()
-        => _sut.TestValidate(Valid with { AccountName = new string('a', 51) })
-               .ShouldHaveValidationErrorFor(x => x.AccountName);
+    public void AccountName_Longer_Than_100_Fails()
+    => _sut.TestValidate(Valid with { AccountName = new string('a', 101) })
+        .ShouldHaveValidationErrorFor(x => x.AccountName);
 
     [Theory]
     [InlineData(3)]
-    [InlineData(50)]
+    [InlineData(100)]
     public void AccountName_Boundaries_Pass(int length)
         => _sut.TestValidate(Valid with { AccountName = new string('a', length) })
-               .ShouldNotHaveValidationErrorFor(x => x.AccountName);
+            .ShouldNotHaveValidationErrorFor(x => x.AccountName);
+
 
     [Theory]
     [InlineData("john doe")]

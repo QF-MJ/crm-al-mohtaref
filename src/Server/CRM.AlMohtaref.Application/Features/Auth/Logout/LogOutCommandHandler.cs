@@ -7,9 +7,9 @@ using MediatR;
 namespace CRM.AlMohtaref.Application.Features.Auth.Logout
 {
     public class LogoutCommandHandler(IUserRefreshTokenRepository refreshRepo , IPasswordHasher passwordHasher, IUnitOfWork unitOfWork) 
-        : IRequestHandler<LogoutCommand>
+        : IRequestHandler<LooutCommand>
     {
-        public async Task Handle(LogoutCommand request, CancellationToken cancellationToken)
+        public async Task Handle(LooutCommand request, CancellationToken cancellationToken)
         {
             var refreshTokenArray = request.refreshToken.Split(".");
 
