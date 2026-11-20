@@ -27,6 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Features\Auth\Lougout\" />
 	  <Folder Include="Features\Users\" />
 	</ItemGroup>
 
