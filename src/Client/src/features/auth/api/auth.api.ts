@@ -4,6 +4,7 @@ import type { LoginDto, LoginRequest } from '../types'
 export const LOGIN_PATH = '/auth/login'
 
 export const loginRequest = (body: LoginRequest) =>
-  api.post<LoginResponse>('/auth/login', body).then((r) => r.data)
+  api.post<LoginDto>('/auth/login', body).then((r) => r.data)
 
-export const logoutRequest = () => api.post<void>('/auth/logout').then(() => undefined)
+export const logoutRequest = (refreshToken: string) =>
+  api.post<void>('/auth/logout', { refreshToken }).then(() => undefined)

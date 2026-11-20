@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useMemo, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Info, Search, UsersRound } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -15,13 +15,27 @@ import { useContactLookups } from '@/features/lookups'
 import { useContacts } from '../api/contacts.queries'
 import type { Contact, ContactFilters } from '../types'
 
+// حالة العميل (LeadStatus) تعداد ثابت في الباك وليست من /lookups
+const LEAD_STATUS_VALUES = [
+  'New',
+  'Contacting',
+  'ContactFailed',
+  'Responded',
+  'FollowingUp',
+  'FollowUpFailed',
+  'Confirming',
+  'Confirmed',
+  'Assigning',
+  'Assigned',
+] as const
+
 interface DraftFilters {
   contactName: string
   studentName: string
   phoneNumber: string
   campaignTitle: string
   trackId: string
-  leadStatusId: string
+  leadStatus: string
   tagIds: string[]
 }
 
@@ -31,7 +45,7 @@ const EMPTY_DRAFT: DraftFilters = {
   phoneNumber: '',
   campaignTitle: '',
   trackId: '',
-  leadStatusId: '',
+  leadStatus: '',
   tagIds: [],
 }
 
@@ -93,13 +107,16 @@ export function ContactsPage() {
     })),
   ]
 
-  const leadStatusOptions: SelectOption[] = [
-    { value: '', label: t('contacts.allLeadStatuses') },
-    ...(lookupsQuery.data?.leadStatuses ?? []).map((status) => ({
-      value: String(status.id),
-      label: status.name,
-    })),
-  ]
+  const leadStatusOptions: SelectOption[] = useMemo(
+    () => [
+      { value: '', label: t('contacts.allLeadStatuses') },
+      ...LEAD_STATUS_VALUES.map((status) => ({
+        value: status,
+        label: t(`contacts.leadStatus.${status}`),
+      })),
+    ],
+    [t],
+  )
 
   const applyFilters = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -111,7 +128,7 @@ export function ContactsPage() {
       phoneNumber: draft.phoneNumber.trim() || undefined,
       campaignTitle: draft.campaignTitle.trim() || undefined,
       trackId: draft.trackId || undefined,
-      leadStatusId: draft.leadStatusId || undefined,
+      leadStatus: draft.leadStatus || undefined,
       tagIds: draft.tagIds.length > 0 ? draft.tagIds : undefined,
     })
   }
@@ -128,7 +145,7 @@ export function ContactsPage() {
     filters.phoneNumber ||
     filters.campaignTitle ||
     filters.trackId ||
-    filters.leadStatusId ||
+    filters.leadStatus ||
     filters.tagIds?.length,
   )
   const pageNumber = filters.pageNumber
@@ -184,11 +201,10 @@ export function ContactsPage() {
               onChange={(trackId) => setDraft((current) => ({ ...current, trackId }))}
             />
             <SelectField
-              label={t('contacts.leadStatus')}
-              value={draft.leadStatusId}
+              label={t('contacts.leadStatusField')}
+              value={draft.leadStatus}
               options={leadStatusOptions}
-              disabled={lookupsQuery.isLoading || lookupsQuery.isError}
-              onChange={(leadStatusId) => setDraft((current) => ({ ...current, leadStatusId }))}
+              onChange={(leadStatus) => setDraft((current) => ({ ...current, leadStatus }))}
             />
 
             {tags.length > 0 && (

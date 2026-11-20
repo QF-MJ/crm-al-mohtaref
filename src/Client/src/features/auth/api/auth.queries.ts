@@ -1,7 +1,8 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth.store'
+import type { LoginForm } from '../schemas/login.schema'
 import { loginRequest, logoutRequest } from './auth.api'
 
 export function useLogin() {
@@ -23,7 +24,12 @@ export function useLogout() {
   const { t } = useTranslation()
 
   return useMutation({
-    mutationFn: logoutRequest,
+    mutationFn: async () => {
+      const refreshToken = useAuthStore.getState().refreshToken
+      if (refreshToken) {
+        await logoutRequest(refreshToken)
+      }
+    },
     // في حال تعذّر الاتصال بالخادم نُنهي الجلسة محلياً حسب سيناريو تسجيل الخروج
     onSettled: () => logout(),
     onSuccess: () => {

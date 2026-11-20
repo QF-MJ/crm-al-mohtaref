@@ -38,7 +38,7 @@ function mapPermissions(user: UserDetail, lookups: UserLookups): MappedPermissio
       continue
     }
 
-    permissions.push({ roleId: String(role.id), departmentId: String(department.id) })
+    permissions.push({ role: String(role.id), departmentId: String(department.id) })
   }
 
   return { permissions, unmatched }
