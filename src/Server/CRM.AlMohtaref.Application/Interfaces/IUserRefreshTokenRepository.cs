@@ -8,9 +8,6 @@ namespace CRM.AlMohtaref.Application.Interfaces
 
         Task<UserRefreshToken?> GetById(Guid Id, CancellationToken ct = default);
 
-        Task<bool> RevokeToken(Guid tokenId, CancellationToken ct = default);
-
         Task RevokeUserTokens(Guid userId, CancellationToken ct = default);
-
     }
 }

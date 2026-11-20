@@ -53,7 +53,6 @@ namespace CRM.AlMohtaref.Application.Fseatures.Auth.RefreshToken
             if (refreshToken.RefreshTokenRevokedAt != null)
             {
                 await refreshTokenRepository.RevokeUserTokens(user.Id);
-                await unitOfWork.SaveChangesAsync();
                 throw new UnauthorizedException("Refresh Token expired");
             }
 
@@ -64,10 +63,7 @@ namespace CRM.AlMohtaref.Application.Fseatures.Auth.RefreshToken
                 throw new UnauthorizedException("Refresh token is not valid");
             }
 
-            if(!await refreshTokenRepository.RevokeToken(refreshToken.Id, ct))
-            {
-                throw new BadRequestException("Some thing went wrong while revoking the refresh token");
-            }
+            refreshToken.RevokeToken(DateTime.UtcNow);
 
             string token = await tokenRepository.GenerateAccessToken(user);
 

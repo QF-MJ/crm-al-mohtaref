@@ -31,7 +31,7 @@ namespace CRM.AlMohtaref.Application.Features.Auth.Logout
                 throw new UnauthorizedException("Refresh token is not valid");
             }
 
-            await refreshRepo.RevokeToken(tokenId, cancellationToken);
+            token.RevokeToken(DateTime.UtcNow);
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
         }
