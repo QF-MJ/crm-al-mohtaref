@@ -33,7 +33,6 @@ namespace CRM.AlMohtaref.Infrastructure.Repositories
             if (token.RefreshTokenRevokedAt is null)
             {
                 token.RefreshTokenRevokedAt = DateTime.UtcNow;
-                await db.SaveChangesAsync(ct);
             }
 
             return true;

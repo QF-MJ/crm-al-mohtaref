@@ -36,6 +36,7 @@ public sealed class UserRepository(AppDbContext db)
     {
         return await db.Users
             .Include( u => u.UserPermissions )
+                .ThenInclude(p => p.Department)
             .FirstOrDefaultAsync(u => u.Id == id, ct);
     }
 
