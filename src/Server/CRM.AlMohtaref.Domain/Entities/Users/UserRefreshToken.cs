@@ -24,5 +24,11 @@ namespace CRM.AlMohtaref.Domain.Entities.Users
             RefreshTokenExpiryTime = refreshTokenExpiryTime;
             RefreshTokenRevokedAt = refreshTokenRevokedAt;
         }
+
+
+        public void RevokeToken(DateTime date)
+        {
+            RefreshTokenRevokedAt = date;
+        }
     }
 }

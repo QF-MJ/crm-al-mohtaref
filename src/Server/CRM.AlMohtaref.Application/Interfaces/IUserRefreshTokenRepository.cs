@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CRM.AlMohtaref.Domain.Entities.Users;
+﻿using CRM.AlMohtaref.Domain.Entities.Users;
 
 namespace CRM.AlMohtaref.Application.Interfaces
 {
     public interface IUserRefreshTokenRepository
     {
         void Add(UserRefreshToken token);
-        Task<UserRefreshToken?> GetById(Guid Id);
 
-        Task<bool> RevokeToken(Guid tokenId, CancellationToken ct = default);
+        Task<UserRefreshToken?> GetById(Guid Id, CancellationToken ct = default);
 
         Task RevokeUserTokens(Guid userId, CancellationToken ct = default);
-
     }
 }

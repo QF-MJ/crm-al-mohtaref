@@ -65,7 +65,7 @@ namespace CRM.AlMohtaref.Application.Features.Auth.Login
             var refreshToken = _token.GenerateRefreshToken();
 
             //Store refresh token securely (hash + expiry + not revoked)
-            var refreshTokenHash = BCrypt.Net.BCrypt.HashPassword(refreshToken);
+            var refreshTokenHash = _password.HashPassword(refreshToken);
             Guid RefreshId = Guid.NewGuid();
             refreshToken = RefreshId.ToString() + "." + refreshToken;
             var refreshTokenExpiredAt = DateTime.UtcNow.AddDays(7);

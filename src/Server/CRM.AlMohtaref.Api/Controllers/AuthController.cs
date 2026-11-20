@@ -35,9 +35,11 @@ namespace CRM.AlMohtaref.Api.Controllers
         }
 
         [HttpPost("logout")]
-        public async  Task<ActionResult<bool>> Logout([FromBody] LogoutRequest request, CancellationToken ct)
+        public async  Task<ActionResult> Logout([FromBody] LogoutRequest request, CancellationToken ct)
         {
-            return Ok(await sender.Send(request.ToCommand(), ct));
+            await sender.Send(request.ToCommand(), ct);
+
+            return NoContent();
         }
 
     }
