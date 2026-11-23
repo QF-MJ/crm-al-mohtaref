@@ -6,37 +6,34 @@ using MediatR;
 
 namespace CRM.AlMohtaref.Application.Features.Auth.Logout
 {
-    public class LogOutCommandHandler(IUserRefreshTokenRepository _refreshRepo , IPasswordHasher _passwordHasher) : IRequestHandler<LogOutCommand , bool>
+    public class LogoutCommandHandler(IUserRefreshTokenRepository refreshRepo , IPasswordHasher passwordHasher, IUnitOfWork unitOfWork) 
+        : IRequestHandler<LogoutCommand>
     {
-        public async Task<bool> Handle(LogOutCommand request, CancellationToken cancellationToken)
+        public async Task Handle(LogoutCommand request, CancellationToken cancellationToken)
         {
             var refreshTokenArray = request.refreshToken.Split(".");
-
-            if (refreshTokenArray.Length != 2)
-            {
-                throw new BadRequestException("Refresh token is not valid");
-            }
 
             Guid tokenId = Guid.Parse(refreshTokenArray[0]);
 
             string refreshToken = refreshTokenArray[1];
 
-            UserRefreshToken? token = await _refreshRepo.GetById(tokenId);
+            UserRefreshToken? token = refreshRepo.GetById(tokenId).Result;
 
             if (token == null)
             {
                 throw new NotFoundException("Refresh token not found");
             }
 
-            bool valid = _passwordHasher.VerifyPassword(refreshToken, token.RefreshTokenHash!);
+            bool valid = passwordHasher.VerifyPassword(refreshToken, token.RefreshTokenHash!);
 
             if (!valid)
             {
                 throw new UnauthorizedException("Refresh token is not valid");
             }
 
-            return await _refreshRepo.RevokeToken(tokenId, cancellationToken);
+            token.RevokeToken(DateTime.UtcNow);
 
+            await unitOfWork.SaveChangesAsync(cancellationToken);
         }
     }
 }

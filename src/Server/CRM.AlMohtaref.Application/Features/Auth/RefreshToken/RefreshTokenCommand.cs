@@ -4,6 +4,6 @@ using MediatR;
 
 namespace CRM.AlMohtaref.Application.Features.Auth.RefreshToken
 {
-    public sealed record RefreshRefreshTokenCommand(
+    public sealed record RefreshTokenCommand(
         string RefreshToken) : IRequest<RefreshTokenDto>;
 }

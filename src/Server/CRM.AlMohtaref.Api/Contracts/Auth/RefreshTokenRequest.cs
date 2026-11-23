@@ -5,7 +5,7 @@ namespace CRM.AlMohtaref.Api.Contracts.Auth
 {
     public sealed record RefreshTokenRequest(string RefreshToken)
     {
-        public RefreshRefreshTokenCommand ToCommand() => new(RefreshToken);
+        public RefreshTokenCommand ToCommand() => new(RefreshToken);
     }
     
 }
