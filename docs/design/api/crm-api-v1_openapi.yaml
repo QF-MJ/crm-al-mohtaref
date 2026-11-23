@@ -1,0 +1,212 @@
+openapi: 3.0.3
+info:
+  title: CRM المحترف API
+  version: 1.0.0
+  description: |
+    Version 1 of the CRM API. Endpoints are added incrementally.
+
+    Conventions:
+    - Paged lists return `hasNextPage` instead of a total count.
+    - Every request body AND every query-string set is bound to a schema named `*Request`.
+      Query-string requests are sent flattened (`?PageNumber=1&PageSize=20&Title=abc`).
+    - JSON responses use camelCase property names; query-string parameters keep PascalCase.
+    - Every error (400, 401, 403) uses the single `ErrorDto` JSON: `{ "status": 400, "message": "..." }`.
+servers:
+  - url: /api
+security:
+  - bearerAuth: []
+tags:
+  - name: Tasks
+
+paths:
+  /tasks:
+    get:
+      tags: [Tasks]
+      operationId: getTasks
+      summary: View and search tasks
+      description: |
+        Returns a page of tasks inside the given time range.
+        - `Title`: optional, partial, case-insensitive match on the task title.
+        - `Type`: optional, task type.
+        - `StartTime` / `EndTime`: the time range of the tasks.
+        - `ExecutedByUserFullName`: optional, full name of the user who executes the task.
+        - `GroupBySubTask`: decides the shape of the response.
+          `false`: only `tasks` is returned (a flat list), `groupTasks` is not in the response at all.
+          `true`: `groupTasks` is returned (a map: parent task id -> its sub-tasks), and `tasks` is returned
+          (a flat list, not grouped) holding the standalone tasks, i.e. the tasks that have no parent and no children.
+      parameters:
+        - name: request
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema: { $ref: "#/components/schemas/GetTasksRequest" }
+      responses:
+        "200":
+          description: A page of tasks
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/TasksPageDto" }
+              examples:
+                GroupBySubTask=false:
+                  summary: GroupBySubTask = false (flat list)
+                  value:
+                    page: { pageNumber: 1, hasNextPage: false }
+                    tasks:
+                      - id: 3f2b8c1e-6a4d-4b7e-9c1a-0d5e7f8a9b10
+                        title: متابعة عميل
+                        typeName: متابعة
+                        statusName: قيد تنفيذ
+                        startTime: "2026-11-23T09:00:00Z"
+                        endTime: "2026-11-23T10:00:00Z"
+                        executedByUserFullName: أحمد محمد
+                      - id: 7a1d4e92-2b3c-4f55-8e06-1c9b2a3d4e5f
+                        title: مهمة عادية
+                        typeName: مهمة عادية
+                        statusName: to do
+                        startTime: "2026-11-24T09:00:00Z"
+                        endTime: "2026-11-24T11:00:00Z"
+                        executedByUserFullName: أحمد محمد
+                GroupBySubTask=true:
+                  summary: GroupBySubTask = true (map of parent id to sub-tasks, plus the standalone tasks)
+                  value:
+                    page: { pageNumber: 1, hasNextPage: false }
+                    groupTasks:
+                      3f2b8c1e-6a4d-4b7e-9c1a-0d5e7f8a9b10:
+                        title: حملة التسجيل الصيفية
+                        tasks:
+                            - id: 9c8b7a65-4d3e-4f21-a0b9-8c7d6e5f4a3b
+                              title: اتصال هاتفي
+                              typeName: مهمة فرعية
+                              statusName: done
+                              startTime: "2026-11-23T09:00:00Z"
+                              endTime: "2026-11-23T09:30:00Z"
+                              executedByUserFullName: أحمد محمد
+                            - id: 1e2d3c4b-5a69-4788-9a0b-1c2d3e4f5a6b
+                              title: إرسال عرض
+                              typeName: مهمة فرعية
+                              statusName: قيد المراجعة
+                              startTime: "2026-11-23T09:30:00Z"
+                              endTime: "2026-11-23T10:00:00Z"
+                              executedByUserFullName: أحمد محمد
+                    tasks:
+                      - id: 7a1d4e92-2b3c-4f55-8e06-1c9b2a3d4e5f
+                        title: مهمة عادية
+                        typeName: مهمة عادية
+                        statusName: to do
+                        startTime: "2026-11-24T09:00:00Z"
+                        endTime: "2026-11-24T11:00:00Z"
+                        executedByUserFullName: أحمد محمد
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    BadRequest:
+      description: Validation error
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorDto" }
+    Unauthorized:
+      description: Missing or invalid token
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorDto" }
+    Forbidden:
+      description: The user's role does not allow this action
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorDto" }
+
+  schemas:
+    # ---------- Errors ----------
+    ErrorDto:
+      type: object
+      description: The single JSON shape returned for every error response.
+      required: [status, message]
+      properties:
+        status: { type: integer, example: 400 }
+        message: { type: string, example: Validation error }
+
+    # ---------- Requests ----------
+    PagedRequest:
+      type: object
+      required: [PageNumber]
+      properties:
+        PageNumber: { type: integer, format: int32, minimum: 1, default: 1 }
+
+    GetTasksRequest:
+      allOf:
+        - $ref: "#/components/schemas/PagedRequest"
+        - type: object
+          required: [StartTime, EndTime, GroupBySubTask]
+          properties:
+            Title:
+              type: string
+              description: Partial, case-insensitive match on the task title.
+            Type:
+              $ref: "#/components/schemas/TaskType"
+            StartTime:
+              type: string
+              format: date-time
+            EndTime:
+              type: string
+              format: date-time
+            ExecutedByUserFullName:
+              type: string
+            GroupBySubTask:
+              type: boolean
+              default: false
+
+    # ---------- Responses ----------
+    PageDto:
+      type: object
+      properties:
+        pageNumber: { type: integer, format: int32 }
+        hasNextPage: { type: boolean }
+
+    TaskType:
+      type: string
+      description: Fixed list of task types.
+      enum: [مهمة عادية, مشكلة, حملة, تواصل, متابعة, تثبيت, تسكين, مهمة فرعية]
+
+    TaskDto:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        title: { type: string, nullable: true }
+        typeName: { type: string, nullable: true }
+        statusName: { type: string, nullable: true }
+        startTime: { type: string, format: date-time }
+        endTime: { type: string, format: date-time }
+        executedByUserFullName: { type: string, nullable: true }
+
+    TaskGroupDto:
+      type: object
+      properties:
+        title: { type: string, nullable: true }
+        tasks:
+          type: array
+          items: { $ref: "#/components/schemas/TaskDto" }
+
+    TasksPageDto:
+      type: object
+      properties:
+        page: { $ref: "#/components/schemas/PageDto" }
+        groupTasks:
+          type: object
+          description: Present only when `GroupBySubTask=true`. Key = parent task id, value = the parent title and its sub-tasks.
+          additionalProperties: { $ref: "#/components/schemas/TaskGroupDto" }
+        tasks:
+          type: array
+          description: |
+            Not grouped. When `GroupBySubTask=false` it holds all the tasks.
+            When `GroupBySubTask=true` it holds only the standalone tasks (no parent and no children).
+          items: { $ref: "#/components/schemas/TaskDto" }
