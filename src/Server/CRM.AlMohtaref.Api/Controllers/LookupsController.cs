@@ -1,12 +1,14 @@
 ﻿using CRM.AlMohtaref.Api.Contracts.Lookups;
 using CRM.AlMohtaref.Application.Features.Lookups.Dtos;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.AlMohtaref.Api.Controllers
 {
     [Route("api/lookups")]
     [ApiController]
+    [Authorize]
     public class LookupsController(ISender sender)
         : ControllerBase
     {

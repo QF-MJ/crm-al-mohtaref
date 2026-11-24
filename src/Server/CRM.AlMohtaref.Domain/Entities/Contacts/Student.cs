@@ -15,13 +15,13 @@ public class Student : Person
 
     public ICollection<CampaignLead> CampaignLeads { get; private set; }
 
-    public ICollection<ContactTag> ContactTags { get; private set; }
+    public ICollection<StudentTag> StudentTags { get; private set; }
 
     private Student()
     {
         Contact = null!;
         CampaignLeads = new List<CampaignLead>();
-        ContactTags = new List<ContactTag>();
+        StudentTags = new List<StudentTag>();
     }
 
     public Student(Guid personId, Guid contactId) : this()
