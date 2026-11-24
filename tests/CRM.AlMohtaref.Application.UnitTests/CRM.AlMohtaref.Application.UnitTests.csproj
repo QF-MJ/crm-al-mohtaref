@@ -28,6 +28,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Features\Auth\Lougout\" />
+	  <Folder Include="Features\Tasks\GetTasks\" />
 	  <Folder Include="Features\Users\" />
 	</ItemGroup>
 
