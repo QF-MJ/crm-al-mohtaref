@@ -38,6 +38,11 @@ const tracks = [
   { id: guid(302), name: 'اللغة الإنجليزية للأطفال' },
 ]
 
+const campaigns = [
+  { id: guid(351), name: 'حملة الصيف' },
+  { id: guid(352), name: 'حملة العودة للمدرسة' },
+]
+
 const leadStatuses = [
   { id: guid(401), name: 'جديد' },
   { id: guid(402), name: 'تم التواصل' },
@@ -201,6 +206,7 @@ export const usersHandlers = [
       tracks: includes('Tracks') ? tracks : undefined,
       leadStatuses: includes('LeadStatuses') ? leadStatuses : undefined,
       tags: includes('Tags') ? tags : undefined,
+      campaigns: includes('Campaigns') ? campaigns : undefined,
     }
     return HttpResponse.json(body)
   }),
