@@ -138,22 +138,6 @@ export function UserDetailPage() {
   )
 }
 
-<<<<<<< HEAD
-function PermissionItem({ permission }: { permission: UserPermission }) {
-  const { t } = useTranslation()
-  return (
-    <li className="rounded-md border p-3 text-sm">
-      <p className="mt-1">
-        <span className="font-medium">{permission.roleName}</span>
-        <span className="mx-2 text-slate-400">/</span>
-        <span>{permission.departmentName}</span>
-      </p>
-    </li>
-  )
-}
-
-function DetailItem({ label, value }: { label: string; value: string }) {
-=======
 function DetailItem({
   label,
   value,
@@ -163,7 +147,6 @@ function DetailItem({
   value?: string
   ltr?: boolean
 }) {
->>>>>>> 545414813dff8fc231338f2b361d81ca342c53e7
   return (
     <div className="space-y-1">
       <dt className="text-xs text-slate-500">{label}</dt>

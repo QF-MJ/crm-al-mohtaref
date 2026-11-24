@@ -25,19 +25,25 @@ export function useUser(id: UserId | undefined) {
   })
 }
 
-// قوائم الأقسام والأدوار من /lookups (معرّفاتها Guid)
+// الأقسام من /lookups، والأدوار تعداد ثابت (Manager/Employee) وليس لها جدول lookup في الباك الحالي.
+const ROLE_OPTIONS = [
+  { id: 'Employee', name: 'موظف' },
+  { id: 'Manager', name: 'مدير' },
+]
+
 export function useUserLookups(enabled = true) {
-  const query = useLookups(undefined, enabled)
+  const query = useLookups(['Departments'], enabled)
   const data = useMemo(
     () =>
       query.data
         ? {
             departments: query.data.departments ?? [],
-            roles: query.data.roles ?? [],
+            roles: ROLE_OPTIONS,
           }
         : undefined,
     [query.data],
   )
+
   return { ...query, data }
 }
 

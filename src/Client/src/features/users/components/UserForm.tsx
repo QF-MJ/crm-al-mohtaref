@@ -51,7 +51,7 @@ export function UserForm({
   const permissionsRootMessage = (errors.permissions as unknown as { message?: string } | undefined)
     ?.message
   const permissionRows = (Array.isArray(errors.permissions) ? errors.permissions : []) as Array<
-    { roleId?: { message?: string } } | undefined
+    { role?: { message?: string } } | undefined
   >
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export function UserForm({
 
   const addPermission = () =>
     append({
-      roleId: roles[0] ? String(roles[0].id) : '',
+      role: roles[0] ? String(roles[0].id) : '',
       departmentId: departments[0] ? String(departments[0].id) : '',
     })
 
@@ -87,51 +87,6 @@ export function UserForm({
             {t('users.accountDetailsDescription')}
           </p>
         </div>
-<<<<<<< HEAD
-        <div className={`grid gap-5 ${accountFieldsClassName}`}>
-          <div className="space-y-2">
-            <Label htmlFor="fullName">{t('users.name')}</Label>
-            <Input
-              id="fullName"
-              dir="auto"
-              maxLength={createMode ? 100 : 200}
-              {...register('fullName')}
-            />
-            {errors.fullName && (
-              <p className="text-sm text-destructive">
-                {createMode ? t('users.invalidFullName') : t('users.required')}
-              </p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="accountName">{t('users.username')}</Label>
-            <Input
-              id="accountName"
-              dir="auto"
-              maxLength={createMode ? 50 : undefined}
-              {...register('accountName')}
-            />
-            {errors.accountName && (
-              <p className="text-sm text-destructive">
-                {createMode ? t('users.invalidAccountName') : t('users.required')}
-              </p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="email">{t('users.email')}</Label>
-            <Input
-              id="email"
-              type="email"
-              dir="ltr"
-              maxLength={createMode ? 150 : undefined}
-              {...register('email')}
-            />
-            {errors.email && <p className="text-sm text-destructive">{t('users.invalidEmail')}</p>}
-          </div>
-          {showPassword && (
-            <div className="space-y-2">
-              <Label htmlFor="password">{t('users.password')}</Label>
-=======
 
         <div className="grid gap-5 sm:grid-cols-2">
           <Field label={t('users.fullName')} htmlFor="fullName" error={errors.fullName?.message}>
@@ -158,7 +113,6 @@ export function UserForm({
               error={errors.password?.message}
               hint={t('users.passwordHint')}
             >
->>>>>>> 545414813dff8fc231338f2b361d81ca342c53e7
               <Input
                 id="password"
                 type="password"
@@ -167,14 +121,7 @@ export function UserForm({
                 maxLength={100}
                 {...register('password')}
               />
-<<<<<<< HEAD
-              {errors.password && (
-                <p className="text-sm text-destructive">{t('users.passwordRequirements')}</p>
-              )}
-            </div>
-=======
             </Field>
->>>>>>> 545414813dff8fc231338f2b361d81ca342c53e7
           )}
 
           {!createMode && (
@@ -232,13 +179,13 @@ export function UserForm({
                 key={field.id}
                 className="grid gap-3 rounded-xl border border-slate-200 bg-slate-50/50 p-3 sm:grid-cols-[1fr_1fr_auto]"
               >
-                <Field label={t('users.role')} htmlFor={`permissions.${index}.roleId`}>
+                <Field label={t('users.role')} htmlFor={`permissions.${index}.role`}>
                   <Controller
-                    name={`permissions.${index}.roleId`}
+                    name={`permissions.${index}.role`}
                     control={control}
                     render={({ field: roleField }) => (
                       <Select
-                        id={`permissions.${index}.roleId`}
+                        id={`permissions.${index}.role`}
                         ref={roleField.ref}
                         onBlur={roleField.onBlur}
                         value={roleField.value}
@@ -291,8 +238,8 @@ export function UserForm({
 
         {permissionsRootMessage && <FieldError message={permissionsRootMessage} />}
         {permissionRows.map((permissionError, index) =>
-          permissionError?.roleId?.message ? (
-            <FieldError key={index} message={permissionError.roleId.message} />
+          permissionError?.role?.message ? (
+            <FieldError key={index} message={permissionError.role.message} />
           ) : null,
         )}
       </section>

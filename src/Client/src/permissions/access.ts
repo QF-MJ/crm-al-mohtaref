@@ -86,10 +86,9 @@ export function buildAccess(pairs: readonly PermissionPair[]): Access {
       case 'modules.preview':
         return true
       case 'users.view':
-        // قرار المنتج: قائمة الموظفين والصلاحيات للأدمن فقط (مدير + الإدارة).
-        // الباك يسمح تقنياً لأي "مدير" بجلب موظفي قسمه فقط؛
-        // لإرجاع صلاحية مدير القسم لاحقاً: استبدل isAdmin بـ isManager هنا.
-        return isAdmin
+        // كل مدير قسم يرى موظفي قسمه، ومدير الإدارة (الأدمن) يرى الجميع.
+        // النطاق يُفرض في الواجهة عبر departmentId وفي الباك عبر فحص الملكية.
+        return isManager
       case 'users.create':
       case 'users.update':
         return isAdmin
