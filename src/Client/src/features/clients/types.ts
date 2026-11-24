@@ -23,8 +23,8 @@ export interface ContactFilters {
   campaignTitle?: string
   /** Guid */
   trackId?: string
-  /** Guid */
-  leadStatusId?: string
+  /** اسم قيمة تعداد LeadStatus كما يتوقعه الباك (مثلاً New) */
+  leadStatus?: string
   /** Guids — الباك يطابق كل الوسوم المحددة (AND) */
   tagIds?: string[]
   studentName?: string

@@ -11,7 +11,7 @@ export function getContacts(filters: ContactFilters, signal?: AbortSignal) {
         pageNumber: filters.pageNumber,
         campaignTitle: filters.campaignTitle,
         trackId: filters.trackId,
-        leadStatusId: filters.leadStatusId,
+        leadStatus: filters.leadStatus,
         tagIds: filters.tagIds,
         studentName: filters.studentName,
         contactName: filters.contactName,
