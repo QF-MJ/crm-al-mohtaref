@@ -13,6 +13,7 @@ export interface LookupsResponse {
   tracks?: LookupItem[] | null
   leadStatuses?: LookupItem[] | null
   tags?: LookupItem[] | null
+  campaigns?: LookupItem[] | null
 }
 
-export type LookupType = 'Departments' | 'Roles' | 'Tracks' | 'LeadStatuses' | 'Tags'
+export type LookupType = 'Departments' | 'Roles' | 'Tracks' | 'LeadStatuses' | 'Tags' | 'Campaigns'

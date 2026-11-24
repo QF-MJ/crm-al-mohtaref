@@ -17,7 +17,7 @@ export const getUsers = (filters: UserFilters, signal?: AbortSignal) =>
         accountName: filters.accountName,
         email: filters.email,
         isActive: filters.isActive,
-        roleId: filters.roleId,
+        role: filters.role,
         departmentId: filters.departmentId,
       },
       signal,

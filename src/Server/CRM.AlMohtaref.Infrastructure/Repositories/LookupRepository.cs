@@ -6,38 +6,47 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CRM.AlMohtaref.Infrastructure.Repositories
 {
-    public class LookupRepository : ILookupRepository
+    public class LookupRepository(AppDbContext db) 
+        : ILookupRepository
     {
-
-        private readonly AppDbContext _db;
-
-        public LookupRepository(AppDbContext db)
+        public async Task<IEnumerable<LookupItemDto>> GetCampaignsAsync(CancellationToken ct = default)
         {
-            _db = db;
+            return await db.Campaigns
+                 .AsNoTracking()
+                 .Select(d => new LookupItemDto(d.Id, d.Title))
+                 .ToListAsync(ct);
         }
 
-        public async Task<DepartmentDto?> GetDepartmentByIdAsync(Guid id, CancellationToken ct = default)
+        public async Task<LookupItemDto?> GetDepartmentByIdAsync(Guid id, CancellationToken ct = default)
         {
-            return await _db.Departments
+            return await db.Departments
                     .AsNoTracking()
                     .Where(d => d.Id == id) 
-                    .Select(d => new DepartmentDto(d.Id, d.Name)) 
+                    .Select(d => new LookupItemDto(d.Id, d.Name)) 
                     .FirstOrDefaultAsync(ct);
         }
 
-        public async Task<IEnumerable<DepartmentDto>> GetDepartmentsAsync(CancellationToken ct = default)
+        public async Task<IEnumerable<LookupItemDto>> GetDepartmentsAsync(CancellationToken ct = default)
         {
-            return await _db.Departments
+            return await db.Departments
                 .AsNoTracking()
-                .Select(d => new DepartmentDto(d.Id, d.Name))
+                .Select(d => new LookupItemDto(d.Id, d.Name))
                 .ToListAsync(ct);
         }
 
-        public async Task<IEnumerable<TrackDto>> GetTracksAsync(CancellationToken ct = default)
+        public async Task<IEnumerable<LookupItemDto>> GetTagsAsync(CancellationToken ct = default)
         {
-            return await _db.Tracks
+            return await db.Tags
                 .AsNoTracking()
-               .Select(d => new TrackDto(d.Id, d.Name))
+                .Select(t => new LookupItemDto(t.Id, t.Name))
+                .ToListAsync(ct);
+        }
+
+        public async Task<IEnumerable<LookupItemDto>> GetTracksAsync(CancellationToken ct = default)
+        {
+            return await db.Tracks
+                .AsNoTracking()
+               .Select(d => new LookupItemDto(d.Id, d.Name))
                .ToListAsync(ct);
         }
     }

@@ -29,9 +29,18 @@ const roles = [
   { id: guid(202), name: 'مدير' },
 ]
 
+// الباك يرسل قيمة تعداد الدور (Employee | Manager)، والموك يخزّن الاسم العربي.
+const ROLE_NAMES: Record<string, string> = { Employee: 'موظف', Manager: 'مدير' }
+const roleNameFor = (value: string | undefined) => (value ? (ROLE_NAMES[value] ?? value) : undefined)
+
 const tracks = [
   { id: guid(301), name: 'البرمجة للأطفال' },
   { id: guid(302), name: 'اللغة الإنجليزية للأطفال' },
+]
+
+const campaigns = [
+  { id: guid(351), name: 'حملة الصيف' },
+  { id: guid(352), name: 'حملة العودة للمدرسة' },
 ]
 
 const leadStatuses = [
@@ -82,13 +91,8 @@ const seededNames = [
 
 interface MockPermission {
   id: string
-<<<<<<< HEAD
-  departmentId: number
-  roleId: number
-=======
   departmentId: string
   roleId: string
->>>>>>> 545414813dff8fc231338f2b361d81ca342c53e7
   departmentName: string
   roleName: string
 }
@@ -116,50 +120,11 @@ function createPermission(
 function createSeedUsers(): MockUser[] {
   return seededNames.map((fullName, index) => {
     const accountName = index === 0 ? 'admin' : `user${String(index).padStart(2, '0')}`
-<<<<<<< HEAD
-    const userPermissions: MockPermission[] = []
-
-    if (index === 0) {
-      userPermissions.push({
-        id: crypto.randomUUID(),
-        departmentId: 5,
-        roleId: 2,
-        departmentName: departments[4].name,
-        roleName: roles[1].name,
-      })
-    } else {
-      const departmentCount = departments.length - 1
-      const departmentId = ((index - 1) % departmentCount) + 1
-      const roleId = index % 5 === 0 ? 2 : 1
-      const department = departments[departmentId - 1]
-      const role = roles[roleId - 1]
-      userPermissions.push({
-        id: crypto.randomUUID(),
-        departmentId,
-        roleId,
-        departmentName: department.name,
-        roleName: role.name,
-      })
-
-      if (index % 6 === 0) {
-        const secondDepartmentId = (index % departmentCount) + 1
-        const secondDepartment = departments[secondDepartmentId - 1]
-        userPermissions.push({
-          id: crypto.randomUUID(),
-          departmentId: secondDepartmentId,
-          roleId: 1,
-          departmentName: secondDepartment.name,
-          roleName: roles[0].name,
-        })
-      }
-    }
-=======
     // admin: مدير/الإدارة — والباقي موزعون على 4 أقسام، كل خامس موظف مدير
     const permission =
       index === 0
         ? createPermission(4, 1, 5000)
         : createPermission((index - 1) % 4, index % 5 === 0 ? 1 : 0, 5000 + index)
->>>>>>> 545414813dff8fc231338f2b361d81ca342c53e7
 
     return {
       id: guid(1000 + index),
@@ -241,6 +206,7 @@ export const usersHandlers = [
       tracks: includes('Tracks') ? tracks : undefined,
       leadStatuses: includes('LeadStatuses') ? leadStatuses : undefined,
       tags: includes('Tags') ? tags : undefined,
+      campaigns: includes('Campaigns') ? campaigns : undefined,
     }
     return HttpResponse.json(body)
   }),
@@ -254,7 +220,7 @@ export const usersHandlers = [
     const email = params.get('email')?.trim().toLocaleLowerCase('ar')
     const isActiveValue = params.get('isActive')
     const isActive = isActiveValue === null ? undefined : isActiveValue.toLowerCase() === 'true'
-    const roleId = params.get('roleId') ?? undefined
+    const role = roleNameFor(params.get('role') ?? undefined)
     const departmentId = params.get('departmentId') ?? undefined
 
     const filtered = users.filter(
@@ -263,11 +229,11 @@ export const usersHandlers = [
         (!accountName || user.accountName.toLocaleLowerCase('ar').includes(accountName)) &&
         (!email || user.email.toLocaleLowerCase('ar').includes(email)) &&
         (isActive === undefined || user.isActive === isActive) &&
-        (!roleId && !departmentId
+        (!role && !departmentId
           ? true
           : user.permissions.some(
               (permission) =>
-                (!roleId || permission.roleId === roleId) &&
+                (!role || permission.roleName === role) &&
                 (!departmentId || permission.departmentId === departmentId),
             )),
     )
@@ -304,29 +270,13 @@ export const usersHandlers = [
     }
 
     const permissions: MockPermission[] = []
-<<<<<<< HEAD
-    for (const input of body.permissions ?? []) {
-      const department = departments.find((item) => item.id === input.departmentId)
-      const role = roles.find((item) => item.id === input.roleId)
-      if (!department || !role) {
-        return HttpResponse.json({ message: 'Invalid role or department' }, { status: 400 })
-      }
-      permissions.push({
-        id: crypto.randomUUID(),
-        departmentId: department.id,
-        roleId: role.id,
-        departmentName: department.name,
-        roleName: role.name,
-      })
-=======
     for (const [index, input] of (body.permissions ?? []).entries()) {
       const departmentIndex = departments.findIndex((item) => item.id === input.departmentId)
-      const roleIndex = roles.findIndex((item) => item.id === input.roleId)
+      const roleIndex = roles.findIndex((item) => item.name === roleNameFor(input.role))
       if (departmentIndex < 0 || roleIndex < 0) {
         return HttpResponse.json({ status: 400, message: 'قسم أو دور غير صالح' }, { status: 400 })
       }
       permissions.push(createPermission(departmentIndex, roleIndex, 6000 + index))
->>>>>>> 545414813dff8fc231338f2b361d81ca342c53e7
     }
 
     const id = guid(users.length + 1)
@@ -337,14 +287,8 @@ export const usersHandlers = [
       email,
       isActive: true,
       permissions,
-<<<<<<< HEAD
-    }
-    users.push(user)
-    return HttpResponse.json(user.id, { status: 201 })
-=======
     })
     return HttpResponse.json(id, { status: 201 })
->>>>>>> 545414813dff8fc231338f2b361d81ca342c53e7
   }),
 
   http.put(`${env.apiUrl}/users/:id`, async ({ params, request }) => {
@@ -361,35 +305,15 @@ export const usersHandlers = [
     if (body.isActive !== undefined && body.isActive !== null) {
       user.isActive = body.isActive
     }
-<<<<<<< HEAD
-    const updatedPermissions: MockPermission[] = []
-    for (const permission of body.permissions) {
-      const department = departments.find((item) => item.id === permission.departmentId)
-      const role = roles.find((item) => item.id === permission.roleId)
-      if (!department || !role) {
-        return HttpResponse.json(
-          { status: 400, message: 'Unknown department or role ID in user update' },
-          { status: 400 },
-        )
-      }
-      updatedPermissions.push({
-        id: crypto.randomUUID(),
-        departmentId: department.id,
-        roleId: role.id,
-        departmentName: department.name,
-        roleName: role.name,
-      })
-=======
 
     const permissions: MockPermission[] = []
     for (const [index, permission] of body.permissions.entries()) {
       const departmentIndex = departments.findIndex((item) => item.id === permission.departmentId)
-      const roleIndex = roles.findIndex((item) => item.id === permission.roleId)
+      const roleIndex = roles.findIndex((item) => item.name === roleNameFor(permission.role))
       if (departmentIndex < 0 || roleIndex < 0) {
         return HttpResponse.json({ status: 400, message: 'قسم أو دور غير صالح' }, { status: 400 })
       }
       permissions.push(createPermission(departmentIndex, roleIndex, 6100 + index))
->>>>>>> 545414813dff8fc231338f2b361d81ca342c53e7
     }
     user.permissions = permissions
     return new HttpResponse(null, { status: 204 })

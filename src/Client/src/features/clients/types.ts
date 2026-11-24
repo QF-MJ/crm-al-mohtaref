@@ -20,11 +20,12 @@ export interface ContactsPage {
 
 export interface ContactFilters {
   pageNumber: number
-  campaignTitle?: string
+  /** Guid */
+  campaignId?: string
   /** Guid */
   trackId?: string
-  /** Guid */
-  leadStatusId?: string
+  /** enum LeadStatus */
+  leadStatus?: number
   /** Guids — الباك يطابق كل الوسوم المحددة (AND) */
   tagIds?: string[]
   studentName?: string

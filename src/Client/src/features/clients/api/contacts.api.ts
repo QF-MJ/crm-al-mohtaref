@@ -9,9 +9,9 @@ export function getContacts(filters: ContactFilters, signal?: AbortSignal) {
     .get<ContactsPage>('/contacts', {
       params: {
         pageNumber: filters.pageNumber,
-        campaignTitle: filters.campaignTitle,
+        campaignId: filters.campaignId,
         trackId: filters.trackId,
-        leadStatusId: filters.leadStatusId,
+        leadStatus: filters.leadStatus,
         tagIds: filters.tagIds,
         studentName: filters.studentName,
         contactName: filters.contactName,

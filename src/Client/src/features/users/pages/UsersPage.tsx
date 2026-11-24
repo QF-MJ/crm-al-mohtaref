@@ -21,7 +21,7 @@ interface DraftFilters {
   accountName: string
   email: string
   status: string
-  roleId: string
+  role: string
   departmentId: string
 }
 
@@ -30,7 +30,7 @@ const EMPTY_DRAFT: DraftFilters = {
   accountName: '',
   email: '',
   status: '',
-  roleId: '',
+  role: '',
   departmentId: '',
 }
 
@@ -94,7 +94,7 @@ export function UsersPage() {
       accountName: draft.accountName.trim() || undefined,
       email: draft.email.trim() || undefined,
       isActive: draft.status === '' ? undefined : draft.status === 'true',
-      roleId: draft.roleId || undefined,
+      role: draft.role || undefined,
       departmentId,
     })
   }
@@ -108,7 +108,7 @@ export function UsersPage() {
     filters.name ||
     filters.accountName ||
     filters.email ||
-    filters.roleId ||
+    filters.role ||
     filters.isActive !== undefined,
   )
   const pageNumber = filters.pageNumber
@@ -177,8 +177,8 @@ export function UsersPage() {
           />
           <SelectField
             label={t('users.role')}
-            value={draft.roleId}
-            onChange={(roleId) => setDraft((current) => ({ ...current, roleId }))}
+            value={draft.role}
+            onChange={(role) => setDraft((current) => ({ ...current, role }))}
             options={roleOptions}
           />
           <SelectField

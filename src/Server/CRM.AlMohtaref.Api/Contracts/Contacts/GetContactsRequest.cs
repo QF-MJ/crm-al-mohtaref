@@ -5,7 +5,7 @@ namespace CRM.AlMohtaref.Api.Contracts.Contacts;
 
 public sealed class GetContactsRequest : PagedRequest
 {
-    public string? CampaignTitle { get; set; }
+    public Guid? CampaignId { get; set; }
 
     public Guid? TrackId { get; set; }
 
@@ -21,7 +21,7 @@ public sealed class GetContactsRequest : PagedRequest
 
     public GetContactsQuery ToQuery() => new(
         PageNumber,
-        CampaignTitle,
+        CampaignId,
         TrackId,
         LeadStatus,
         TagIds,
