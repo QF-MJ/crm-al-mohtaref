@@ -10,7 +10,7 @@ info:
     - Every request body AND every query-string set is bound to a schema named `*Request`.
       Query-string requests are sent flattened (`?PageNumber=1&PageSize=20&Title=abc`).
     - JSON responses use camelCase property names; query-string parameters keep PascalCase.
-    - Every error (400, 401, 403) uses the single `ErrorDto` JSON: `{ "status": 400, "message": "..." }`.
+    - Every error (400, 401, 403, 404) uses the single `ErrorDto` JSON: `{ "status": 400, "message": "..." }`.
 servers:
   - url: /api
 security:
@@ -112,6 +112,25 @@ paths:
         "401": { $ref: "#/components/responses/Unauthorized" }
         "403": { $ref: "#/components/responses/Forbidden" }
 
+  /tasks/{taskId}:
+    delete:
+      tags: [Tasks]
+      operationId: deleteTask
+      summary: Delete a task
+      description: Deletes the task with the given id.
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          description: The id of the task to delete.
+          schema: { type: string, format: uuid }
+      responses:
+        "204":
+          description: The task was deleted
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
   /lookups/managers/{managerId}/users:
     get:
       tags: [Lookups]
@@ -164,6 +183,11 @@ components:
           schema: { $ref: "#/components/schemas/ErrorDto" }
     Forbidden:
       description: The user's role does not allow this action
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorDto" }
+    NotFound:
+      description: The requested resource does not exist
       content:
         application/json:
           schema: { $ref: "#/components/schemas/ErrorDto" }
