@@ -1,4 +1,5 @@
 ﻿using CRM.AlMohtaref.Application.Features.Lookups;
+using CRM.AlMohtaref.Application.Features.Lookups.GetLookups;
 
 namespace CRM.AlMohtaref.Api.Contracts.Lookups;
 

@@ -1,4 +1,4 @@
-﻿using CRM.AlMohtaref.Application.Features.Lookups;
+﻿using CRM.AlMohtaref.Application.Features.Lookups.GetLookups;
 using FluentValidation;
 
 public class GetLookupsQueryValidator : AbstractValidator<GetLookupsQuery>

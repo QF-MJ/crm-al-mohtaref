@@ -1,5 +1,6 @@
 ﻿using CRM.AlMohtaref.Application.Features.Lookups.Dtos;
 using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Domain.Entities.Users;
 using CRM.AlMohtaref.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,5 +50,23 @@ namespace CRM.AlMohtaref.Infrastructure.Repositories
                .Select(d => new LookupItemDto(d.Id, d.Name))
                .ToListAsync(ct);
         }
+
+        public async Task<IEnumerable<LookupItemDto>> GetUsersByManagerIdAsync(Guid managerId, CancellationToken ct = default)
+        {
+            var managerPermissions = db.Users
+                .Where(m => m.Id == managerId)
+                .SelectMany(m => m.UserPermissions)
+                .Where(p => p.Role == Role.Manager);
+
+            return await db.Users
+                .AsNoTracking()
+                .Where(u =>
+                    managerPermissions.Any(p => p.Department.Name == "الإدارة") ||
+                    (u.Id != managerId &&
+                     u.UserPermissions.Any(up => managerPermissions.Select(mp => mp.DepartmentId).Contains(up.DepartmentId))))
+                .Select(u => new LookupItemDto(u.Id, u.FullName))
+                .ToListAsync(ct);
+        }
+
     }
 }

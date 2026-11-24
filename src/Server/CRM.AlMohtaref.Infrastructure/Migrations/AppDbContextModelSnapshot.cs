@@ -474,6 +474,99 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.ToTable("QuestionConfigurations", (string)null);
                 });
 
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Tasks.StudentTask", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TaskId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("TaskType")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(8);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("TaskId", "StudentId")
+                        .IsUnique();
+
+                    b.HasIndex("TaskId", "TaskType");
+
+                    b.ToTable("StudentTasks", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_StudentTasks_TaskType_SubTaskOnly", "[TaskType] = 8");
+                        });
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Tasks.Task", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AssignedToUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("date");
+
+                    b.Property<Guid?>("ParentTaskId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("date");
+
+                    b.Property<int>("TaskStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TaskType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignedToUserId");
+
+                    b.HasIndex("CreatedByUserId");
+
+                    b.HasIndex("ParentTaskId");
+
+                    b.HasIndex("TaskStatus");
+
+                    b.HasIndex("TaskType");
+
+                    b.HasIndex("Id", "TaskType")
+                        .IsUnique();
+
+                    b.HasIndex("StartTime", "EndTime");
+
+                    b.ToTable("Tasks", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_Tasks_EndTime_GreaterThanOrEqual_StartTime", "[EndTime] >= [StartTime]");
+
+                            t.HasCheckConstraint("CK_Tasks_ParentTask_NotSelf", "[ParentTaskId] IS NULL OR [ParentTaskId] <> [Id]");
+                        });
+                });
+
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.Department", b =>
                 {
                     b.Property<Guid>("Id")
@@ -814,6 +907,51 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.Navigation("Field");
                 });
 
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Tasks.StudentTask", b =>
+                {
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Contacts.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Tasks.Task", "Task")
+                        .WithMany("StudentTasks")
+                        .HasForeignKey("TaskId", "TaskType")
+                        .HasPrincipalKey("Id", "TaskType")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+
+                    b.Navigation("Task");
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Tasks.Task", b =>
+                {
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.User", "AssignedToUser")
+                        .WithMany()
+                        .HasForeignKey("AssignedToUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Tasks.Task", "ParentTask")
+                        .WithMany("SubTasks")
+                        .HasForeignKey("ParentTaskId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("AssignedToUser");
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("ParentTask");
+                });
+
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.User", b =>
                 {
                     b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.User", "CreatedByUser")
@@ -934,6 +1072,13 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Questions.QuestionConfiguration", b =>
                 {
                     b.Navigation("Questions");
+                });
+
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Tasks.Task", b =>
+                {
+                    b.Navigation("StudentTasks");
+
+                    b.Navigation("SubTasks");
                 });
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Users.Department", b =>

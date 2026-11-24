@@ -47,6 +47,7 @@ public static class DependencyInjection
         services.AddScoped<IOptionRepository, OptionRepository>();
         services.AddScoped<IOptionSetRepository, OptionSetRepository>();
         services.AddScoped<IUserRefreshTokenRepository, UserRefreshTokenRepository>();
+        services.AddScoped<ITaskRepository, TaskRepository>();
 
         return services;
     }

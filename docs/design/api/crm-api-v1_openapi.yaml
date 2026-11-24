@@ -17,6 +17,7 @@ security:
   - bearerAuth: []
 tags:
   - name: Tasks
+  - name: Lookups
 
 paths:
   /tasks:
@@ -29,18 +30,40 @@ paths:
         - `Title`: optional, partial, case-insensitive match on the task title.
         - `Type`: optional, task type.
         - `StartTime` / `EndTime`: the time range of the tasks.
-        - `ExecutedByUserFullName`: optional, full name of the user who executes the task.
         - `GroupBySubTask`: decides the shape of the response.
-          `false`: only `tasks` is returned (a flat list), `groupTasks` is not in the response at all.
-          `true`: `groupTasks` is returned (a map: parent task id -> its sub-tasks), and `tasks` is returned
-          (a flat list, not grouped) holding the standalone tasks, i.e. the tasks that have no parent and no children.
+          `false`: only `tasks` is returned (a flat list of all tasks except sub-tasks), `groupTasks` is not in the response at all.
+          `true`: `groupTasks` is returned (a map: parent task id -> parent title and its sub-tasks, each sub-task with
+          its status and its linked contacts: full name, phone number and campaign id; this is the only place sub-tasks appear
+          inside a parent).
       parameters:
-        - name: request
+        - name: PageNumber
           in: query
           required: true
-          style: form
-          explode: true
-          schema: { $ref: "#/components/schemas/GetTasksRequest" }
+          schema: { type: integer, format: int32, minimum: 1, default: 1 }
+        - name: Title
+          in: query
+          required: false
+          schema: { type: string }
+        - name: Type
+          in: query
+          required: false
+          schema: { $ref: "#/components/schemas/TaskType" }
+        - name: StartTime
+          in: query
+          required: true
+          schema: { type: string, format: date-time }
+        - name: EndTime
+          in: query
+          required: true
+          schema: { type: string, format: date-time }
+        - name: AssignedToUserId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: GroupBySubTask
+          in: query
+          required: true
+          schema: { type: boolean, default: false }
       responses:
         "200":
           description: A page of tasks
@@ -56,48 +79,68 @@ paths:
                       - id: 3f2b8c1e-6a4d-4b7e-9c1a-0d5e7f8a9b10
                         title: متابعة عميل
                         typeName: متابعة
-                        statusName: قيد تنفيذ
-                        startTime: "2026-11-23T09:00:00Z"
+                        statusName: قيد التنفيذ
                         endTime: "2026-11-23T10:00:00Z"
-                        executedByUserFullName: أحمد محمد
+                        AssignedToUserFullName: أحمد محمد
                       - id: 7a1d4e92-2b3c-4f55-8e06-1c9b2a3d4e5f
                         title: مهمة عادية
                         typeName: مهمة عادية
-                        statusName: to do
-                        startTime: "2026-11-24T09:00:00Z"
+                        statusName: قيد الانتظار
                         endTime: "2026-11-24T11:00:00Z"
-                        executedByUserFullName: أحمد محمد
+                        AssignedToUserFullName: أحمد محمد
                 GroupBySubTask=true:
-                  summary: GroupBySubTask = true (map of parent id to sub-tasks, plus the standalone tasks)
+                  summary: GroupBySubTask = true (grouped sub-tasks)
                   value:
                     page: { pageNumber: 1, hasNextPage: false }
                     groupTasks:
                       3f2b8c1e-6a4d-4b7e-9c1a-0d5e7f8a9b10:
-                        title: حملة التسجيل الصيفية
-                        tasks:
-                            - id: 9c8b7a65-4d3e-4f21-a0b9-8c7d6e5f4a3b
-                              title: اتصال هاتفي
-                              typeName: مهمة فرعية
-                              statusName: done
-                              startTime: "2026-11-23T09:00:00Z"
-                              endTime: "2026-11-23T09:30:00Z"
-                              executedByUserFullName: أحمد محمد
-                            - id: 1e2d3c4b-5a69-4788-9a0b-1c2d3e4f5a6b
-                              title: إرسال عرض
-                              typeName: مهمة فرعية
-                              statusName: قيد المراجعة
-                              startTime: "2026-11-23T09:30:00Z"
-                              endTime: "2026-11-23T10:00:00Z"
-                              executedByUserFullName: أحمد محمد
-                    tasks:
-                      - id: 7a1d4e92-2b3c-4f55-8e06-1c9b2a3d4e5f
-                        title: مهمة عادية
-                        typeName: مهمة عادية
-                        statusName: to do
-                        startTime: "2026-11-24T09:00:00Z"
-                        endTime: "2026-11-24T11:00:00Z"
-                        executedByUserFullName: أحمد محمد
+                        title: تواصل مع 50 عميل
+                        subTasks:
+                          - id: 9c8b7a65-4d3e-4f21-a0b9-8c7d6e5f4a3b
+                            statusName: مكتملة
+                            contacts:
+                              - id: 4a3b2c1d-0e9f-4b8a-9c7d-6e5f4a3b2c1d
+                                fullName: محمد علي
+                                phoneNumber: "0933123456"
+                          - id: 1e2d3c4b-5a69-4788-9a0b-1c2d3e4f5a6b
+                            statusName: قيد الانتظار
+                            contacts:
+                              - id: 6f5e4d3c-2b1a-4098-8f7e-6d5c4b3a2f1e
+                                fullName: هدى حسن
+                                phoneNumber: "0944987654"
         "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /lookups/managers/{managerId}/users:
+    get:
+      tags: [Lookups]
+      operationId: getUsersByManager
+      summary: Get users managed by a manager
+      description: |
+        Returns the list of users who are in a department managed by the given manager.
+        A manager is a user who has a `Manager` role permission in one or more departments.
+        The endpoint returns every user (the manager included) who has a permission in any
+        of those departments, as a flat list of `{ id, name }` items.
+      parameters:
+        - name: managerId
+          in: path
+          required: true
+          description: The user id of the manager.
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: List of users managed by the given manager
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/LookupItemDto" }
+              example:
+                - id: 4a3b2c1d-0e9f-4b8a-9c7d-6e5f4a3b2c1d
+                  name: أحمد محمد
+                - id: 6f5e4d3c-2b1a-4098-8f7e-6d5c4b3a2f1e
+                  name: هدى حسن
         "401": { $ref: "#/components/responses/Unauthorized" }
         "403": { $ref: "#/components/responses/Forbidden" }
 
@@ -159,8 +202,9 @@ components:
             EndTime:
               type: string
               format: date-time
-            ExecutedByUserFullName:
+            AssignedToUserId:
               type: string
+              format: uuid
             GroupBySubTask:
               type: boolean
               default: false
@@ -177,24 +221,45 @@ components:
       description: Fixed list of task types.
       enum: [مهمة عادية, مشكلة, حملة, تواصل, متابعة, تثبيت, تسكين, مهمة فرعية]
 
+    TaskStatus:
+      type: string
+      description: |
+        Fixed list of task statuses, returned as `statusName`. In order: Pending, InProgress, Completed, Cancelled, OnHold.
+      enum: [قيد الانتظار, قيد التنفيذ, مكتملة, ملغاة, معلقة]
+
     TaskDto:
       type: object
       properties:
         id: { type: string, format: uuid }
         title: { type: string, nullable: true }
         typeName: { type: string, nullable: true }
-        statusName: { type: string, nullable: true }
-        startTime: { type: string, format: date-time }
+        statusName: { $ref: "#/components/schemas/TaskStatus" }
         endTime: { type: string, format: date-time }
-        executedByUserFullName: { type: string, nullable: true }
+        AssignedToUserFullName: { type: string, nullable: true }
+
+    GroupContactDto:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        fullName: { type: string, nullable: true }
+        phoneNumber: { type: string, nullable: true }
+
+    GroupSubTaskDto:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        statusName: { $ref: "#/components/schemas/TaskStatus" }
+        contacts:
+          type: array
+          items: { $ref: "#/components/schemas/GroupContactDto" }
 
     TaskGroupDto:
       type: object
       properties:
         title: { type: string, nullable: true }
-        tasks:
+        subTasks:
           type: array
-          items: { $ref: "#/components/schemas/TaskDto" }
+          items: { $ref: "#/components/schemas/GroupSubTaskDto" }
 
     TasksPageDto:
       type: object
@@ -207,6 +272,14 @@ components:
         tasks:
           type: array
           description: |
-            Not grouped. When `GroupBySubTask=false` it holds all the tasks.
-            When `GroupBySubTask=true` it holds only the standalone tasks (no parent and no children).
+            Not grouped. When `GroupBySubTask=false` it holds all the tasks except sub-tasks.
+            When `GroupBySubTask=true` it holds every task that has NO sub-tasks of its own
+            (the standalone tasks: no parent and no children), so no task is left out of the response.
           items: { $ref: "#/components/schemas/TaskDto" }
+
+    LookupItemDto:
+      type: object
+      description: A single lookup item (id + display name).
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string, nullable: true }

@@ -6,6 +6,8 @@ using CRM.AlMohtaref.Domain.Entities.Contacts;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 
+using Task = CRM.AlMohtaref.Domain.Entities.Tasks.Task;
+
 namespace CRM.AlMohtaref.Infrastructure.Data;
 
 public class AppDbContext : DbContext, IUnitOfWork
@@ -47,6 +49,9 @@ public class AppDbContext : DbContext, IUnitOfWork
     public DbSet<UserRefreshToken> userRefreshTokens { get; set; } = null!;
 
     public DbSet<CampaignLead> CampaignLeads { get; set; }
+
+    public DbSet<Task> Tasks { get; set; }
+
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {

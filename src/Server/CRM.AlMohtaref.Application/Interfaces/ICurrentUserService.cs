@@ -17,5 +17,7 @@ namespace CRM.AlMohtaref.Application.Interfaces
         bool HasDepartment(string? department);
 
         bool HasAnyDepartment(IEnumerable<PermissionDto>? permissions);
+
+        bool IsManagerInAnyDepartment(IEnumerable<PermissionDto>? permissions);
     }
 }

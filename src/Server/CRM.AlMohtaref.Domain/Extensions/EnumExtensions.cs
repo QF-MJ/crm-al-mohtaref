@@ -1,5 +1,8 @@
 ﻿using CRM.AlMohtaref.Domain.Entities.Campaigns;
 using CRM.AlMohtaref.Domain.Entities.Users;
+using CRM.AlMohtaref.Domain.Entities.Tasks;
+
+using TaskStatus = CRM.AlMohtaref.Domain.Entities.Tasks.TaskStatus;
 
 namespace CRM.AlMohtaref.Domain.Extensions
 {
@@ -30,6 +33,35 @@ namespace CRM.AlMohtaref.Domain.Extensions
                 LeadStatus.Assigning => "قيد التسكين",
                 LeadStatus.Assigned => "تم التسكين",
                 _ => status.ToString()
+            };
+        }
+
+        public static string ToTaskTypeString(this TaskType taskType)
+        {
+            return taskType switch
+            {
+                TaskType.Normal => "مهمة عادية",
+                TaskType.Issue => "مشكلة",
+                TaskType.Campaign => "حملة",
+                TaskType.Contact => "تواصل",
+                TaskType.FollowUp => "متابعة",
+                TaskType.Confirmation => "تثبيت",
+                TaskType.Placement => "تسكين",
+                TaskType.SubTask => "مهمة فرعية",
+                _ => taskType.ToString()
+            };
+        }
+
+        public static string ToTaskStatusString(this TaskStatus taskStatus)
+        {
+            return taskStatus switch
+            {
+                TaskStatus.Pending => "قيد الانتظار",
+                TaskStatus.InProgress => "قيد التنفيذ",
+                TaskStatus.Completed => "مكتملة",
+                TaskStatus.Cancelled => "ملغاة",
+                TaskStatus.OnHold => "معلقة",
+                _ => taskStatus.ToString()
             };
         }
     }

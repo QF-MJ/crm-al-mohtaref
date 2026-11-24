@@ -1,11 +1,17 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using Bogus;
+using CRM.AlMohtaref.Domain.Entities.Users;
 using CRM.AlMohtaref.Infrastructure.ExternalServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+// aliases only: importing the whole Tasks namespace would clash with System.Threading.Tasks.Task / TaskStatus
+using DomainTask = CRM.AlMohtaref.Domain.Entities.Tasks.Task;
+using StudentTask = CRM.AlMohtaref.Domain.Entities.Tasks.StudentTask;
+using TaskState = CRM.AlMohtaref.Domain.Entities.Tasks.TaskStatus;
+using TaskType = CRM.AlMohtaref.Domain.Entities.Tasks.TaskType;
 
 namespace CRM.AlMohtaref.Infrastructure.Data.Seed;
 
@@ -21,6 +27,8 @@ namespace CRM.AlMohtaref.Infrastructure.Data.Seed;
 // - FK named CreatedBy* / UpdatedBy* / ModifiedBy* always points to the first row of the parent (the admin)
 // - any property whose name contains "password" gets the hash of SeedRules.PlainPassword
 // - an entity with a CHECK constraint and 2+ optional FKs gets only ONE of them per row (like ContactTag)
+// - SeedRules.FirstRowOnly: a combination (admin = manager + administration) that only row 0 may have
+// - Task / StudentTask are NOT random: they are built from the lead status of every student (see "tasks" below)
 internal sealed class AutoSeeder
 {
     private sealed class Row : Dictionary<string, object?> { }
@@ -61,7 +69,7 @@ internal sealed class AutoSeeder
                 continue;
             }
 
-            var created = await FillAsync(et);
+            var created = IsTaskEntity(et) ? await FillTaskEntityAsync(et) : await FillAsync(et);
             _rows[et] = created;
             _db.ChangeTracker.Clear();
 
@@ -130,6 +138,12 @@ internal sealed class AutoSeeder
             foreach (var fk in e.GetForeignKeys())
                 if (fk.IsRequired && !_backEdges.Contains(fk) && fk.PrincipalEntityType != e && all.Contains(fk.PrincipalEntityType))
                     deps[e].Add(fk.PrincipalEntityType);
+
+        // Task is built from users / students / contacts / leads: they must be seeded first.
+        // Added BEFORE the optional edges below, so an optional edge can never close a cycle through Task.
+        foreach (var e in all.Where(x => x.ClrType.Name == "Task"))
+            foreach (var d in all.Where(x => x.ClrType.Name is "User" or "Student" or "Contact" or "CampaignLead"))
+                deps[e].Add(d);
 
         bool DependsOn(IEntityType from, IEntityType target, HashSet<IEntityType> visited)
         {
@@ -323,6 +337,7 @@ internal sealed class AutoSeeder
         {
             var values = new Dictionary<IProperty, object?>();
             var rowPlaceholders = new List<(IForeignKey Fk, object Value)>();
+            var picked = new Dictionary<string, Row>(); // FK property name -> chosen parent row
 
             var account = et.ClrType.Name == "User"
                 ? (i == 0 ? SeedRules.AdminAccount : "user" + i.ToString("00"))
@@ -338,8 +353,31 @@ internal sealed class AutoSeeder
                     parent = _rows[fk.PrincipalEntityType].FirstOrDefault(r => r.TryGetValue("Name", out var nm) && nm as string == wanted);
 
                 parent ??= Pick(fk, _rows[fk.PrincipalEntityType], i);
+                picked[fk.Properties[0].Name] = parent;
                 for (var j = 0; j < fk.Properties.Count; j++)
                     values[fk.Properties[j]] = parent[fk.PrincipalKey.Properties[j].Name];
+            }
+
+            // SeedRules.FirstRowOnly: only row 0 (the admin) may be "manager + administration".
+            // Any other row with that combination keeps its role and takes another department.
+            if (i > 0)
+            {
+                foreach (var rule in SeedRules.FirstRowOnly)
+                {
+                    if (rule.Entity != et.ClrType.Name) continue;
+                    if (!picked.TryGetValue(rule.RoleFk, out var first) || !picked.TryGetValue(rule.DepartmentFk, out var second)) continue;
+                    if (first.GetValueOrDefault("Name") as string != rule.RoleName || second.GetValueOrDefault("Name") as string != rule.DepartmentName) continue;
+
+                    var fkB = normal.First(k => k.Properties[0].Name == rule.DepartmentFk);
+                    var alternative = _rows[fkB.PrincipalEntityType]
+                        .Where(r => r.GetValueOrDefault("Name") as string != rule.DepartmentName)
+                        .ToList();
+                    if (alternative.Count == 0) continue;
+
+                    var replacement = alternative[i % alternative.Count];
+                    for (var j = 0; j < fkB.Properties.Count; j++)
+                        values[fkB.Properties[j]] = replacement[fkB.PrincipalKey.Properties[j].Name];
+                }
             }
 
             foreach (var fk in placeholders)
@@ -370,6 +408,36 @@ internal sealed class AutoSeeder
 
                 var v = MakeValue(et, p, i, account, unique);
                 if (v != null) values[p] = v;
+            }
+
+            // UserPermission.Role is an enum (NOT a foreign key), so FirstRow / FirstRowOnly cannot reach it.
+            // Row 0 (the admin's first permission) must be (Manager, Administration).
+            // Any other row that would end up (Manager, Administration) keeps Administration but becomes Employee,
+            // so that combination stays unique to the admin.
+            if (et.ClrType.Name == "UserPermission")
+            {
+                var roleProp = et.GetProperties().FirstOrDefault(p => p.Name == "Role");
+                var deptIdProp = et.GetProperties().FirstOrDefault(p => p.Name == "DepartmentId");
+                if (roleProp != null && deptIdProp != null)
+                {
+                    var deptEntityType = _seedable.FirstOrDefault(e => e.ClrType.Name == "Department");
+                    Guid? adminDeptId = null;
+                    if (deptEntityType != null && _rows.TryGetValue(deptEntityType, out var deptRows))
+                        adminDeptId = deptRows.FirstOrDefault(r => r.TryGetValue("Name", out var nm) && nm as string == "الإدارة")?["Id"] as Guid?;
+
+                    if (adminDeptId.HasValue && values.TryGetValue(deptIdProp, out var deptIdObj) && deptIdObj is Guid deptId)
+                    {
+                        if (i == 0)
+                        {
+                            values[roleProp] = Role.Manager;
+                            values[deptIdProp] = adminDeptId.Value;
+                        }
+                        else if (deptId == adminDeptId.Value)
+                        {
+                            values[roleProp] = Role.Employee;
+                        }
+                    }
+                }
             }
 
             // join tables with a composite key: skip duplicates
@@ -560,6 +628,13 @@ internal sealed class AutoSeeder
         if (t == typeof(TimeSpan)) return TimeSpan.FromMinutes(_f.Random.Int(1, 600));
         if (t == typeof(byte[])) return _f.Random.Bytes(16);
 
+        // lead statuses go round-robin so every status is represented (tasks are built from them)
+        if (t.IsEnum && t.Name == "LeadStatus")
+        {
+            var statuses = Enum.GetValues(t);
+            return statuses.GetValue(i % statuses.Length);
+        }
+
         if (t.IsEnum)
         {
             var all = Enum.GetValues(t);
@@ -567,5 +642,271 @@ internal sealed class AutoSeeder
         }
 
         return null; // complex types: left to the entity default
+    }
+
+    // ---------------------------------------------------------------- tasks
+    // Tasks are generated FROM the lead status, so the data is always consistent:
+    //   New        -> nothing, or a Contact task still pending
+    //   Contacting -> Contact in progress
+    //   ContactFailed / Responded -> Contact done (Responded also has a FollowUp pending)
+    //   FollowingUp -> FollowUp in progress, FollowUpFailed -> FollowUp done
+    //   Confirming -> Confirmation in progress, Confirmed -> done (+ Placement pending)
+    //   Assigning -> Placement in progress, Assigned -> done
+    // Rules: only SubTasks link to students; one sub-task per contact; all its students share that contact.
+    // Normal / Issue parents hold sub-tasks only. Campaign tasks are standalone.
+    //
+    // Creators / executors are employees (every user except the admin), always given to the one who has the
+    // fewest tasks so far. Workflow tasks cannot be multiplied (they mirror the lead statuses), so extra
+    // Normal / Issue tasks (same rules) are added until every employee EXECUTES at least
+    // SeedRules.MinTasksPerEmployee tasks (a parent and each of its sub-tasks count as one each).
+    // Pending tasks have no executor, so they never count.
+
+    private sealed record PlanTask(Guid Id, Guid? ParentId, string Title, string? Description, TaskType Type,
+        TaskState Status, DateTime Start, DateTime End, Guid CreatedBy, Guid? ExecutedBy);
+
+    private List<PlanTask>? _taskPlan;
+    private readonly List<(Guid Task, Guid Student)> _studentTaskPlan = new();
+
+    private static bool IsTaskEntity(IEntityType et)
+    {
+        return et.ClrType == typeof(DomainTask) || et.ClrType == typeof(StudentTask);
+    }
+
+    private async Task<List<Row>> FillTaskEntityAsync(IEntityType et)
+    {
+        _taskPlan ??= BuildTaskPlan();
+        var entries = new List<EntityEntry>();
+
+        if (et.ClrType == typeof(DomainTask))
+        {
+            foreach (var t in _taskPlan)
+                entries.Add(_db.Add(new DomainTask
+                {
+                    Id = t.Id,
+                    ParentTaskId = t.ParentId,
+                    Title = t.Title,
+                    Description = t.Description,
+                    TaskType = t.Type,
+                    TaskStatus = t.Status,
+                    StartTime = t.Start,
+                    EndTime = t.End,
+                    CreatedByUserId = t.CreatedBy,
+                    AssignedToUserId = t.ExecutedBy
+                }));
+        }
+        else
+        {
+            foreach (var (taskId, studentId) in _studentTaskPlan)
+            {
+                var entry = _db.Add(new StudentTask
+                {
+                    Id = StableGuid("StudentTask", entries.Count),
+                    TaskId = taskId,
+                    StudentId = studentId
+                });
+                entry.Property("TaskType").CurrentValue = TaskType.SubTask;
+                entries.Add(entry);
+            }
+        }
+
+        if (entries.Count == 0) return new List<Row>();
+
+        await _db.SaveChangesAsync(_ct);
+        return entries.Select(Snapshot).ToList();
+    }
+
+    private List<Row> RowsOf(string clrName)
+    {
+        return _rows.FirstOrDefault(kv => kv.Key.ClrType.Name == clrName).Value ?? new List<Row>();
+    }
+
+    private static List<(TaskType Stage, TaskState Status)> L(params (TaskType, TaskState)[] steps)
+    {
+        return steps.Select(s => (s.Item1, s.Item2)).ToList();
+    }
+
+    // lead status number (LeadStatus enum) -> tasks that must exist for that student
+    private static List<(TaskType Stage, TaskState Status)> Chain(int lead, int index)
+    {
+        const TaskType C = TaskType.Contact, F = TaskType.FollowUp, K = TaskType.Confirmation, P = TaskType.Placement;
+        const TaskState pend = TaskState.Pending, prog = TaskState.InProgress, done = TaskState.Completed;
+
+        return lead switch
+        {
+            1 => index % 2 == 0 ? L() : L((C, pend)),                 // New
+            2 => L((C, prog)),                                        // Contacting
+            3 => L((C, done)),                                        // ContactFailed
+            4 => L((C, done), (F, pend)),                             // Responded
+            5 => L((C, done), (F, prog)),                             // FollowingUp
+            6 => L((C, done), (F, done)),                             // FollowUpFailed
+            7 => L((C, done), (F, done), (K, prog)),                  // Confirming
+            8 => L((C, done), (F, done), (K, done), (P, pend)),       // Confirmed
+            9 => L((C, done), (F, done), (K, done), (P, prog)),       // Assigning
+            10 => L((C, done), (F, done), (K, done), (P, done)),      // Assigned
+            _ => L()
+        };
+    }
+
+    // (student, contact, lead status). Status lives on CampaignLead (per student), or on Contact as fallback.
+    private List<(Guid Student, Guid Contact, int Status)> CollectLeads(Dictionary<Guid, Guid> contactOfStudent)
+    {
+        var result = new List<(Guid, Guid, int)>();
+        var seen = new HashSet<Guid>(); // one lead per student
+
+        var leadRows = RowsOf("CampaignLead");
+        if (leadRows.Count > 0 && leadRows[0].ContainsKey("Status") && leadRows[0].ContainsKey("StudentId"))
+        {
+            foreach (var r in leadRows)
+                if (r["StudentId"] is Guid sid && r["Status"] is { } lst
+                    && contactOfStudent.TryGetValue(sid, out var cid) && seen.Add(sid))
+                    result.Add((sid, cid, Convert.ToInt32(lst)));
+            return result;
+        }
+
+        var contactRows = RowsOf("Contact");
+        if (contactRows.Count > 0 && contactRows[0].ContainsKey("Status"))
+        {
+            var statusOf = contactRows.ToDictionary(r => (Guid)r["Id"]!, r => Convert.ToInt32(r["Status"]));
+            foreach (var (sid, cid) in contactOfStudent)
+                if (statusOf.TryGetValue(cid, out var cst)) result.Add((sid, cid, cst));
+        }
+
+        return result;
+    }
+
+    // Completed tasks sit in the past (earlier stage = earlier dates), in-progress around RefDate, pending in the future.
+    private static (DateTime Start, DateTime End) Window(TaskState status, int stage, int chunk)
+    {
+        var c = chunk % 3;
+        var start = status switch
+        {
+            TaskState.Completed => RefDate.AddDays(-60 + stage * 15 + c),
+            TaskState.Pending => RefDate.AddDays(1 + c),
+            _ => RefDate.AddDays(-5 - c)
+        };
+        var end = status switch
+        {
+            TaskState.Completed => start.AddDays(10),
+            TaskState.Pending => start.AddDays(14),
+            _ => RefDate.AddDays(5 + c)
+        };
+        return (start.Date, end.Date);
+    }
+
+    private List<PlanTask> BuildTaskPlan()
+    {
+        var plan = new List<PlanTask>();
+        _studentTaskPlan.Clear();
+
+        var users = RowsOf("User").Select(r => (Guid)r["Id"]!).ToList();
+        var students = RowsOf("Student").Where(r => r.TryGetValue("ContactId", out var c) && c is Guid).ToList();
+        if (users.Count == 0 || students.Count == 0) return plan;
+
+        var staff = users.Count > 1 ? users.Skip(1).ToList() : users; // employees, not the admin
+        var contactNames = RowsOf("Contact").ToDictionary(r => (Guid)r["Id"]!, r => r.TryGetValue("FullName", out var fn) ? fn as string : null);
+        var contactOfStudent = students.ToDictionary(r => (Guid)r["Id"]!, r => (Guid)r["ContactId"]!);
+        var studentsByContact = students.GroupBy(r => (Guid)r["ContactId"]!)
+            .ToDictionary(g => g.Key, g => g.Select(r => (Guid)r["Id"]!).ToList());
+
+        // tasks created / executed so far per employee (parent + each sub-task = 1 each)
+        var created = staff.ToDictionary(s => s, _ => 0);
+        var executed = staff.ToDictionary(s => s, _ => 0);
+
+        // the employee with the fewest tasks; ties go to the first one (OrderBy is stable), so it is deterministic
+        Guid Least(Dictionary<Guid, int> load) => staff.OrderBy(s => load[s]).First();
+
+        string Name(Guid contact) => contactNames.TryGetValue(contact, out var nm) && !string.IsNullOrWhiteSpace(nm) ? nm : contact.ToString()[..8];
+        string Cut(string text) => text.Length > 200 ? text[..200] : text;
+
+        void AddBatch(TaskType type, TaskState status, string title, int stage, int chunk, List<(string Title, List<Guid> Students)> subs)
+        {
+            var (start, end) = Window(status, stage, chunk);
+            var weight = 1 + subs.Count;
+
+            var createdBy = Least(created);
+            created[createdBy] += weight;
+
+            Guid? executedBy = null;
+            if (status != TaskState.Pending)
+            {
+                executedBy = Least(executed);
+                executed[executedBy.Value] += weight;
+            }
+
+            var parentId = StableGuid("Task", plan.Count);
+            plan.Add(new PlanTask(parentId, null, Cut(title), "بيانات تجريبية", type, status, start, end, createdBy, executedBy));
+
+            foreach (var (subTitle, studentIds) in subs)
+            {
+                var id = StableGuid("Task", plan.Count);
+                plan.Add(new PlanTask(id, parentId, Cut(subTitle), null, TaskType.SubTask, status, start, end, createdBy, executedBy));
+                foreach (var sid in studentIds) _studentTaskPlan.Add((id, sid));
+            }
+        }
+
+        // ---- workflow tasks: one sub-task per contact, its students = that contact's students at this stage
+        var buckets = new Dictionary<(TaskType, TaskState, Guid), List<Guid>>();
+        var order = new List<(TaskType Stage, TaskState Status, Guid Contact)>();
+        var index = 0;
+
+        foreach (var (student, contact, leadStatus) in CollectLeads(contactOfStudent))
+            foreach (var (leadStage, leadState) in Chain(leadStatus, index++))
+            {
+                var key = (leadStage, leadState, contact);
+                if (!buckets.TryGetValue(key, out var list))
+                {
+                    buckets[key] = list = new List<Guid>();
+                    order.Add(key);
+                }
+                list.Add(student);
+            }
+
+        var stages = new[] { TaskType.Contact, TaskType.FollowUp, TaskType.Confirmation, TaskType.Placement };
+        var states = new[] { TaskState.Completed, TaskState.InProgress, TaskState.Pending };
+
+        for (var si = 0; si < stages.Length; si++)
+            foreach (var st in states)
+            {
+                var stage = stages[si];
+                var subs = order.Where(k => k.Stage == stage && k.Status == st)
+                    .Select(k => (SeedRules.SubTaskPrefix[stage.ToString()] + Name(k.Contact), buckets[(k.Stage, k.Status, k.Contact)]))
+                    .ToList();
+
+                for (var chunk = 0; chunk * SeedRules.SubTasksPerParent < subs.Count; chunk++)
+                    AddBatch(stage, st, SeedRules.TaskTitles[stage.ToString()] + " (" + (chunk + 1) + ")", si, chunk,
+                        subs.Skip(chunk * SeedRules.SubTasksPerParent).Take(SeedRules.SubTasksPerParent).ToList());
+            }
+
+        // ---- Normal / Issue: sub-tasks only, nothing else.
+        // The first 16 are the fixed set (8 statuses x 2 types); after that more are added, one by one, until
+        // every employee executes at least SeedRules.MinTasksPerEmployee tasks.
+        var contactIds = studentsByContact.Keys.ToList();
+        var generalStatuses = new[]
+        {
+            TaskState.Pending, TaskState.InProgress, TaskState.Completed, TaskState.OnHold,
+            TaskState.Cancelled, TaskState.InProgress, TaskState.Completed, TaskState.Pending
+        };
+
+        for (var g = 0; g < 2000; g++)
+        {
+            if (g >= 16 && staff.All(s => executed[s] >= SeedRules.MinTasksPerEmployee)) break;
+
+            var type = g % 2 == 0 ? TaskType.Normal : TaskType.Issue;
+            var k = g / 2; // position inside its type
+            var status = generalStatuses[k % generalStatuses.Length];
+
+            var subs = Enumerable.Range(0, 2 + k % 2)
+                .Select(j => contactIds[(g * 3 + j) % contactIds.Count]).Distinct()
+                .Select(cid => (SeedRules.SubTaskPrefix["General"] + Name(cid), studentsByContact[cid]))
+                .ToList();
+
+            AddBatch(type, status, SeedRules.TaskTitles[type.ToString()] + " (" + (k + 1) + ")", 0, k, subs);
+        }
+
+        // ---- Campaign: standalone
+        AddBatch(TaskType.Campaign, TaskState.Completed, SeedRules.TaskTitles["Campaign"], 0, 0, new());
+        AddBatch(TaskType.Campaign, TaskState.InProgress, SeedRules.TaskTitles["Campaign2"], 0, 1, new());
+
+        return plan;
     }
 }

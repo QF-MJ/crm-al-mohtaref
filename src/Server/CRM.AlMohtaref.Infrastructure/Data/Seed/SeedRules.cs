@@ -14,12 +14,14 @@ internal static class SeedRules
 
     // rows per entity (default = DefaultRows). The generator may raise a number when
     // a one-to-one relation needs more parents (e.g. Person must cover User + Contact + Student).
+    // Task / StudentTask are not listed: they are built from the lead statuses (see AutoSeeder).
     public static readonly Dictionary<string, int> RowCounts = new()
     {
         ["User"] = 25,      // admin + 24 employees
         ["Contact"] = 30,
         ["Student"] = 45,
         ["Campaign"] = 10,
+        ["CampaignLead"] = 45, // every student is a lead; LeadStatus goes round-robin over the enum
         ["UserPermission"] = 35 // >= users: every user gets at least one permission, the first 10 get a second one
     };
 
@@ -31,6 +33,17 @@ internal static class SeedRules
         ["UserPermission.DepartmentId"] = "الإدارة"
     };
 
+    // combination (role + department) that ONLY row 0 may have (the admin).
+    // Any other row that would get it keeps its role and moves to another department.
+    public static readonly (string Entity, string RoleFk, string RoleName, string DepartmentFk, string DepartmentName)[] FirstRowOnly =
+    {
+        ("UserPermission", "RoleId", "مدير", "DepartmentId", "الإدارة")
+    };
+
+    // every employee (every user except the admin) executes at least this many tasks (sub-tasks count too).
+    // Extra Normal / Issue tasks are added until everybody reaches it (see AutoSeeder, "tasks").
+    public const int MinTasksPerEmployee = 20;
+
     // lookup tables with fixed meaningful values: one row per item, written to the "Name" property.
     public static readonly Dictionary<string, string[]> Lookups = new()
     {
@@ -41,8 +54,6 @@ internal static class SeedRules
         ["Track"] = new[] { "البرمجة للأطفال", "اللغة الإنجليزية للأطفال" },
 
         ["CampaginStatus"] = new[] { "مسودة", "نشطة", "متوقفة مؤقتاً", "منتهية", "ملغاة" },
-
-        ["LeadStatus"] = new[] { "جديد", "تم التواصل", "مسجل", "غير مهتم" },
 
         ["Tag"] = new[]
         {
@@ -73,5 +84,33 @@ internal static class SeedRules
             "برمجة_2026_09_11",
             "انجليزي_2026_10_30"
         }
+    };
+
+    // ---------------------------------------------------------------- tasks
+
+    // sub-tasks per parent task (workflow tasks are split into batches of this size)
+    public const int SubTasksPerParent = 5;
+
+    // parent task titles, key = TaskType name (Campaign2 = second campaign task)
+    public static readonly Dictionary<string, string> TaskTitles = new()
+    {
+        ["Contact"] = "تواصل أولي مع عملاء جدد",
+        ["FollowUp"] = "متابعة العملاء بعد الاستجابة",
+        ["Confirmation"] = "تثبيت العميل بالكورس",
+        ["Placement"] = "تسكين الطلاب في المجموعات المناسبة",
+        ["Normal"] = "مراجعة تقارير الأداء الأسبوعية",
+        ["Issue"] = "مشكلة في دخول الطالب للمنصة",
+        ["Campaign"] = "حملة تسويقية لكورس البرمجة",
+        ["Campaign2"] = "حملة تسويقية لكورس الإنجليزية"
+    };
+
+    // sub-task title = prefix + contact name (General = under Normal / Issue tasks)
+    public static readonly Dictionary<string, string> SubTaskPrefix = new()
+    {
+        ["Contact"] = "تواصل مع: ",
+        ["FollowUp"] = "متابعة: ",
+        ["Confirmation"] = "تثبيت التسجيل:",
+        ["Placement"] = "تسكين طلاب: ",
+        ["General"] = "متابعة فرعية لطلاب ولي الأمر: "
     };
 }

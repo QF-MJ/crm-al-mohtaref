@@ -60,5 +60,24 @@ namespace CRM.AlMohtaref.Infrastructure.ExternalServices
             return Permissions.Any(p => p.Department?.Name != null && targetDepartments.Contains(p.Department.Name));
         }
 
+        public bool IsManagerInAnyDepartment(IEnumerable<PermissionDto>? permissions)
+        {
+            if (Permissions is null || permissions is null)
+                return false;
+
+            var targetDepartments = permissions
+                .Select(pr => pr.DepartmentName)
+                .Where(name => !string.IsNullOrEmpty(name))
+                .ToHashSet();
+
+            if (targetDepartments.Count == 0)
+                return false;
+
+            return Permissions.Any(p =>
+                p.Department?.Name != null &&
+                targetDepartments.Contains(p.Department.Name) &&
+                p.Role == Role.Manager);
+        }
+
     }
 }

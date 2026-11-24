@@ -1,6 +1,6 @@
 ﻿using CRM.AlMohtaref.Application.Features.Lookups.Dtos;
 using MediatR;
 
-namespace CRM.AlMohtaref.Application.Features.Lookups;
+namespace CRM.AlMohtaref.Application.Features.Lookups.GetLookups;
 
 public sealed record GetLookupsQuery(List<LookupType>? Include) : IRequest<LookupsDto>;

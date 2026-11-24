@@ -6,7 +6,7 @@ namespace CRM.AlMohtaref.Application.Interfaces
     {
         Task<IEnumerable<LookupItemDto>> GetDepartmentsAsync(CancellationToken ct = default);
 
-        Task<LookupItemDto?> GetDepartmentByIdAsync(Guid Id, CancellationToken ct = default);
+        Task<LookupItemDto?> GetDepartmentByIdAsync(Guid id, CancellationToken ct = default);
 
         Task<IEnumerable<LookupItemDto>> GetTracksAsync(CancellationToken ct = default);
         
@@ -14,7 +14,7 @@ namespace CRM.AlMohtaref.Application.Interfaces
 
         Task<IEnumerable<LookupItemDto>> GetTagsAsync(CancellationToken ct = default);
 
-
+        Task<IEnumerable<LookupItemDto>> GetUsersByManagerIdAsync(Guid managerId, CancellationToken ct = default);
 
     }
 }
