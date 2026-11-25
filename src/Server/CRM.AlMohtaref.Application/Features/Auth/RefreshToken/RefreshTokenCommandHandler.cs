@@ -3,6 +3,7 @@ using CRM.AlMohtaref.Application.Common.Exceptions;
 using CRM.AlMohtaref.Application.Features.Auth.Login;
 using CRM.AlMohtaref.Application.Features.Auth.RefreshToken;
 using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Application.Interfaces.Common;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using CRM.AlMohtaref.Domain.Extensions;
 using MediatR;
