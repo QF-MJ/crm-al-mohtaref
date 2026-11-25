@@ -1,5 +1,7 @@
 ﻿using CRM.AlMohtaref.Application.Common.Exceptions;
 using CRM.AlMohtaref.Application.Features.Auth;
+using CRM.AlMohtaref.Application.Features.Auth.Logout;
+using CRM.AlMohtaref.Application.Features.Auth.RefreshToken;
 using CRM.AlMohtaref.Application.Features.Campaigns;
 using CRM.AlMohtaref.Application.Features.Contacts.GetContacts;
 using CRM.AlMohtaref.Application.Features.Lookups;
@@ -39,6 +41,8 @@ public class DependencyInjectionTests : IDisposable
     [InlineData(typeof(CreateUserCommand))]
     [InlineData(typeof(UpdateUserCommand))]
     [InlineData(typeof(LoginCommand))]
+    [InlineData(typeof(LogoutCommand))]
+    [InlineData(typeof(RefreshTokenCommand))]
     [InlineData(typeof(UpdateCampaignCommand))]
     [InlineData(typeof(UpdateQuestionCommand))]
     public void ValidatorIsRegistered_ForEveryRequest(Type requestType)
@@ -53,7 +57,7 @@ public class DependencyInjectionTests : IDisposable
     {
         var mediator = _provider.GetRequiredService<IMediator>();
 
-        await Assert.ThrowsAsync<ValidationException>(
+        await Assert.ThrowsAsync<FluentValidation.ValidationException>(
             () => mediator.Send(new GetLookupsQuery(new List<LookupType>())));
     }
 
@@ -62,7 +66,7 @@ public class DependencyInjectionTests : IDisposable
     {
         var mediator = _provider.GetRequiredService<IMediator>();
 
-        await Assert.ThrowsAsync<ValidationException>(
+        await Assert.ThrowsAsync<FluentValidation.ValidationException>(
             () => mediator.Send(new GetLookupsQuery(new List<LookupType> { (LookupType)99 })));
     }
 

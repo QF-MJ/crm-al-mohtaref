@@ -50,7 +50,7 @@ namespace CRM.AlMohtaref.Application.Features.Auth.Login
                     user.LockAccount(DateTime.UtcNow.AddDays(1));
                 }
 
-                await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
 
                 throw new UnauthorizedException("كلمة السر أو اسم الحساب غير صحيحين");
             }

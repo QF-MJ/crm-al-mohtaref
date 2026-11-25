@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CRM.AlMohtaref.Application.Fseatures.Auth.RefreshToken
+namespace CRM.AlMohtaref.Application.Features.Auth.RefreshToken
 {
     public class RefreshTokenCommandHandler(IUserRepository userRepository, IUserRefreshTokenRepository refreshTokenRepository 
         , ITokenService tokenRepository, IPasswordHasher passwordHasherRepository, IUnitOfWork unitOfWork) 
@@ -22,38 +22,37 @@ namespace CRM.AlMohtaref.Application.Fseatures.Auth.RefreshToken
         {
             var refreshTokenRequest = request.RefreshToken!.Split(".");
 
-            if(refreshTokenRequest.Length != 2)
+            if (refreshTokenRequest.Length != 2 || !Guid.TryParse(refreshTokenRequest[0], out var Id))
             {
                 throw new BadRequestException("Refresh token is not valid");
             }
 
-            Guid Id = Guid.Parse(refreshTokenRequest[0]);
 
             string? RequestRefreshToken = (string)refreshTokenRequest[1];
 
-            UserRefreshToken? refreshToken = await refreshTokenRepository.GetById(Id);
+            UserRefreshToken? refreshToken = await refreshTokenRepository.GetById(Id, ct);
 
             if (refreshToken == null)
             {
                 throw new UnauthorizedException("Refresh token not found");
             }
 
-            User? user = await userRepository.GetByIdAsync(refreshToken.UserId);
+            User? user = await userRepository.GetByIdAsync(refreshToken.UserId, ct);
 
             if(user == null)
             {
                 throw new NotFoundException("User account name not found");
             }
 
+            if (refreshToken.RefreshTokenRevokedAt != null)
+            {
+                await refreshTokenRepository.RevokeUserTokens(user.Id, ct);
+                throw new UnauthorizedException("Refresh Token expired");
+            }
+
             if (refreshToken.RefreshTokenExpiryTime < DateTime.UtcNow)
             {
                 throw new UnauthorizedException("Refresh token expired");
-            }
-
-            if (refreshToken.RefreshTokenRevokedAt != null)
-            {
-                await refreshTokenRepository.RevokeUserTokens(user.Id);
-                throw new UnauthorizedException("Refresh Token expired");
             }
 
             bool isValid = passwordHasherRepository.VerifyPassword(RequestRefreshToken, refreshToken.RefreshTokenHash!);
