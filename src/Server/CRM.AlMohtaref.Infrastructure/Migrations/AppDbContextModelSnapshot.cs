@@ -57,6 +57,9 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
+                    b.Property<Guid?>("TaskId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -74,6 +77,10 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.HasIndex("CampaginStatusId");
 
                     b.HasIndex("CreatedByUserId");
+
+                    b.HasIndex("TaskId")
+                        .IsUnique()
+                        .HasFilter("[TaskId] IS NOT NULL");
 
                     b.HasIndex("Title")
                         .IsUnique();
@@ -699,6 +706,11 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Tasks.Task", "Task")
+                        .WithOne("Campaign")
+                        .HasForeignKey("CRM.AlMohtaref.Domain.Entities.Campaigns.Campaign", "TaskId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("CRM.AlMohtaref.Domain.Entities.Campaigns.Track", "Track")
                         .WithMany("Campaigns")
                         .HasForeignKey("TrackId")
@@ -708,6 +720,8 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.Navigation("CampaignStatus");
 
                     b.Navigation("CreatedByUser");
+
+                    b.Navigation("Task");
 
                     b.Navigation("Track");
                 });
@@ -919,7 +933,7 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .WithMany("StudentTasks")
                         .HasForeignKey("TaskId", "TaskType")
                         .HasPrincipalKey("Id", "TaskType")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Student");
@@ -1076,6 +1090,8 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Tasks.Task", b =>
                 {
+                    b.Navigation("Campaign");
+
                     b.Navigation("StudentTasks");
 
                     b.Navigation("SubTasks");

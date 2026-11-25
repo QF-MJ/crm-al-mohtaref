@@ -1,4 +1,5 @@
-﻿using CRM.AlMohtaref.Domain.Entities.Contacts;
+﻿using CRM.AlMohtaref.Domain.Entities.Campaigns;
+using CRM.AlMohtaref.Domain.Entities.Contacts;
 using CRM.AlMohtaref.Domain.Entities.Users;
 
 namespace CRM.AlMohtaref.Domain.Entities.Tasks;
@@ -29,7 +30,8 @@ public class Task
 
     public ICollection<Task> SubTasks { get; set; } = new List<Task>();
 
-   
+    public Campaign? Campaign { get; set; }
+
     public Guid CreatedByUserId { get; set; }
 
     public User CreatedByUser { get; set; } = null!;

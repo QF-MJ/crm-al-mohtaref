@@ -30,7 +30,7 @@ public class StudentTaskConfiguration : IEntityTypeConfiguration<StudentTask>
             .HasForeignKey("TaskId", "TaskType")
             .HasPrincipalKey(t => new { t.Id, t.TaskType })
             .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(st => st.Student)
             .WithMany()

@@ -1,5 +1,6 @@
 ﻿using CRM.AlMohtaref.Domain.Entities.Questions;
 using CRM.AlMohtaref.Domain.Entities.Users;
+using TaskEntity = CRM.AlMohtaref.Domain.Entities.Tasks.Task;
 
 namespace CRM.AlMohtaref.Domain.Entities.Campaigns;
 
@@ -13,6 +14,8 @@ public class Campaign
 
     public Guid TrackId { get; private set; }
 
+    public Guid? TaskId { get; private set; }
+
     public string? Url { get; private set; }
 
     public Guid CreatedByUserId { get; private set; }
@@ -22,6 +25,8 @@ public class Campaign
     public decimal? Budget { get; private set; }
 
     public Track Track { get; private set; }
+
+    public TaskEntity? Task { get; private set; }
 
     public User CreatedByUser { get; private set; }
 
@@ -37,6 +42,7 @@ public class Campaign
     {
         Title = string.Empty;
         Track = null!;
+        Task = null!;
         CreatedByUser = null!;
         CampaignStatus = null!;
         Leads = new List<CampaignLead>();
@@ -94,5 +100,4 @@ public class Campaign
             PlatformCampaigns.Add(new PlatformCampaign(platformId, Id));
         }
     }
-
 }

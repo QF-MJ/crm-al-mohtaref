@@ -1,5 +1,5 @@
 ﻿using CRM.AlMohtaref.Application.Common.Dtos;
-using CRM.AlMohtaref.Application.Features.Tasks.Dtos;
+using CRM.AlMohtaref.Application.Features.Tasks.DTOs;
 using CRM.AlMohtaref.Application.Features.Tasks.GetTasks;
 using CRM.AlMohtaref.Application.Interfaces;
 using CRM.AlMohtaref.Domain.Entities.Tasks;
@@ -8,11 +8,25 @@ using CRM.AlMohtaref.Infrastructure.Data;
 using CRM.AlMohtaref.Infrastructure.ExternalServices; 
 using Microsoft.EntityFrameworkCore;
 
+
+using TaskEntity = CRM.AlMohtaref.Domain.Entities.Tasks.Task;
 namespace CRM.AlMohtaref.Infrastructure.Repositories;
 
 public class TaskRepository(AppDbContext db)
     : ITaskRepository
 {
+    public void Delete(TaskEntity task, CancellationToken ct = default)
+    {
+        db.Tasks.Remove(task);
+    }
+
+    public async Task<TaskEntity?> GetByIdAsync(Guid id, CancellationToken ct = default)
+    {
+        return await db.Tasks
+                .Include(t => t.SubTasks)
+                .FirstOrDefaultAsync(t => t.Id == id, ct);
+    }
+
     public async Task<TasksPageDto> SearchAsync(GetTasksQuery query, CancellationToken ct = default)
     {
         var baseQuery = db.Tasks

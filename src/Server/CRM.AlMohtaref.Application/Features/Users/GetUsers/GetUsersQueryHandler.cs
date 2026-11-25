@@ -20,7 +20,7 @@ public sealed class GetUsersQueryHandler(IUserRepository user, ICurrentUserServi
 
     public async Task<bool> IsOwnerAsync(GetUsersQuery request, CancellationToken ct)
     {
-        bool isManager = currentUser.HasDepartment("الإدارة");
+        bool isManager = currentUser.IsAdministrationManager();
 
         if (!isManager)
         {

@@ -1,5 +1,5 @@
 ﻿using CRM.AlMohtaref.Application.Common.Queries;
-using CRM.AlMohtaref.Application.Features.Tasks.Dtos;
+using CRM.AlMohtaref.Application.Features.Tasks.DTOs;
 using CRM.AlMohtaref.Domain.Entities.Tasks;
 using MediatR;
 

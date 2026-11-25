@@ -25,6 +25,12 @@ public sealed class CampaignConfiguration : IEntityTypeConfiguration<Campaign>
             .HasForeignKey(c => c.TrackId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.HasOne(c => c.Task)
+            .WithOne(t => t.Campaign)
+            .HasForeignKey<Campaign>(c => c.TaskId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+
         builder.HasOne(c => c.CreatedByUser)
             .WithMany()
             .HasForeignKey(c => c.CreatedByUserId)

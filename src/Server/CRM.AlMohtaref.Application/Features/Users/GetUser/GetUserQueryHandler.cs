@@ -22,7 +22,7 @@ public sealed class GetUserQueryHandler(IUserRepository userRepository, ICurrent
 
     public Task<bool> IsOwnerAsync(UserDetailDto user, CancellationToken ct)
     {
-        bool isAllowed = currentUser.HasDepartment("الإدارة") || currentUser.UserId == user.Id;
+        bool isAllowed = currentUser.IsAdministrationManager() || currentUser.UserId == user.Id;
 
         if (!isAllowed )
         {

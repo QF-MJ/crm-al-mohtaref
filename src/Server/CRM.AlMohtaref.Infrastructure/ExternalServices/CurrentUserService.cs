@@ -79,5 +79,16 @@ namespace CRM.AlMohtaref.Infrastructure.ExternalServices
                 p.Role == Role.Manager);
         }
 
+
+        public bool IsAdministrationManager()
+        {
+            if (Permissions is null)
+                return false;
+
+            return Permissions.Any(p =>
+                p.Department?.Name == "الإدارة" &&
+                p.Role == Role.Manager);
+        }
+
     }
 }
