@@ -19,7 +19,7 @@ public class CreateCampaignCommandHandler(ICampaignRepository campaignRepository
         if (await campaignRepository.ExistsAsync(Guid.NewGuid() , request.Title, cancellationToken))
             throw new ConflictException("عنوان الحملة مستخدم مسبقاً");
 
-        Campaign campaign = new Campaign(request.Title, request.TrackId, currentUser!.UserId!.Value, CampaignStatus.New , request.Description, request.Url, request.Budget);
+        Campaign campaign = new Campaign(Guid.NewGuid(), request.Title, request.TrackId, currentUser!.UserId!.Value, CampaignStatus.New , request.Description, request.Url, request.Budget);
 
         //campaign.SynchronizePlatforms
         //(

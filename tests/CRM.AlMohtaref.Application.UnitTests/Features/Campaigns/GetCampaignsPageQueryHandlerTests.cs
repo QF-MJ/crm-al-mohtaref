@@ -47,7 +47,7 @@ public class GetCampaignsPageQueryHandlerTests
     public async Task PassesTheSameQueryToRepository_Once()
     {
         var query = new GetCampaignsPageQuery(
-            PageNumber: 3, Title: "حملة", Budget: 500m, TrackName: "مسار", CampaignStatus: "نشطة");
+            PageNumber: 3, Title: "حملة", Budget: 500m, TrackName: "مسار", CampaignStatus: Domain.Enums.CampaignStatus.Cancelled);
         _repo.Setup(r => r.GetAll(It.IsAny<GetCampaignsPageQuery>()))
              .ReturnsAsync(new List<CampaignListItemDto>());
 

@@ -32,9 +32,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("CampaginStatusId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("CampaignStatus")
                         .HasColumnType("int");
 

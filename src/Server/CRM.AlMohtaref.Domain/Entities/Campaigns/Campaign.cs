@@ -43,7 +43,7 @@ public class Campaign
         QuestionCampaigns = new List<QuestionCampaign>();
     }
 
-    public Campaign(string title, Guid trackId, Guid createdByUserId, CampaignStatus campaignStatus,
+    public Campaign(Guid Id , string title, Guid trackId, Guid createdByUserId, CampaignStatus campaignStatus,
         string? description = null, string? url = null, decimal? budget = null)
         : this()
     {
@@ -54,6 +54,7 @@ public class Campaign
         Description = description;
         Url = url;
         Budget = budget;
+        this.Id = Id;
     }
 
     public void ChangeStatus(CampaignStatus newStatus)
