@@ -1,5 +1,6 @@
 ﻿using CRM.AlMohtaref.Domain.Entities.Questions;
 using CRM.AlMohtaref.Domain.Entities.Users;
+using CRM.AlMohtaref.Domain.Enums;
 
 namespace CRM.AlMohtaref.Domain.Entities.Campaigns;
 
@@ -25,7 +26,7 @@ public class Campaign
 
     public User CreatedByUser { get; private set; }
 
-    public CampaginStatus CampaignStatus { get; private set; }
+    public CampaignStatus CampaignStatus { get; private set; }
 
     public ICollection<CampaignLead> Leads { get; private set; }
 
@@ -38,7 +39,7 @@ public class Campaign
         Title = string.Empty;
         Track = null!;
         CreatedByUser = null!;
-        CampaignStatus = null!;
+        CampaignStatus = CampaignStatus.New;
         Leads = new List<CampaignLead>();
         PlatformCampaigns = new List<PlatformCampaign>();
         QuestionCampaigns = new List<QuestionCampaign>();
@@ -57,9 +58,9 @@ public class Campaign
         Budget = budget;
     }
 
-    public void ChangeStatus(Guid campaignStatusId)
+    public void ChangeStatus(CampaignStatus newStatus)
     {
-        CampaginStatusId = campaignStatusId;
+        CampaignStatus = newStatus;
     }
 
     public void UpdateDetails(string title, string description, Guid statusId, Guid trackId, string url, decimal budget)

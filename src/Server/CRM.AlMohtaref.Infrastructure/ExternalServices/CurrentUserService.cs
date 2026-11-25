@@ -5,6 +5,8 @@ using CRM.AlMohtaref.Domain.Entities.Users;
 using Microsoft.AspNetCore.Http;
 using System.Data;
 using System.Security.Claims;
+using CRM.AlMohtaref.Application.Interfaces;
+using Microsoft.AspNetCore.Http;
 
 
 namespace CRM.AlMohtaref.Infrastructure.ExternalServices

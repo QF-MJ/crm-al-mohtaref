@@ -8,6 +8,7 @@ using CRM.AlMohtaref.Domain.Entities.Users;
 using CRM.AlMohtaref.Infrastructure.Data;
 using CRM.AlMohtaref.Infrastructure.ExternalServices;
 using Microsoft.EntityFrameworkCore;
+using CRM.AlMohtaref.Domain.Extensions;
 
 namespace CRM.AlMohtaref.Infrastructure.Repositories;
 
@@ -39,8 +40,8 @@ public class CampaignRepository(AppDbContext db)
               , c.Url
               , c.Budget
               , c.Track.Name
-              , c.CreatedByUser.FullName
-              , c.CampaignStatus.Name
+              , c.CreatedByUser.Person.FullName
+              , c.CampaignStatus.ToArabicName()
               , c.PlatformCampaigns.Select(p => p.Platform.Name).ToList()))
              
              .FirstOrDefaultAsync(ct);
@@ -52,7 +53,7 @@ public class CampaignRepository(AppDbContext db)
             .AsNoTracking()
             .Where(c => (query.Budget == null    || query.Budget == c.Budget) 
                 && (query.Title == null          || query.Title == c.Title)
-                && (query.CampaignStatus == null || query.CampaignStatus == c.CampaignStatus.Name)
+                && (query.CampaignStatus == null || query.CampaignStatus == c.CampaignStatus)
                 && (query.TrackName == null      || query.TrackName == c.Track.Name))
             .OrderBy(c => c.Id)
             .Skip((query.PageNumber - 1) * PaginationSettings.PageSize)
@@ -61,7 +62,7 @@ public class CampaignRepository(AppDbContext db)
               , c.Title
               , c.Budget
               , c.Track.Name
-              , c.CampaignStatus.Name))
+              , c.CampaignStatus.ToArabicName()))
             .ToListAsync();
     }
 

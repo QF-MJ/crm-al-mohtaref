@@ -54,6 +54,13 @@ namespace CRM.AlMohtaref.Api.Controllers
             return NoContent();
         }
 
-        
+        [HttpPatch("{id:guid}/status")]
+        public async Task<IActionResult> UpdateCampaignStatus(Guid id, [FromBody] UpdateCampaignStatusRequest request, CancellationToken ct)
+        {
+            await sender.Send(request.ToCommand(id), ct);
+
+            return NoContent();
+        }
+
     }
 }
