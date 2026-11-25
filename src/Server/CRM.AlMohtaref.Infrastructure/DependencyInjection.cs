@@ -1,4 +1,6 @@
-﻿using CRM.AlMohtaref.Application.Interfaces;
+﻿using System.Runtime.CompilerServices;
+using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Application.Interfaces.Common;
 using CRM.AlMohtaref.Infrastructure.Data;
 using CRM.AlMohtaref.Infrastructure.ExternalServices;
 using CRM.AlMohtaref.Infrastructure.Repositories;
@@ -8,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using CRM.AlMohtaref.Infrastructure.ExternalServices;
+
 
 namespace CRM.AlMohtaref.Infrastructure;
 
@@ -30,7 +33,7 @@ public static class DependencyInjection
         });
 
         AddRepositories(services);
-        AddServices(services);
+        AddServices(services , configuration);
 
         return services;
     }
@@ -51,12 +54,16 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddServices(this IServiceCollection services)
+    private static IServiceCollection AddServices(this IServiceCollection services , IConfiguration configuration)
     {
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddSingleton<IOptionSetHashService, OptionSetHashService>();
+        services.Configure<GoogleSheetsSettings>(
+        configuration.GetSection(GoogleSheetsSettings.SectionName));
+
+        services.AddSingleton<IGoogleSheetsService, GoogleSheetsService>();
 
         return services;
     }

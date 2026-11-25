@@ -1,4 +1,4 @@
-﻿namespace CRM.AlMohtaref.Application.Interfaces
+﻿namespace CRM.AlMohtaref.Application.Interfaces.Common
 {
     public interface IUnitOfWork : IDisposable
     {

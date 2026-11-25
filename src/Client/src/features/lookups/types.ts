@@ -13,6 +13,9 @@ export interface LookupsResponse {
   tracks?: LookupItem[] | null
   leadStatuses?: LookupItem[] | null
   tags?: LookupItem[] | null
+  // غير مدعومة في الباك بعد (LookupType فيه Departments و Tracks فقط): متوفرة في الـ mock فقط
+  campaignStatuses?: LookupItem[] | null
+  platforms?: LookupItem[] | null
 }
 
 export type LookupType = 'Departments' | 'Roles' | 'Tracks' | 'LeadStatuses' | 'Tags' | 'Campaigns'

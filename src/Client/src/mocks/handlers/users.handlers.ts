@@ -2,6 +2,7 @@ import { http, HttpResponse, delay } from 'msw'
 import { env } from '@/lib/env'
 import type { Contact, ContactsPage } from '@/features/clients'
 import type { LookupsResponse } from '@/features/lookups'
+import { campaignStatuses, platforms } from './campaigns.handlers'
 import type {
   UserCreateInput,
   UserDetail,
@@ -197,6 +198,8 @@ export const usersHandlers = [
       tracks: includes('Tracks') ? tracks : undefined,
       leadStatuses: includes('LeadStatuses') ? leadStatuses : undefined,
       tags: includes('Tags') ? tags : undefined,
+      campaignStatuses: includes('CampaignStatuses') ? campaignStatuses : undefined,
+      platforms: includes('Platforms') ? platforms : undefined,
     }
     return HttpResponse.json(body)
   }),

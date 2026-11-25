@@ -1,6 +1,7 @@
 ﻿using CRM.AlMohtaref.Application.Common.Dtos;
 using CRM.AlMohtaref.Application.Common.Exceptions;
 using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Application.Interfaces.Common;
 using CRM.AlMohtaref.Domain.Entities.Contacts;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using MediatR;
@@ -50,7 +51,7 @@ namespace CRM.AlMohtaref.Application.Features.Auth.Login
                     user.LockAccount(DateTime.UtcNow.AddDays(1));
                 }
 
-                await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
 
                 throw new UnauthorizedException("كلمة السر أو اسم الحساب غير صحيحين");
             }

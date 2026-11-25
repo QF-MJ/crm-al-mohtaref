@@ -1,4 +1,5 @@
 ﻿using CRM.AlMohtaref.Domain.Entities.Campaigns;
+using CRM.AlMohtaref.Domain.Enums;
 
 namespace CRM.AlMohtaref.Domain.UnitTests.Entities.Campaigns;
 
@@ -11,19 +12,20 @@ public class CampaignTests
         var title = "حملة التسويق الصيفية";
         var trackId = Guid.NewGuid();
         var userId = Guid.NewGuid();
-        var statusId = Guid.NewGuid();
+        var campaignId = Guid.NewGuid();
+        var status = CampaignStatus.New;
         var description = "وصف الحملة";
         var url = "https://example.com";
         var budget = 1500.50m;
 
         // Act
-        var campaign = new Campaign(title, trackId, userId, statusId, description, url, budget);
+        var campaign = new Campaign(campaignId , title, trackId, userId, status, description, url, budget);
 
         // Assert
         Assert.Equal(title, campaign.Title);
         Assert.Equal(trackId, campaign.TrackId);
         Assert.Equal(userId, campaign.CreatedByUserId);
-        Assert.Equal(statusId, campaign.CampaginStatusId);
+        Assert.Equal(status, campaign.CampaignStatus);
         Assert.Equal(description, campaign.Description);
         Assert.Equal(url, campaign.Url);
         Assert.Equal(budget, campaign.Budget);
@@ -39,25 +41,26 @@ public class CampaignTests
     public void ChangeStatus_WhenCalled_ShouldUpdateCampaginStatusId()
     {
         // Arrange
-        var initialStatusId = Guid.NewGuid();
-        var newStatusId = Guid.NewGuid();
-        var campaign = new Campaign("عنوان", Guid.NewGuid(), Guid.NewGuid(), initialStatusId);
+        var initialStatusId = CampaignStatus.New;
+        var newStatusId = Enums.CampaignStatus.Cancelled;
+        var id = Guid.NewGuid();
+        var campaign = new Campaign(id , "عنوان", Guid.NewGuid(), Guid.NewGuid(), initialStatusId);
 
         // Act
         campaign.ChangeStatus(newStatusId);
 
         // Assert
-        Assert.Equal(newStatusId, campaign.CampaginStatusId);
+        Assert.Equal(newStatusId, campaign.CampaignStatus);
     }
 
     [Fact]
     public void UpdateDetails_WhenCalled_ShouldUpdateAllDetails()
     {
         // Arrange
-        var campaign = new Campaign("عنوان قديم", Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid());
+        var campaign = new Campaign(Guid.NewGuid(), "عنوان قديم", Guid.NewGuid(), Guid.NewGuid(), CampaignStatus.New);
         var newTitle = "عنوان جديد";
         var newDescription = "وصف جديد";
-        var newStatusId = Guid.NewGuid();
+        var newStatusId = CampaignStatus.NeedsModification;
         var newTrackId = Guid.NewGuid();
         var newUrl = "https://new-url.com";
         var newBudget = 5000m;
@@ -68,7 +71,7 @@ public class CampaignTests
         // Assert
         Assert.Equal(newTitle, campaign.Title);
         Assert.Equal(newDescription, campaign.Description);
-        Assert.Equal(newStatusId, campaign.CampaginStatusId);
+        Assert.Equal(newStatusId, campaign.CampaignStatus);
         Assert.Equal(newTrackId, campaign.TrackId);
         Assert.Equal(newUrl, campaign.Url);
         Assert.Equal(newBudget, campaign.Budget);
@@ -78,7 +81,7 @@ public class CampaignTests
     public void SynchronizePlatforms_WhenAddingNewPlatforms_ShouldAddDistinctPlatforms()
     {
         // Arrange
-        var campaign = new Campaign("حملة", Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid());
+        var campaign = new Campaign(Guid.NewGuid(), "حملة", Guid.NewGuid(), Guid.NewGuid(), CampaignStatus.New);
         var platform1 = Guid.NewGuid();
         var platform2 = Guid.NewGuid();
         // تمرير معرف مكرر للتأكد من عمل Distinct
@@ -97,7 +100,7 @@ public class CampaignTests
     public void SynchronizePlatforms_WhenUpdatingExistingPlatforms_ShouldAddNewAndRemoveOld()
     {
         // Arrange
-        var campaign = new Campaign("حملة", Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid());
+        var campaign = new Campaign(Guid.NewGuid(), "حملة", Guid.NewGuid(), Guid.NewGuid(), CampaignStatus.New);
         var platformToKeep = Guid.NewGuid();
         var platformToRemove = Guid.NewGuid();
         var platformToAdd = Guid.NewGuid();

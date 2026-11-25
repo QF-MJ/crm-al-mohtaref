@@ -1,6 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <Compile Remove="Features\Campaigns\CampaignStatus\**" />
+    <EmbeddedResource Remove="Features\Campaigns\CampaignStatus\**" />
+    <None Remove="Features\Campaigns\CampaignStatus\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Features\Users\GetUsers\oyapf3wx.425~" />
   </ItemGroup>
 

@@ -1,10 +1,10 @@
 ﻿using CRM.AlMohtaref.Domain.Entities.Questions;
-using CRM.AlMohtaref.Application.Interfaces;
 using CRM.AlMohtaref.Domain.Entities;
 using CRM.AlMohtaref.Domain.Entities.Campaigns;
 using CRM.AlMohtaref.Domain.Entities.Contacts;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
+using CRM.AlMohtaref.Application.Interfaces.Common;
 
 namespace CRM.AlMohtaref.Infrastructure.Data;
 

@@ -8,3 +8,4 @@ export const loginRequest = (body: LoginRequest) =>
 
 export const logoutRequest = (refreshToken: string) =>
   api.post<void>('/auth/logout', { refreshToken }).then(() => undefined)
+// لا يوجد logout/refresh في الباك حالياً، لذلك الخروج محلي فقط (auth.store).

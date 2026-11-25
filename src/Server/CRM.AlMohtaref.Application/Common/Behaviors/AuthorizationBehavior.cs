@@ -2,10 +2,10 @@
 using System.Reflection;
 using CRM.AlMohtaref.Application.Common.Attributes;
 using CRM.AlMohtaref.Application.Common.Exceptions;
-using CRM.AlMohtaref.Application.Interfaces;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using MediatR;
 using System.Linq;
+using CRM.AlMohtaref.Application.Interfaces.Common;
 
 namespace CRM.AlMohtaref.Application.Common.Behaviors;
 

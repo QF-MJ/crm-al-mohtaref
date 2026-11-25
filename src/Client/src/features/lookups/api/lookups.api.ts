@@ -18,6 +18,8 @@ function normalizeLookups(data: LookupsResponse): LookupsResponse {
     tracks: data.tracks ?? firstArray(raw, ['Tracks']),
     leadStatuses: data.leadStatuses ?? firstArray(raw, ['LeadStatuses']),
     tags: data.tags ?? firstArray(raw, ['Tags', 'tagList', 'tagsList']),
+    campaignStatuses: data.campaignStatuses ?? firstArray(raw, ['CampaignStatuses']),
+    platforms: data.platforms ?? firstArray(raw, ['Platforms']),
   }
 }
 

@@ -1,5 +1,8 @@
 ﻿using CRM.AlMohtaref.Api.Contracts.Campaigns;
 using CRM.AlMohtaref.Api.Contracts.Questions;
+using CRM.AlMohtaref.Application.Features.Campaigns.Dtos;
+using CRM.AlMohtaref.Application.Features.Campaigns.GetCampaign;
+using CRM.AlMohtaref.Application.Features.Users;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -24,11 +27,16 @@ namespace CRM.AlMohtaref.Api.Controllers
         }
 
         [HttpGet("{id:Guid}")]
-        public async Task<ActionResult<object>> GetCampaign(Guid id, CancellationToken ct)
+        public async Task<ActionResult<CampaignDto>> GetCampaign(Guid id, CancellationToken ct)
         {
-            return Ok();
+            return Ok(await sender.Send(new GetCampaignQuery(id), ct));
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<CampaignListItemDto>>> GetCampaigns([FromQuery]GetCampaignsRequest request , CancellationToken ct)
+        {
+            return Ok(await sender.Send( request.ToQuery(), ct));
+        }
 
         [HttpPut("{id:Guid}")]
         public async Task<IActionResult> UpadteCampaign(Guid id, [FromBody] UpdateCampaignRequest request, CancellationToken ct)
@@ -46,6 +54,13 @@ namespace CRM.AlMohtaref.Api.Controllers
             return NoContent();
         }
 
-        
+        [HttpPatch("{id:guid}/status")]
+        public async Task<IActionResult> UpdateCampaignStatus(Guid id, [FromBody] UpdateCampaignStatusRequest request, CancellationToken ct)
+        {
+            await sender.Send(request.ToCommand(id), ct);
+
+            return NoContent();
+        }
+
     }
 }

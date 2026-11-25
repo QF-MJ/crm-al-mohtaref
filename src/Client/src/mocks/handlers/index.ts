@@ -1,5 +1,11 @@
 import { authHandlers } from './auth.handlers'
+import { campaignsHandlers } from './campaigns.handlers'
 import { contactsHandlers, usersHandlers } from './users.handlers'
 
 // أضف handlers كل ميزة هنا عند بنائها
-export const handlers = [...authHandlers, ...usersHandlers, ...contactsHandlers]
+export const handlers = [
+  ...authHandlers,
+  ...usersHandlers,
+  ...contactsHandlers,
+  ...campaignsHandlers,
+]
