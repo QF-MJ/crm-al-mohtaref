@@ -1,0 +1,600 @@
+openapi: 3.0.3
+info:
+  title: CRM المحترف API
+  version: 1.0.0
+  description: |
+    Version 1 of the CRM API. Endpoints are added incrementally.
+
+    Conventions:
+    - Paged lists return `hasNextPage` instead of a total count.
+    - Every request body AND every query-string set is bound to a schema named `*Request`.
+      Query-string requests are sent flattened (`?PageNumber=1&PageSize=20&Title=abc`).
+    - JSON responses use camelCase property names; query-string parameters keep PascalCase.
+    - Properties whose value would be null are omitted from JSON responses entirely (never sent as `null`).
+    - Every error (400, 401, 403, 404) uses the single `ErrorDto` JSON: `{ "status": 400, "message": "..." }`.
+servers:
+  - url: /api
+security:
+  - bearerAuth: []
+tags:
+  - name: Tasks
+  - name: Lookups
+
+paths:
+  /tasks:
+    get:
+      tags: [Tasks]
+      operationId: getTasks
+      summary: View and search tasks
+      description: |
+        Returns a page of tasks inside the given time range.
+        - `Title`: optional, partial, case-insensitive match on the task title.
+        - `Type`: optional, task type.
+        - `StartTime` / `EndTime`: the time range of the tasks.
+        - `GroupBySubTask`: decides the shape of the response.
+          `false`: only `tasks` is returned (a flat list of all tasks except sub-tasks), `groupTasks` is not in the response at all.
+          `true`: `groupTasks` is returned (a map: parent task id -> parent title and its sub-tasks, each sub-task with
+          its status and its linked contacts: full name, phone number and campaign id; this is the only place sub-tasks appear
+          inside a parent).
+      parameters:
+        - name: PageNumber
+          in: query
+          required: true
+          schema: { type: integer, format: int32, minimum: 1, default: 1 }
+        - name: Title
+          in: query
+          required: false
+          schema: { type: string }
+        - name: Type
+          in: query
+          required: false
+          schema: { $ref: "#/components/schemas/TaskType" }
+        - name: StartTime
+          in: query
+          required: true
+          schema: { type: string, format: date-time }
+        - name: EndTime
+          in: query
+          required: true
+          schema: { type: string, format: date-time }
+        - name: AssignedToUserId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: GroupBySubTask
+          in: query
+          required: true
+          schema: { type: boolean, default: false }
+      responses:
+        "200":
+          description: A page of tasks
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/TasksPageDto" }
+              examples:
+                GroupBySubTask=false:
+                  summary: GroupBySubTask = false (flat list)
+                  value:
+                    page: { pageNumber: 1, hasNextPage: false }
+                    tasks:
+                      - id: 3f2b8c1e-6a4d-4b7e-9c1a-0d5e7f8a9b10
+                        title: متابعة عميل
+                        typeName: متابعة
+                        statusName: قيد التنفيذ
+                        endTime: "2026-11-23T10:00:00Z"
+                        AssignedToUserFullName: أحمد محمد
+                      - id: 7a1d4e92-2b3c-4f55-8e06-1c9b2a3d4e5f
+                        title: مهمة عادية
+                        typeName: مهمة عادية
+                        statusName: قيد الانتظار
+                        endTime: "2026-11-24T11:00:00Z"
+                        AssignedToUserFullName: أحمد محمد
+                GroupBySubTask=true:
+                  summary: GroupBySubTask = true (grouped sub-tasks)
+                  value:
+                    page: { pageNumber: 1, hasNextPage: false }
+                    groupTasks:
+                      3f2b8c1e-6a4d-4b7e-9c1a-0d5e7f8a9b10:
+                        title: تواصل مع 50 عميل
+                        subTasks:
+                          - id: 9c8b7a65-4d3e-4f21-a0b9-8c7d6e5f4a3b
+                            statusName: مكتملة
+                            contacts:
+                              - id: 4a3b2c1d-0e9f-4b8a-9c7d-6e5f4a3b2c1d
+                                fullName: محمد علي
+                                phoneNumber: "0933123456"
+                          - id: 1e2d3c4b-5a69-4788-9a0b-1c2d3e4f5a6b
+                            statusName: قيد الانتظار
+                            contacts:
+                              - id: 6f5e4d3c-2b1a-4098-8f7e-6d5c4b3a2f1e
+                                fullName: هدى حسن
+                                phoneNumber: "0944987654"
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /tasks/{taskId}:
+    get:
+      tags: [Tasks]
+      operationId: getTaskById
+      summary: View a single task
+      description: |
+        Returns the full details of one task. The shape of `subTasks`, `contacts`, `students`
+        and `leadStatus` depends on the task type (`typeName`):
+
+        | Task type | `parentTask` | `subTasks` | `contacts` | `students` / `leadStatus` |
+        |---|---|---|---|---|
+        | مهمة عادية (Normal) | omitted | omitted (a normal task never has sub-tasks) | omitted | not applicable |
+        | مشكلة (Issue) | omitted | list; each sub-task carries its contacts | omitted | `students` omitted (an issue is raised by customers, not students) |
+        | حملة (Campaign) | omitted | list; each sub-task carries its contacts | omitted | `students` filled, each with `leadStatus` |
+        | تواصل / متابعة / تثبيت / تسكين (Contact, FollowUp, Confirmation, Placement) | required, and its type must be حملة (Campaign) | list; each sub-task carries its contacts | omitted | `students` filled, each with `leadStatus` |
+        | مهمة فرعية (SubTask) | required (type Issue or Campaign-family) | omitted | filled directly (the task itself is the sub-task) | `students` + `leadStatus` filled when the parent type is Campaign-family (حملة / تواصل / متابعة / تثبيت / تسكين); `students` omitted when the parent is مشكلة |
+
+        Notes:
+        - A contact represents the guardian (ولي الأمر). One contact can have several students.
+          Contacts are grouped inside a sub-task so the same phone number is never repeated.
+        - The purpose of a sub-task is to link the students that share the same contact (the parent),
+          so one call covers all of them. Issues have sub-tasks too, because an issue still needs
+          a call to the customer, but no students are attached.
+        - `leadStatus` is only present (otherwise omitted) on a student when the context (the task itself, or the parent of a sub-task)
+          is a Campaign-family type.
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          description: The id of the task to view.
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: The task details
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/TaskDetailsDto" }
+              examples:
+                Normal:
+                  summary: مهمة عادية (no sub-tasks and no contacts, so those fields are omitted)
+                  value:
+                    id: 7a1d4e92-2b3c-4f55-8e06-1c9b2a3d4e5f
+                    title: تجهيز تقرير أسبوعي
+                    description: إعداد التقرير الأسبوعي للإدارة
+                    typeName: مهمة عادية
+                    statusName: قيد الانتظار
+                    startTime: "2026-11-25T08:00:00Z"
+                    endTime: "2026-11-27T18:00:00Z"
+                    createdByUser:
+                      id: 11111111-2222-3333-4444-555555555555
+                      name: محمد عزت
+                    assignedToUser:
+                      id: 66666666-7777-8888-9999-000000000000
+                      name: سارة أحمد
+                Issue:
+                  summary: مشكلة (sub-tasks with contacts, no students)
+                  value:
+                    id: 44444444-3333-2222-1111-000000000000
+                    title: مشكلة تقنية في تسجيل الدخول للمنصة
+                    description: متابعة العملاء الذين واجهوا خطأ في الدخول
+                    typeName: مشكلة
+                    statusName: قيد التنفيذ
+                    startTime: "2026-11-25T08:00:00Z"
+                    endTime: "2026-11-28T18:00:00Z"
+                    createdByUser:
+                      id: 11111111-2222-3333-4444-555555555555
+                      name: محمد عزت
+                    assignedToUser:
+                      id: 66666666-7777-8888-9999-000000000000
+                      name: سارة أحمد
+                    subTasks:
+                      - id: b2c3d4e5-f6a7-8901-bcde-f12345678901
+                        statusName: قيد التنفيذ
+                        contacts:
+                          - id: 8f14e45f-ceea-467a-a8bb-1234567890ab
+                            fullName: خالد العلي
+                            phoneNumber: "0933123456"
+                Campaign:
+                  summary: حملة (sub-tasks with contacts, students and leadStatus)
+                  value:
+                    id: 99999999-8888-7777-6666-555555555555
+                    title: حملة التسجيل الشتوية 2026
+                    description: إدارة ومتابعة اتصالات الحملة
+                    typeName: حملة
+                    statusName: قيد التنفيذ
+                    startTime: "2026-11-25T08:00:00Z"
+                    endTime: "2026-12-10T18:00:00Z"
+                    createdByUser:
+                      id: 11111111-2222-3333-4444-555555555555
+                      name: محمد عزت
+                    assignedToUser:
+                      id: 66666666-7777-8888-9999-000000000000
+                      name: سارة أحمد
+                    subTasks:
+                      - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                        statusName: قيد الانتظار
+                        contacts:
+                          - id: 8f14e45f-ceea-467a-a8bb-1234567890ab
+                            fullName: خالد العلي
+                            phoneNumber: "0933123456"
+                            students:
+                              - studentId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                                studentName: أحمد خالد العلي
+                                leadStatus: { id: 2, name: جاري التواصل }
+                CampaignChild:
+                  summary: تواصل (child of a campaign, same shape as a campaign)
+                  value:
+                    id: 55555555-4444-3333-2222-111111111111
+                    title: تواصل مع 50 عميل مطابقين للفلاتر
+                    description: دفعة التواصل الأولى
+                    typeName: تواصل
+                    statusName: قيد التنفيذ
+                    startTime: "2026-11-26T09:00:00Z"
+                    endTime: "2026-11-30T17:00:00Z"
+                    parentTask:
+                      id: 99999999-8888-7777-6666-555555555555
+                      title: حملة التسجيل الشتوية 2026
+                      typeName: حملة
+                    createdByUser:
+                      id: 11111111-2222-3333-4444-555555555555
+                      name: محمد عزت
+                    assignedToUser:
+                      id: 66666666-7777-8888-9999-000000000000
+                      name: سارة أحمد
+                    subTasks:
+                      - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                        statusName: قيد الانتظار
+                        contacts:
+                          - id: 8f14e45f-ceea-467a-a8bb-1234567890ab
+                            fullName: خالد العلي
+                            phoneNumber: "0933123456"
+                            students:
+                              - studentId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                                studentName: أحمد خالد العلي
+                                leadStatus: { id: 2, name: جاري التواصل }
+                SubTaskOfCampaignChild:
+                  summary: مهمة فرعية parent is Campaign-family (students + leadStatus)
+                  value:
+                    id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+                    title: دفعة اتصالات أولى
+                    description: التواصل مع الطلاب المسجلين بالحملة
+                    typeName: مهمة فرعية
+                    statusName: قيد الانتظار
+                    startTime: "2026-11-26T09:00:00Z"
+                    endTime: "2026-11-26T17:00:00Z"
+                    parentTask:
+                      id: 55555555-4444-3333-2222-111111111111
+                      title: تواصل مع 50 عميل مطابقين للفلاتر
+                      typeName: تواصل
+                    createdByUser:
+                      id: 11111111-2222-3333-4444-555555555555
+                      name: محمد عزت
+                    assignedToUser:
+                      id: 66666666-7777-8888-9999-000000000000
+                      name: سارة أحمد
+                    contacts:
+                      - id: 8f14e45f-ceea-467a-a8bb-1234567890ab
+                        fullName: خالد العلي
+                        phoneNumber: "0933123456"
+                        students:
+                          - studentId: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                            studentName: أحمد خالد العلي
+                            leadStatus: { id: 2, name: جاري التواصل }
+                SubTaskOfIssue:
+                  summary: مهمة فرعية parent is مشكلة (no students)
+                  value:
+                    id: b2c3d4e5-f6a7-8901-bcde-f12345678901
+                    title: اتصال بالعميل لحل مشكلة الدخول
+                    description: التواصل مع العميل
+                    typeName: مهمة فرعية
+                    statusName: قيد التنفيذ
+                    startTime: "2026-11-25T08:00:00Z"
+                    endTime: "2026-11-26T18:00:00Z"
+                    parentTask:
+                      id: 44444444-3333-2222-1111-000000000000
+                      title: مشكلة تقنية في تسجيل الدخول للمنصة
+                      typeName: مشكلة
+                    createdByUser:
+                      id: 11111111-2222-3333-4444-555555555555
+                      name: محمد عزت
+                    assignedToUser:
+                      id: 66666666-7777-8888-9999-000000000000
+                      name: سارة أحمد
+                    contacts:
+                      - id: 8f14e45f-ceea-467a-a8bb-1234567890ab
+                        fullName: خالد العلي
+                        phoneNumber: "0933123456"
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    delete:
+      tags: [Tasks]
+      operationId: deleteTask
+      summary: Delete a task
+      description: Deletes the task with the given id.
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          description: The id of the task to delete.
+          schema: { type: string, format: uuid }
+      responses:
+        "204":
+          description: The task was deleted
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /lookups/managers/{managerId}/users:
+    get:
+      tags: [Lookups]
+      operationId: getUsersByManager
+      summary: Get users managed by a manager
+      description: |
+        Returns the list of users who are in a department managed by the given manager.
+        A manager is a user who has a `Manager` role permission in one or more departments.
+        The endpoint returns every user (the manager included) who has a permission in any
+        of those departments, as a flat list of `{ id, name }` items.
+      parameters:
+        - name: managerId
+          in: path
+          required: true
+          description: The user id of the manager.
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: List of users managed by the given manager
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/LookupItemDto" }
+              example:
+                - id: 4a3b2c1d-0e9f-4b8a-9c7d-6e5f4a3b2c1d
+                  name: أحمد محمد
+                - id: 6f5e4d3c-2b1a-4098-8f7e-6d5c4b3a2f1e
+                  name: هدى حسن
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    BadRequest:
+      description: Validation error
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorDto" }
+    Unauthorized:
+      description: Missing or invalid token
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorDto" }
+    Forbidden:
+      description: The user's role does not allow this action
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorDto" }
+    NotFound:
+      description: The requested resource does not exist
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorDto" }
+
+  schemas:
+    # ---------- Errors ----------
+    ErrorDto:
+      type: object
+      description: The single JSON shape returned for every error response.
+      required: [status, message]
+      properties:
+        status: { type: integer, example: 400 }
+        message: { type: string, example: Validation error }
+
+    # ---------- Requests ----------
+    PagedRequest:
+      type: object
+      required: [PageNumber]
+      properties:
+        PageNumber: { type: integer, format: int32, minimum: 1, default: 1 }
+
+    GetTasksRequest:
+      allOf:
+        - $ref: "#/components/schemas/PagedRequest"
+        - type: object
+          required: [StartTime, EndTime, GroupBySubTask]
+          properties:
+            Title:
+              type: string
+              description: Partial, case-insensitive match on the task title.
+            Type:
+              $ref: "#/components/schemas/TaskType"
+            StartTime:
+              type: string
+              format: date-time
+            EndTime:
+              type: string
+              format: date-time
+            AssignedToUserId:
+              type: string
+              format: uuid
+            GroupBySubTask:
+              type: boolean
+              default: false
+
+    # ---------- Responses ----------
+    PageDto:
+      type: object
+      properties:
+        pageNumber: { type: integer, format: int32 }
+        hasNextPage: { type: boolean }
+
+    TaskType:
+      type: string
+      description: Fixed list of task types.
+      enum: [مهمة عادية, مشكلة, حملة, تواصل, متابعة, تثبيت, تسكين, مهمة فرعية]
+
+    TaskStatus:
+      type: string
+      description: |
+        Fixed list of task statuses, returned as `statusName`. In order: Pending, InProgress, Completed, Cancelled, OnHold.
+      enum: [قيد الانتظار, قيد التنفيذ, مكتملة, ملغاة, معلقة]
+
+    LeadStatus:
+      type: string
+      description: |
+        Fixed list of student (lead) statuses. In order of id: New=1, Contacting=2, ContactFailed=3, Responded=4,
+        FollowingUp=5, FollowUpFailed=6, Confirming=7, Confirmed=8, Assigning=9, Assigned=10.
+      enum: [جديد, جاري التواصل, فشل التواصل, تم الرد, جاري المتابعة, فشلت المتابعة, جاري التثبيت, مثبت, جاري التسكين, مسكن]
+
+    TaskDto:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        title: { type: string }
+        typeName: { type: string }
+        statusName: { $ref: "#/components/schemas/TaskStatus" }
+        endTime: { type: string, format: date-time }
+        AssignedToUserFullName: { type: string }
+
+    GroupContactDto:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        fullName: { type: string }
+        phoneNumber: { type: string }
+
+    GroupSubTaskDto:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        statusName: { $ref: "#/components/schemas/TaskStatus" }
+        contacts:
+          type: array
+          items: { $ref: "#/components/schemas/GroupContactDto" }
+
+    TaskGroupDto:
+      type: object
+      properties:
+        title: { type: string }
+        subTasks:
+          type: array
+          items: { $ref: "#/components/schemas/GroupSubTaskDto" }
+
+    TasksPageDto:
+      type: object
+      properties:
+        page: { $ref: "#/components/schemas/PageDto" }
+        groupTasks:
+          type: object
+          description: Present only when `GroupBySubTask=true`. Key = parent task id, value = the parent title and its sub-tasks.
+          additionalProperties: { $ref: "#/components/schemas/TaskGroupDto" }
+        tasks:
+          type: array
+          description: |
+            Not grouped. When `GroupBySubTask=false` it holds all the tasks except sub-tasks.
+            When `GroupBySubTask=true` it holds every task that has NO sub-tasks of its own
+            (the standalone tasks: no parent and no children), so no task is left out of the response.
+          items: { $ref: "#/components/schemas/TaskDto" }
+
+    LookupItemDto:
+      type: object
+      description: A single lookup item (id + display name).
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+
+    # ---------- Task details ----------
+    TaskUserDto:
+      type: object
+      description: A user reference (id + display name).
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+
+    ParentTaskDto:
+      type: object
+      description: |
+        The parent task, shown to give the context of the current task.
+        Present for Contact / FollowUp / Confirmation / Placement (parent must be a Campaign) and for SubTask.
+        Omitted for Normal, Issue and Campaign.
+      properties:
+        id: { type: string, format: uuid }
+        title: { type: string }
+        typeName: { $ref: "#/components/schemas/TaskType" }
+
+    LeadStatusDto:
+      type: object
+      description: The status of the student (lead) in the campaign pipeline.
+      properties:
+        id: { type: integer, format: int32, minimum: 1, maximum: 10 }
+        name: { $ref: "#/components/schemas/LeadStatus" }
+
+    TaskStudentDto:
+      type: object
+      properties:
+        studentId: { type: string, format: uuid }
+        studentName: { type: string }
+        leadStatus:
+          allOf:
+            - $ref: "#/components/schemas/LeadStatusDto"
+          description: |
+            Filled when the task (or, for a sub-task, its parent) is of type حملة / تواصل / متابعة / تثبيت / تسكين.
+            Omitted otherwise.
+
+    TaskContactDto:
+      description: |
+        A contact, which represents the guardian (ولي الأمر). Same fields as `GroupContactDto`
+        (`id`, `fullName`, `phoneNumber`) plus the students. One contact can have several students,
+        so a contact (and its phone number) appears only once per sub-task.
+      allOf:
+        - $ref: "#/components/schemas/GroupContactDto"
+        - type: object
+          properties:
+            students:
+              type: array
+              description: |
+                The students linked to this contact. Omitted when the task context is مشكلة
+                (an issue concerns customers, not students).
+              items: { $ref: "#/components/schemas/TaskStudentDto" }
+
+    TaskSubTaskDto:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        statusName: { $ref: "#/components/schemas/TaskStatus" }
+        contacts:
+          type: array
+          items: { $ref: "#/components/schemas/TaskContactDto" }
+
+    TaskDetailsDto:
+      type: object
+      description: Full details of one task. See `GET /tasks/{taskId}` for the rules per task type.
+      properties:
+        id: { type: string, format: uuid }
+        title: { type: string }
+        description: { type: string }
+        typeName: { $ref: "#/components/schemas/TaskType" }
+        statusName: { $ref: "#/components/schemas/TaskStatus" }
+        startTime: { type: string, format: date-time }
+        endTime: { type: string, format: date-time }
+        parentTask:
+          allOf:
+            - $ref: "#/components/schemas/ParentTaskDto"
+        createdByUser: { $ref: "#/components/schemas/TaskUserDto" }
+        assignedToUser:
+          allOf:
+            - $ref: "#/components/schemas/TaskUserDto"
+        subTasks:
+          type: array
+          description: |
+            Filled for مشكلة, حملة, تواصل, متابعة, تثبيت, تسكين.
+            Omitted for مهمة عادية (it never has sub-tasks) and for مهمة فرعية.
+          items: { $ref: "#/components/schemas/TaskSubTaskDto" }
+        contacts:
+          type: array
+          description: |
+            Filled only when the task itself is a مهمة فرعية.
+            Omitted for every other type (their contacts live inside `subTasks`).
+          items: { $ref: "#/components/schemas/TaskContactDto" }
