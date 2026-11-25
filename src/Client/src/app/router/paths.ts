@@ -16,6 +16,7 @@ export const paths = {
   clientCommunications: (id: string) => `/clients/${id}/communications`,
   campaigns: '/campaigns',
   campaignsNew: '/campaigns/new',
+  campaign: (id: string) => `/campaigns/${encodeURIComponent(id)}`,
   campaignEdit: (id: number | string) => `/campaigns/${id}/edit`,
   campaignsReports: '/campaigns/reports',
   academicSubscribed: '/academic/subscribed-clients',

@@ -44,6 +44,8 @@ export type Capability =
   | 'tasks.view'
   // الحملات الإعلانية: مدير الإدارة فقط حالياً
   | 'campaigns.view'
+  // POST /api/campaigns: مدير التسويق أو مدير الإدارة (CreateCampaignCommand)
+  | 'campaigns.create'
   // وحدات لم تُطلق في الباك بعد: تبقى صفحاتها التوضيحية متاحة بدل 403
   | 'modules.preview'
 
@@ -101,6 +103,8 @@ export function buildAccess(pairs: readonly PermissionPair[]): Access {
         return isManager
       case 'campaigns.view':
         return isAdmin
+      case 'campaigns.create':
+        return isAdmin || managerDepartments.includes(DEPARTMENT.marketing)
       default:
         return false
     }

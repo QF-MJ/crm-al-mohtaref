@@ -7,7 +7,7 @@ import { authRoutes, LoginPage } from '@/features/auth'
 import { usersRoutes } from '@/features/users'
 import { clientsPreviewRoutes, clientsRoutes } from '@/features/clients'
 import { communicationsRoutes } from '@/features/communications'
-import { campaignsRoutes } from '@/features/campaigns'
+import { campaignsPreviewRoutes, campaignsRoutes } from '@/features/campaigns'
 import { tasksRoutes } from '@/features/tasks'
 import { academicRoutes } from '@/features/academic'
 import { issuesRoutes } from '@/features/issues'
@@ -22,6 +22,7 @@ import { paths } from './paths'
 // تُسجّل في وضع التطوير فقط ولا تدخل نسخة الإنتاج، حتى لا تظهر للعميل.
 const previewRoutes: AppRoute[] = [
   ...clientsPreviewRoutes,
+  ...campaignsPreviewRoutes,
   ...academicRoutes,
   ...issuesRoutes,
   ...communicationsRoutes,

@@ -6,4 +6,4 @@ export const LOGIN_PATH = '/auth/login'
 export const loginRequest = (body: LoginRequest) =>
   api.post<LoginDto>(LOGIN_PATH, body).then((response) => response.data)
 
-// б« нжћѕ logout/refresh Ён «б»«я Ќ«бн«р° б–бя «бќ—жћ гЌбн ЁёЎ (auth.store).
+// ўДЎІ ўКўИЎђЎѓ logout/refresh ўБўК ЎІўДЎ®ЎІўГ Ў≠ЎІўДўКЎІўЛЎМ ўДЎ∞ўДўГ ЎІўДЎЃЎ±ўИЎђ ўЕЎ≠ўДўК ўБўВЎЈ (auth.store).
