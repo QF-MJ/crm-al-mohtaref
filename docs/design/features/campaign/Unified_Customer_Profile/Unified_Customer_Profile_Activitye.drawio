@@ -1,0 +1,270 @@
+<mxfile host="Electron" agent="Claude">
+  <diagram id="act" name="Activity Diagram">
+    <mxGraphModel dx="6194" dy="3144" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1400" pageHeight="3050" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="act-2" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=18;fontStyle=1;align=center;" value="مخطط النشاط (Activity Diagram) — عرض ملف موحد للعميل" vertex="1">
+          <mxGeometry height="40" width="1360" x="20" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="act-3" parent="1" style="rounded=0;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;opacity=35;" value="" vertex="1">
+          <mxGeometry height="2880" width="340" x="20" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act-4" parent="1" style="rounded=0;html=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;textDirection=rtl;" value="الموظف المخوّل&lt;br&gt;Authorized Employee" vertex="1">
+          <mxGeometry height="50" width="340" x="20" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act-5" parent="1" style="rounded=0;html=1;fillColor=#d5e8d4;strokeColor=#82b366;opacity=35;" value="" vertex="1">
+          <mxGeometry height="2880" width="340" x="360" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act-6" parent="1" style="rounded=0;html=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;textDirection=rtl;" value="واجهة المستخدم&lt;br&gt;Frontend" vertex="1">
+          <mxGeometry height="50" width="340" x="360" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act-7" parent="1" style="rounded=0;html=1;fillColor=#fff2cc;strokeColor=#d6b656;opacity=35;" value="" vertex="1">
+          <mxGeometry height="2880" width="340" x="700" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act-8" parent="1" style="rounded=0;html=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=13;textDirection=rtl;" value="الخادم (Backend)&lt;br&gt;Auth + Access Scope" vertex="1">
+          <mxGeometry height="50" width="340" x="700" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act-9" parent="1" style="rounded=0;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;opacity=35;" value="" vertex="1">
+          <mxGeometry height="2880" width="340" x="1040" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act-10" parent="1" style="rounded=0;html=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=13;textDirection=rtl;" value="الخدمات&lt;br&gt;Contacts / Students / Optional" vertex="1">
+          <mxGeometry height="50" width="340" x="1040" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="act-11" parent="1" style="ellipse;html=1;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="26" width="26" x="177" y="117" as="geometry" />
+        </mxCell>
+        <mxCell id="act-12" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="فتح قسم العملاء" vertex="1">
+          <mxGeometry height="54" width="230" x="75" y="208" as="geometry" />
+        </mxCell>
+        <mxCell id="act-13" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="إرسال طلب قائمة جهات التواصل" vertex="1">
+          <mxGeometry height="54" width="230" x="415" y="313" as="geometry" />
+        </mxCell>
+        <mxCell id="act-14" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="التحقق من الجلسة والصلاحية" vertex="1">
+          <mxGeometry height="54" width="230" x="755" y="418" as="geometry" />
+        </mxCell>
+        <mxCell id="act-15" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;strokeWidth=1.5;fontSize=11;textDirection=rtl;" value="الجلسة صالحة&lt;br&gt;والصلاحية متوفرة؟" vertex="1">
+          <mxGeometry height="96" width="240" x="750" y="502" as="geometry" />
+        </mxCell>
+        <mxCell id="act-16" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="رفض الطلب وعرض رسالة مناسبة&lt;br&gt;(AF-1 / AF-2)" vertex="1">
+          <mxGeometry height="54" width="230" x="415" y="523" as="geometry" />
+        </mxCell>
+        <mxCell id="act-17" parent="1" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="175" y="535" as="geometry" />
+        </mxCell>
+        <mxCell id="act-18" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="عرض قائمة جهات التواصل&lt;br&gt;وأدوات البحث" vertex="1">
+          <mxGeometry height="54" width="230" x="415" y="628" as="geometry" />
+        </mxCell>
+        <mxCell id="act-19" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="البحث عن جهة التواصل&lt;br&gt;(الاسم / رقم الهاتف)" vertex="1">
+          <mxGeometry height="54" width="230" x="75" y="733" as="geometry" />
+        </mxCell>
+        <mxCell id="act-20" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="إرسال طلب البحث" vertex="1">
+          <mxGeometry height="54" width="230" x="415" y="838" as="geometry" />
+        </mxCell>
+        <mxCell id="act-21" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="التحقق من معيار البحث" vertex="1">
+          <mxGeometry height="54" width="230" x="755" y="943" as="geometry" />
+        </mxCell>
+        <mxCell id="act-22" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="استعلام جهات التواصل المطابقة" vertex="1">
+          <mxGeometry height="54" width="230" x="1095" y="1048" as="geometry" />
+        </mxCell>
+        <mxCell id="act-23" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;strokeWidth=1.5;fontSize=11;textDirection=rtl;" value="توجد نتائج&lt;br&gt;مطابقة؟" vertex="1">
+          <mxGeometry height="96" width="240" x="750" y="1132" as="geometry" />
+        </mxCell>
+        <mxCell id="act-24" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="رسالة: لا توجد نتائج مطابقة&lt;br&gt;مع إتاحة تعديل المعيار (AF-3)" vertex="1">
+          <mxGeometry height="54" width="230" x="415" y="1153" as="geometry" />
+        </mxCell>
+        <mxCell id="act-25" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="عرض نتائج البحث" vertex="1">
+          <mxGeometry height="54" width="230" x="415" y="1258" as="geometry" />
+        </mxCell>
+        <mxCell id="act-26" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="اختيار جهة التواصل" vertex="1">
+          <mxGeometry height="54" width="230" x="75" y="1363" as="geometry" />
+        </mxCell>
+        <mxCell id="act-27" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="طلب الملف الموحد&lt;br&gt;باستخدام ContactId" vertex="1">
+          <mxGeometry height="54" width="230" x="415" y="1468" as="geometry" />
+        </mxCell>
+        <mxCell id="act-28" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="التحقق من الجلسة والصلاحية&lt;br&gt;ونطاق الوصول إلى السجل" vertex="1">
+          <mxGeometry height="54" width="230" x="755" y="1573" as="geometry" />
+        </mxCell>
+        <mxCell id="act-29" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;strokeWidth=1.5;fontSize=11;textDirection=rtl;" value="الوصول&lt;br&gt;مسموح؟" vertex="1">
+          <mxGeometry height="96" width="240" x="750" y="1657" as="geometry" />
+        </mxCell>
+        <mxCell id="act-30" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="رفض دون كشف بيانات + رسالة&lt;br&gt;(AF-1 / AF-2 / AF-5)" vertex="1">
+          <mxGeometry height="54" width="230" x="415" y="1678" as="geometry" />
+        </mxCell>
+        <mxCell id="act-31" parent="1" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="175" y="1690" as="geometry" />
+        </mxCell>
+        <mxCell id="act-32" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="التحقق من وجود السجل&lt;br&gt;(ContactId)" vertex="1">
+          <mxGeometry height="54" width="230" x="1095" y="1783" as="geometry" />
+        </mxCell>
+        <mxCell id="act-33" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;strokeWidth=1.5;fontSize=11;textDirection=rtl;" value="السجل&lt;br&gt;موجود؟" vertex="1">
+          <mxGeometry height="96" width="240" x="1090" y="1867" as="geometry" />
+        </mxCell>
+        <mxCell id="act-34" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="رسالة: جهة التواصل غير موجودة&lt;br&gt;دون بيانات جزئية (AF-4)" vertex="1">
+          <mxGeometry height="54" width="230" x="415" y="1888" as="geometry" />
+        </mxCell>
+        <mxCell id="act-35" parent="1" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="175" y="1900" as="geometry" />
+        </mxCell>
+        <mxCell id="act-36" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="جلب بيانات جهة التواصل&lt;br&gt;والطلاب المرتبطين بها" vertex="1">
+          <mxGeometry height="54" width="230" x="1095" y="1993" as="geometry" />
+        </mxCell>
+        <mxCell id="act-37" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;strokeWidth=1.5;fontSize=11;textDirection=rtl;" value="نجح تحميل&lt;br&gt;البيانات الأساسية؟" vertex="1">
+          <mxGeometry height="96" width="240" x="1090" y="2077" as="geometry" />
+        </mxCell>
+        <mxCell id="act-38" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="رسالة تعذر تحميل الملف&lt;br&gt;مع إتاحة إعادة المحاولة (AF-8)" vertex="1">
+          <mxGeometry height="54" width="230" x="415" y="2098" as="geometry" />
+        </mxCell>
+        <mxCell id="act-39" parent="1" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="175" y="2110" as="geometry" />
+        </mxCell>
+        <mxCell id="act-40" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="جلب البيانات التشغيلية المتاحة&lt;br&gt;لكل طالب (بحسب الصلاحيات)" vertex="1">
+          <mxGeometry height="54" width="230" x="1095" y="2203" as="geometry" />
+        </mxCell>
+        <mxCell id="act-41" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;strokeWidth=1.5;fontSize=11;textDirection=rtl;" value="بيانات القسم&lt;br&gt;متاحة؟" vertex="1">
+          <mxGeometry height="96" width="240" x="1090" y="2287" as="geometry" />
+        </mxCell>
+        <mxCell id="act-42" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="تسجيل حالة القسم: فارغ / تعذر&lt;br&gt;التحميل (AF-6 / AF-7)" vertex="1">
+          <mxGeometry height="54" width="230" x="755" y="2308" as="geometry" />
+        </mxCell>
+        <mxCell id="act-43" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="تجميع البيانات وربط كل سجل&lt;br&gt;بجهة التواصل / الطالب وتجهيز&lt;br&gt;الأقسام للعرض بصورة منفصلة" vertex="1">
+          <mxGeometry height="66" width="230" x="755" y="2407" as="geometry" />
+        </mxCell>
+        <mxCell id="act-44" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="عرض الملف الموحد: جهة التواصل&lt;br&gt;والطلاب والأقسام + حالة كل قسم" vertex="1">
+          <mxGeometry height="62" width="230" x="415" y="2514" as="geometry" />
+        </mxCell>
+        <mxCell id="act-45" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="مراجعة بيانات جهة التواصل&lt;br&gt;والطلاب والمعلومات المرتبطة" vertex="1">
+          <mxGeometry height="54" width="230" x="75" y="2623" as="geometry" />
+        </mxCell>
+        <mxCell id="act-46" parent="1" style="rounded=1;arcSize=28;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=1.5;fontSize=12;textDirection=rtl;" value="إبقاء الملف في وضع العرض فقط&lt;br&gt;(بدون تعديل أو إنشاء سجلات)" vertex="1">
+          <mxGeometry height="54" width="230" x="415" y="2728" as="geometry" />
+        </mxCell>
+        <mxCell id="act-47" parent="1" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="515" y="2845" as="geometry" />
+        </mxCell>
+        <mxCell id="act-48" edge="1" parent="1" source="act-11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="act-12" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-49" edge="1" parent="1" source="act-12" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=1;exitY=0.5;entryX=0.5;entryY=0;" target="act-13" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-50" edge="1" parent="1" source="act-13" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=1;exitY=0.5;entryX=0.5;entryY=0;" target="act-14" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-51" edge="1" parent="1" source="act-14" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="act-15" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-52" edge="1" parent="1" source="act-15" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="act-16" value="لا">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-53" edge="1" parent="1" source="act-16" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="act-17" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-54" edge="1" parent="1" source="act-15" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0.5;exitY=1;entryX=1;entryY=0.5;" target="act-18" value="نعم">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-55" edge="1" parent="1" source="act-18" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0;exitY=0.5;entryX=0.5;entryY=0;" target="act-19" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-56" edge="1" parent="1" source="act-19" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=1;exitY=0.5;entryX=0.5;entryY=0;" target="act-20" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-57" edge="1" parent="1" source="act-20" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=1;exitY=0.5;entryX=0.5;entryY=0;" target="act-21" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-58" edge="1" parent="1" source="act-21" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=1;exitY=0.5;entryX=0.5;entryY=0;" target="act-22" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-59" edge="1" parent="1" source="act-22" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0;exitY=0.5;entryX=0.5;entryY=0;" target="act-23" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-60" edge="1" parent="1" source="act-23" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="act-24" value="لا">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-61" edge="1" parent="1" source="act-24" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0;exitY=0.5;entryX=0;entryY=0.5;" target="act-19" value="إعادة المحاولة">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="45" y="1180" />
+              <mxPoint x="45" y="760" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="act-62" edge="1" parent="1" source="act-23" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0.5;exitY=1;entryX=1;entryY=0.5;" target="act-25" value="نعم">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-63" edge="1" parent="1" source="act-25" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0;exitY=0.5;entryX=0.5;entryY=0;" target="act-26" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-64" edge="1" parent="1" source="act-26" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=1;exitY=0.5;entryX=0.5;entryY=0;" target="act-27" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-65" edge="1" parent="1" source="act-27" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=1;exitY=0.5;entryX=0.5;entryY=0;" target="act-28" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-66" edge="1" parent="1" source="act-28" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="act-29" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-67" edge="1" parent="1" source="act-29" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="act-30" value="لا">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-68" edge="1" parent="1" source="act-30" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="act-31" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-69" edge="1" parent="1" source="act-29" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" target="act-32" value="نعم">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-70" edge="1" parent="1" source="act-32" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="act-33" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-71" edge="1" parent="1" source="act-33" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="act-34" value="لا">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-72" edge="1" parent="1" source="act-34" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="act-35" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-73" edge="1" parent="1" source="act-33" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="act-36" value="نعم">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-74" edge="1" parent="1" source="act-36" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="act-37" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-75" edge="1" parent="1" source="act-37" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="act-38" value="لا">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-76" edge="1" parent="1" source="act-38" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="act-39" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-77" edge="1" parent="1" source="act-37" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="act-40" value="نعم">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-78" edge="1" parent="1" source="act-40" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="act-41" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-79" edge="1" parent="1" source="act-41" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="act-42" value="لا">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-80" edge="1" parent="1" source="act-41" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0.5;exitY=1;entryX=1;entryY=0.5;" target="act-43" value="نعم">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-81" edge="1" parent="1" source="act-42" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="act-43" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-82" edge="1" parent="1" source="act-43" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0;exitY=0.5;entryX=0.5;entryY=0;" target="act-44" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-83" edge="1" parent="1" source="act-44" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0;exitY=0.5;entryX=0.5;entryY=0;" target="act-45" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-84" edge="1" parent="1" source="act-45" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=1;exitY=0.5;entryX=0.5;entryY=0;" target="act-46" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-85" edge="1" parent="1" source="act-46" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fontSize=11;labelBackgroundColor=#ffffff;textDirection=rtl;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="act-47" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="act-86" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;align=center;fontColor=#555555;" value="دليل الألوان: الأحمر = مسارات الفشل/الرفض (AF)  ·  الشكل المعيّن = قرار  ·  الدائرة السوداء = بداية  ·  الدائرة المزدوجة = نهاية  ·  عملية العرض للقراءة فقط (لا تعديل ولا إنشاء سجلات)" vertex="1">
+          <mxGeometry height="40" width="1360" x="20" y="2970" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

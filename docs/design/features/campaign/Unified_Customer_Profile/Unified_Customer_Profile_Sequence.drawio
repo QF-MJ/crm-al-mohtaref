@@ -1,0 +1,908 @@
+<mxfile host="Electron" agent="Claude">
+  <diagram id="seq" name="Sequence Diagram">
+    <mxGraphModel dx="5216" dy="2647" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1600" pageHeight="2675" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="seq-2" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=18;fontStyle=1;align=center;" value="مخطط التتابع (Sequence Diagram) مع الخط الزمني — عرض ملف موحد للعميل" vertex="1">
+          <mxGeometry height="36" width="1545" x="20" y="5" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#888888;verticalAlign=top;fontSize=11;fontStyle=1;spacingTop=6;textDirection=rtl;" value="الخطوة 1&lt;br&gt;فتح قسم العملاء" vertex="1">
+          <mxGeometry height="400" width="140" x="20" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-4" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;dashPattern=1 4;strokeColor=#B0B0B0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="160" y="150" as="sourcePoint" />
+            <mxPoint x="1565" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#888888;verticalAlign=top;fontSize=11;fontStyle=1;spacingTop=6;textDirection=rtl;" value="الخطوة 2&lt;br&gt;البحث عن جهة التواصل" vertex="1">
+          <mxGeometry height="507" width="140" x="20" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-6" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;dashPattern=1 4;strokeColor=#B0B0B0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="160" y="550" as="sourcePoint" />
+            <mxPoint x="1565" y="550" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#888888;verticalAlign=top;fontSize=11;fontStyle=1;spacingTop=6;textDirection=rtl;" value="الخطوة 3&lt;br&gt;اختيار جهة التواصل" vertex="1">
+          <mxGeometry height="578" width="140" x="20" y="1057" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-8" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;dashPattern=1 4;strokeColor=#B0B0B0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="160" y="1057" as="sourcePoint" />
+            <mxPoint x="1565" y="1057" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#888888;verticalAlign=top;fontSize=11;fontStyle=1;spacingTop=6;textDirection=rtl;" value="الخطوة 4&lt;br&gt;جلب البيانات" vertex="1">
+          <mxGeometry height="549" width="140" x="20" y="1635" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-10" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;dashPattern=1 4;strokeColor=#B0B0B0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="160" y="1635" as="sourcePoint" />
+            <mxPoint x="1565" y="1635" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-11" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#888888;verticalAlign=top;fontSize=11;fontStyle=1;spacingTop=6;textDirection=rtl;" value="الخطوة 5&lt;br&gt;تجميع البيانات" vertex="1">
+          <mxGeometry height="82" width="140" x="20" y="2184" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-12" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;dashPattern=1 4;strokeColor=#B0B0B0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="160" y="2184" as="sourcePoint" />
+            <mxPoint x="1565" y="2184" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-13" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#888888;verticalAlign=top;fontSize=11;fontStyle=1;spacingTop=6;textDirection=rtl;" value="الخطوة 6&lt;br&gt;عرض الملف الموحد" vertex="1">
+          <mxGeometry height="173" width="140" x="20" y="2266" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-14" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;dashPattern=1 4;strokeColor=#B0B0B0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="160" y="2266" as="sourcePoint" />
+            <mxPoint x="1565" y="2266" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-15" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e6e6e6;strokeColor=#888888;verticalAlign=top;fontSize=11;fontStyle=1;spacingTop=6;textDirection=rtl;" value="الخطوة 7&lt;br&gt;المراجعة (قراءة فقط)" vertex="1">
+          <mxGeometry height="146" width="140" x="20" y="2439" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-16" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;dashPattern=1 4;strokeColor=#B0B0B0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="160" y="2439" as="sourcePoint" />
+            <mxPoint x="1565" y="2439" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-17" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;dashPattern=1 4;strokeColor=#B0B0B0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="160" y="2585" as="sourcePoint" />
+            <mxPoint x="1565" y="2585" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-18" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=12;textDirection=rtl;" value="الخط الزمني&lt;br&gt;Timeline" vertex="1">
+          <mxGeometry height="64" width="190" x="20" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-19" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=2;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="210" y="128" as="sourcePoint" />
+            <mxPoint x="210" y="2605" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-20" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="189" as="sourcePoint" />
+            <mxPoint x="217" y="189" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-21" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t1" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-22" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="234" as="sourcePoint" />
+            <mxPoint x="217" y="234" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-23" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t2" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-24" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="271" as="sourcePoint" />
+            <mxPoint x="217" y="271" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-25" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t3" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="262" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-26" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="357" as="sourcePoint" />
+            <mxPoint x="217" y="357" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-27" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t4" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="348" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-28" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="402" as="sourcePoint" />
+            <mxPoint x="217" y="402" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-29" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t5" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="393" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-30" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="477" as="sourcePoint" />
+            <mxPoint x="217" y="477" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-31" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t6" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="468" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-32" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="522" as="sourcePoint" />
+            <mxPoint x="217" y="522" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-33" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t7" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="513" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-34" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="589" as="sourcePoint" />
+            <mxPoint x="217" y="589" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-35" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t8" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-36" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="634" as="sourcePoint" />
+            <mxPoint x="217" y="634" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-37" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t9" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="625" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-38" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="671" as="sourcePoint" />
+            <mxPoint x="217" y="671" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-39" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t10" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="662" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-40" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="727" as="sourcePoint" />
+            <mxPoint x="217" y="727" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-41" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t11" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="718" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-42" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="772" as="sourcePoint" />
+            <mxPoint x="217" y="772" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-43" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t12" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="763" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-44" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="847" as="sourcePoint" />
+            <mxPoint x="217" y="847" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-45" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t13" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="838" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-46" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="909" as="sourcePoint" />
+            <mxPoint x="217" y="909" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-47" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t14" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-48" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="984" as="sourcePoint" />
+            <mxPoint x="217" y="984" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-49" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t15" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="975" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-50" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="1029" as="sourcePoint" />
+            <mxPoint x="217" y="1029" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-51" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t16" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="1020" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-52" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="1096" as="sourcePoint" />
+            <mxPoint x="217" y="1096" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-53" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t17" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="1087" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-54" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="1141" as="sourcePoint" />
+            <mxPoint x="217" y="1141" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-55" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t18" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="1132" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-56" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="1178" as="sourcePoint" />
+            <mxPoint x="217" y="1178" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-57" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t19" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="1169" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-58" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="1244" as="sourcePoint" />
+            <mxPoint x="217" y="1244" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-59" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t20" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="1235" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-60" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="1289" as="sourcePoint" />
+            <mxPoint x="217" y="1289" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-61" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t21" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-62" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="1364" as="sourcePoint" />
+            <mxPoint x="217" y="1364" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-63" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t22" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="1355" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-64" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="1409" as="sourcePoint" />
+            <mxPoint x="217" y="1409" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-65" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t23" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="1400" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-66" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="1484" as="sourcePoint" />
+            <mxPoint x="217" y="1484" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-67" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t24" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="1475" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-68" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="1529" as="sourcePoint" />
+            <mxPoint x="217" y="1529" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-69" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t25" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="1520" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-70" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="1596" as="sourcePoint" />
+            <mxPoint x="217" y="1596" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-71" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t26" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="1587" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-72" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="1691" as="sourcePoint" />
+            <mxPoint x="217" y="1691" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-73" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t27" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="1682" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-74" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="1736" as="sourcePoint" />
+            <mxPoint x="217" y="1736" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-75" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t28" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="1727" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-76" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="1811" as="sourcePoint" />
+            <mxPoint x="217" y="1811" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-77" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t29" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="1802" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-78" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="1873" as="sourcePoint" />
+            <mxPoint x="217" y="1873" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-79" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t30" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="1864" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-80" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="1995" as="sourcePoint" />
+            <mxPoint x="217" y="1995" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-81" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t31" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="1986" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-82" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="2040" as="sourcePoint" />
+            <mxPoint x="217" y="2040" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-83" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t32" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="2031" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-84" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="2107" as="sourcePoint" />
+            <mxPoint x="217" y="2107" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-85" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t33" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="2098" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-86" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="2215" as="sourcePoint" />
+            <mxPoint x="217" y="2215" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-87" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t34" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="2206" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-88" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="2305" as="sourcePoint" />
+            <mxPoint x="217" y="2305" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-89" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t35" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="2296" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-90" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="2342" as="sourcePoint" />
+            <mxPoint x="217" y="2342" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-91" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t36" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="2333" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-92" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="2425" as="sourcePoint" />
+            <mxPoint x="217" y="2425" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-93" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t37" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="2416" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-94" edge="1" parent="1" style="endArrow=none;html=1;strokeColor=#333333;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="2495" as="sourcePoint" />
+            <mxPoint x="217" y="2495" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-95" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" value="t38" vertex="1">
+          <mxGeometry height="18" width="32" x="219" y="2486" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-96" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=1.5;fontStyle=1;fontSize=11;textDirection=rtl;" value="الموظف المخوّل&lt;br&gt;Authorized Employee" vertex="1">
+          <mxGeometry height="64" width="190" x="265" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-97" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;strokeColor=#6c8ebf;strokeWidth=1.5;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="360" y="114" as="sourcePoint" />
+            <mxPoint x="360" y="2595" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-98" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=1.5;fontStyle=1;fontSize=11;textDirection=rtl;" value="واجهة المستخدم&lt;br&gt;Frontend — الملف الموحد" vertex="1">
+          <mxGeometry height="64" width="190" x="535" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-99" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;strokeColor=#82b366;strokeWidth=1.5;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="630" y="114" as="sourcePoint" />
+            <mxPoint x="630" y="2595" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-100" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=1.5;fontStyle=1;fontSize=11;textDirection=rtl;" value="الخادم Backend&lt;br&gt;Auth + Access Scope" vertex="1">
+          <mxGeometry height="64" width="190" x="805" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-101" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;strokeColor=#d6b656;strokeWidth=1.5;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="900" y="114" as="sourcePoint" />
+            <mxPoint x="900" y="2595" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-102" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=1.5;fontStyle=1;fontSize=11;textDirection=rtl;" value="خدمة جهات التواصل والطلاب&lt;br&gt;Contacts / Students" vertex="1">
+          <mxGeometry height="64" width="190" x="1075" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-103" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;strokeColor=#9673a6;strokeWidth=1.5;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1170" y="114" as="sourcePoint" />
+            <mxPoint x="1170" y="2595" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-104" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=1.5;fontStyle=1;fontSize=11;textDirection=rtl;" value="الخدمات التشغيلية (اختيارية)&lt;br&gt;فرص · تواصل · اشتراكات · توجيه · دعم" vertex="1">
+          <mxGeometry height="64" width="190" x="1345" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-105" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;strokeColor=#d79b00;strokeWidth=1.5;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1440" y="114" as="sourcePoint" />
+            <mxPoint x="1440" y="2595" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-106" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#666666;width=56;height=24;fontSize=11;fontStyle=1;container=0;pointerEvents=0;" value="alt" vertex="1">
+          <mxGeometry height="244" width="1315" x="250" y="296" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-107" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;" value="[ AF-1 الجلسة منتهية  /  AF-2 لا يملك الصلاحية ]" vertex="1">
+          <mxGeometry height="24" width="1245" x="312" y="297" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-108" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;strokeColor=#666666;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="418" as="sourcePoint" />
+            <mxPoint x="1565" y="418" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-109" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;" value="[ الجلسة والصلاحية سليمتان ]" vertex="1">
+          <mxGeometry height="24" width="1299" x="258" y="421" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-110" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#666666;width=56;height=24;fontSize=11;fontStyle=1;container=0;pointerEvents=0;" value="alt" vertex="1">
+          <mxGeometry height="261" width="1315" x="250" y="786" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-111" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;" value="[ AF-3 لا توجد نتائج مطابقة ]" vertex="1">
+          <mxGeometry height="24" width="1245" x="312" y="787" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-112" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;strokeColor=#666666;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="925" as="sourcePoint" />
+            <mxPoint x="1565" y="925" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-113" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;" value="[ توجد نتائج مطابقة ]" vertex="1">
+          <mxGeometry height="24" width="1299" x="258" y="928" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-114" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#666666;width=56;height=24;fontSize=11;fontStyle=1;container=0;pointerEvents=0;" value="alt" vertex="1">
+          <mxGeometry height="322" width="1315" x="250" y="1303" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-115" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;" value="[ AF-1 / AF-2 / AF-5 : جلسة منتهية أو لا صلاحية أو خارج النطاق ]" vertex="1">
+          <mxGeometry height="24" width="1245" x="312" y="1304" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-116" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;strokeColor=#666666;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="1425" as="sourcePoint" />
+            <mxPoint x="1565" y="1425" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-117" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;" value="[ AF-4 : ContactId غير موجود ]" vertex="1">
+          <mxGeometry height="24" width="1299" x="258" y="1428" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-118" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;strokeColor=#666666;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="1545" as="sourcePoint" />
+            <mxPoint x="1565" y="1545" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-119" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;" value="[ الوصول مسموح والسجل موجود ]" vertex="1">
+          <mxGeometry height="24" width="1299" x="258" y="1548" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-120" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#666666;width=56;height=24;fontSize=11;fontStyle=1;container=0;pointerEvents=0;" value="alt" vertex="1">
+          <mxGeometry height="424" width="1315" x="250" y="1750" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-121" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;" value="[ AF-8 فشل تحميل البيانات الأساسية ]" vertex="1">
+          <mxGeometry height="24" width="1245" x="312" y="1751" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-122" edge="1" parent="1" style="endArrow=none;html=1;dashed=1;strokeColor=#666666;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="1889" as="sourcePoint" />
+            <mxPoint x="1565" y="1889" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-123" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;" value="[ نجح تحميل البيانات الأساسية ]" vertex="1">
+          <mxGeometry height="24" width="1299" x="258" y="1892" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-124" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#666666;width=56;height=24;fontSize=11;fontStyle=1;container=0;pointerEvents=0;" value="loop" vertex="1">
+          <mxGeometry height="243" width="1287" x="264" y="1917" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-125" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;" value="[ لكل طالب مرتبط  —  AF-6 : إن لم يوجد طلاب يبقى قسم الطلاب فارغاً ]" vertex="1">
+          <mxGeometry height="24" width="1217" x="326" y="1918" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-126" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#666666;width=56;height=24;fontSize=11;fontStyle=1;container=0;pointerEvents=0;" value="opt" vertex="1">
+          <mxGeometry height="92" width="1259" x="278" y="2054" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-127" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;" value="[ AF-7 قسم فارغ أو تعذر تحميله ]" vertex="1">
+          <mxGeometry height="24" width="1189" x="340" y="2055" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-128" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="351" width="12" x="354" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-129" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="351" width="12" x="624" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-130" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#d6b656;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="261" width="12" x="894" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-131" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="458" width="12" x="354" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-132" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="458" width="12" x="624" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-133" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#d6b656;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="368" width="12" x="894" y="625" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-134" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#9673a6;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="63" width="12" x="1164" y="718" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-135" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="451" width="12" x="354" y="1087" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-136" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="451" width="12" x="624" y="1087" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-137" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#d6b656;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="477" width="12" x="894" y="1132" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-138" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#9673a6;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="63" width="12" x="1164" y="1235" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-139" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="18" width="12" x="354" y="1864" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-140" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="80" width="12" x="624" y="1802" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-141" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#d6b656;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="438" width="12" x="894" y="1682" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-142" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#9673a6;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="63" width="12" x="1164" y="1682" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-143" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#d79b00;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="63" width="12" x="1434" y="1986" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-144" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#d6b656;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="33" width="12" x="894" y="2195" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-145" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="18" width="12" x="354" y="2416" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-146" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="138" width="12" x="624" y="2296" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-147" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#d6b656;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="18" width="12" x="894" y="2296" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-148" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="18" width="12" x="354" y="2486" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-149" parent="1" style="rounded=0;html=1;fillColor=#ffffff;strokeColor=#82b366;strokeWidth=1.5;" value="" vertex="1">
+          <mxGeometry height="18" width="12" x="624" y="2486" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-150" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;endArrow=block;endFill=1;" value="فتح قسم العملاء">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="366" y="189" as="sourcePoint" />
+            <mxPoint x="624" y="189" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-151" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;endArrow=block;endFill=1;" value="طلب قائمة جهات التواصل">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="636" y="234" as="sourcePoint" />
+            <mxPoint x="894" y="234" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-152" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;rounded=0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="942" y="260" />
+              <mxPoint x="942" y="282" />
+            </Array>
+            <mxPoint x="906" y="260" as="sourcePoint" />
+            <mxPoint x="906" y="282" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-153" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;align=left;verticalAlign=middle;fillColor=#ffffff;" value="التحقق من الجلسة والصلاحية" vertex="1">
+          <mxGeometry height="16" width="230" x="950" y="263" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-154" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="رفض الطلب دون عرض بيانات العميل">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="894" y="357" as="sourcePoint" />
+            <mxPoint x="636" y="357" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-155" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="طلب تسجيل الدخول / رسالة منع مناسبة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="624" y="402" as="sourcePoint" />
+            <mxPoint x="366" y="402" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-156" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="قائمة جهات التواصل + أدوات البحث">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="894" y="477" as="sourcePoint" />
+            <mxPoint x="636" y="477" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-157" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="عرض القائمة وأدوات البحث">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="624" y="522" as="sourcePoint" />
+            <mxPoint x="366" y="522" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-158" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;endArrow=block;endFill=1;" value="إدخال معيار البحث (الاسم / الهاتف)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="366" y="589" as="sourcePoint" />
+            <mxPoint x="624" y="589" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-159" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;endArrow=block;endFill=1;" value="طلب البحث بالمعيار المحدد">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="636" y="634" as="sourcePoint" />
+            <mxPoint x="894" y="634" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-160" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;rounded=0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="942" y="660" />
+              <mxPoint x="942" y="682" />
+            </Array>
+            <mxPoint x="906" y="660" as="sourcePoint" />
+            <mxPoint x="906" y="682" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-161" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;align=left;verticalAlign=middle;fillColor=#ffffff;" value="التحقق من معيار البحث" vertex="1">
+          <mxGeometry height="16" width="230" x="950" y="663" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-162" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;endArrow=block;endFill=1;" value="استعلام جهات التواصل المطابقة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="906" y="727" as="sourcePoint" />
+            <mxPoint x="1164" y="727" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-163" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="نتائج المطابقة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1164" y="772" as="sourcePoint" />
+            <mxPoint x="906" y="772" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-164" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="نتيجة فارغة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="894" y="847" as="sourcePoint" />
+            <mxPoint x="636" y="847" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-165" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="رسالة: لا توجد نتائج مطابقة&lt;br&gt;مع إتاحة تعديل المعيار وإعادة المحاولة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="624" y="909" as="sourcePoint" />
+            <mxPoint x="366" y="909" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-166" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="جهات التواصل المطابقة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="894" y="984" as="sourcePoint" />
+            <mxPoint x="636" y="984" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-167" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="عرض نتائج البحث">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="624" y="1029" as="sourcePoint" />
+            <mxPoint x="366" y="1029" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-168" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;endArrow=block;endFill=1;" value="اختيار جهة التواصل المطلوبة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="366" y="1096" as="sourcePoint" />
+            <mxPoint x="624" y="1096" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-169" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;endArrow=block;endFill=1;" value="طلب الملف الموحد (ContactId)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="636" y="1141" as="sourcePoint" />
+            <mxPoint x="894" y="1141" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-170" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;rounded=0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="942" y="1167" />
+              <mxPoint x="942" y="1189" />
+            </Array>
+            <mxPoint x="906" y="1167" as="sourcePoint" />
+            <mxPoint x="906" y="1189" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-171" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;align=left;verticalAlign=middle;fillColor=#ffffff;" value="التحقق من الجلسة والصلاحية&lt;br&gt;ونطاق الوصول إلى السجل" vertex="1">
+          <mxGeometry height="32" width="230" x="950" y="1162" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-172" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;endArrow=block;endFill=1;" value="التحقق من وجود ContactId">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="906" y="1244" as="sourcePoint" />
+            <mxPoint x="1164" y="1244" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-173" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="نتيجة التحقق">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1164" y="1289" as="sourcePoint" />
+            <mxPoint x="906" y="1289" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-174" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="رفض الطلب دون كشف بيانات السجل">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="894" y="1364" as="sourcePoint" />
+            <mxPoint x="636" y="1364" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-175" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="رسالة مناسبة / طلب تسجيل الدخول">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="624" y="1409" as="sourcePoint" />
+            <mxPoint x="366" y="1409" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-176" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="السجل غير موجود">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="894" y="1484" as="sourcePoint" />
+            <mxPoint x="636" y="1484" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-177" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="رسالة مناسبة دون بيانات جزئية">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="624" y="1529" as="sourcePoint" />
+            <mxPoint x="366" y="1529" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-178" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;rounded=0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="942" y="1585" />
+              <mxPoint x="942" y="1607" />
+            </Array>
+            <mxPoint x="906" y="1585" as="sourcePoint" />
+            <mxPoint x="906" y="1607" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-179" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;align=left;verticalAlign=middle;fillColor=#ffffff;" value="المتابعة إلى جلب البيانات" vertex="1">
+          <mxGeometry height="16" width="230" x="950" y="1588" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-180" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;endArrow=block;endFill=1;" value="جلب بيانات جهة التواصل&lt;br&gt;والطلاب المرتبطين بها">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="906" y="1691" as="sourcePoint" />
+            <mxPoint x="1164" y="1691" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-181" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="البيانات الأساسية + قائمة الطلاب">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1164" y="1736" as="sourcePoint" />
+            <mxPoint x="906" y="1736" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-182" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="تعذر تحميل الملف">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="894" y="1811" as="sourcePoint" />
+            <mxPoint x="636" y="1811" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-183" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="رسالة تعذر التحميل مع إتاحة&lt;br&gt;إعادة المحاولة (الملف غير مكتمل)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="624" y="1873" as="sourcePoint" />
+            <mxPoint x="366" y="1873" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-184" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;endArrow=block;endFill=1;" value="جلب البيانات التشغيلية للطالب&lt;br&gt;(بحسب الصلاحيات والخدمات المتاحة)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="906" y="1995" as="sourcePoint" />
+            <mxPoint x="1434" y="1995" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-185" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="بيانات الأقسام المتاحة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1434" y="2040" as="sourcePoint" />
+            <mxPoint x="906" y="2040" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-186" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;rounded=0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="942" y="2096" />
+              <mxPoint x="942" y="2118" />
+            </Array>
+            <mxPoint x="906" y="2096" as="sourcePoint" />
+            <mxPoint x="906" y="2118" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-187" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;align=left;verticalAlign=middle;fillColor=#ffffff;" value="تسجيل حالة القسم (فارغ / تعذر)&lt;br&gt;ومتابعة بقية الأقسام" vertex="1">
+          <mxGeometry height="32" width="230" x="950" y="2091" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-188" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;rounded=0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="942" y="2204" />
+              <mxPoint x="942" y="2226" />
+            </Array>
+            <mxPoint x="906" y="2204" as="sourcePoint" />
+            <mxPoint x="906" y="2226" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-189" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;align=left;verticalAlign=middle;fillColor=#ffffff;" value="تجميع البيانات وربط كل سجل بجهة&lt;br&gt;التواصل/الطالب وتجهيز الأقسام&lt;br&gt;للعرض بصورة منفصلة" vertex="1">
+          <mxGeometry height="48" width="230" x="950" y="2191" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-190" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="الملف الموحد + حالة كل قسم">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="894" y="2305" as="sourcePoint" />
+            <mxPoint x="636" y="2305" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-191" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;rounded=0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="672" y="2331" />
+              <mxPoint x="672" y="2353" />
+            </Array>
+            <mxPoint x="636" y="2331" as="sourcePoint" />
+            <mxPoint x="636" y="2353" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-192" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;align=left;verticalAlign=middle;fillColor=#ffffff;" value="عرض الأقسام: محمّل / فارغ /&lt;br&gt;تعذر تحميله" vertex="1">
+          <mxGeometry height="32" width="230" x="680" y="2326" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-193" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;dashed=1;endArrow=open;endFill=0;" value="عرض الملف الموحد: جهة التواصل&lt;br&gt;والطلاب والأقسام المتاحة">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="624" y="2425" as="sourcePoint" />
+            <mxPoint x="366" y="2425" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-194" edge="1" parent="1" style="html=1;verticalAlign=bottom;labelBackgroundColor=#ffffff;fontSize=11;textDirection=rtl;endArrow=block;endFill=1;" value="مراجعة بيانات جهة التواصل والطلاب&lt;br&gt;والمعلومات المرتبطة بهم">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="366" y="2495" as="sourcePoint" />
+            <mxPoint x="624" y="2495" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="seq-195" parent="1" style="shape=note;size=14;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#c9b800;fontSize=11;textDirection=rtl;" value="الملف يبقى في وضع العرض فقط: لا تعديل على بيانات الوحدات المالكة&lt;br&gt;ولا إنشاء سجلات تشغيلية جديدة" vertex="1">
+          <mxGeometry height="56" width="570" x="480" y="2515" as="geometry" />
+        </mxCell>
+        <mxCell id="seq-196" parent="1" style="text;html=1;whiteSpace=wrap;textDirection=rtl;fontSize=11;align=center;fontColor=#555555;" value="الرموز: سهم متصل = طلب / رسالة  ·  سهم متقطع = رد / استجابة  ·  alt = مسارات بديلة (AF)  ·  loop = تكرار لكل طالب  ·  opt = مسار اختياري  ·  t1…tn = ترتيب الأحداث على الخط الزمني  ·  الخطوات 1–7 تطابق خطوات Flow of Events" vertex="1">
+          <mxGeometry height="40" width="1545" x="20" y="2615" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
