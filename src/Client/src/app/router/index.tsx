@@ -18,7 +18,6 @@ import { ForbiddenPage } from './pages/ForbiddenPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import { paths } from './paths'
 
-// وحدات لم تُطلق في الباك بعد (مشاكل، توجيه، إشعارات، تواصل، استيراد، كلمة مرور):
 // تُسجّل في وضع التطوير فقط ولا تدخل نسخة الإنتاج، حتى لا تظهر للعميل.
 const previewRoutes: AppRoute[] = [
   ...clientsPreviewRoutes,

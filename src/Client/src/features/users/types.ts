@@ -37,8 +37,8 @@ export interface UserFilters {
   accountName?: string
   email?: string
   isActive?: boolean
-  /** Guid */
-  roleId?: string
+  /** قيمة تعداد الدور كما يتوقعها الباك (Employee | Manager) */
+  role?: string
   /** Guid — إلزامي لمدير القسم، والباك يرفض الطلب بدونه */
   departmentId?: string
 }
@@ -49,8 +49,8 @@ export interface UserLookups {
 }
 
 export interface UserPermissionInput {
-  /** Guid */
-  roleId: string
+  /** قيمة تعداد الدور (Employee | Manager) */
+  role: string
   /** Guid */
   departmentId: string
 }

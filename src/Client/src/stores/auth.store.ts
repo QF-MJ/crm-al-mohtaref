@@ -5,10 +5,7 @@ import type { LoginDto, PermissionDto } from '@/features/auth/types'
 // ملاحظة: الأنواع فقط عبر type import، فلا اعتماد وقت تشغيل بين stores و features.
 
 export interface SessionUser {
-<<<<<<< HEAD
-=======
   /** Guid كما يرسله الباك */
->>>>>>> 545414813dff8fc231338f2b361d81ca342c53e7
   id: string
   fullName: string
   /** أزواج قسم + دور كما يرسلها الباك، دون أي تحويل */
@@ -20,6 +17,7 @@ export interface SessionUser {
 interface AuthState {
   user: SessionUser | null
   token: string | null
+  refreshToken: string | null
   login: (dto: LoginDto) => void
   logout: () => void
 }
@@ -31,6 +29,7 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       user: null,
       token: null,
+      refreshToken: null,
       login: (dto) =>
         set({
           user: {
@@ -40,16 +39,21 @@ export const useAuthStore = create<AuthState>()(
             tokenExpiresAt: dto.expiresIn ?? null,
           },
           token: dto.token,
+          refreshToken: dto.refreshToken ?? null,
         }),
-      logout: () => set({ user: null, token: null }),
+      logout: () => set({ user: null, token: null, refreshToken: null }),
     }),
     {
       name: AUTH_STORAGE_KEY,
       storage: createJSONStorage(() => localStorage),
-      // الإصدار 2: تغيّر شكل الجلسة (id نصي + تاريخ الانتهاء)، فجلسات الإصدار 1 تُهمل
+      // تغيّر شكل الجلسة (إضافة refresh token)، فالجلسات السابقة تُهمل
       version: 2,
-      migrate: () => ({ user: null, token: null }),
-      partialize: (state) => ({ user: state.user, token: state.token }),
+      migrate: () => ({ user: null, token: null, refreshToken: null }),
+      partialize: (state) => ({
+        user: state.user,
+        token: state.token,
+        refreshToken: state.refreshToken,
+      }),
     },
   ),
 )

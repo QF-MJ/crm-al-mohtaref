@@ -15,4 +15,4 @@ export interface LookupsResponse {
   tags?: LookupItem[] | null
 }
 
-export type LookupType = 'Departments' | 'Roles' | 'Tracks' | 'LeadStatuses' | 'Tags'
+export type LookupType = 'Departments' | 'Roles' | 'Tracks' | 'LeadStatuses' | 'Tags' | 'Campaigns'
