@@ -29,6 +29,8 @@ namespace CRM.AlMohtaref.Infrastructure.Data.Seed;
 // - an entity with a CHECK constraint and 2+ optional FKs gets only ONE of them per row (like ContactTag)
 // - SeedRules.FirstRowOnly: a combination (admin = manager + administration) that only row 0 may have
 // - Task / StudentTask are NOT random: they are built from the lead status of every student (see "tasks" below)
+// - Campaign.TaskId is filled after the tasks exist (Campaign must be seeded before Task, because the leads
+//   need it), so every Campaign points to its own Campaign task
 internal sealed class AutoSeeder
 {
     private sealed class Row : Dictionary<string, object?> { }
@@ -139,10 +141,11 @@ internal sealed class AutoSeeder
                 if (fk.IsRequired && !_backEdges.Contains(fk) && fk.PrincipalEntityType != e && all.Contains(fk.PrincipalEntityType))
                     deps[e].Add(fk.PrincipalEntityType);
 
-        // Task is built from users / students / contacts / leads: they must be seeded first.
-        // Added BEFORE the optional edges below, so an optional edge can never close a cycle through Task.
+        // Task is built from users / students / contacts / campaigns / leads: they must be seeded first.
+        // Added BEFORE the optional edges below, so an optional edge can never close a cycle through Task
+        // (this is also why Campaign.TaskId is filled afterwards, see LinkCampaignsAsync).
         foreach (var e in all.Where(x => x.ClrType.Name == "Task"))
-            foreach (var d in all.Where(x => x.ClrType.Name is "User" or "Student" or "Contact" or "CampaignLead"))
+            foreach (var d in all.Where(x => x.ClrType.Name is "User" or "Student" or "Contact" or "Campaign" or "CampaignLead"))
                 deps[e].Add(d);
 
         bool DependsOn(IEntityType from, IEntityType target, HashSet<IEntityType> visited)
@@ -628,11 +631,13 @@ internal sealed class AutoSeeder
         if (t == typeof(TimeSpan)) return TimeSpan.FromMinutes(_f.Random.Int(1, 600));
         if (t == typeof(byte[])) return _f.Random.Bytes(16);
 
-        // lead statuses go round-robin so every status is represented (tasks are built from them)
+        // lead statuses: every status is represented, and every campaign gets a MIX of statuses.
+        // Leads go round-robin over the campaigns (row % campaigns), so a plain "i % 10" would give all the
+        // leads of one campaign the same status. The shift (i / 10) breaks that link.
         if (t.IsEnum && t.Name == "LeadStatus")
         {
             var statuses = Enum.GetValues(t);
-            return statuses.GetValue(i % statuses.Length);
+            return statuses.GetValue((i + i / 10) % statuses.Length);
         }
 
         if (t.IsEnum)
@@ -645,19 +650,28 @@ internal sealed class AutoSeeder
     }
 
     // ---------------------------------------------------------------- tasks
-    // Tasks are generated FROM the lead status, so the data is always consistent:
+    // Tasks are generated FROM the lead status, so the data is always consistent.
+    //
+    // Hierarchy (matches the API):
+    //   Campaign task            one per Campaign row; Campaign.TaskId points to it (see LinkCampaignsAsync)
+    //     Contact / FollowUp / Confirmation / Placement task     ParentTaskId = the Campaign task
+    //       SubTask            one per contact; ParentTaskId = the stage task; linked to that contact's students
+    //   Normal                 standalone, no sub-tasks
+    //   Issue                  holds sub-tasks (contacts only, no students are shown for an issue)
+    //
+    // Which stage tasks a student gets, from the lead status of the student IN THAT CAMPAIGN:
     //   New        -> nothing, or a Contact task still pending
     //   Contacting -> Contact in progress
     //   ContactFailed / Responded -> Contact done (Responded also has a FollowUp pending)
     //   FollowingUp -> FollowUp in progress, FollowUpFailed -> FollowUp done
     //   Confirming -> Confirmation in progress, Confirmed -> done (+ Placement pending)
     //   Assigning -> Placement in progress, Assigned -> done
-    // Rules: only SubTasks link to students; one sub-task per contact; all its students share that contact.
-    // Normal / Issue parents hold sub-tasks only. Campaign tasks are standalone.
+    // The Campaign task itself: Completed when all its stage tasks are done, Pending when all are pending,
+    // otherwise InProgress; its dates cover its stage tasks.
     //
     // Creators / executors are employees (every user except the admin), always given to the one who has the
     // fewest tasks so far. Workflow tasks cannot be multiplied (they mirror the lead statuses), so extra
-    // Normal / Issue tasks (same rules) are added until every employee EXECUTES at least
+    // Normal / Issue tasks are added until every employee EXECUTES at least
     // SeedRules.MinTasksPerEmployee tasks (a parent and each of its sub-tasks count as one each).
     // Pending tasks have no executor, so they never count.
 
@@ -666,6 +680,7 @@ internal sealed class AutoSeeder
 
     private List<PlanTask>? _taskPlan;
     private readonly List<(Guid Task, Guid Student)> _studentTaskPlan = new();
+    private readonly List<(Guid Campaign, Guid Task)> _campaignTaskPlan = new();
 
     private static bool IsTaskEntity(IEntityType et)
     {
@@ -712,7 +727,38 @@ internal sealed class AutoSeeder
         if (entries.Count == 0) return new List<Row>();
 
         await _db.SaveChangesAsync(_ct);
+
+        if (et.ClrType == typeof(DomainTask))
+            await LinkCampaignsAsync();
+
         return entries.Select(Snapshot).ToList();
+    }
+
+    // Campaign.TaskId (optional FK) cannot be filled while the campaigns are inserted: the tasks do not exist yet
+    // (they are built from the leads, which need the campaigns). So it is filled here, once the tasks are saved.
+    private async Task LinkCampaignsAsync()
+    {
+        var campaign = _seedable.FirstOrDefault(e => e.ClrType.Name == "Campaign");
+        var taskIdProp = campaign?.FindProperty("TaskId");
+        if (campaign == null || taskIdProp == null || _campaignTaskPlan.Count == 0) return;
+
+        var store = StoreObjectIdentifier.Table(campaign.GetTableName()!, campaign.GetSchema());
+        var table = Table(campaign);
+        var taskColumn = taskIdProp.GetColumnName(store);
+        var idColumn = campaign.FindPrimaryKey()!.Properties[0].GetColumnName(store);
+        var campaignRows = RowsOf("Campaign");
+
+        foreach (var (campaignId, taskId) in _campaignTaskPlan)
+        {
+            await _db.Database.ExecuteSqlRawAsync(
+                "UPDATE " + table + " SET [" + taskColumn + "] = {0} WHERE [" + idColumn + "] = {1}",
+                new object[] { taskId, campaignId }, _ct);
+
+            var row = campaignRows.FirstOrDefault(r => r.TryGetValue("Id", out var cid) && cid is Guid g && g == campaignId);
+            if (row != null) row["TaskId"] = taskId;
+        }
+
+        Console.WriteLine("[seed] Campaign: " + _campaignTaskPlan.Count + " campaigns linked to their Campaign task");
     }
 
     private List<Row> RowsOf(string clrName)
@@ -747,28 +793,22 @@ internal sealed class AutoSeeder
         };
     }
 
-    // (student, contact, lead status). Status lives on CampaignLead (per student), or on Contact as fallback.
-    private List<(Guid Student, Guid Contact, int Status)> CollectLeads(Dictionary<Guid, Guid> contactOfStudent)
+    // (student, contact, campaign, lead status). The status lives on CampaignLead: one row per student per campaign.
+    private List<(Guid Student, Guid Contact, Guid Campaign, int Status)> CollectLeads(Dictionary<Guid, Guid> contactOfStudent)
     {
-        var result = new List<(Guid, Guid, int)>();
-        var seen = new HashSet<Guid>(); // one lead per student
+        var result = new List<(Guid, Guid, Guid, int)>();
+        var seen = new HashSet<(Guid, Guid)>(); // one lead per student per campaign
 
-        var leadRows = RowsOf("CampaignLead");
-        if (leadRows.Count > 0 && leadRows[0].ContainsKey("Status") && leadRows[0].ContainsKey("StudentId"))
+        foreach (var r in RowsOf("CampaignLead"))
         {
-            foreach (var r in leadRows)
-                if (r["StudentId"] is Guid sid && r["Status"] is { } lst
-                    && contactOfStudent.TryGetValue(sid, out var cid) && seen.Add(sid))
-                    result.Add((sid, cid, Convert.ToInt32(lst)));
-            return result;
-        }
-
-        var contactRows = RowsOf("Contact");
-        if (contactRows.Count > 0 && contactRows[0].ContainsKey("Status"))
-        {
-            var statusOf = contactRows.ToDictionary(r => (Guid)r["Id"]!, r => Convert.ToInt32(r["Status"]));
-            foreach (var (sid, cid) in contactOfStudent)
-                if (statusOf.TryGetValue(cid, out var cst)) result.Add((sid, cid, cst));
+            if (r.TryGetValue("StudentId", out var s) && s is Guid sid
+                && r.TryGetValue("CampaignId", out var c) && c is Guid cid
+                && r.TryGetValue("Status", out var st) && st != null
+                && contactOfStudent.TryGetValue(sid, out var contactId)
+                && seen.Add((sid, cid)))
+            {
+                result.Add((sid, contactId, cid, Convert.ToInt32(st)));
+            }
         }
 
         return result;
@@ -797,6 +837,7 @@ internal sealed class AutoSeeder
     {
         var plan = new List<PlanTask>();
         _studentTaskPlan.Clear();
+        _campaignTaskPlan.Clear();
 
         var users = RowsOf("User").Select(r => (Guid)r["Id"]!).ToList();
         var students = RowsOf("Student").Where(r => r.TryGetValue("ContactId", out var c) && c is Guid).ToList();
@@ -808,6 +849,11 @@ internal sealed class AutoSeeder
         var studentsByContact = students.GroupBy(r => (Guid)r["ContactId"]!)
             .ToDictionary(g => g.Key, g => g.Select(r => (Guid)r["Id"]!).ToList());
 
+        var campaigns = RowsOf("Campaign")
+            .Where(r => r.TryGetValue("Id", out var cid) && cid is Guid)
+            .Select(r => (Id: (Guid)r["Id"]!, Title: r.TryGetValue("Title", out var ct) ? ct as string : null))
+            .ToList();
+
         // tasks created / executed so far per employee (parent + each sub-task = 1 each)
         var created = staff.ToDictionary(s => s, _ => 0);
         var executed = staff.ToDictionary(s => s, _ => 0);
@@ -818,7 +864,8 @@ internal sealed class AutoSeeder
         string Name(Guid contact) => contactNames.TryGetValue(contact, out var nm) && !string.IsNullOrWhiteSpace(nm) ? nm : contact.ToString()[..8];
         string Cut(string text) => text.Length > 200 ? text[..200] : text;
 
-        void AddBatch(TaskType type, TaskState status, string title, int stage, int chunk, List<(string Title, List<Guid> Students)> subs)
+        // one task + its sub-tasks. parentTaskId is the parent of the task itself (the Campaign task for stage tasks).
+        void AddBatch(Guid? parentTaskId, TaskType type, TaskState status, string title, int stage, int chunk, List<(string Title, List<Guid> Students)> subs)
         {
             var (start, end) = Window(status, stage, chunk);
             var weight = 1 + subs.Count;
@@ -834,7 +881,7 @@ internal sealed class AutoSeeder
             }
 
             var parentId = StableGuid("Task", plan.Count);
-            plan.Add(new PlanTask(parentId, null, Cut(title), "بيانات تجريبية", type, status, start, end, createdBy, executedBy));
+            plan.Add(new PlanTask(parentId, parentTaskId, Cut(title), "بيانات تجريبية", type, status, start, end, createdBy, executedBy));
 
             foreach (var (subTitle, studentIds) in subs)
             {
@@ -844,40 +891,89 @@ internal sealed class AutoSeeder
             }
         }
 
-        // ---- workflow tasks: one sub-task per contact, its students = that contact's students at this stage
-        var buckets = new Dictionary<(TaskType, TaskState, Guid), List<Guid>>();
-        var order = new List<(TaskType Stage, TaskState Status, Guid Contact)>();
-        var index = 0;
-
-        foreach (var (student, contact, leadStatus) in CollectLeads(contactOfStudent))
-            foreach (var (leadStage, leadState) in Chain(leadStatus, index++))
-            {
-                var key = (leadStage, leadState, contact);
-                if (!buckets.TryGetValue(key, out var list))
-                {
-                    buckets[key] = list = new List<Guid>();
-                    order.Add(key);
-                }
-                list.Add(student);
-            }
-
+        var leadsByCampaign = CollectLeads(contactOfStudent).ToLookup(l => l.Campaign);
         var stages = new[] { TaskType.Contact, TaskType.FollowUp, TaskType.Confirmation, TaskType.Placement };
         var states = new[] { TaskState.Completed, TaskState.InProgress, TaskState.Pending };
+        var index = 0;
 
-        for (var si = 0; si < stages.Length; si++)
-            foreach (var st in states)
+        // ---- one Campaign task per Campaign. Its stage tasks are built from the leads OF THAT CAMPAIGN:
+        //      stage task (parent = campaign task) -> one sub-task per contact -> that contact's students
+        foreach (var (campaignId, campaignTitle) in campaigns)
+        {
+            var label = string.IsNullOrWhiteSpace(campaignTitle) ? campaignId.ToString()[..8] : campaignTitle;
+
+            // the campaign task is added first (its id is the parent of the stage tasks);
+            // status / dates / executor are filled below, once its stage tasks are known
+            var campaignIndex = plan.Count;
+            var campaignTaskId = StableGuid("Task", campaignIndex);
+            var campaignCreator = Least(created);
+            created[campaignCreator]++;
+            plan.Add(new PlanTask(campaignTaskId, null, Cut(SeedRules.TaskTitles["Campaign"] + label), "بيانات تجريبية",
+                TaskType.Campaign, TaskState.Pending, RefDate, RefDate, campaignCreator, null));
+            _campaignTaskPlan.Add((campaignId, campaignTaskId));
+
+            var buckets = new Dictionary<(TaskType, TaskState, Guid), List<Guid>>();
+            var order = new List<(TaskType Stage, TaskState Status, Guid Contact)>();
+
+            foreach (var lead in leadsByCampaign[campaignId])
+                foreach (var (leadStage, leadState) in Chain(lead.Status, index++))
+                {
+                    var key = (leadStage, leadState, lead.Contact);
+                    if (!buckets.TryGetValue(key, out var list))
+                    {
+                        buckets[key] = list = new List<Guid>();
+                        order.Add(key);
+                    }
+                    list.Add(lead.Student);
+                }
+
+            for (var si = 0; si < stages.Length; si++)
+                foreach (var st in states)
+                {
+                    var stage = stages[si];
+                    var subs = order.Where(k => k.Stage == stage && k.Status == st)
+                        .Select(k => (SeedRules.SubTaskPrefix[stage.ToString()] + Name(k.Contact), buckets[(k.Stage, k.Status, k.Contact)]))
+                        .ToList();
+
+                    for (var chunk = 0; chunk * SeedRules.SubTasksPerParent < subs.Count; chunk++)
+                        AddBatch(campaignTaskId, stage, st,
+                            SeedRules.TaskTitles[stage.ToString()] + " - " + label + " (" + (chunk + 1) + ")", si, chunk,
+                            subs.Skip(chunk * SeedRules.SubTasksPerParent).Take(SeedRules.SubTasksPerParent).ToList());
+                }
+
+            // finish the campaign task from its stage tasks
+            var kids = plan.Where(p => p.ParentId == campaignTaskId).ToList();
+
+            var campaignState = kids.Count == 0 || kids.All(p => p.Status == TaskState.Pending) ? TaskState.Pending
+                : kids.All(p => p.Status == TaskState.Completed) ? TaskState.Completed
+                : TaskState.InProgress;
+
+            var campaignStart = RefDate.AddDays(1).Date;
+            var campaignEnd = RefDate.AddDays(15).Date;
+            if (kids.Count > 0)
             {
-                var stage = stages[si];
-                var subs = order.Where(k => k.Stage == stage && k.Status == st)
-                    .Select(k => (SeedRules.SubTaskPrefix[stage.ToString()] + Name(k.Contact), buckets[(k.Stage, k.Status, k.Contact)]))
-                    .ToList();
-
-                for (var chunk = 0; chunk * SeedRules.SubTasksPerParent < subs.Count; chunk++)
-                    AddBatch(stage, st, SeedRules.TaskTitles[stage.ToString()] + " (" + (chunk + 1) + ")", si, chunk,
-                        subs.Skip(chunk * SeedRules.SubTasksPerParent).Take(SeedRules.SubTasksPerParent).ToList());
+                campaignStart = kids.Min(p => p.Start);
+                campaignEnd = kids.Max(p => p.End);
             }
 
-        // ---- Normal / Issue: sub-tasks only, nothing else.
+            Guid? campaignExecutor = null;
+            if (campaignState != TaskState.Pending)
+            {
+                campaignExecutor = Least(executed);
+                executed[campaignExecutor.Value]++;
+            }
+
+            plan[campaignIndex] = plan[campaignIndex] with
+            {
+                Status = campaignState,
+                Start = campaignStart,
+                End = campaignEnd,
+                ExecutedBy = campaignExecutor
+            };
+        }
+
+        // ---- Normal: standalone, no sub-tasks (the API says a normal task never has sub-tasks).
+        // ---- Issue: sub-tasks only (one per contact; the contacts come from the students linked to the sub-task).
         // The first 16 are the fixed set (8 statuses x 2 types); after that more are added, one by one, until
         // every employee executes at least SeedRules.MinTasksPerEmployee tasks.
         var contactIds = studentsByContact.Keys.ToList();
@@ -895,17 +991,15 @@ internal sealed class AutoSeeder
             var k = g / 2; // position inside its type
             var status = generalStatuses[k % generalStatuses.Length];
 
-            var subs = Enumerable.Range(0, 2 + k % 2)
-                .Select(j => contactIds[(g * 3 + j) % contactIds.Count]).Distinct()
-                .Select(cid => (SeedRules.SubTaskPrefix["General"] + Name(cid), studentsByContact[cid]))
-                .ToList();
+            var subs = type == TaskType.Normal
+                ? new List<(string Title, List<Guid> Students)>()
+                : Enumerable.Range(0, 2 + k % 2)
+                    .Select(j => contactIds[(g * 3 + j) % contactIds.Count]).Distinct()
+                    .Select(cid => (Title: SeedRules.SubTaskPrefix["General"] + Name(cid), Students: studentsByContact[cid]))
+                    .ToList();
 
-            AddBatch(type, status, SeedRules.TaskTitles[type.ToString()] + " (" + (k + 1) + ")", 0, k, subs);
+            AddBatch(null, type, status, SeedRules.TaskTitles[type.ToString()] + " (" + (k + 1) + ")", 0, k, subs);
         }
-
-        // ---- Campaign: standalone
-        AddBatch(TaskType.Campaign, TaskState.Completed, SeedRules.TaskTitles["Campaign"], 0, 0, new());
-        AddBatch(TaskType.Campaign, TaskState.InProgress, SeedRules.TaskTitles["Campaign2"], 0, 1, new());
 
         return plan;
     }

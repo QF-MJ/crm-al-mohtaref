@@ -1,6 +1,6 @@
 ﻿using CRM.AlMohtaref.Application.Common.Dtos;
 using CRM.AlMohtaref.Application.Common.Exceptions;
-using CRM.AlMohtaref.Application.Features.Tasks.DTOs;
+using CRM.AlMohtaref.Application.Features.Tasks.Dtos;
 using CRM.AlMohtaref.Application.Features.Tasks.GetTasks;
 using CRM.AlMohtaref.Application.Features.Users;
 using CRM.AlMohtaref.Application.Interfaces;

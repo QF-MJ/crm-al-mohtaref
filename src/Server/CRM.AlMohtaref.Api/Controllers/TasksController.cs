@@ -1,6 +1,7 @@
 ﻿using CRM.AlMohtaref.Api.Contracts.Tasks;
 using CRM.AlMohtaref.Application.Features.Tasks.DeleteTask;
-using CRM.AlMohtaref.Application.Features.Tasks.DTOs;
+using CRM.AlMohtaref.Application.Features.Tasks.Dtos;
+using CRM.AlMohtaref.Application.Features.Tasks.GetTask;
 using CRM.AlMohtaref.Application.Features.Tasks.GetTasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -26,6 +27,12 @@ namespace CRM.AlMohtaref.Api.Controllers
         {
             await sender.Send(new DeleteTaskCommand(taskId), ct);
             return NoContent();
+        }
+
+        [HttpGet("{taskId:guid}")]
+        public async Task<ActionResult<TaskDetailsDto>> GetTask(Guid taskId, CancellationToken ct)
+        {
+            return Ok(await sender.Send(new GetTaskQuery(taskId), ct));
         }
     }
 }

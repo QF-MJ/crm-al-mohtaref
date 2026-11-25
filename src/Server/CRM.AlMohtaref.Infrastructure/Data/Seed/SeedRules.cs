@@ -20,8 +20,8 @@ internal static class SeedRules
         ["User"] = 25,      // admin + 24 employees
         ["Contact"] = 30,
         ["Student"] = 45,
-        ["Campaign"] = 10,
-        ["CampaignLead"] = 45, // every student is a lead; LeadStatus goes round-robin over the enum
+        ["Campaign"] = 10,  // each one gets its own Campaign task (Campaign.TaskId)
+        ["CampaignLead"] = 45, // every student is a lead; LeadStatus is spread so every campaign has a mix of statuses
         ["UserPermission"] = 35 // >= users: every user gets at least one permission, the first 10 get a second one
     };
 
@@ -91,7 +91,9 @@ internal static class SeedRules
     // sub-tasks per parent task (workflow tasks are split into batches of this size)
     public const int SubTasksPerParent = 5;
 
-    // parent task titles, key = TaskType name (Campaign2 = second campaign task)
+    // parent task titles, key = TaskType name.
+    // "Campaign" is a PREFIX: the Campaign task of each campaign is named prefix + campaign title.
+    // The stage tasks (Contact / FollowUp / Confirmation / Placement) get " - campaign title (n)" appended.
     public static readonly Dictionary<string, string> TaskTitles = new()
     {
         ["Contact"] = "تواصل أولي مع عملاء جدد",
@@ -100,16 +102,15 @@ internal static class SeedRules
         ["Placement"] = "تسكين الطلاب في المجموعات المناسبة",
         ["Normal"] = "مراجعة تقارير الأداء الأسبوعية",
         ["Issue"] = "مشكلة في دخول الطالب للمنصة",
-        ["Campaign"] = "حملة تسويقية لكورس البرمجة",
-        ["Campaign2"] = "حملة تسويقية لكورس الإنجليزية"
+        ["Campaign"] = "إدارة الحملة: "
     };
 
-    // sub-task title = prefix + contact name (General = under Normal / Issue tasks)
+    // sub-task title = prefix + contact name (General = under Issue tasks)
     public static readonly Dictionary<string, string> SubTaskPrefix = new()
     {
         ["Contact"] = "تواصل مع: ",
         ["FollowUp"] = "متابعة: ",
-        ["Confirmation"] = "تثبيت التسجيل:",
+        ["Confirmation"] = "تثبيت التسجيل: ",
         ["Placement"] = "تسكين طلاب: ",
         ["General"] = "متابعة فرعية لطلاب ولي الأمر: "
     };

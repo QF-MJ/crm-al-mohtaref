@@ -1,14 +1,15 @@
-﻿using CRM.AlMohtaref.Application.Features.Tasks.DTOs;
+﻿using CRM.AlMohtaref.Application.Features.Tasks.Dtos;
 using CRM.AlMohtaref.Application.Features.Tasks.GetTasks;
+using CRM.AlMohtaref.Application.Interfaces.Common;
+using TaskEntity = CRM.AlMohtaref.Domain.Entities.Tasks.Task;
 
-using Task = CRM.AlMohtaref.Domain.Entities.Tasks.Task;
 namespace CRM.AlMohtaref.Application.Interfaces;
 
-public interface ITaskRepository
+public interface ITaskRepository :
+    ISearchRepository<GetTasksQuery, TasksPageDto>,
+    IGetByIdRepository<TaskEntity, Guid>,
+    IDeleteRepository<TaskEntity>,
+    IGetDetailRepository<TaskDetailsDto, Guid>
 {
-    Task<TasksPageDto> SearchAsync(GetTasksQuery query, CancellationToken ct = default);
 
-    Task<Task?> GetByIdAsync(Guid id, CancellationToken ct = default);
-
-    void Delete(Task task, CancellationToken ct = default);
 }

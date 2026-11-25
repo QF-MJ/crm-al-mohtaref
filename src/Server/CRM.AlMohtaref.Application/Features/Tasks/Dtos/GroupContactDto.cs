@@ -1,4 +1,4 @@
-﻿namespace CRM.AlMohtaref.Application.Features.Tasks.DTOs;
+﻿namespace CRM.AlMohtaref.Application.Features.Tasks.Dtos;
 
 public sealed record GroupContactDto(
     Guid Id,

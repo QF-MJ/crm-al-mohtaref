@@ -1,7 +1,7 @@
 ﻿using CRM.AlMohtaref.Application.Common.Dtos;
 using System.Text.Json.Serialization;
 
-namespace CRM.AlMohtaref.Application.Features.Tasks.DTOs;
+namespace CRM.AlMohtaref.Application.Features.Tasks.Dtos;
 
 public sealed record TasksPageDto(
     PageDto Page,
