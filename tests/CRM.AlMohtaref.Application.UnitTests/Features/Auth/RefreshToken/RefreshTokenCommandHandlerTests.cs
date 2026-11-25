@@ -1,8 +1,8 @@
 ﻿using CRM.AlMohtaref.Application.Common.Exceptions;
 using CRM.AlMohtaref.Application.Features.Auth.Login;          // RefreshTokenDto lives here
 using CRM.AlMohtaref.Application.Features.Auth.RefreshToken;   // RefreshTokenCommand
-using CRM.AlMohtaref.Application.Fseatures.Auth.RefreshToken;  // handler (namespace typo "Fseatures" in production code)
 using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Application.Interfaces.Common;
 using CRM.AlMohtaref.Domain.Entities;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using Moq;

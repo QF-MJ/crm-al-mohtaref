@@ -7,11 +7,6 @@ using CRM.AlMohtaref.Application.Interfaces.Common;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using CRM.AlMohtaref.Domain.Extensions;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CRM.AlMohtaref.Application.Features.Auth.RefreshToken
 {

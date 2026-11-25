@@ -1,7 +1,7 @@
 ﻿using CRM.AlMohtaref.Application.Common.Dtos;
 
 
-namespace CRM.AlMohtaref.Application.Features.Auth.Login
+namespace CRM.AlMohtaref.Application.Features.Auth.RefreshToken
 {
     public record RefreshTokenDto(
          string Token,

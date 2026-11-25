@@ -1,6 +1,7 @@
 ﻿using CRM.AlMohtaref.Application.Common.Exceptions;
 using CRM.AlMohtaref.Application.Features.Auth.Logout;
 using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Application.Interfaces.Common;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using Moq;
 using Xunit;
@@ -37,7 +38,7 @@ public class LogoutCommandHandlerTests
     }
 
     private Task Logout(string raw, CancellationToken ct = default) =>
-        Sut.Handle(new LooutCommand(raw), ct);
+        Sut.Handle(new LogoutCommand(raw), ct);
 
     [Fact]
     public async Task ValidToken_IsRevoked_AndSaved()

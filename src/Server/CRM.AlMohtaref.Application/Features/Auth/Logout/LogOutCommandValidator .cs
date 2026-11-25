@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace CRM.AlMohtaref.Application.Features.Auth.Logout
 {
-    public class LogoutCommandValidator : AbstractValidator<LogoutCommand>
+    public class LogoutCommandValidator : AbstractValidator<Logout.LogoutCommand>
     {
         public LogoutCommandValidator()
         {

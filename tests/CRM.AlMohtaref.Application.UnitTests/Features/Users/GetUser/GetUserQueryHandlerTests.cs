@@ -2,6 +2,7 @@
 using CRM.AlMohtaref.Application.Common.Exceptions;
 using CRM.AlMohtaref.Application.Features.Users;
 using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Application.Interfaces.Common;
 using Moq;
 using Xunit;
 

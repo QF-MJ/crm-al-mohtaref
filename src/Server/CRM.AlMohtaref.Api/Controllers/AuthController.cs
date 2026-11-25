@@ -1,15 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using CRM.AlMohtaref.Api.Contracts.Auth;
 using MediatR;
 using CRM.AlMohtaref.Application.Features.Auth.Login;
 using Microsoft.AspNetCore.Identity.Data;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+using CRM.AlMohtaref.Application.Features.Auth.RefreshToken;
 
 namespace CRM.AlMohtaref.Api.Controllers
 {
@@ -36,6 +32,14 @@ namespace CRM.AlMohtaref.Api.Controllers
 
         [HttpPost("logout")]
         public async  Task<ActionResult> Logout([FromBody] LogoutRequest request, CancellationToken ct)
+        {
+            await sender.Send(request.ToCommand(), ct);
+
+            return NoContent();
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<ActionResult> ResetPassword([FromBody] Api.Contracts.Auth.ResetPasswordRequest request, CancellationToken ct)
         {
             await sender.Send(request.ToCommand(), ct);
 
