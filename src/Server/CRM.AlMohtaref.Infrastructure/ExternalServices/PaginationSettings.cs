@@ -1,4 +1,4 @@
-﻿namespace CRM.AlMohtaref.Infrastructure.Services;
+﻿namespace CRM.AlMohtaref.Infrastructure.ExternalServices;
 
 public static class PaginationSettings 
 {

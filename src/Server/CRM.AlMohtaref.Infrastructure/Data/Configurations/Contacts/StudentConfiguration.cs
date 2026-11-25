@@ -4,19 +4,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CRM.AlMohtaref.Infrastructure.Data.Configurations.Contacts;
 
-public sealed class StudentConfiguration : IEntityTypeConfiguration<Student>
+public sealed class StudentConfiguration : PersonConfiguration<Student>
 {
-    public void Configure(EntityTypeBuilder<Student> builder)
+    public override void Configure(EntityTypeBuilder<Student> builder)
     {
         builder.ToTable("Students");
 
-        builder.HasKey(s => s.Id);
+        base.Configure(builder);
 
-        // Person 1 -- 0..1 Student
-        builder.HasOne(s => s.Person)
-            .WithOne(p => p.Student)
-            .HasForeignKey<Student>(s => s.PersonId)
-            .OnDelete(DeleteBehavior.Restrict);
+        builder.HasKey(s => s.Id);
 
         // Contact (guardian) 1 -- * Students
         builder.HasOne(s => s.Contact)

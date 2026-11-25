@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 namespace CRM.AlMohtaref.Domain.Entities.Users;
 
-public class User
+public class User : Person
 {
     public Guid Id { get; private set; }
 
@@ -23,8 +23,6 @@ public class User
 
     public ICollection<UserPermission> UserPermissions { get;  set; }
 
-    public Person Person { get;  set; }
-
     private User()
     {
         AccountName = string.Empty;
@@ -39,8 +37,9 @@ public class User
         Id = id;
         AccountName = accountName;
         PasswordHash = passwordHash;
-        Person = person;
         Email = email;
+        FullName = person.FullName;
+        CreatedByUserId = person.CreatedByUserId;
         IsActive = true;
     }
 
@@ -69,26 +68,26 @@ public class User
     {
         AccountName = accountName;
         Email = email;
-        Person.FullName = fullName;
+        FullName = fullName;
 
         if (isActive.HasValue)
             IsActive = isActive.Value;
     }
 
-    public void SynchronizePermissions(IEnumerable<(Guid RoleId, Guid DepartmentId)> permissions)
+    public void SynchronizePermissions(IEnumerable<(Role RoleId, Guid DepartmentId)> permissions)
     {
         var requestedPermissions = permissions.Distinct().ToHashSet();
 
         foreach (var existingPermission in UserPermissions.ToList())
         {
-            var key = (existingPermission.RoleId, existingPermission.DepartmentId);
+            var key = (existingPermission.Role, existingPermission.DepartmentId);
 
             if (!requestedPermissions.Remove(key))
                 UserPermissions.Remove(existingPermission);
         }
 
-        foreach (var (roleId, departmentId) in requestedPermissions)
+        foreach (var (role, departmentId) in requestedPermissions)
         {
-            UserPermissions.Add(new UserPermission(Id, departmentId, roleId));
+            UserPermissions.Add(new UserPermission(Id, departmentId, role));
         }
     }}

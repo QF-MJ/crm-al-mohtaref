@@ -21,10 +21,10 @@ public sealed class GetUsersQueryValidator : AbstractValidator<GetUsersQuery>
             .MaximumLength(256)
             .WithMessage("يجب ألا يتجاوز البريد الإلكتروني 256 حرف");
 
-        RuleFor(x => x.RoleId)
-            .NotEmpty()
-            .WithMessage("معرف الدور غير صالح")
-            .When(x => x.RoleId.HasValue);
+        RuleFor(x => x.Role)
+            .IsInEnum()
+            .WithMessage("الدور غير صالح")
+            .When(x => x.Role.HasValue);
 
         RuleFor(x => x.DepartmentId)
             .NotEmpty()

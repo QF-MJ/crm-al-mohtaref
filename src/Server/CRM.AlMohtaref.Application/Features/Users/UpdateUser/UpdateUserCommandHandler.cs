@@ -1,6 +1,7 @@
 ﻿using CRM.AlMohtaref.Application.Common.Exceptions;
 using CRM.AlMohtaref.Application.Interfaces;
 using CRM.AlMohtaref.Application.Interfaces.Common;
+using CRM.AlMohtaref.Domain.Entities.Users;
 using MediatR;
 
 namespace CRM.AlMohtaref.Application.Features.Users;
@@ -28,7 +29,7 @@ public sealed class UpdateUserCommandHandler(IUserRepository userRepository, IUn
 
         user.SynchronizePermissions
         (
-            request.Permissions?.Select(p => (p.RoleId, p.DepartmentId)) ?? new List<(Guid, Guid)>()
+            request.Permissions?.Select(p => (p.Role, p.DepartmentId)) ?? new List<(Role, Guid)>()
         );
 
 

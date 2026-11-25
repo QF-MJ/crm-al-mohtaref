@@ -39,7 +39,7 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
 
         bool allowed = attributes.Any(attribute =>
            userPermissions.Any(p =>
-               p.Role.Name.Equals(attribute.Role, StringComparison.OrdinalIgnoreCase) &&
+               p.Role.Equals(attribute.Role) &&
                p.Department.Name.Equals(attribute.Department, StringComparison.OrdinalIgnoreCase)));
 
         if (!allowed)

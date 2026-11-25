@@ -1,37 +1,32 @@
-import type { Permission } from '@/permissions/permissions'
+import type { Capability } from '@/permissions/access'
 import type { LucideIcon } from 'lucide-react'
 import {
-  Bell,
   BriefcaseBusiness,
-  CircleHelp,
-  GraduationCap,
+  LayoutDashboard,
+  ListChecks,
   Megaphone,
+  UserRound,
   UsersRound,
 } from 'lucide-react'
 
 export interface NavItem {
   labelKey: string // مفتاح بملف i18n/common.json
   to: string
-  permission: Permission
+  capability: Capability
   icon: LucideIcon
 }
 
-// يظهر لكل مستخدم ما يملك صلاحيته فقط. الترتيب = أولوية صفحة البداية
+// يظهر لكل مستخدم ما يملك صلاحيته فقط.
 export const navItems: NavItem[] = [
-  { labelKey: 'nav.clients', to: '/clients', permission: 'clients.view', icon: BriefcaseBusiness },
+  { labelKey: 'nav.dashboard', to: '/', capability: 'account.view', icon: LayoutDashboard },
+  { labelKey: 'nav.tasks', to: '/tasks', capability: 'tasks.view', icon: ListChecks },
+  { labelKey: 'nav.clients', to: '/clients', capability: 'contacts.view', icon: BriefcaseBusiness },
   {
     labelKey: 'nav.campaigns',
     to: '/campaigns',
-    permission: 'campaigns.updateStatus',
+    capability: 'campaigns.view',
     icon: Megaphone,
   },
-  {
-    labelKey: 'nav.academic',
-    to: '/academic/subscribed-clients',
-    permission: 'academic.viewSubscribed',
-    icon: GraduationCap,
-  },
-  { labelKey: 'nav.issues', to: '/issues', permission: 'issues.follow', icon: CircleHelp },
-  { labelKey: 'nav.users', to: '/users', permission: 'users.suspend', icon: UsersRound },
-  { labelKey: 'nav.notifications', to: '/notifications', permission: 'notifications.view', icon: Bell },
+  { labelKey: 'nav.users', to: '/users', capability: 'users.view', icon: UsersRound },
+  { labelKey: 'nav.account', to: '/account', capability: 'account.view', icon: UserRound },
 ]

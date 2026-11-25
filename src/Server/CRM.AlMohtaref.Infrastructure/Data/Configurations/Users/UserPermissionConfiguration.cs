@@ -13,12 +13,7 @@ public sealed class UserPermissionConfiguration : IEntityTypeConfiguration<UserP
         builder.HasKey(p => p.Id);
 
 
-        builder.HasIndex(p => new { p.UserId, p.RoleId, p.DepartmentId }).IsUnique();
-
-        builder.HasOne(p => p.Role)
-            .WithMany(r => r.UserPermissions)
-            .HasForeignKey(p => p.RoleId)
-            .OnDelete(DeleteBehavior.Restrict);
+        builder.HasIndex(p => new { p.UserId, p.Role, p.DepartmentId }).IsUnique();
 
         builder.HasOne(p => p.Department)
             .WithMany(d => d.UserPermissions)

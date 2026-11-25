@@ -7,16 +7,16 @@ info:
     Aligned with the implemented Swagger v1 (UUID identifiers, string enums for question types).
 
     Conventions:
-    - Paged lists return hasNextPage instead of a total count (the server fetches PageSize + 1 rows).
-    - Dropdown lists come from a single endpoint: GET /lookups
+    - Paged lists return `hasNextPage` instead of a total count (the server fetches PageSize + 1 rows).
+    - Dropdown lists come from a single endpoint: `GET /lookups`
       (implemented lists: Departments, Roles, Tracks, LeadStatuses).
     - Everything except login and refresh requires a JWT bearer token.
-    - Every request body AND every query-string set is bound to a schema named *Request.
-      Query-string requests are sent flattened (?PageNumber=1&PageSize=20&Name=ali);
-      arrays are sent as repeated keys (?TagIds=1&TagIds=2).
-    - JSON request bodies and JSON responses use camelCase property names (e.g. fullName, hasNextPage); query-string parameters keep PascalCase (e.g. PageNumber, RoleId).
-    - Calls that return no data answer 204 No Content (no body).
-    - Every error (400, 401, 403, 404, 423, 500) uses the single ErrorDto JSON: { "status": 400, "message": "..." }.
+    - Every request body AND every query-string set is bound to a schema named `*Request`.
+      Query-string requests are sent flattened (`?PageNumber=1&PageSize=20&Name=ali`);
+      arrays are sent as repeated keys (`?TagIds=1&TagIds=2`).
+    - JSON request bodies and JSON responses use camelCase property names (e.g. `fullName`, `hasNextPage`); query-string parameters keep PascalCase (e.g. `PageNumber`, `RoleId`).
+    - Calls that return no data answer `204 No Content` (no body).
+    - Every error (400, 401, 403, 404, 423, 500) uses the single `ErrorDto` JSON: `{ "status": 400, "message": "..." }`.
 servers:
   - url: /api
 security:
@@ -93,7 +93,7 @@ paths:
       operationId: getLookups
       summary: All dropdown lists in one call
       description: |
-        Include is optional. Without it every implemented list is returned.
+        `Include` is optional. Without it every implemented list is returned.
         Currently implemented lists: Departments, Roles, Tracks, LeadStatuses.
       parameters:
         - name: request
@@ -116,9 +116,9 @@ paths:
       operationId: getContacts
       summary: View and search contacts (CM-05)
       description: |
-        A contact can be a student's guardian, so StudentName and ContactName are separate filters.
-        StudentName returns the contacts that have a student with a matching name.
-        CampaignTitle matches any of the contact's leads (partial match); the response shows the last campaign.
+        A contact can be a student's guardian, so `StudentName` and `ContactName` are separate filters.
+        `StudentName` returns the contacts that have a student with a matching name.
+        `CampaignTitle` matches any of the contact's leads (partial match); the response shows the last campaign.
       parameters:
         - name: request
           in: query
@@ -142,10 +142,10 @@ paths:
       summary: Search campaigns
       description: |
         Every filter is optional and filters are combined with AND.
-        - Title: partial, case-insensitive match on the campaign title.
-        - Status: campaign status id.
-        - TrackId: track id (from GET /lookups, list Tracks).
-        - PlatformId: campaigns that run on this platform.
+        - `Title`: partial, case-insensitive match on the campaign title.
+        - `Status`: campaign status id.
+        - `TrackId`: track id (from `GET /lookups`, list `Tracks`).
+        - `PlatformId`: campaigns that run on this platform.
       parameters:
         - name: request
           in: query
@@ -168,8 +168,8 @@ paths:
     get:
       tags: [Campaigns]
       operationId: getCampaign
-      summary: Get a campaign with its platforms
-      description: "The response does not include questions. To get the campaign's questions use GET /campaigns/{id}/questions."
+      summary: Get a campaign with its platforms and questions
+      description: "`questions` are only the questions currently linked to the campaign. To see everything in the Google Sheet use `GET /campaigns/{id}/questions`."
       responses:
         "200":
           description: Campaign details
@@ -184,8 +184,8 @@ paths:
       operationId: updateCampaign
       summary: Edit campaign data (CP-03)
       description: |
-        platformIds replaces the campaign's platforms.
-        statusId and trackId are UUIDs.
+        `platformIds` replaces the campaign's platforms.
+        `statusId` and `trackId` are UUIDs.
       requestBody:
         required: true
         content:
@@ -206,7 +206,7 @@ paths:
       operationId: getCampaignQuestions
       summary: Get the campaign's questions from its Google Sheet
       description: |
-        Reads the Google Sheet from the campaign's url and returns the questions.
+        Reads the Google Sheet from the campaign's `url` and returns the questions.
         Returns 400 if the campaign has no url or the sheet cannot be read.
       responses:
         "200":
@@ -227,8 +227,8 @@ paths:
       operationId: syncCampaignQuestions
       summary: Sync the campaign's questions with its Google Sheet
       description: |
-        Reads the Google Sheet from the campaign's url, creates the questions that do not exist yet
-        (unconfigured, type null), links the new questions to this campaign, and returns the synced
+        Reads the Google Sheet from the campaign's `url`, creates the questions that do not exist yet
+        (unconfigured, `type` null), links the new questions to this campaign, and returns the synced
         Returns 400 if the campaign has no url or the sheet cannot be read.
       responses:
         "200":
@@ -254,7 +254,7 @@ paths:
       summary: Configure a question linked to a campaign
       description: |
         Sets the question type, its target (Student or Contact), the DB field, and the answer options
-        linked to tags. See UpdateQuestionRequest for the shape of each part.
+        linked to tags. See `UpdateQuestionRequest` for the shape of each part.
         A question can be shared by several campaigns, so the change applies to all of them.
       requestBody:
         required: true
@@ -276,9 +276,9 @@ paths:
       operationId: importCampaignData
       summary: Trigger a customer import on demand (IN-02)
       description: |
-        Reads the Google Sheet from the campaign's url. Returns 400 if the campaign has no url.
+        Reads the Google Sheet from the campaign's `url`. Returns 400 if the campaign has no url.
         The import is also where questions are created: a sheet question that does not exist yet is created
-        (unconfigured, type null). An existing question is reused, not duplicated, so one question can be shared
+        (unconfigured, `type` null). An existing question is reused, not duplicated, so one question can be shared
         by several campaigns.
       responses:
         "200":
@@ -298,12 +298,12 @@ paths:
       summary: List and search users
       description: |
         Every filter is optional and filters are combined with AND. Without any filter all users are returned.
-        - Name: partial, case-insensitive match on the full name (fullName).
-        - AccountName: partial, case-insensitive match on the login name.
-        - Email: partial, case-insensitive match on the email.
-        - IsActive: true active users only, false disabled users only.
-        - RoleId: users that have this role (from GET /lookups, list Roles).
-        - DepartmentId: users that have a role in this department (from GET /lookups, list Departments).
+        - `Name`: partial, case-insensitive match on the full name (`fullName`).
+        - `AccountName`: partial, case-insensitive match on the login name.
+        - `Email`: partial, case-insensitive match on the email.
+        - `IsActive`: `true` active users only, `false` disabled users only.
+        - `RoleId`: users that have this role (from `GET /lookups`, list `Roles`).
+        - `DepartmentId`: users that have a role in this department (from `GET /lookups`, list `Departments`).
       parameters:
         - name: request
           in: query
@@ -358,7 +358,7 @@ paths:
       tags: [Users]
       operationId: updateUser
       summary: Edit user data (UM-07)
-      description: "permissions replaces the user's department/role pairs."
+      description: "`permissions` replaces the user's department/role pairs."
       requestBody:
         required: true
         content:
@@ -470,7 +470,7 @@ components:
       properties:
         Include:
           type: array
-          description: Repeated key, e.g. Include=Tracks&Include=Roles. Omit to get every list.
+          description: Repeated key, e.g. `Include=Tracks&Include=Roles`. Omit to get every list.
           items:
             type: string
             enum: [Departments, Roles, Tracks, LeadStatuses]
@@ -485,7 +485,7 @@ components:
             LeadStatusId: { type: string, format: uuid }
             TagIds:
               type: array
-              description: Repeated key, e.g. TagIds=...&TagIds=...
+              description: Repeated key, e.g. `TagIds=...&TagIds=...`
               items: { type: string, format: uuid }
             StudentName: { type: string }
             ContactName: { type: string }
@@ -506,7 +506,7 @@ components:
             TrackId:
               type: string
               format: uuid
-              description: Track id (lookups Tracks).
+              description: Track id (lookups `Tracks`).
             PlatformId:
               type: string
               format: uuid
@@ -532,11 +532,11 @@ components:
             RoleId:
               type: string
               format: uuid
-              description: Users that have this role (lookups Roles).
+              description: Users that have this role (lookups `Roles`).
             DepartmentId:
               type: string
               format: uuid
-              description: Users that have a role in this department (lookups Departments).
+              description: Users that have a role in this department (lookups `Departments`).
 
     UpdateCampaignRequest:
       type: object
@@ -565,10 +565,10 @@ components:
       type: object
       description: |
         Configures a question that came from the Google Sheet.
-        - type: Text, Choice, MultipleChoice or Boolean.
-        - target: whether the answer applies to the Student or the Contact.
-        - fieldId: the DB field that stores a Text answer.
-        - options: the answer choices, each linked to tags.
+        - `type`: Text, Choice, MultipleChoice or Boolean.
+        - `target`: whether the answer applies to the Student or the Contact.
+        - `fieldId`: the DB field that stores a Text answer.
+        - `options`: the answer choices, each linked to tags.
       properties:
         type: { $ref: "#/components/schemas/QuestionType" }
         target: { $ref: "#/components/schemas/QuestionTarget" }
@@ -637,7 +637,7 @@ components:
 
     LookupsDto:
       type: object
-      description: Only the lists requested through Include are present.
+      description: Only the lists requested through `Include` are present.
       properties:
         departments:
           type: array
@@ -687,27 +687,13 @@ components:
           items: { $ref: "#/components/schemas/ContactItemDto" }
         page: { $ref: "#/components/schemas/PageDto" }
 
-    CampaignTrackDto:
-      type: object
-      description: Track summary embedded in campaign responses.
-      properties:
-        trackName: { type: string, nullable: true }
-
-    CampaignPlatformDto:
-      type: object
-      properties:
-        name: { type: string, nullable: true }
-
     CampaignListItemDto:
       type: object
       properties:
+        id: { type: string, format: uuid }
         title: { type: string, nullable: true }
-        budget: { type: number, format: double, nullable: true }
-        trackDto:
-          allOf:
-            - $ref: "#/components/schemas/CampaignTrackDto"
-          nullable: true
-        campaignStatus: { type: string, nullable: true }
+        statusId: { type: string, format: uuid }
+        trackId: { type: string, format: uuid }
 
     CampaignsPageDto:
       type: object
@@ -763,24 +749,26 @@ components:
     CampaignDetailDto:
       type: object
       properties:
+        id: { type: string, format: uuid }
         title: { type: string, nullable: true }
         description: { type: string, nullable: true }
+        statusId: { type: string, format: uuid }
+        trackId: { type: string, format: uuid }
         url:
-          type: string
-          nullable: true
-          description: Google Sheet link used by the import and by the questions endpoint
-        budget: { type: number, format: double, nullable: true }
-        trackDto:
-          allOf:
-            - $ref: "#/components/schemas/CampaignTrackDto"
-          nullable: true
-        createdByUserFullName: { type: string, nullable: true }
-        campaignStatus: { type: string, nullable: true }
+          {
+            type: string,
+            nullable: true,
+            description: Google Sheet link used by the import and by the questions endpoint,
+          }
+        budget: { type: number, format: double }
         platforms:
           type: array
           nullable: true
-          items: { $ref: "#/components/schemas/CampaignPlatformDto" }
-
+          items:
+            type: object
+            properties:
+              id: { type: string, format: uuid }
+              name: { type: string, nullable: true }
     CampaignQuestionItemDto:
       allOf:
         - $ref: "#/components/schemas/QuestionDto"
@@ -798,7 +786,7 @@ components:
     ImportResultDto:
       type: object
       required: [importedCount, skippedCount]
-      description: Row-level problems are listed in errors; a failed import as a whole returns an ErrorDto.
+      description: Row-level problems are listed in `errors`; a failed import as a whole returns an ErrorDto.
       properties:
         importedCount: { type: integer, format: int32 }
         skippedCount: { type: integer, format: int32 }

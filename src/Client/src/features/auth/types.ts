@@ -1,10 +1,9 @@
-// أنواع الـ Auth مطابقة للرد الفعلي من الباك (تم التحقق منه من Swagger بتاريخ 11/11/2026).
-// ملاحظة: الـ OpenAPI يكتب الحقول بحرف كبير (Token) لكن الباك يرجّعها camelCase (token).
-// يجب توحيد الأمرين مع محمد، ونحن نتبع الرد الفعلي.
+// أنواع المصادقة مطابقة للرد الفعلي من الباك (LoginDto في Application/Features/Auth/Login).
+// الباك يرسل camelCase، و`expiresIn` تاريخ انتهاء (DateTime) وليس عدد ثوانٍ،
+// و`userId` و`id` معرّفات Guid وليست أرقاماً.
 
 export interface PermissionDto {
-  /** الباك يرجّعه 0 دائماً حالياً */
-  id: number
+  id: string
   departmentName: string
   roleName: string
 }
@@ -16,15 +15,11 @@ export interface LoginRequest {
 
 export interface LoginDto {
   token: string
-  /** الباك يرجّعه null حالياً (لا يوجد refresh بعد) */
+  /** الباك يرجّعه null حالياً: لا يوجد refresh endpoint */
   refreshToken: string | null
-  /** 120 = دقائق فعلياً (التوكن يعيش ساعتين)، رغم أن الـ OpenAPI يقول ثواني. لا نعتمد عليه */
-  expiresIn?: number
-  userId: number
-  fullName?: string
-  permissions?: PermissionDto[]
-}
-
-export interface RefreshRequest {
-  refreshToken: string
+  /** تاريخ انتهاء صلاحية التوكن بصيغة ISO */
+  expiresIn: string | null
+  userId: string
+  fullName: string
+  permissions: PermissionDto[]
 }

@@ -1,21 +1,15 @@
 ﻿namespace CRM.AlMohtaref.Domain.Entities.Campaigns;
 
-public class LeadStatus
+public enum LeadStatus
 {
-    public Guid Id { get; private set; }
-
-    public string Name { get; private set; }
-
-    public ICollection<CampaignLead> Leads { get; private set; }
-
-    private LeadStatus()
-    {
-        Name = string.Empty;
-        Leads = new List<CampaignLead>();
-    }
-
-    public LeadStatus(string name) : this()
-    {
-        Name = name;
-    }
+    New = 1,             
+    Contacting = 2,      
+    ContactFailed = 3,    
+    Responded = 4,       
+    FollowingUp = 5,      
+    FollowUpFailed = 6,   
+    Confirming = 7,      
+    Confirmed = 8,        
+    Assigning = 9,       
+    Assigned = 10       
 }
