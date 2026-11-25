@@ -6,7 +6,7 @@ using CRM.AlMohtaref.Application.Interfaces;
 using CRM.AlMohtaref.Domain.Entities.Campaigns;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using CRM.AlMohtaref.Infrastructure.Data;
-using CRM.AlMohtaref.Infrastructure.Services;
+using CRM.AlMohtaref.Infrastructure.ExternalServices;
 using Microsoft.EntityFrameworkCore;
 
 namespace CRM.AlMohtaref.Infrastructure.Repositories;
@@ -39,7 +39,7 @@ public class CampaignRepository(AppDbContext db)
               , c.Url
               , c.Budget
               , c.Track.Name
-              , c.CreatedByUser.Person.FullName
+              , c.CreatedByUser.FullName
               , c.CampaignStatus.Name
               , c.PlatformCampaigns.Select(p => p.Platform.Name).ToList()))
              
