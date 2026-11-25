@@ -18,8 +18,6 @@ public class Campaign
 
     public Guid CreatedByUserId { get; private set; }
 
-    public Guid CampaginStatusId { get; private set; }
-
     public decimal? Budget { get; private set; }
 
     public Track Track { get; private set; }
@@ -45,14 +43,14 @@ public class Campaign
         QuestionCampaigns = new List<QuestionCampaign>();
     }
 
-    public Campaign(string title, Guid trackId, Guid createdByUserId, Guid campaignStatusId,
+    public Campaign(string title, Guid trackId, Guid createdByUserId, CampaignStatus campaignStatus,
         string? description = null, string? url = null, decimal? budget = null)
         : this()
     {
         Title = title;
         TrackId = trackId;
         CreatedByUserId = createdByUserId;
-        CampaginStatusId = campaignStatusId;
+        CampaignStatus = campaignStatus;
         Description = description;
         Url = url;
         Budget = budget;
@@ -63,11 +61,11 @@ public class Campaign
         CampaignStatus = newStatus;
     }
 
-    public void UpdateDetails(string title, string description, Guid statusId, Guid trackId, string url, decimal budget)
+    public void UpdateDetails(string title, string description, CampaignStatus status, Guid trackId, string url, decimal budget)
     {
         Title = title;
         Description = description;
-        CampaginStatusId = statusId;
+        CampaignStatus = status;
         TrackId = trackId;
         Url = url;
         Budget = budget;

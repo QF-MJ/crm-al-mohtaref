@@ -1,5 +1,6 @@
 ﻿using CRM.AlMohtaref.Application.Common.Attributes;
 using CRM.AlMohtaref.Domain.Entities.Users;
+using CRM.AlMohtaref.Domain.Enums;
 using MediatR;
 
 namespace CRM.AlMohtaref.Application.Features.Campaigns;
@@ -11,7 +12,7 @@ public record UpdateCampaignCommand(
     Guid Id,
     string Title,
     string Description,
-    Guid StatusId,
+    CampaignStatus Status,
     Guid TrackId,
     string Url,
     decimal Budget,

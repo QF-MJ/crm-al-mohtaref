@@ -34,7 +34,7 @@ public class UpdateCampaignCommandHandler(ICampaignRepository campaignRepository
         campaign.UpdateDetails(
             request.Title,
             request.Description,
-            request.StatusId,
+            request.Status,
             request.TrackId,
             request.Url,
             request.Budget

@@ -40,7 +40,7 @@ public class CampaignRepository(AppDbContext db)
               , c.Url
               , c.Budget
               , c.Track.Name
-              , c.CreatedByUser.Person.FullName
+              , c.CreatedByUser.FullName
               , c.CampaignStatus.ToArabicName()
               , c.PlatformCampaigns.Select(p => p.Platform.Name).ToList()))
              

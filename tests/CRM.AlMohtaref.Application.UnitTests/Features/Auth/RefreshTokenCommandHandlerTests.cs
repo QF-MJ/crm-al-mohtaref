@@ -4,6 +4,7 @@ using CRM.AlMohtaref.Application.Features.Auth;
 using CRM.AlMohtaref.Application.Features.Auth.Login;
 using CRM.AlMohtaref.Application.Features.Auth.RefreshToken;
 using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Application.Interfaces.Common;
 using CRM.AlMohtaref.Domain.Entities;
 using CRM.AlMohtaref.Domain.Entities.Contacts;
 using CRM.AlMohtaref.Domain.Entities.Users;
