@@ -303,6 +303,43 @@ paths:
         "401": { $ref: "#/components/responses/Unauthorized" }
         "403": { $ref: "#/components/responses/Forbidden" }
         "404": { $ref: "#/components/responses/NotFound" }
+    put:
+      tags: [Tasks]
+      operationId: updateTask
+      summary: Update the basic data of a task
+      description: |
+        Updates only the basic fields of the task: title, description, status, start time, end time
+        and the assigned user (`assignedToUserId`).
+        It never touches other relations: the task type, the parent task, sub-tasks, contacts, students
+        and the creator cannot be changed here. All fields in the body are replaced
+        (omit `description` to clear it, omit `assignedToUserId` to leave the task unassigned).
+        The assigned user must be an existing user; otherwise the response is 400.
+        Validation: `title` is required and not empty, and `endTime` must be later than or equal to `startTime`.
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          description: The id of the task to update.
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/UpdateTaskRequest" }
+            example:
+              title: حملة التسجيل الشتوية 2026
+              description: إدارة ومتابعة اتصالات الحملة
+              statusName: قيد التنفيذ
+              startTime: "2026-11-25T08:00:00Z"
+              endTime: "2026-12-10T18:00:00Z"
+              assignedToUserId: 66666666-7777-8888-9999-000000000000
+      responses:
+        "204":
+          description: The task was updated
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
     delete:
       tags: [Tasks]
       operationId: deleteTask
@@ -422,6 +459,21 @@ components:
             GroupBySubTask:
               type: boolean
               default: false
+
+    UpdateTaskRequest:
+      type: object
+      description: Basic data of a task plus its assignment. Contains no other relations.
+      required: [title, statusName, startTime, endTime]
+      properties:
+        title: { type: string, minLength: 1 }
+        description: { type: string }
+        statusName: { $ref: "#/components/schemas/TaskStatus" }
+        startTime: { type: string, format: date-time }
+        endTime: { type: string, format: date-time }
+        assignedToUserId:
+          type: string
+          format: uuid
+          description: The user the task is assigned to. Optional; when omitted the task is unassigned.
 
     # ---------- Responses ----------
     PageDto:
