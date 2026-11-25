@@ -5,7 +5,7 @@ using MediatR;
 namespace CRM.AlMohtaref.Application.Features.Campaigns;
 
 [AuthorizePermisions(Role = Role.Manager, Department = "التسويق")]
-[AuthorizePermisions(Role = Role.Manager, Department = "الإدارة")]
+[AuthorizePermisions(Role = Role.Manager , Department = "الإدارة")]
 
 public record CreateCampaignCommand(
     string Title,

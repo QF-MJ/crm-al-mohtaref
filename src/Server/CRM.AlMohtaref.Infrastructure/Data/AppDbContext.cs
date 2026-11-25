@@ -18,6 +18,8 @@ public class AppDbContext : DbContext, IUnitOfWork
 
     public DbSet<Contact> Contacts { get; set; }
 
+    public DbSet<Tag> Tags { get; set; }
+
     public DbSet<Track> Tracks { get; set; }
 
     public DbSet<Campaign> Campaigns { get; set; }
@@ -41,6 +43,8 @@ public class AppDbContext : DbContext, IUnitOfWork
     public DbSet<OptionSetItem> OptionSetItems { get; set; } = null!;
 
     public DbSet<QuestionCampaign> QuestionCampaigns { get; set; } = null!;
+
+    public DbSet<UserRefreshToken> userRefreshTokens { get; set; } = null!;
 
     public DbSet<CampaignLead> CampaignLeads { get; set; }
 

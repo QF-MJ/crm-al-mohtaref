@@ -11,7 +11,7 @@ namespace CRM.AlMohtaref.Application.Features.Contacts.GetContacts;
 
 public record GetContactsQuery(
     int PageNumber = 1,
-    string? CampaignTitle = null,
+    Guid? CampaignId = null,
     Guid? TrackId = null,
     LeadStatus? LeadStatus = null,
     List<Guid>? TagIds = null,

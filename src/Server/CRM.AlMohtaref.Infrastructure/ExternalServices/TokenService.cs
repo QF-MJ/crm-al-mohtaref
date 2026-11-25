@@ -7,6 +7,7 @@ using CRM.AlMohtaref.Domain.Entities.Users;
 using MediatR.NotificationPublishers;
 using CRM.AlMohtaref.Application.Interfaces.Common;
 using CRM.AlMohtaref.Domain.Extensions;
+using System.Security.Cryptography;
 
 namespace CRM.AlMohtaref.Infrastructure.ExternalServices
 {
@@ -53,6 +54,14 @@ namespace CRM.AlMohtaref.Infrastructure.ExternalServices
             var tokenString = tokenHandler.WriteToken(token);
 
             return Task.FromResult(tokenString);
+        }
+
+        public string GenerateRefreshToken()
+        {
+            var bytes = new byte[64];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(bytes);
+            return Convert.ToBase64String(bytes);
         }
 
         public DateTime GetExpireAt()

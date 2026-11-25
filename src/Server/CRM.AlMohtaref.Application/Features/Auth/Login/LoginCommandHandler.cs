@@ -2,8 +2,12 @@
 using CRM.AlMohtaref.Application.Common.Exceptions;
 using CRM.AlMohtaref.Application.Interfaces;
 using CRM.AlMohtaref.Application.Interfaces.Common;
+using CRM.AlMohtaref.Domain.Entities.Contacts;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using MediatR;
+using BCrypt.Net;
+using System.Security.Claims;
+
 
 namespace CRM.AlMohtaref.Application.Features.Auth.Login
 {
@@ -13,13 +17,15 @@ namespace CRM.AlMohtaref.Application.Features.Auth.Login
         private readonly IPasswordHasher _password;
         private readonly ITokenService _token;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserRefreshTokenRepository _refreshTokenRepository;
 
-        public LoginCommandHandler(IUserRepository user, IPasswordHasher password, ITokenService token, IUnitOfWork unitOfWork)
+        public LoginCommandHandler(IUserRepository user, IPasswordHasher password, ITokenService token, IUnitOfWork unitOfWork , IUserRefreshTokenRepository userRefreshTokenRepository)
         {
             _user = user;
             _password = password;
             _token = token;
             _unitOfWork = unitOfWork;
+            _refreshTokenRepository = userRefreshTokenRepository;
         }
 
         public async Task<LoginDto> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -30,7 +36,7 @@ namespace CRM.AlMohtaref.Application.Features.Auth.Login
             if (user == null|| !user.IsActive)
                 throw new UnauthorizedException("كلمة السر أو اسم الحساب غير صحيحين");
 
-            if (user.LockoutEnd != null && user.LockoutEnd >= DateTime.Now)
+            if (user.LockoutEnd != null && user.LockoutEnd >= DateTime.UtcNow)
             {
                 throw new ForbiddenException($"الحساب مقفل حالياً. يرجى المحاولة مجدداً بعد: {user.LockoutEnd}");
             }
@@ -40,20 +46,15 @@ namespace CRM.AlMohtaref.Application.Features.Auth.Login
                 user.RegisterFailedLogin();
 
                
-                if (user.FailedLoginCount == 5)
+                if (user.FailedLoginCount >= 5)
                 {
                     user.LockAccount(DateTime.UtcNow.AddDays(1));
                 }
 
-                await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-                throw new UnauthorizedException("كلمة السر او اسم الحساب غير صحيحين");
+                throw new UnauthorizedException("كلمة السر أو اسم الحساب غير صحيحين");
             }
-
- 
-            user.ResetFailedLogin();
-
-            await _unitOfWork.SaveChangesAsync();
 
             string token = await _token.GenerateAccessToken(user);
 
@@ -61,10 +62,30 @@ namespace CRM.AlMohtaref.Application.Features.Auth.Login
                 .Select(p => new PermissionDto { Id = p.Id, RoleName = p.Role == Role.Manager ? "مدير" : "موظف", DepartmentName = p.Department.Name })
                 .ToList();
 
+
+            var refreshToken = _token.GenerateRefreshToken();
+
+            //Store refresh token securely (hash + expiry + not revoked)
+            var refreshTokenHash = _password.HashPassword(refreshToken);
+            Guid RefreshId = Guid.NewGuid();
+            refreshToken = RefreshId.ToString() + "." + refreshToken;
+            var refreshTokenExpiredAt = DateTime.UtcNow.AddDays(7);
+
+
+            _refreshTokenRepository.Add(new UserRefreshToken(
+                RefreshId,
+                user.Id,
+                refreshTokenHash,
+                refreshTokenExpiredAt,
+                null));
+
+            user.ResetFailedLogin();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
             return new LoginDto
             (
                 token,
-                null,
+                refreshToken,
                 _token.GetExpireAt(),
                 user.Id,
                 user.FullName ?? string.Empty,

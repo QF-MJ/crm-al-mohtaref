@@ -86,7 +86,8 @@ internal sealed class AutoSeeder
                && !et.HasSharedClrType
                && et.FindPrimaryKey() != null
                && et.GetTableName() != null
-               && et.GetViewName() == null;
+               && et.GetViewName() == null
+               && et.ClrType.Name != "UserRefreshToken";
     }
 
     // parents first (required FKs). A required FK that closes a circle is stored in _backEdges.
@@ -517,6 +518,9 @@ internal sealed class AutoSeeder
                 return names[i % names.Length];
 
             if (n.Contains("password")) return _passwordHash;
+
+            if (n == "title" && SeedRules.Titles.TryGetValue(entity, out var titles))
+                return titles[i % titles.Length];
 
             string s;
             var exact = false; // already unique, no suffix needed

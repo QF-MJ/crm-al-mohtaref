@@ -30,7 +30,7 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
             return await next();
 
         if (!_currentUser.IsAuthenticated)
-            throw new UnauthorizedAccessException();
+            throw new UnauthorizedException("ليس لديك صلاحية لتنفيذ هذا الإجراء");
 
         var userPermissions = _currentUser.Permissions;
 
