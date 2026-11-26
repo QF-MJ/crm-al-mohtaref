@@ -38,9 +38,13 @@ public class LoginCommandHandlerTests
         _hasher.Setup(h => h.VerifyPassword("good", StoredHash)).Returns(true);
         _hasher.Setup(h => h.VerifyPassword("bad", StoredHash)).Returns(false);
 
+        _hasher.Setup(h => h.HashPassword(RawRefreshToken)).Returns("hashed-refresh-token");
         _tokens.Setup(t => t.GenerateAccessToken(_user)).ReturnsAsync("jwt");
         _tokens.Setup(t => t.GenerateRefreshToken()).Returns(RawRefreshToken);
         _tokens.Setup(t => t.GetExpireAt()).Returns(new DateTime(2030, 1, 1));
+
+
+
 
         _uow.Setup(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()))
             .Callback(() => _calls.Add("save"))
