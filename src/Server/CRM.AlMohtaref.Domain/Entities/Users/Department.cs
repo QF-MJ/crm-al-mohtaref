@@ -10,12 +10,16 @@ public class Department
 
     private Department()
     {
+        Id = Guid.NewGuid();
         Name = string.Empty;
         UserPermissions = new List<UserPermission>();
     }
 
     public Department(string name) : this()
     {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ArgumentException("اسم القسم لا يمكن أن يكون فارغاً", nameof(name));
+
         Name = name;
     }
 }

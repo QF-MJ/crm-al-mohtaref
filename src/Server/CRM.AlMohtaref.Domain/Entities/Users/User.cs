@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+
 namespace CRM.AlMohtaref.Domain.Entities.Users;
 
 public class User : Person
@@ -19,7 +20,7 @@ public class User : Person
 
     public ICollection<UserRefreshToken> userRefreshTokens { get; private set; }
 
-    public ICollection<UserPermission> UserPermissions { get;  set; }
+    public ICollection<UserPermission> UserPermissions { get; private set; }
 
     private User()
     {
@@ -33,6 +34,18 @@ public class User : Person
     public User(Guid id, string accountName, string passwordHash, Person person, string email)
         : this()
     {
+        if (id == Guid.Empty)
+            throw new ArgumentException("معرّف المستخدم لا يمكن أن يكون فارغاً", nameof(id));
+
+        if (string.IsNullOrWhiteSpace(accountName))
+            throw new ArgumentException("اسم الحساب لا يمكن أن يكون فارغاً", nameof(accountName));
+
+        if (string.IsNullOrWhiteSpace(passwordHash))
+            throw new ArgumentException("كلمة المرور المشفرة لا يمكن أن تكون فارغة", nameof(passwordHash));
+
+        if (person is null)
+            throw new ArgumentNullException(nameof(person), "بيانات الشخص لا يمكن أن تكون فارغة");
+
         Id = id;
         AccountName = accountName;
         PasswordHash = passwordHash;
@@ -44,6 +57,9 @@ public class User : Person
 
     public void ChangePassword(string passwordHash)
     {
+        if (string.IsNullOrWhiteSpace(passwordHash))
+            throw new ArgumentException("كلمة المرور المشفرة لا يمكن أن تكون فارغة", nameof(passwordHash));
+
         PasswordHash = passwordHash;
     }
 
@@ -65,6 +81,12 @@ public class User : Person
 
     public void UpdateProfile(string accountName, string email, bool? isActive, string fullName)
     {
+        if (string.IsNullOrWhiteSpace(accountName))
+            throw new ArgumentException("اسم الحساب لا يمكن أن يكون فارغاً", nameof(accountName));
+
+        if (string.IsNullOrWhiteSpace(email))
+            throw new ArgumentException("البريد الإلكتروني لا يمكن أن يكون فارغاً", nameof(email));
+
         AccountName = accountName;
         Email = email;
         FullName = fullName;
@@ -75,6 +97,9 @@ public class User : Person
 
     public bool HasPermissionsChanged(IEnumerable<(Role RoleId, Guid DepartmentId)> permissions)
     {
+        if (permissions is null)
+            throw new ArgumentNullException(nameof(permissions), "قائمة الصلاحيات لا يمكن أن تكون فارغة");
+
         var requestedPermissions = permissions.ToHashSet();
 
         var currentPermissions = UserPermissions
@@ -84,10 +109,21 @@ public class User : Person
         return !currentPermissions.SetEquals(requestedPermissions);
     }
 
-
     public void SynchronizePermissions(IEnumerable<(Role RoleId, Guid DepartmentId)> permissions)
     {
+        if (permissions is null)
+            throw new ArgumentNullException(nameof(permissions), "قائمة الصلاحيات لا يمكن أن تكون فارغة");
+
         var requestedPermissions = permissions.Distinct().ToHashSet();
+
+        foreach (var (role, departmentId) in requestedPermissions)
+        {
+            if (!Enum.IsDefined(role))
+                throw new ArgumentOutOfRangeException(nameof(permissions), "قيمة الدور الوظيفي غير صالحة");
+
+            if (departmentId == Guid.Empty)
+                throw new ArgumentException("معرّف القسم لا يمكن أن يكون فارغاً", nameof(permissions));
+        }
 
         foreach (var existingPermission in UserPermissions.ToList())
         {
