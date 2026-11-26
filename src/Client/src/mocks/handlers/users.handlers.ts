@@ -29,6 +29,10 @@ const roles = [
   { id: guid(202), name: 'مدير' },
 ]
 
+// الباك يرسل قيمة تعداد الدور (Employee | Manager)، والموك يخزّن الاسم العربي.
+const ROLE_NAMES: Record<string, string> = { Employee: 'موظف', Manager: 'مدير' }
+const roleNameFor = (value: string | undefined) => (value ? (ROLE_NAMES[value] ?? value) : undefined)
+
 const tracks = [
   { id: guid(301), name: 'البرمجة للأطفال' },
   { id: guid(302), name: 'اللغة الإنجليزية للأطفال' },
@@ -210,7 +214,7 @@ export const usersHandlers = [
     const email = params.get('email')?.trim().toLocaleLowerCase('ar')
     const isActiveValue = params.get('isActive')
     const isActive = isActiveValue === null ? undefined : isActiveValue.toLowerCase() === 'true'
-    const roleId = params.get('roleId') ?? undefined
+    const role = roleNameFor(params.get('role') ?? undefined)
     const departmentId = params.get('departmentId') ?? undefined
 
     const filtered = users.filter(
@@ -219,11 +223,11 @@ export const usersHandlers = [
         (!accountName || user.accountName.toLocaleLowerCase('ar').includes(accountName)) &&
         (!email || user.email.toLocaleLowerCase('ar').includes(email)) &&
         (isActive === undefined || user.isActive === isActive) &&
-        (!roleId && !departmentId
+        (!role && !departmentId
           ? true
           : user.permissions.some(
               (permission) =>
-                (!roleId || permission.roleId === roleId) &&
+                (!role || permission.roleName === role) &&
                 (!departmentId || permission.departmentId === departmentId),
             )),
     )
@@ -262,7 +266,7 @@ export const usersHandlers = [
     const permissions: MockPermission[] = []
     for (const [index, input] of (body.permissions ?? []).entries()) {
       const departmentIndex = departments.findIndex((item) => item.id === input.departmentId)
-      const roleIndex = roles.findIndex((item) => item.id === input.roleId)
+      const roleIndex = roles.findIndex((item) => item.name === roleNameFor(input.role))
       if (departmentIndex < 0 || roleIndex < 0) {
         return HttpResponse.json({ status: 400, message: 'قسم أو دور غير صالح' }, { status: 400 })
       }
@@ -299,7 +303,7 @@ export const usersHandlers = [
     const permissions: MockPermission[] = []
     for (const [index, permission] of body.permissions.entries()) {
       const departmentIndex = departments.findIndex((item) => item.id === permission.departmentId)
-      const roleIndex = roles.findIndex((item) => item.id === permission.roleId)
+      const roleIndex = roles.findIndex((item) => item.name === roleNameFor(permission.role))
       if (departmentIndex < 0 || roleIndex < 0) {
         return HttpResponse.json({ status: 400, message: 'قسم أو دور غير صالح' }, { status: 400 })
       }
