@@ -35,6 +35,9 @@ public class TaskRepository(AppDbContext db)
     {
         return await db.Tasks
                 .Include(t => t.SubTasks)
+                .Include(t => t.AssignedToUser)
+                    .ThenInclude(p => p.UserPermissions)
+                    .ThenInclude(u => u.Department)
                 .FirstOrDefaultAsync(t => t.Id == id, ct);
     }
 
@@ -135,7 +138,7 @@ public class TaskRepository(AppDbContext db)
             h.TaskStatus.ToTaskStatusString(),
             h.StartTime, h.EndTime,
             new TaskUserDto(h.CreatedById, h.CreatedByName!),
-            h.AssignedToUserId == null ? null : new TaskUserDto(h.AssignedToUserId.Value, h.AssignedToName!),
+            new TaskUserDto(h.AssignedToUserId, h.AssignedToName!),
             h.ParentTaskId == null ? null : new ParentTaskDto(h.ParentTaskId.Value, h.ParentTitle!, h.ParentType!.Value.ToTaskTypeString()),
             subTasks,
             contacts

@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using Bogus;
 using CRM.AlMohtaref.Domain.Entities.Users;
@@ -671,12 +671,12 @@ internal sealed class AutoSeeder
     //
     // Creators / executors are employees (every user except the admin), always given to the one who has the
     // fewest tasks so far. Workflow tasks cannot be multiplied (they mirror the lead statuses), so extra
-    // Normal / Issue tasks are added until every employee EXECUTES at least
+    // Normal / Issue tasks are added until every employee is assigned at least
     // SeedRules.MinTasksPerEmployee tasks (a parent and each of its sub-tasks count as one each).
-    // Pending tasks have no executor, so they never count.
+    // AssignedToUserId is non-nullable, so EVERY task (including pending ones) gets an executor.
 
     private sealed record PlanTask(Guid Id, Guid? ParentId, string Title, string? Description, TaskType Type,
-        TaskState Status, DateTime Start, DateTime End, Guid CreatedBy, Guid? ExecutedBy);
+        TaskState Status, DateTime Start, DateTime End, Guid CreatedBy, Guid ExecutedBy);
 
     private List<PlanTask>? _taskPlan;
     private readonly List<(Guid Task, Guid Student)> _studentTaskPlan = new();
@@ -873,12 +873,9 @@ internal sealed class AutoSeeder
             var createdBy = Least(created);
             created[createdBy] += weight;
 
-            Guid? executedBy = null;
-            if (status != TaskState.Pending)
-            {
-                executedBy = Least(executed);
-                executed[executedBy.Value] += weight;
-            }
+            // AssignedToUserId is non-nullable: every task gets an executor, even pending ones.
+            var executedBy = Least(executed);
+            executed[executedBy] += weight;
 
             var parentId = StableGuid("Task", plan.Count);
             plan.Add(new PlanTask(parentId, parentTaskId, Cut(title), "بيانات تجريبية", type, status, start, end, createdBy, executedBy));
@@ -908,8 +905,11 @@ internal sealed class AutoSeeder
             var campaignTaskId = StableGuid("Task", campaignIndex);
             var campaignCreator = Least(created);
             created[campaignCreator]++;
+            // placeholder executor (replaced below); never null because AssignedToUserId is non-nullable
+            var campaignExecutor0 = Least(executed);
+            executed[campaignExecutor0]++;
             plan.Add(new PlanTask(campaignTaskId, null, Cut(SeedRules.TaskTitles["Campaign"] + label), "بيانات تجريبية",
-                TaskType.Campaign, TaskState.Pending, RefDate, RefDate, campaignCreator, null));
+                TaskType.Campaign, TaskState.Pending, RefDate, RefDate, campaignCreator, campaignExecutor0));
             _campaignTaskPlan.Add((campaignId, campaignTaskId));
 
             var buckets = new Dictionary<(TaskType, TaskState, Guid), List<Guid>>();
@@ -956,19 +956,13 @@ internal sealed class AutoSeeder
                 campaignEnd = kids.Max(p => p.End);
             }
 
-            Guid? campaignExecutor = null;
-            if (campaignState != TaskState.Pending)
-            {
-                campaignExecutor = Least(executed);
-                executed[campaignExecutor.Value]++;
-            }
-
+            // AssignedToUserId is non-nullable: the campaign task keeps the executor chosen above
+            // regardless of its final state (the load was already counted when the placeholder was picked).
             plan[campaignIndex] = plan[campaignIndex] with
             {
                 Status = campaignState,
                 Start = campaignStart,
-                End = campaignEnd,
-                ExecutedBy = campaignExecutor
+                End = campaignEnd
             };
         }
 

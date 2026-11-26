@@ -2,6 +2,6 @@
 
 public interface IOwnershipChecker<in T>
 {
-    Task<bool> IsOwnerAsync(T resource, CancellationToken ct);
+    Task<bool> IsOwnerAsync(T resource, CancellationToken ct = default);
 }
 

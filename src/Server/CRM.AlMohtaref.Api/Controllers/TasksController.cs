@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static Bogus.DataSets.Name;
 
 namespace CRM.AlMohtaref.Api.Controllers
 {
@@ -34,5 +35,13 @@ namespace CRM.AlMohtaref.Api.Controllers
         {
             return Ok(await sender.Send(new GetTaskQuery(taskId), ct));
         }
+
+        [HttpPut("{taskId:guid}")]
+        public async Task<IActionResult> UpdateTask(Guid taskId, [FromBody] UpdateTaskRequest request, CancellationToken cancellationToken)
+        {
+            await sender.Send(request.ToCommand(taskId), cancellationToken);
+            return NoContent();
+        }
+
     }
 }

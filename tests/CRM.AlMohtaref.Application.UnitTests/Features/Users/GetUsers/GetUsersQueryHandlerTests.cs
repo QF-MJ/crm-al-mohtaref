@@ -17,7 +17,7 @@ public class GetUsersQueryHandlerTests
     private GetUsersQueryHandler Sut => new(_users.Object, _currentUser.Object, _lookup.Object);
 
     private void CallerIsAdmin()
-        => _currentUser.Setup(x => x.HasDepartment(UsersTestData.AdminDepartment)).Returns(true);
+        => _currentUser.Setup(x => x.IsAdministrationManager()).Returns(true);
 
 
     private void ArrangeDepartment(Guid id, string? name)

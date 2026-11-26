@@ -37,10 +37,22 @@ public class Task
     public User CreatedByUser { get; set; } = null!;
 
     
-    public Guid? AssignedToUserId  { get; set; }
+    public Guid AssignedToUserId  { get; set; }
 
-    public User? AssignedToUser { get; set; }
+    public User AssignedToUser { get; set; }
 
     
     public ICollection<StudentTask> StudentTasks { get; set; } = new List<StudentTask>();
+
+    public void Update(string title, string? description, TaskStatus taskStatus, DateTime startTime, DateTime endTime, Guid assignedToUserId)
+    {
+        Title = title;
+        Description = description;
+        TaskStatus = taskStatus;
+        StartTime = startTime;
+        EndTime = endTime;
+        AssignedToUserId = assignedToUserId;
+    }
+
+
 }

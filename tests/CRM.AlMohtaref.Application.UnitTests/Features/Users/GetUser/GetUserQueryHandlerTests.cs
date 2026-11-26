@@ -27,7 +27,7 @@ public class GetUserQueryHandlerTests
     }
 
     private void CallerIsAdmin()
-        => _currentUser.Setup(x => x.HasDepartment(UsersTestData.AdminDepartment)).Returns(true);
+        => _currentUser.Setup(x => x.IsAdministrationManager()).Returns(true);
 
     [Fact]
     public async Task UserNotFound_ThrowsNotFound_AndSkipsOwnershipChecks()
