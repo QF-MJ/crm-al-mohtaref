@@ -14,12 +14,20 @@ export interface LoginRequest {
 }
 
 export interface LoginDto {
+  /** Access Token (JWT) يُرسل مع كل طلب */
   token: string
-  /** الباك يرجّعه null حالياً: لا يوجد refresh endpoint */
+  /** بصيغة "{guid}.{random}"، عمره 7 أيام، ويُبدَّل (rotation) مع كل تجديد */
   refreshToken: string | null
-  /** تاريخ انتهاء صلاحية التوكن بصيغة ISO */
+  /** تاريخ انتهاء صلاحية الـ Access Token بصيغة ISO (UTC) */
   expiresIn: string | null
   userId: string
   fullName: string
   permissions: PermissionDto[]
 }
+
+export interface RefreshTokenRequest {
+  refreshToken: string
+}
+
+/** رد POST /auth/refresh: نفس شكل رد الدخول (RefreshTokenDto في الباك) */
+export type RefreshTokenDto = LoginDto

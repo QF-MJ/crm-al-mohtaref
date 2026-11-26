@@ -1,54 +1,75 @@
-import { toast } from 'sonner'
+import axios, { type InternalAxiosRequestConfig } from 'axios'
 import { api } from './client'
 import { toApiError } from './errors'
-import { queryClient } from '@/lib/queryClient'
+import {
+  endSession,
+  isAuthPath,
+  refreshAccessToken,
+  RefreshFailedError,
+  setupSessionSync,
+} from './session'
 import { useAuthStore } from '@/stores/auth.store'
-import i18n from '@/i18n'
 
 let installed = false
-let sessionExpiredNotified = false
 
-// مسارات لا تحتاج Token، و401 منها معناه "بيانات خاطئة" وليس "انتهت الجلسة"
-const PUBLIC_PATHS = ['/auth/login']
+// علامة على الطلب نفسه: أُعيد مرة بعد التجديد، فلا نجدّد له مرة ثانية
+interface RetriableConfig extends InternalAxiosRequestConfig {
+  _retriedAfterRefresh?: boolean
+}
 
-const isPublic = (url?: string) => PUBLIC_PATHS.some((path) => url?.endsWith(path))
+const BEARER_PREFIX = 'Bearer '
+
+function bearerTokenOf(config: InternalAxiosRequestConfig): string | null {
+  const header = config.headers?.Authorization
+  return typeof header === 'string' && header.startsWith(BEARER_PREFIX)
+    ? header.slice(BEARER_PREFIX.length)
+    : null
+}
 
 // يُستدعى مرة واحدة من main.tsx
 export function setupInterceptors() {
   if (installed) return
   installed = true
 
+  setupSessionSync()
+
   api.interceptors.request.use((config) => {
     const token = useAuthStore.getState().token
-    if (token && !isPublic(config.url)) config.headers.Authorization = `Bearer ${token}`
+    if (token && !isAuthPath(config.url)) config.headers.Authorization = `${BEARER_PREFIX}${token}`
     return config
   })
 
   api.interceptors.response.use(
     (response) => response,
-    (error: unknown) => {
+    async (error: unknown) => {
       const apiError = toApiError(error)
-      const url = (error as { config?: { url?: string } })?.config?.url
+      const config = axios.isAxiosError(error)
+        ? (error.config as RetriableConfig | undefined)
+        : undefined
 
-      // 401 خارج صفحات الدخول = انتهت الجلسة أو أُبطل التوكن
-      if (apiError.status === 401 && !isPublic(url)) {
-        const { user, logout } = useAuthStore.getState()
-        if (user) {
-          logout()
-          queryClient.clear()
-          if (!sessionExpiredNotified) {
-            sessionExpiredNotified = true
-            toast.error(i18n.t('errors.sessionExpired'))
-            // نسمح بإظهار التنبيه مرة أخرى بعد فترة قصيرة
-            window.setTimeout(() => {
-              sessionExpiredNotified = false
-            }, 5000)
-          }
-        }
+      // 401 من طلبات المصادقة معناه بيانات/توكن خاطئ وليس "جدّد"، فيُعالج في مكانه
+      const shouldTryRefresh =
+        apiError.status === 401 && config !== undefined && !isAuthPath(config.url)
+
+      if (!shouldTryRefresh) return Promise.reject(apiError)
+
+      // رُفض حتى بعد التجديد، أو لا يوجد مستخدم مسجّل: الجلسة غير صالحة
+      if (config._retriedAfterRefresh || !useAuthStore.getState().user) {
+        endSession()
+        return Promise.reject(apiError)
       }
 
-      // نرفض دائماً بـ ApiError، فكل الواجهة تتعامل مع شكل واحد
-      return Promise.reject(apiError)
+      try {
+        await refreshAccessToken(bearerTokenOf(config))
+      } catch (refreshError) {
+        if (refreshError instanceof RefreshFailedError && refreshError.sessionEnded) endSession()
+        // خطأ شبكة أثناء التجديد: نُبقي الجلسة، ويرى المستخدم خطأ الطلب الأصلي
+        return Promise.reject(apiError)
+      }
+
+      // نعيد الطلب الأصلي مرة واحدة؛ interceptor الطلب يضع التوكن الجديد
+      config._retriedAfterRefresh = true
+      return api.request(config)
     },
   )
 }

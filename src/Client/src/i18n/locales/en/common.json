@@ -227,6 +227,9 @@
     "confirm": "Log out",
     "success": "Logged out successfully"
   },
+  "session": {
+    "restoring": "Renewing your session..."
+  },
   "errors": {
     "connection": "Couldn't connect to the system. Check your internet connection and try again.",
     "forbidden": "You do not have access to this page",

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
-import type { LoginDto, PermissionDto } from '@/features/auth/types'
+import type { LoginDto, PermissionDto, RefreshTokenDto } from '@/features/auth/types'
 
 // ملاحظة: الأنواع فقط عبر type import، فلا اعتماد وقت تشغيل بين stores و features.
 
@@ -19,10 +19,19 @@ interface AuthState {
   token: string | null
   refreshToken: string | null
   login: (dto: LoginDto) => void
+  /** يثبّت رد التجديد: توكنات جديدة + صلاحيات محدّثة */
+  applyRefresh: (dto: RefreshTokenDto) => void
   logout: () => void
 }
 
 export const AUTH_STORAGE_KEY = 'crm-session'
+
+const toSessionUser = (dto: LoginDto): SessionUser => ({
+  id: dto.userId,
+  fullName: dto.fullName ?? '',
+  permissions: dto.permissions ?? [],
+  tokenExpiresAt: dto.expiresIn ?? null,
+})
 
 export const useAuthStore = create<AuthState>()(
   persist(
@@ -32,15 +41,17 @@ export const useAuthStore = create<AuthState>()(
       refreshToken: null,
       login: (dto) =>
         set({
-          user: {
-            id: dto.userId,
-            fullName: dto.fullName ?? '',
-            permissions: dto.permissions ?? [],
-            tokenExpiresAt: dto.expiresIn ?? null,
-          },
+          user: toSessionUser(dto),
           token: dto.token,
           refreshToken: dto.refreshToken ?? null,
         }),
+      // إذا لم يرجّع الباك refreshToken جديداً نُبقي القديم بدل استبداله بـ null
+      applyRefresh: (dto) =>
+        set((state) => ({
+          user: toSessionUser(dto),
+          token: dto.token,
+          refreshToken: dto.refreshToken ?? state.refreshToken,
+        })),
       logout: () => set({ user: null, token: null, refreshToken: null }),
     }),
     {
@@ -58,15 +69,13 @@ export const useAuthStore = create<AuthState>()(
   ),
 )
 
+// نعتبر التوكن منتهياً قبل 30 ثانية من موعده، لتفادي فرق الساعة بين الجهاز والخادم
 const EXPIRY_SKEW_MS = 30_000
 
+/** هل انتهى الـ Access Token؟ (الانتهاء لا يعني انتهاء الجلسة: الـ refresh token يجدّده) */
 export function isTokenExpired(user: SessionUser | null, now = Date.now()): boolean {
   if (!user?.tokenExpiresAt) return false
   const expiresAt = Date.parse(user.tokenExpiresAt)
   if (Number.isNaN(expiresAt)) return false
   return now >= expiresAt - EXPIRY_SKEW_MS
-}
-
-export function hasActiveSession(state: { user: SessionUser | null; token: string | null }) {
-  return Boolean(state.user && state.token) && !isTokenExpired(state.user)
 }

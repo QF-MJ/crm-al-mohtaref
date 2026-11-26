@@ -21,6 +21,7 @@ export function useLogin() {
 
 export function useLogout() {
   const logout = useAuthStore((s) => s.logout)
+  const queryClient = useQueryClient()
   const { t } = useTranslation()
 
   return useMutation({
@@ -31,7 +32,11 @@ export function useLogout() {
       }
     },
     // في حال تعذّر الاتصال بالخادم نُنهي الجلسة محلياً حسب سيناريو تسجيل الخروج
-    onSettled: () => logout(),
+    // ونمسح الكاش حتى لا يرى المستخدم التالي على نفس الجهاز بيانات السابق
+    onSettled: () => {
+      logout()
+      queryClient.clear()
+    },
     onSuccess: () => {
       toast.success(t('logout.success'))
     },
