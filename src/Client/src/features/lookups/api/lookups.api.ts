@@ -30,3 +30,11 @@ export function getLookups(include: LookupType[], signal?: AbortSignal) {
     })
     .then((response) => normalizeLookups(response.data))
 }
+
+// GET /lookups/managers/{managerId}/users: مستخدمو الأقسام التي يديرها المدير (والمدير نفسه).
+// الباك يسمح فقط بطلب المستخدم الحالي (managerId = معرّفه)، وإلا 403.
+export function getManagedUsers(managerId: string, signal?: AbortSignal) {
+  return api
+    .get<LookupItem[]>(`/lookups/managers/${encodeURIComponent(managerId)}/users`, { signal })
+    .then((response) => response.data)
+}

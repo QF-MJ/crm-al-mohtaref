@@ -52,6 +52,18 @@ const accounts: Record<string, { userId: string; fullName: string; permissions: 
     },
   }
 
+export type MockAccount = { userId: string; fullName: string; permissions: PermissionDto[] }
+
+/** كل الحسابات التجريبية (لمحاكاة القوائم والصلاحيات في باقي الـ handlers) */
+export const mockAccounts = (): MockAccount[] => Object.values(accounts)
+
+/** صاحب الطلب من التوكن الوهمي "mock-token.{accountName}"، مثل [Authorize] في الباك */
+export function mockSessionAccount(request: Request): MockAccount | undefined {
+  const token = request.headers.get('Authorization')?.replace(/^Bearer /, '') ?? ''
+  const [prefix, accountName] = token.split('.')
+  return prefix === 'mock-token' ? accounts[accountName] : undefined
+}
+
 export const authHandlers = [
   http.post(`${env.apiUrl}/auth/login`, async ({ request }) => {
     const { accountName, password } = (await request.json()) as LoginRequest

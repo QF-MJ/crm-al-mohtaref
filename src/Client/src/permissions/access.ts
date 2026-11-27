@@ -40,7 +40,7 @@ export type Capability =
   // GET /api/contacts: مدير الإدارة أو مدير المبيعات فقط
   | 'contacts.view'
   | 'contacts.filter'
-  // المهام: كل مدير قسم (والإدارة ضمنهم)
+  // GET /api/tasks: كل مستخدم يرى مهامه (TM-01)، والمدير يرى أيضاً مهام موظفي أقسامه
   | 'tasks.view'
   // الحملات الإعلانية: مدير الإدارة فقط حالياً
   | 'campaigns.view'
@@ -96,8 +96,8 @@ export function buildAccess(pairs: readonly PermissionPair[]): Access {
       case 'contacts.filter':
         return isAdmin || isSalesManager
       case 'tasks.view':
-        // كل مدير قسم يرى المهام، وليس الأدمن فقط
-        return isManager
+        // كل مستخدم مسجّل يرى مهامه؛ الباك يفرض النطاق (نفسه أو موظفي أقسامه إن كان مديراً)
+        return true
       case 'campaigns.view':
         return isAdmin
       default:

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import type { LookupType } from '../types'
-import { getLookups } from './lookups.api'
+import { getLookups, getManagedUsers } from './lookups.api'
 
 const departmentLookupTypes: LookupType[] = ['Departments']
 const emptyLookupTypes: LookupType[] = []
@@ -50,5 +50,18 @@ export function useContactLookups(enabled = true) {
     staleTime: 5 * 60_000,
     retry: false,
     enabled,
+  })
+}
+
+// المستخدمون الذين يحق للمدير الحالي متابعة مهامهم أو إسنادها إليهم
+export function useManagedUsers(managerId: string | undefined, enabled = true) {
+  return useQuery({
+    queryKey: ['lookups', 'managed-users', managerId],
+    queryFn: ({ signal }) => {
+      if (!managerId) throw new Error('A manager ID is required')
+      return getManagedUsers(managerId, signal)
+    },
+    staleTime: 5 * 60_000,
+    enabled: enabled && Boolean(managerId),
   })
 }
