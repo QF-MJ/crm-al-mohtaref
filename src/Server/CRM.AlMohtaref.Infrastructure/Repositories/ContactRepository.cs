@@ -71,5 +71,12 @@ namespace CRM.AlMohtaref.Infrastructure.Repositories
 
             return new ContactsPageDto(items, page);
         }
+
+        public async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await db.Contacts
+                .AnyAsync(c => c.Id == id, cancellationToken);
+        }
+
     }
 }

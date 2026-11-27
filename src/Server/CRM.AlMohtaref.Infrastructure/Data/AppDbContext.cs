@@ -1,6 +1,5 @@
 ﻿using CRM.AlMohtaref.Domain.Entities.Questions;
 using CRM.AlMohtaref.Application.Interfaces;
-using CRM.AlMohtaref.Domain.Entities;
 using CRM.AlMohtaref.Domain.Entities.Campaigns;
 using CRM.AlMohtaref.Domain.Entities.Contacts;
 using CRM.AlMohtaref.Domain.Entities.Users;
@@ -45,6 +44,9 @@ public class AppDbContext : DbContext, IUnitOfWork
     public DbSet<QuestionCampaign> QuestionCampaigns { get; set; } = null!;
 
     public DbSet<CampaignLead> CampaignLeads { get; set; }
+
+    public DbSet<Note> Notes { get; set; }
+
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {

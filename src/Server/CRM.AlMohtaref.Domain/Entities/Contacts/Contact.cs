@@ -14,6 +14,8 @@ public class Contact : Person
 
     public ICollection<ContactTag> ContactTags { get; private set; }
 
+    public ICollection<Note> Notes { get; set; } = new List<Note>();
+
     private Contact()
     {
         PhoneNumber = string.Empty;

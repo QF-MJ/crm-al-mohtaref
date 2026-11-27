@@ -226,6 +226,32 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.ToTable("ContactTags", (string)null);
                 });
 
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Contacts.Note", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ContactId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContactId");
+
+                    b.HasIndex("CreatedByUserId");
+
+                    b.ToTable("Notes", (string)null);
+                });
+
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Contacts.Student", b =>
                 {
                     b.Property<Guid>("Id")
@@ -676,6 +702,25 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                     b.Navigation("Tag");
                 });
 
+            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Contacts.Note", b =>
+                {
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Contacts.Contact", "Contact")
+                        .WithMany("Notes")
+                        .HasForeignKey("ContactId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.User", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Contact");
+
+                    b.Navigation("CreatedByUser");
+                });
+
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Contacts.Student", b =>
                 {
                     b.HasOne("CRM.AlMohtaref.Domain.Entities.Contacts.Contact", "Contact")
@@ -858,6 +903,8 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Contacts.Contact", b =>
                 {
                     b.Navigation("ContactTags");
+
+                    b.Navigation("Notes");
 
                     b.Navigation("Students");
                 });

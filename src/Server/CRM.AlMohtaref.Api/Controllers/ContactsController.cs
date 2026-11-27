@@ -19,5 +19,13 @@ namespace CRM.AlMohtaref.Api.Controllers
         {
             return await sender.Send(request.ToQuery(), ct);
         }
+
+        [HttpPost("{contactId:guid}/notes")]
+        public async Task<ActionResult<Guid>> CreateNote([FromRoute] Guid contactId, [FromBody] CreateNoteRequest request, CancellationToken ct)
+        {
+            var noteId = await sender.Send(request.ToCommand(contactId), ct);
+            return Ok(noteId);
+        }
+
     }
 }
