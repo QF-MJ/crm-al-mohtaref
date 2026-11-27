@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { GUID_PATTERN } from '@/lib/guid'
 
 // رسائل التحقق مفاتيح ترجمة (لا نصوص عربية داخل المكونات) — انظر i18n/validation.*
 export const VALIDATION = {
