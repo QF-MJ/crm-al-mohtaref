@@ -6,8 +6,6 @@ public class Student : Person
 {
     public Guid Id { get; private set; }
 
-    public Guid PersonId { get; private set; }
-
     // the guardian
     public Guid ContactId { get; private set; }
 
@@ -24,9 +22,8 @@ public class Student : Person
         StudentTags = new List<StudentTag>();
     }
 
-    public Student(Guid personId, Guid contactId) : this()
+    public Student(Guid contactId) : this()
     {
-        PersonId = personId;
         ContactId = contactId;
     }
 }

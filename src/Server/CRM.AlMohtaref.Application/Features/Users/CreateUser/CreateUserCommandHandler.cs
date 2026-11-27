@@ -1,4 +1,6 @@
-﻿using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Application.Common.Exceptions;
+using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Application.Interfaces.Common;
 using CRM.AlMohtaref.Domain.Entities;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using MediatR;
@@ -11,6 +13,10 @@ public class CreateUserCommandHandler(IUserRepository userRepository, IUnitOfWor
 {
     public async Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
+
+        if (await userRepository.ExistsAsync(Guid.Empty, request.Email, request.AccountName, cancellationToken))
+            throw new ConflictException("البريد الإلكتروني أو اسم الحساب مستخدم مسبقاً");
+
         var person = new Person(request.FullName, currentUser.UserId);
        
         var user = new User(Guid.NewGuid(), request.AccountName, password.HashPassword(request.Password),
@@ -22,7 +28,7 @@ public class CreateUserCommandHandler(IUserRepository userRepository, IUnitOfWor
         );
 
         userRepository.Add(user);
-        await unitOfWork.SaveChangesAsync();
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return user.Id;
     }

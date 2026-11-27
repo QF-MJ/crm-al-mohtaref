@@ -1,5 +1,6 @@
 ﻿using CRM.AlMohtaref.Domain.Entities.Questions;
 using CRM.AlMohtaref.Domain.Entities.Users;
+using CRM.AlMohtaref.Domain.Enums;
 
 namespace CRM.AlMohtaref.Domain.Entities.Campaigns;
 
@@ -17,15 +18,13 @@ public class Campaign
 
     public Guid CreatedByUserId { get; private set; }
 
-    public Guid CampaginStatusId { get; private set; }
-
     public decimal? Budget { get; private set; }
 
     public Track Track { get; private set; }
 
     public User CreatedByUser { get; private set; }
 
-    public CampaginStatus CampaignStatus { get; private set; }
+    public CampaignStatus CampaignStatus { get; private set; }
 
     public ICollection<CampaignLead> Leads { get; private set; }
 
@@ -38,35 +37,36 @@ public class Campaign
         Title = string.Empty;
         Track = null!;
         CreatedByUser = null!;
-        CampaignStatus = null!;
+        CampaignStatus = CampaignStatus.New;
         Leads = new List<CampaignLead>();
         PlatformCampaigns = new List<PlatformCampaign>();
         QuestionCampaigns = new List<QuestionCampaign>();
     }
 
-    public Campaign(string title, Guid trackId, Guid createdByUserId, Guid campaignStatusId,
+    public Campaign(Guid Id , string title, Guid trackId, Guid createdByUserId, CampaignStatus campaignStatus,
         string? description = null, string? url = null, decimal? budget = null)
         : this()
     {
         Title = title;
         TrackId = trackId;
         CreatedByUserId = createdByUserId;
-        CampaginStatusId = campaignStatusId;
+        CampaignStatus = campaignStatus;
         Description = description;
         Url = url;
         Budget = budget;
+        this.Id = Id;
     }
 
-    public void ChangeStatus(Guid campaignStatusId)
+    public void ChangeStatus(CampaignStatus newStatus)
     {
-        CampaginStatusId = campaignStatusId;
+        CampaignStatus = newStatus;
     }
 
-    public void UpdateDetails(string title, string description, Guid statusId, Guid trackId, string url, decimal budget)
+    public void UpdateDetails(string title, string description, CampaignStatus status, Guid trackId, string url, decimal budget)
     {
         Title = title;
         Description = description;
-        CampaginStatusId = statusId;
+        CampaignStatus = status;
         TrackId = trackId;
         Url = url;
         Budget = budget;

@@ -1,5 +1,6 @@
 ﻿using CRM.AlMohtaref.Application.Common.Exceptions;
 using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Application.Interfaces.Common;
 using MediatR;
 
 namespace CRM.AlMohtaref.Application.Features.Campaigns;
@@ -33,7 +34,7 @@ public class UpdateCampaignCommandHandler(ICampaignRepository campaignRepository
         campaign.UpdateDetails(
             request.Title,
             request.Description,
-            request.StatusId,
+            request.Status,
             request.TrackId,
             request.Url,
             request.Budget

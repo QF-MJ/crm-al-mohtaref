@@ -1,11 +1,12 @@
 ﻿using CRM.AlMohtaref.Application.Common.Exceptions;
 using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Application.Interfaces.Common;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using MediatR;
 
 namespace CRM.AlMohtaref.Application.Features.Users;
 
-public sealed class UpdateUserCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork)
+public sealed class UpdateUserCommandHandler(IUserRepository userRepository, IUserRefreshTokenRepository userRefreshToken, IUnitOfWork unitOfWork)
     : IRequestHandler<UpdateUserCommand>
 {
     public async Task Handle(UpdateUserCommand request, CancellationToken ct)
@@ -26,11 +27,16 @@ public sealed class UpdateUserCommandHandler(IUserRepository userRepository, IUn
             request.FullName
         );
 
-        user.SynchronizePermissions
-        (
-            request.Permissions?.Select(p => (p.Role, p.DepartmentId)) ?? new List<(Role, Guid)>()
-        );
+        var permissions = request.Permissions?.Select(p => (p.Role, p.DepartmentId));
+        bool permissionsChanged = permissions != null && user.HasPermissionsChanged(permissions);
 
+        if(permissionsChanged)
+            user.SynchronizePermissions(permissions);
+
+        if (user.IsActive == false || permissionsChanged)
+        {
+            await userRefreshToken.RevokeUserTokens(user.Id, ct);
+        }
 
         await unitOfWork.SaveChangesAsync(ct);
     }

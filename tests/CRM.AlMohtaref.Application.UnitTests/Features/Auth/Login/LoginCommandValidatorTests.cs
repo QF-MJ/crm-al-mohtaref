@@ -3,7 +3,7 @@ using CRM.AlMohtaref.Application.Features.Auth.Login;
 using FluentValidation.Results;
 using Xunit;
 
-namespace CRM.AlMohtaref.Application.UnitTests.Features.Auth;
+namespace CRM.AlMohtaref.Application.UnitTests.Features.Auth.Login;
 
 public class LoginCommandValidatorTests
 {

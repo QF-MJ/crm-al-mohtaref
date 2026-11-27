@@ -1,4 +1,4 @@
-using CRM.AlMohtaref.Domain.Entities.Contacts;
+﻿using CRM.AlMohtaref.Domain.Entities.Contacts;
 using Xunit;
 
 namespace CRM.AlMohtaref.Domain.Tests.Entities.Contacts;
@@ -8,18 +8,15 @@ public class ContactTests
     [Fact]
     public void Constructor_SetsPersonIdAndPhoneNumber()
     {
-        var personId = Guid.NewGuid();
+        var contact = new Contact("0999999999");
 
-        var contact = new Contact(personId, "0999999999");
-
-        Assert.Equal(personId, contact.PersonId);
         Assert.Equal("0999999999", contact.PhoneNumber);
     }
 
     [Fact]
     public void Constructor_InitializesCollectionsAsEmpty()
     {
-        var contact = new Contact(Guid.NewGuid(), "0999999999");
+        var contact = new Contact("0999999999");
 
         Assert.NotNull(contact.Students);
         Assert.Empty(contact.Students);
@@ -30,7 +27,7 @@ public class ContactTests
     [Fact]
     public void Constructor_DoesNotAssignId()
     {
-        var contact = new Contact(Guid.NewGuid(), "0999999999");
+        var contact = new Contact("0999999999");
 
         Assert.Equal(Guid.Empty, contact.Id);
     }
@@ -38,8 +35,8 @@ public class ContactTests
     [Fact]
     public void Students_CanBeModified()
     {
-        var contact = new Contact(Guid.NewGuid(), "0999999999");
-        var student = new Student(Guid.NewGuid(), contact.Id);
+        var contact = new Contact("0999999999");
+        var student = new Student(contact.Id);
 
         contact.Students.Add(student);
 

@@ -22,21 +22,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.CampaginStatus", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CampaignStatuses", (string)null);
-                });
-
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.Campaign", b =>
                 {
                     b.Property<Guid>("Id")
@@ -47,8 +32,8 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("CampaginStatusId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("CampaignStatus")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("CreatedByUserId")
                         .HasColumnType("uniqueidentifier");
@@ -70,8 +55,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .HasColumnType("nvarchar(500)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CampaginStatusId");
 
                     b.HasIndex("CreatedByUserId");
 
@@ -186,9 +169,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<Guid>("PersonId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -242,9 +222,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<Guid>("PersonId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -534,9 +511,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(500)");
 
-                    b.Property<Guid>("PersonId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AccountName")
@@ -603,12 +577,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.Campaign", b =>
                 {
-                    b.HasOne("CRM.AlMohtaref.Domain.Entities.Campaigns.CampaginStatus", "CampaignStatus")
-                        .WithMany("Campaigns")
-                        .HasForeignKey("CampaginStatusId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("CRM.AlMohtaref.Domain.Entities.Users.User", "CreatedByUser")
                         .WithMany()
                         .HasForeignKey("CreatedByUserId")
@@ -620,8 +588,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .HasForeignKey("TrackId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("CampaignStatus");
 
                     b.Navigation("CreatedByUser");
 
@@ -861,11 +827,6 @@ namespace CRM.AlMohtaref.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.CampaginStatus", b =>
-                {
-                    b.Navigation("Campaigns");
                 });
 
             modelBuilder.Entity("CRM.AlMohtaref.Domain.Entities.Campaigns.Campaign", b =>

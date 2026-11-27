@@ -2,13 +2,14 @@
 using CRM.AlMohtaref.Application.Features.Auth;
 using CRM.AlMohtaref.Application.Features.Auth.Login;
 using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Application.Interfaces.Common;
 using CRM.AlMohtaref.Domain.Entities;
 using CRM.AlMohtaref.Domain.Entities.Contacts;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using Moq;
 using Xunit;
 
-namespace CRM.AlMohtaref.Application.UnitTests.Features.Auth;
+namespace CRM.AlMohtaref.Application.UnitTests.Features.Auth.Login;
 
 
 public class LoginCommandHandlerTests
@@ -37,9 +38,13 @@ public class LoginCommandHandlerTests
         _hasher.Setup(h => h.VerifyPassword("good", StoredHash)).Returns(true);
         _hasher.Setup(h => h.VerifyPassword("bad", StoredHash)).Returns(false);
 
+        _hasher.Setup(h => h.HashPassword(RawRefreshToken)).Returns("hashed-refresh-token");
         _tokens.Setup(t => t.GenerateAccessToken(_user)).ReturnsAsync("jwt");
         _tokens.Setup(t => t.GenerateRefreshToken()).Returns(RawRefreshToken);
         _tokens.Setup(t => t.GetExpireAt()).Returns(new DateTime(2030, 1, 1));
+
+
+
 
         _uow.Setup(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()))
             .Callback(() => _calls.Add("save"))

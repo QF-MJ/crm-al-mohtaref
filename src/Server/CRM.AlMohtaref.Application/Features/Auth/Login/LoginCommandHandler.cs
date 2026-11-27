@@ -1,6 +1,7 @@
 ﻿using CRM.AlMohtaref.Application.Common.Dtos;
 using CRM.AlMohtaref.Application.Common.Exceptions;
 using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Application.Interfaces.Common;
 using CRM.AlMohtaref.Domain.Entities.Contacts;
 using CRM.AlMohtaref.Domain.Entities.Users;
 using MediatR;

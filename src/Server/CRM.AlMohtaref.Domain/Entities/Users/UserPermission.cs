@@ -1,6 +1,4 @@
-﻿using CRM.AlMohtaref.Domain.Entities.Users;
-
-namespace CRM.AlMohtaref.Domain.Entities.Users;
+﻿namespace CRM.AlMohtaref.Domain.Entities.Users;
 
 public class UserPermission
 {
@@ -23,15 +21,37 @@ public class UserPermission
         Role = Role.Employee;
     }
 
-    public UserPermission(string department , string role)
+    public UserPermission(string department, string role)
     {
-        Department = new Department(department);
-        Role = role == "مدير" ? Role.Manager : Role.Employee;
-    }
+        if (string.IsNullOrWhiteSpace(department))
+            throw new ArgumentException("اسم القسم لا يمكن أن يكون فارغاً", nameof(department));
 
+        if (string.IsNullOrWhiteSpace(role))
+            throw new ArgumentException("الدور الوظيفي لا يمكن أن يكون فارغاً", nameof(role));
+
+        User = null!;
+        Department = new Department(department);
+        Role = role switch
+        {
+            "مدير" => Role.Manager,
+            "موظف" => Role.Employee,
+            _ => throw new ArgumentException($"الدور الوظيفي غير صالح: '{role}'", nameof(role))
+        };
+    }
 
     public UserPermission(Guid userId, Guid departmentId, Role role)
     {
+        if (userId == Guid.Empty)
+            throw new ArgumentException("معرّف المستخدم لا يمكن أن يكون فارغاً", nameof(userId));
+
+        if (departmentId == Guid.Empty)
+            throw new ArgumentException("معرّف القسم لا يمكن أن يكون فارغاً", nameof(departmentId));
+
+        if (!Enum.IsDefined(role))
+            throw new ArgumentOutOfRangeException(nameof(role), "قيمة الدور الوظيفي غير صالحة");
+
+        User = null!;
+        Department = null!;
         UserId = userId;
         DepartmentId = departmentId;
         Role = role;

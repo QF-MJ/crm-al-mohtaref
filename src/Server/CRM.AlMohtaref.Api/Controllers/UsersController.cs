@@ -15,7 +15,7 @@ public class UsersController(ISender sender)
 
 
     [HttpPost]
-    public async Task<ActionResult<int>> AddUser([FromBody] CreateUserRequest request, CancellationToken ct)
+    public async Task<ActionResult<Guid>> CreateUser([FromBody] CreateUserRequest request, CancellationToken ct)
     {
         var userId = await sender.Send(request.ToCommand(), ct);
         return CreatedAtAction(nameof(GetUser), new { id = userId }, userId);

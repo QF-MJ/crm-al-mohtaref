@@ -16,7 +16,7 @@ public class UpdateCampaignCommandValidator : AbstractValidator<UpdateCampaignCo
         RuleFor(x => x.Description)
             .MaximumLength(1000).WithMessage("يجب ألا يتجاوز الوصف 1000 حرف");
 
-        RuleFor(x => x.StatusId)
+        RuleFor(x => x.Status)
             .NotEmpty().WithMessage("حالة الحملة مطلوبة");
 
         RuleFor(x => x.TrackId)
