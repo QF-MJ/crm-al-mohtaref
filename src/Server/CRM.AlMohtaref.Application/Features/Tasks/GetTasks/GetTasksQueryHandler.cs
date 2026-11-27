@@ -1,39 +1,38 @@
-﻿using CRM.AlMohtaref.Application.Common.Dtos;
-using CRM.AlMohtaref.Application.Common.Exceptions;
+﻿using CRM.AlMohtaref.Application.Common.Exceptions;
 using CRM.AlMohtaref.Application.Features.Tasks.Dtos;
-using CRM.AlMohtaref.Application.Features.Users;
 using CRM.AlMohtaref.Application.Interfaces;
 using MediatR;
 
 namespace CRM.AlMohtaref.Application.Features.Tasks.GetTasks;
 
 public class GetTasksQueryHandler(ITaskRepository taskRepository, IUserRepository userRepository, ICurrentUserService currentUser)
-    : IOwnershipChecker<UserDetailDto>, IRequestHandler<GetTasksQuery, TasksPageDto>
+    : IOwnershipChecker<Guid>, IRequestHandler<GetTasksQuery, TasksPageDto>
 {
     public async Task<TasksPageDto> Handle(GetTasksQuery query, CancellationToken ct)
     {
-        var user = await userRepository.GetDetailAsync(query.AssignedToUserId, ct);
+        if (!await userRepository.ExistsAsync(query.AssignedToUserId, ct))
+        {
+            throw new NotFoundException($"المستخدم بالمعرف \"{query.AssignedToUserId}\" غير موجود");
+        }
 
-        if (user == null)
-            throw new NotFoundException($"المستخدم بالمعرف {query.AssignedToUserId} غير موجود ");
-
-        if (!await IsOwnerAsync(user, ct))
-            throw new ForbiddenException($"لا تملك صلاحيات عرض مهام المستخدم بالمعرف {query.AssignedToUserId}");
+        if (!await IsOwnerAsync(query.AssignedToUserId, ct))
+        {
+            throw new ForbiddenException($"لا تملك صلاحيات عرض مهام المستخدم بالمعرف \"{query.AssignedToUserId}\"");
+        }
 
         return await taskRepository.SearchAsync(query, ct);
     }
 
-
-    public Task<bool> IsOwnerAsync(UserDetailDto user, CancellationToken ct = default)
+    public async Task<bool> IsOwnerAsync(Guid userId, CancellationToken ct = default)
     {
-        if (user.Id == currentUser.UserId)
-            return Task.FromResult(true);
+        if (userId == currentUser.UserId)
+            return true;
 
-        // Temporarily include "الإدارة" to allow general managers to pass the department manager check
-        var permissionsToCheck = user.Permissions
-            .Append(new PermissionDto { DepartmentName = "الإدارة" });
+        if (currentUser.Permissions == null)
+            return false;
 
-        return Task.FromResult(currentUser.IsManagerInAnyDepartment(permissionsToCheck));
+        return currentUser.IsAdministrationManager()
+            || await userRepository.IsManagerOfUserAsync(userId, currentUser.Permissions, ct);
     }
 
 }

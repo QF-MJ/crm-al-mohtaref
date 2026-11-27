@@ -11,7 +11,7 @@ public sealed record TaskDetailsDto(
     DateTime StartTime,
     DateTime EndTime,
     TaskUserDto CreatedByUser,
-    TaskUserDto? AssignedToUser,
+    TaskUserDto AssignedToUser,
     [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     ParentTaskDto? ParentTask = null,
     [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

@@ -1,6 +1,6 @@
 ﻿namespace CRM.AlMohtaref.Application.Interfaces.Common;
 
-public interface IDeleteRepository<in TEntity> where TEntity : class
+public interface IDeleteRepository<in TEntity, in TKey> where TEntity : class
 {
-    void Delete(TEntity entity, CancellationToken ct = default);
+    Task DeleteByIdAsync(TKey id, CancellationToken ct = default);
 }

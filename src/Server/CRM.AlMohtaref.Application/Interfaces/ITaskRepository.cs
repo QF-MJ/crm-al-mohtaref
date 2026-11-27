@@ -8,8 +8,9 @@ namespace CRM.AlMohtaref.Application.Interfaces;
 public interface ITaskRepository :
     ISearchRepository<GetTasksQuery, TasksPageDto>,
     IGetByIdRepository<TaskEntity, Guid>,
-    IDeleteRepository<TaskEntity>,
-    IGetDetailRepository<TaskDetailsDto, Guid>
+    IDeleteRepository<TaskEntity, Guid>,
+    IGetDetailRepository<TaskDetailsDto, Guid>,
+    IExistsRepository<TaskEntity, Guid>
 {
-
+    Task<bool> HasDependenciesAsync(Guid taskId, CancellationToken ct = default);
 }

@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using CRM.AlMohtaref.Infrastructure.ExternalServices;
 using CRM.AlMohtaref.Domain.Extensions;
 
-
 namespace CRM.AlMohtaref.Infrastructure.Repositories;
 
 public sealed class UserRepository(AppDbContext db) 
@@ -22,6 +21,11 @@ public sealed class UserRepository(AppDbContext db)
     {
         return await db.Users.AnyAsync(u => u.Id != userId
                                 && (u.Email == email || u.AccountName == accountName));
+    }
+
+    public async Task<bool> ExistsAsync(Guid userId, CancellationToken ct)
+    {
+        return await db.Users.AnyAsync(u => u.Id == userId, ct);
     }
 
     public async Task<User?> GetByAccountNameAsync(string accountName, CancellationToken ct = default)
@@ -62,6 +66,26 @@ public sealed class UserRepository(AppDbContext db)
             })
             .FirstOrDefaultAsync(ct);
     }
+
+    public async Task<bool> IsManagerOfUserAsync(Guid userId, IEnumerable<UserPermission> permissions, CancellationToken ct = default)
+    {
+        var managedDepartmentIds = permissions
+            .Where(p => p.Role == Role.Manager)
+            .Select(p => p.DepartmentId != Guid.Empty ? p.DepartmentId : (p.Department?.Id ?? Guid.Empty))
+            .Where(id => id != Guid.Empty)
+            .Distinct()
+            .ToList();
+
+        if (managedDepartmentIds.Count == 0)
+            return false;
+
+        return await db.Users
+            .AsNoTracking()
+            .Where(u => u.Id == userId)
+            .AnyAsync(u => u.UserPermissions.Any(up =>
+                managedDepartmentIds.Contains(up.DepartmentId)), ct);
+    }
+
 
     public async Task<UsersPageDto> SearchAsync(GetUsersQuery query, CancellationToken ct = default)
     {

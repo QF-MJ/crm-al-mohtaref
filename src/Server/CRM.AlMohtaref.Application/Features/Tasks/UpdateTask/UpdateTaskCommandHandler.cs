@@ -1,6 +1,7 @@
 ﻿using CRM.AlMohtaref.Application.Common.Dtos;
 using CRM.AlMohtaref.Application.Common.Exceptions;
 using CRM.AlMohtaref.Application.Interfaces;
+using CRM.AlMohtaref.Domain.Entities.Users;
 using CRM.AlMohtaref.Domain.Extensions;
 using MediatR;
 
@@ -16,7 +17,7 @@ public sealed class UpdateTaskCommandHandler(ITaskRepository taskRepository, IUs
     {
         var task = await taskRepository.GetByIdAsync(request.TaskId, ct);
 
-        if (task is null)
+        if (task == null)
         {
             throw new NotFoundException($"المهمة بالمعرف {request.TaskId} غير موجودة");
         }
@@ -26,9 +27,10 @@ public sealed class UpdateTaskCommandHandler(ITaskRepository taskRepository, IUs
             throw new ForbiddenException("تعديل هذه المهمة متاح لمنشئها أو لمدير الإدارة أو لمدير قسم المنفذ فقط");
         }
 
-        if (request.AssignedToUserId != task.AssignedToUserId)
+        if (request.AssignedToUserId != task.AssignedToUserId 
+            && !await CanAssignTaskToAsync(request.AssignedToUserId, ct))
         {
-            await EnsureCanAssignToAsync(request.AssignedToUserId, ct);
+            throw new ForbiddenException("لا يمكنك إسناد هذه المهمة إلا لنفسك أو لأحد الموظفين التابعين لقسمك");
         }
 
         task.Update(
@@ -48,29 +50,22 @@ public sealed class UpdateTaskCommandHandler(ITaskRepository taskRepository, IUs
         if (task.CreatedByUserId == currentUser.UserId || currentUser.IsAdministrationManager())
             return Task.FromResult(true);
 
-        return Task.FromResult(
-            task.AssignedToUser != null
-                && currentUser.IsManagerInAnyDepartment(task.AssignedToUser.UserPermissions
-                    .Select(p => new PermissionDto { DepartmentName = p.Department.Name }))
-        );
+        var permissions = task.AssignedToUser.UserPermissions
+                    .Select(p => new PermissionDto { DepartmentName = p.Department.Name });
+
+        return Task.FromResult(currentUser.IsManagerInAnyDepartment(permissions));
     }
 
 
-    private async Task EnsureCanAssignToAsync(Guid assigneeId, CancellationToken ct)
+    private async Task<bool> CanAssignTaskToAsync(Guid assigneeId, CancellationToken ct)
     {
-        var assignee = await userRepository.GetDetailAsync(assigneeId, ct);
+        if (assigneeId == currentUser.UserId)
+            return true;
 
-        if (assignee == null)
-        {
-            throw new NotFoundException($"المستخدم بالمعرف {assigneeId} غير موجود");
-        }
+        if (currentUser.Permissions == null)
+            return false;
 
-        if (assigneeId == currentUser.UserId || currentUser.IsAdministrationManager())
-            return;
-
-        if (!currentUser.IsManagerInAnyDepartment(assignee.Permissions))
-        {
-            throw new ForbiddenException($"لا تملك صلاحية إسناد المهمة إلى المستخدم بالمعرف {assigneeId}");
-        }
+        return currentUser.IsAdministrationManager()
+            || await userRepository.IsManagerOfUserAsync(assigneeId, currentUser.Permissions, ct);
     }
 }

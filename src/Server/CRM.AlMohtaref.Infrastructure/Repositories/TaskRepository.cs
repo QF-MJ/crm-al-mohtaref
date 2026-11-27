@@ -3,7 +3,6 @@ using CRM.AlMohtaref.Application.Features.Tasks.Dtos;
 using CRM.AlMohtaref.Application.Features.Tasks.GetTasks;
 using CRM.AlMohtaref.Application.Interfaces;
 using CRM.AlMohtaref.Domain.Entities.Campaigns;
-using CRM.AlMohtaref.Domain.Entities.Tasks;
 using CRM.AlMohtaref.Domain.Extensions;
 using CRM.AlMohtaref.Infrastructure.Data;
 using CRM.AlMohtaref.Infrastructure.ExternalServices;
@@ -11,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 
 using TaskEntity = CRM.AlMohtaref.Domain.Entities.Tasks.Task;
+using TaskType = CRM.AlMohtaref.Domain.Entities.Tasks.TaskType;
 namespace CRM.AlMohtaref.Infrastructure.Repositories;
 
 public class TaskRepository(AppDbContext db)
@@ -26,15 +26,9 @@ public class TaskRepository(AppDbContext db)
         LeadStatus? Lead
     );
 
-    public void Delete(TaskEntity task, CancellationToken ct = default)
-    {
-        db.Tasks.Remove(task);
-    }
-
     public async Task<TaskEntity?> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
         return await db.Tasks
-                .Include(t => t.SubTasks)
                 .Include(t => t.AssignedToUser)
                     .ThenInclude(p => p.UserPermissions)
                     .ThenInclude(u => u.Department)
@@ -239,5 +233,24 @@ public class TaskRepository(AppDbContext db)
             .ToList();
 
         return new TasksPageDto(page, null, tasks);
+    }
+
+    public async Task<bool> HasDependenciesAsync(Guid taskId, CancellationToken ct = default)
+    {
+        return await db.Tasks
+            .AnyAsync(t => t.TaskType == TaskType.SubTask 
+            || t.SubTasks.Any(), ct);
+    }
+
+    public async Task DeleteByIdAsync(Guid id, CancellationToken ct = default)
+    {
+         await db.Tasks
+            .Where(t => t.Id == id)
+            .ExecuteDeleteAsync(ct);
+    }
+
+    public Task<bool> ExistsAsync(Guid id, CancellationToken ct = default)
+    {
+        throw new NotImplementedException();
     }
 }
