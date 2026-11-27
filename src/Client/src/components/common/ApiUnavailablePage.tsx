@@ -12,14 +12,14 @@ export function ApiUnavailablePage({ title, description, operation }: ApiUnavail
 
   return (
     <section
-      className="mx-auto flex min-h-[420px] max-w-4xl flex-col items-center justify-center rounded-3xl border border-slate-200 bg-white px-6 py-12 text-center shadow-sm sm:px-12"
+      className="mx-auto flex min-h-[420px] max-w-4xl flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-12 text-center shadow-sm sm:px-12"
       role="note"
       aria-labelledby="api-unavailable-title"
     >
-      <span className="mb-6 grid size-16 place-items-center rounded-2xl bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200">
+      <span className="mb-6 grid size-16 place-items-center rounded-lg bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200">
         <CircleSlash2 aria-hidden="true" className="size-7" />
       </span>
-      <p className="mb-2 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-amber-700">
+      <p className="mb-2 inline-flex items-center gap-2 text-xs font-semibold text-amber-700">
         <FileCode2 aria-hidden="true" className="size-4" />
         {t('apiUnavailable.eyebrow')}
       </p>

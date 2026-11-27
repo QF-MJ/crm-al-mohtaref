@@ -1,6 +1,11 @@
 import { http, HttpResponse, delay } from 'msw'
 import { env } from '@/lib/env'
-import type { Contact, ContactsPage } from '@/features/clients'
+import type {
+  Contact,
+  ContactProfile,
+  ContactProfileSection,
+  ContactsPage,
+} from '@/features/clients'
 import type { LookupsResponse } from '@/features/lookups'
 import type {
   UserCreateInput,
@@ -320,6 +325,53 @@ export const usersHandlers = [
   }),
 ]
 
+// أقسام الملف الموحد: كل طالب يحمل نسخة مستقلة من الأقسام، وحالة قسم لا تمنع باقي الأقسام.
+function createProfileSections(studentIndex: number): ContactProfileSection[] {
+  const campaignTitle = studentIndex === 0 ? 'حملة العودة للمدرسة' : 'حملة الصيف'
+  return [
+    {
+      key: 'opportunities',
+      state: 'loaded',
+      rows: [
+        {
+          date: studentIndex === 0 ? '2026-11-18' : '2026-09-04',
+          title: campaignTitle,
+          description: 'فرصة تسجيل',
+          meta: studentIndex === 0 ? 'قيد المتابعة' : 'محوّلة',
+        },
+      ],
+    },
+    {
+      key: 'communications',
+      state: 'loaded',
+      rows: [
+        {
+          date: studentIndex === 0 ? '2026-11-22' : '2026-10-12',
+          title: studentIndex === 0 ? 'مكالمة هاتفية' : 'رسالة واتساب',
+          description: studentIndex === 0 ? 'تم تأكيد موعد الزيارة' : 'إرسال جدول الحصص',
+          meta: 'مكتمل',
+        },
+      ],
+    },
+    {
+      key: 'subscriptions',
+      state: studentIndex === 1 ? 'unavailable' : 'loaded',
+      rows:
+        studentIndex === 1
+          ? []
+          : [
+              {
+                title: 'باقة الرياضيات — فصل 2026/2027',
+                description: 'الاشتراك الحالي',
+                meta: 'نشط',
+              },
+            ],
+    },
+    { key: 'guidance', state: 'empty', rows: [] },
+    { key: 'support', state: 'empty', rows: [] },
+  ]
+}
+
 export const contactsHandlers = [
   http.get(`${env.apiUrl}/contacts`, async ({ request }) => {
     await delay(200)
@@ -336,6 +388,28 @@ export const contactsHandlers = [
 
     const { slice, page } = paginate(filtered, pageNumber)
     const body: ContactsPage = { items: slice, page }
+    return HttpResponse.json(body)
+  }),
+
+  http.get(`${env.apiUrl}/contacts/:id`, async ({ params }) => {
+    await delay(200)
+    const contact = contacts.find((item) => item.id === params.id)
+    if (!contact) {
+      return HttpResponse.json({ status: 404, message: 'Contact not found' }, { status: 404 })
+    }
+
+    const body: ContactProfile = {
+      ...contact,
+      phoneNumber: '+966 55 123 4567',
+      email: `contact${contact.id.slice(-2)}@example.com`,
+      city: 'الرياض',
+      updatedAt: '2026-11-24',
+      students: contact.students.map((student, index) => ({
+        ...student,
+        grade: index === 0 ? 'صف أول متوسط' : 'صف ثالث ابتدائي',
+        sections: createProfileSections(index),
+      })),
+    }
     return HttpResponse.json(body)
   }),
 ]

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Unified Customer Profile — Figma Frames</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+:root{
+  --font-sans:"Cairo Variable","Cairo",ui-sans-serif,system-ui,sans-serif;
+  --primary:#0b6e6e; --primary-foreground:#ffffff; --ring:#0b6e6e;
+  --bg:#f5f7f8; --surface:#ffffff; --surface-2:#f8fafb; --line:#dfe6ea;
+  --text:#0f172a; --text-2:#475569; --muted:#64748b;
+  --teal-soft:#e7f3f1; --rose-soft:#fff1f2; --amber-soft:#fffbeb;
+  --r-chip:999px; --r-control:8px; --r-ledger:6px; --r-shell:14px;
+}
+.dark{
+  color-scheme:dark;
+  --primary:#4fd1c5; --primary-foreground:#0f171d; --ring:#4fd1c5;
+  --bg:#1b1f24; --surface:#242a31; --surface-2:#20262c; --line:#363e48;
+  --text:#f2f4f6; --text-2:#cfd6de; --muted:#9ca6b1;
+  --teal-soft:#1a3b39; --rose-soft:#3a2024; --amber-soft:#3a2e14;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:#e8edef;color:var(--text);font-family:var(--font-sans);font-size:14px;line-height:1.75;padding:24px}
+.frame{width:1160px;margin:0 auto 30px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-shell);padding:20px}
+.frame-title{font-size:12px;color:var(--muted);margin:0 0 10px}
+.icon{width:16px;height:16px;flex:0 0 auto;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.bdi{direction:ltr;unicode-bidi:isolate}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-block-end:18px}
+.crumbs{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px}
+.crumbs b{color:var(--text-2);font-weight:600}
+.crumbs .sep{opacity:.5}
+.top-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:7px;min-height:34px;padding:5px 13px;border-radius:var(--r-control);border:1px solid var(--line);background:var(--surface);font-size:13px;font-weight:600}
+.btn-primary{background:var(--primary);color:var(--primary-foreground);border-color:var(--primary)}
+.readonly{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--primary);color:var(--primary);background:var(--teal-soft);border-radius:var(--r-chip);padding:2px 12px;font-size:12px;font-weight:600}
+.identity{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-shell);padding:18px 20px;margin-block-end:16px}
+.identity-top{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap}
+.avatar{inline-size:48px;block-size:48px;flex:0 0 auto;border-radius:12px;background:var(--teal-soft);color:var(--primary);display:grid;place-items:center;font-size:19px;font-weight:700}
+.identity h1{margin:0;font-size:21px;line-height:1.5;font-weight:700;letter-spacing:0}
+.identity .sub{margin:2px 0 0;color:var(--muted);font-size:12px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-block-start:8px}
+.chip{display:inline-flex;align-items:center;gap:5px;border-radius:var(--r-chip);padding:1px 10px;font-size:11px;font-weight:600;border:1px solid var(--line);background:var(--surface-2);color:var(--text-2)}
+.chip-teal{border-color:transparent;background:var(--teal-soft);color:var(--primary)}
+.chip-rose{border-color:transparent;background:var(--rose-soft);color:#be123c}
+.dark .chip-rose{color:#fda4af}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-ledger);overflow:hidden;margin-block-start:16px}
+.fact{background:var(--surface);padding:9px 12px}
+.fact dt{color:var(--muted);font-size:11px;margin:0}
+.fact dd{margin:1px 0 0;font-size:13px;font-weight:600}
+.workspace{display:grid;grid-template-columns:212px minmax(0,1fr);gap:16px;align-items:start}
+.spine{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-shell);padding:14px 12px}
+.spine h2{margin:0 8px 10px;font-size:12px;color:var(--muted);font-weight:600}
+.spine ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.spine a{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:var(--r-control);color:var(--text-2);text-decoration:none;font-size:12px}
+.spine a.is-current{background:var(--surface-2);color:var(--text);font-weight:700;box-shadow:inset 3px 0 0 var(--primary)}
+.dot{inline-size:7px;block-size:7px;border-radius:50%;flex:0 0 auto;background:var(--muted)}
+.dot-ok{background:var(--primary)}
+.dot-empty{background:var(--amber-soft);border:1px solid #d9a441}
+.dot-fail{background:#e11d48}
+.spine-note{margin:12px 8px 0;padding-inline-start:9px;border-inline-start:2px solid var(--line);color:var(--muted);font-size:11px;line-height:1.8}
+.content{min-inline-size:0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-shell);padding:16px 18px}
+.panel-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-block-end:4px}
+.panel-head h2{margin:0;font-size:15px;font-weight:700}
+.panel-head p{margin:0;color:var(--muted);font-size:12px}
+.rail{margin-block:14px 16px;display:grid;gap:6px}
+.rail-root{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--text-2);font-weight:600;padding-inline-start:2px}
+.rail-root .node{inline-size:11px;block-size:11px;border-radius:50%;background:var(--primary);border:2px solid var(--primary)}
+.rail-tree{margin-inline-start:6px;padding-inline-start:20px;border-inline-start:1px solid var(--line);display:grid;gap:6px}
+.student-tab{position:relative;display:flex;align-items:center;gap:10px;inline-size:100%;text-align:start;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.student-tab::before{content:"";position:absolute;inset-inline-start:-21px;inset-block-start:50%;inline-size:15px;block-size:1px;background:var(--line)}
+.student-tab .node{inline-size:11px;block-size:11px;border-radius:50%;border:2px solid var(--primary);background:var(--surface);flex:0 0 auto}
+.student-tab.active{border-color:var(--primary);background:var(--teal-soft)}
+.student-tab.active .node{background:var(--primary)}
+.student-tab .who{display:grid;gap:0;min-inline-size:0}
+.student-tab .who b{font-size:13px;font-weight:700}
+.student-tab .who small{color:var(--muted);font-size:11px}
+.student-tab .count{margin-inline-start:auto;border-radius:var(--r-chip);background:var(--surface);border:1px solid var(--line);padding:0 9px;font-size:11px;color:var(--text-2);white-space:nowrap}
+.scope-line{display:flex;align-items:center;gap:8px;background:var(--surface-2);border-inline-start:3px solid var(--primary);border-radius:0 var(--r-ledger) var(--r-ledger) 0;padding:7px 12px;margin-block-end:14px;font-size:12px;color:var(--text-2)}
+.scope-line b{color:var(--text)}
+.ledger{border:1px solid var(--line);border-radius:var(--r-ledger);margin-block-end:10px;background:var(--surface);overflow:hidden}
+.ledger-head{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface-2)}
+.ledger h3{margin:0;font-size:13px;font-weight:700}
+.ledger .hint{color:var(--muted);font-size:11px;font-weight:400}
+.ledger .state{margin-inline-start:auto}
+.ledger-body{padding:2px 12px 10px}
+.kv{display:grid;grid-template-columns:minmax(110px,160px) minmax(0,1fr);gap:10px;padding:7px 0;border-block-end:1px solid var(--line);font-size:12px}
+.kv:last-child{border-block-end:0}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0;font-weight:600;overflow-wrap:anywhere}
+.entry{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:start;padding:8px 0;border-block-end:1px solid var(--line);font-size:12px}
+.entry:last-child{border-block-end:0}
+.entry .when{color:var(--muted);white-space:nowrap;font-size:11px}
+.entry .what b{display:block;font-weight:600}
+.entry .what span{color:var(--text-2)}
+.empty{display:flex;align-items:flex-start;gap:9px;padding:14px 4px;color:var(--text-2);font-size:12px}
+.empty b{color:var(--text)}
+.failed{display:flex;align-items:center;gap:10px;padding:12px 4px;font-size:12px;color:var(--text-2)}
+.failed .btn{min-height:28px;padding:2px 10px;font-size:11px}
+.state-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.state-panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-shell);padding:20px;text-align:start}
+.state-panel h3{margin:10px 0 6px;font-size:16px}
+.state-panel p{margin:0 0 12px;color:var(--text-2);font-size:12px;max-inline-size:60ch}
+.code{display:inline-block;border-radius:var(--r-chip);background:var(--surface-2);border:1px solid var(--line);padding:1px 10px;font-size:11px;color:var(--muted)}
+.state-icon{inline-size:42px;block-size:42px;border-radius:12px;display:grid;place-items:center;background:var(--rose-soft);color:#be123c}
+.dark .state-icon{color:#fda4af}
+.state-icon .icon{inline-size:22px;block-size:22px}
+</style>
+</head>
+<body>
+
+<svg aria-hidden="true" width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 20h20L12 3z"/><path d="M12 9v5M12 17v.5"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2 6"/><path d="M20 4v7h-7"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============ FRAME 1 — الملف الموحد (الافتراضي) ============ -->
+<div class="frame">
+  <p class="frame-title">Frame 1 — الملف الموحد / الافتراضي (نهاري)</p>
+  <div class="topbar">
+    <nav class="crumbs" aria-label="مسار التنقل"><span>العملاء</span><span class="sep">/</span><span>جهات التواصل</span><span class="sep">/</span><b>ملف موحد</b></nav>
+    <div class="top-actions">
+      <span class="readonly"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg>عرض فقط</span>
+      <button class="btn" type="button"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>بحث عن جهة تواصل</button>
+      <button class="btn" type="button"><svg class="icon" aria-hidden="true"><use href="#i-back"/></svg>رجوع للعملاء</button>
+    </div>
+  </div>
+
+  <section class="identity">
+    <div class="identity-top">
+      <div class="avatar" aria-hidden="true">أع</div>
+      <div style="flex:1 1 260px;min-inline-size:0">
+        <h1>أحمد العتيبي</h1>
+        <p class="sub">جهة تواصل — نقطة التجميع الرئيسية للملف</p>
+        <div class="chips"><span class="chip chip-teal">نشط</span><span class="chip">عميل حالي</span><span class="chip">2 طلاب مرتبطون</span></div>
+      </div>
+    </div>
+    <dl class="facts">
+      <div class="fact"><dt>رقم الهاتف</dt><dd><bdi class="bdi">+966 55 123 4567</bdi></dd></div>
+      <div class="fact"><dt>البريد الإلكتروني</dt><dd><bdi class="bdi">a.otaibi@example.com</bdi></dd></div>
+      <div class="fact"><dt>المدينة</dt><dd>الرياض</dd></div>
+      <div class="fact"><dt>آخر تحديث للملف</dt><dd><bdi class="bdi">2026-11-24</bdi></dd></div>
+    </dl>
+  </section>
+
+  <div class="workspace">
+    <aside class="spine">
+      <h2>أقسام الملف</h2>
+      <ol>
+        <li><a class="is-current" href="#"><span class="dot dot-ok"></span>الطلاب المرتبطون</a></li>
+        <li><a href="#"><span class="dot dot-ok"></span>فرص التسجيل</a></li>
+        <li><a href="#"><span class="dot dot-ok"></span>سجل التواصل</a></li>
+        <li><a href="#"><span class="dot dot-ok"></span>الاشتراكات</a></li>
+        <li><a href="#"><span class="dot dot-empty"></span>التوجيه الأكاديمي</a></li>
+        <li><a href="#"><span class="dot dot-ok"></span>خدمة العملاء</a></li>
+      </ol>
+      <p class="spine-note">كل قسم يوضّح حالته: محمّل، فارغ، أو تعذّر تحميله. فشل قسم اختياري لا يمنع عرض باقي الأقسام.</p>
+    </aside>
+
+    <main class="content">
+      <section class="panel">
+        <div class="panel-head"><h2>الطلاب المرتبطون</h2><p>اختر طالباً لعرض بياناته التشغيلية وحدها</p></div>
+        <div class="rail">
+          <div class="rail-root"><span class="node"></span>جهة التواصل: أحمد العتيبي</div>
+          <div class="rail-tree">
+            <div class="student-tab active"><span class="node"></span><span class="who"><b>عمر العتيبي</b><small>صف أول متوسط</small></span><span class="count">4 سجلات</span></div>
+            <div class="student-tab"><span class="node"></span><span class="who"><b>سارة العتيبي</b><small>صف ثالث ابتدائي</small></span><span class="count">سجلان</span></div>
+          </div>
+        </div>
+        <div class="scope-line"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg><span>تعرض الآن بيانات <b>عمر العتيبي</b> فقط. سجلات الطالب الآخر لا تظهر هنا.</span></div>
+
+        <section class="ledger">
+          <div class="ledger-head"><h3>فرص التسجيل والحملة</h3><span class="hint">مرتبطة بالطالب</span><span class="state chip chip-teal">محمّل</span></div>
+          <div class="ledger-body">
+            <div class="entry"><span class="when"><bdi class="bdi">2026-11-18</bdi></span><span class="what"><b>حملة العودة للمدرسة</b><span>فرصة تسجيل — بانتظار المتابعة</span></span><span class="chip">قيد المتابعة</span></div>
+            <div class="entry"><span class="when"><bdi class="bdi">2026-09-04</bdi></span><span class="what"><b>حملة الصيف</b><span>فرصة تسجيل — تم تحويلها</span></span><span class="chip chip-teal">محوّلة</span></div>
+          </div>
+        </section>
+        <section class="ledger">
+          <div class="ledger-head"><h3>سجل التواصل</h3><span class="hint">مرتبط بالطالب</span><span class="state chip chip-teal">محمّل</span></div>
+          <div class="ledger-body">
+            <div class="entry"><span class="when"><bdi class="bdi">2026-11-22</bdi></span><span class="what"><b>مكالمة هاتفية</b><span>تم تأكيد موعد الزيارة</span></span><span class="chip">مكتمل</span></div>
+            <div class="entry"><span class="when"><bdi class="bdi">2026-11-10</bdi></span><span class="what"><b>رسالة واتساب</b><span>إرسال جدول الحصص</span></span><span class="chip">مكتمل</span></div>
+          </div>
+        </section>
+        <section class="ledger">
+          <div class="ledger-head"><h3>الاشتراكات</h3><span class="hint">الحالية والسابقة</span><span class="state chip chip-teal">محمّل</span></div>
+          <div class="ledger-body">
+            <dl class="kv"><dt>الاشتراك الحالي</dt><dd>باقة الرياضيات — فصل 2026/2027</dd></dl>
+            <dl class="kv"><dt>تاريخ البدء</dt><dd><bdi class="bdi">2026-09-12</bdi></dd></dl>
+            <dl class="kv"><dt>الاشتراكات السابقة</dt><dd>باقة التأسيس — صيف 2026</dd></dl>
+          </div>
+        </section>
+        <section class="ledger">
+          <div class="ledger-head"><h3>التوجيه الأكاديمي</h3><span class="hint">قسم اختياري</span><span class="state chip">فارغ</span></div>
+          <div class="ledger-body"><div class="empty"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg><span>لا توجد جلسات توجيه مسجّلة لدى هذا الطالب. بقية أقسام الملف متاحة.</span></div></div>
+        </section>
+        <section class="ledger">
+          <div class="ledger-head"><h3>سجل خدمة العملاء</h3><span class="hint">قسم اختياري</span><span class="state chip">فارغ</span></div>
+          <div class="ledger-body"><div class="empty"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg><span>لا توجد طلبات دعم مفتوحة لهذا الطالب.</span></div></div>
+        </section>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- ============ FRAME 2 — الحالات البديلة AF ============ -->
+<div class="frame">
+  <p class="frame-title">Frame 2 — المسارات البديلة (AF-1 … AF-8)</p>
+  <div class="state-grid">
+    <section class="state-panel"><div class="state-icon"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg></div><span class="code">AF-3</span><h3>لا توجد جهات تواصل مطابقة</h3><p>جرّب اسماً آخر أو رقم هاتف مختلفاً. يمكنك تعديل معيار البحث وإعادة المحاولة دون مغادرة الصفحة.</p><button class="btn btn-primary" type="button">تعديل معيار البحث</button></section>
+    <section class="state-panel"><div class="state-icon"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg></div><span class="code">AF-4</span><h3>جهة التواصل غير موجودة</h3><p>تعذّر العثور على السجل المطلوب. لا تُعرض أي بيانات جزئية. ارجع إلى قائمة العملاء وتأكد من جهة التواصل المختارة.</p><button class="btn btn-primary" type="button">رجوع للعملاء</button></section>
+    <section class="state-panel"><div class="state-icon"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg></div><span class="code">AF-1 / AF-2 / AF-5</span><h3>لا يمكنك عرض هذا الملف</h3><p>انتهت الجلسة، أو أن صلاحيتك لا تغطي هذا السجل، أو أنه خارج نطاق بياناتك المسموح. لم يُعرض أي شيء من بيانات العميل.</p><button class="btn btn-primary" type="button">العودة لتسجيل الدخول</button></section>
+    <section class="state-panel"><div class="state-icon"><svg class="icon" aria-hidden="true"><use href="#i-refresh"/></svg></div><span class="code">AF-8</span><h3>تعذّر تحميل الملف</h3><p>لم نتمكن من جلب بيانات جهة التواصل والطلاب. الملف غير مكتمل، لذلك لا يُعرض على أنه جاهز. أعد المحاولة.</p><button class="btn btn-primary" type="button">إعادة المحاولة</button></section>
+  </div>
+
+  <section class="panel" style="margin-block-start:12px">
+    <div class="panel-head"><h2>AF-6 — جهة تواصل بلا طلاب</h2><p>بيانات الجهة تبقى، وقسم الطلاب يظهر بحالة فارغة</p></div>
+    <div class="empty"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg><span><b>لا توجد طلاب مرتبطون بهذه الجهة.</b> بيانات جهة التواصل تظهر أعلاه، وبقية أقسام الملف تبقى متاحة.</span></div>
+  </section>
+  <section class="panel" style="margin-block-start:12px">
+    <div class="panel-head"><h2>AF-7 — قسم اختياري تعذّر تحميله</h2><p>الأقسام الأخرى تبقى محمّلة</p></div>
+    <section class="ledger" style="margin-block-end:0">
+      <div class="ledger-head"><h3>الاشتراكات</h3><span class="hint">قسم اختياري</span><span class="state chip chip-rose">تعذّر التحميل</span></div>
+      <div class="ledger-body"><div class="failed"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg><span>تعذّر جلب بيانات هذا القسم. باقي الأقسام محمّلة.</span><button class="btn" type="button">إعادة المحاولة</button></div></div>
+    </section>
+  </section>
+</div>
+
+<!-- ============ FRAME 3 — الوضع الليلي ============ -->
+<div class="frame dark">
+  <p class="frame-title">Frame 3 — الملف الموحد / الوضع الليلي</p>
+  <div class="topbar">
+    <nav class="crumbs"><span>العملاء</span><span class="sep">/</span><span>جهات التواصل</span><span class="sep">/</span><b>ملف موحد</b></nav>
+    <div class="top-actions"><span class="readonly"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg>عرض فقط</span><button class="btn" type="button">رجوع للعملاء</button></div>
+  </div>
+  <section class="identity">
+    <div class="identity-top"><div class="avatar" aria-hidden="true">أع</div><div style="flex:1 1 260px"><h1>أحمد العتيبي</h1><p class="sub">جهة تواصل — نقطة التجميع الرئيسية للملف</p><div class="chips"><span class="chip chip-teal">نشط</span><span class="chip">2 طلاب مرتبطون</span></div></div></div>
+    <dl class="facts">
+      <div class="fact"><dt>رقم الهاتف</dt><dd><bdi class="bdi">+966 55 123 4567</bdi></dd></div>
+      <div class="fact"><dt>المدينة</dt><dd>الرياض</dd></div>
+      <div class="fact"><dt>آخر تحديث للملف</dt><dd><bdi class="bdi">2026-11-24</bdi></dd></div>
+    </dl>
+  </section>
+  <div class="workspace">
+    <aside class="spine"><h2>أقسام الملف</h2><ol><li><a class="is-current" href="#"><span class="dot dot-ok"></span>الطلاب المرتبطون</a></li><li><a href="#"><span class="dot dot-ok"></span>فرص التسجيل</a></li><li><a href="#"><span class="dot dot-empty"></span>التوجيه الأكاديمي</a></li></ol></aside>
+    <main class="content">
+      <section class="panel">
+        <div class="panel-head"><h2>الطلاب المرتبطون</h2></div>
+        <div class="rail"><div class="rail-root"><span class="node"></span>جهة التواصل: أحمد العتيبي</div><div class="rail-tree"><div class="student-tab active"><span class="node"></span><span class="who"><b>عمر العتيبي</b><small>صف أول متوسط</small></span><span class="count">4 سجلات</span></div><div class="student-tab"><span class="node"></span><span class="who"><b>سارة العتيبي</b><small>صف ثالث ابتدائي</small></span><span class="count">سجلان</span></div></div></div>
+        <div class="scope-line"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg><span>تعرض الآن بيانات <b>عمر العتيبي</b> فقط.</span></div>
+        <section class="ledger"><div class="ledger-head"><h3>فرص التسجيل والحملة</h3><span class="state chip chip-teal">محمّل</span></div><div class="ledger-body"><div class="entry"><span class="when"><bdi class="bdi">2026-11-18</bdi></span><span class="what"><b>حملة العودة للمدرسة</b><span>بانتظار المتابعة</span></span><span class="chip">قيد المتابعة</span></div></div></section>
+        <section class="ledger"><div class="ledger-head"><h3>التوجيه الأكاديمي</h3><span class="state chip">فارغ</span></div><div class="ledger-body"><div class="empty"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg><span>لا توجد جلسات توجيه مسجّلة لدى هذا الطالب.</span></div></div></section>
+      </section>
+    </main>
+  </div>
+</div>
+
+</body>
+</html>

@@ -28,24 +28,24 @@ export function AppLayout() {
         navigationExpanded={navigationExpanded}
         onToggleNavigation={() => setNavigationExpanded((expanded) => !expanded)}
       />
-      <div className="mx-auto flex min-h-[calc(100vh-4.5rem)] max-w-[1680px]">
+      <div className="mx-auto flex min-h-[calc(100vh-4.5rem)] max-w-[1560px]">
         <aside
           id="app-navigation"
           className={`${
             navigationExpanded ? 'flex' : 'hidden'
-          } fixed inset-x-0 top-[4.5rem] z-20 max-h-[calc(100vh-4.5rem)] flex-col overflow-y-auto border-b border-slate-200 bg-white p-4 shadow-xl lg:sticky lg:top-[4.5rem] lg:flex lg:h-[calc(100vh-4.5rem)] lg:w-64 lg:shrink-0 lg:border-b-0 lg:border-e lg:shadow-none`}
+          } fixed inset-x-0 top-[4.5rem] z-20 max-h-[calc(100vh-4.5rem)] flex-col overflow-y-auto border-b border-slate-200 bg-white p-3 shadow-xl sm:p-4 lg:sticky lg:top-[4.5rem] lg:flex lg:h-[calc(100vh-4.5rem)] lg:w-[260px] lg:shrink-0 lg:border-b-0 lg:border-e lg:shadow-none`}
         >
-          <div className="mb-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
-            <p className="text-xs font-medium text-slate-500">{t('navigation.workspace')}</p>
-            <p className="mt-1 truncate text-sm font-semibold text-slate-900" dir="auto">
+          <div className="mb-4 border-b border-slate-200 pb-4">
+            <p className="text-[11px] font-semibold text-slate-400">{t('navigation.workspace')}</p>
+            <p className="mt-1 truncate text-sm font-bold text-slate-900" dir="auto">
               {user?.fullName || t('account.unknownUser')}
             </p>
-            <p className="mt-0.5 line-clamp-2 text-xs leading-5 text-slate-500" dir="auto">
+            <p className="mt-1 line-clamp-2 text-xs leading-5 text-slate-500" dir="auto">
               {roleSummary || t('permissions.none')}
             </p>
           </div>
 
-          <nav aria-label={t('navigation.main')} className="flex flex-1 flex-col gap-1.5">
+          <nav aria-label={t('navigation.main')} className="flex flex-1 flex-col gap-0.5">
             {visibleItems.map((item) => {
               const Icon = item.icon
               return (
@@ -55,10 +55,10 @@ export function AppLayout() {
                   end={item.to === '/'}
                   onClick={() => setNavigationExpanded(false)}
                   className={({ isActive }) =>
-                    `group flex items-center gap-3 rounded-xl px-3.5 py-3 text-sm font-medium transition-colors ${
+                    `group flex border-s-2 items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors duration-150 ${
                       isActive
-                        ? 'bg-teal-50 text-teal-800 ring-1 ring-inset ring-teal-700/10'
-                        : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                        ? 'border-s-teal-600 bg-teal-50 text-teal-800'
+                        : 'border-s-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                     }`
                   }
                 >
@@ -69,11 +69,11 @@ export function AppLayout() {
             })}
           </nav>
 
-          <div className="mt-6 border-t border-slate-100 pt-4">
+          <div className="mt-4 border-t border-slate-200 pt-3">
             <Button
               variant="ghost"
               size="default"
-              className="w-full justify-start gap-3 rounded-xl text-slate-600 hover:bg-rose-50 hover:text-rose-700"
+              className="w-full justify-start gap-3 border-s-2 border-s-transparent px-3 text-slate-600 hover:bg-rose-50 hover:text-rose-700"
               onClick={() => setConfirmOpen(true)}
             >
               <LogOut aria-hidden="true" />
@@ -82,7 +82,7 @@ export function AppLayout() {
           </div>
         </aside>
 
-        <main id="main-content" className="min-w-0 flex-1 p-4 sm:p-6 xl:p-8">
+        <main id="main-content" className="min-w-0 flex-1 p-4 sm:p-6 xl:p-10">
           <Outlet />
         </main>
       </div>

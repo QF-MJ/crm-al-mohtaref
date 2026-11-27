@@ -1,5 +1,6 @@
 ﻿using Azure.Core;
 using CRM.AlMohtaref.Api.Contracts.Contacts;
+using CRM.AlMohtaref.Application.Features.Contacts;
 using CRM.AlMohtaref.Application.Features.Contacts.GetContacts;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -18,6 +19,12 @@ namespace CRM.AlMohtaref.Api.Controllers
         public async Task<ActionResult<ContactsPageDto>> GetContacts([FromQuery] GetContactsRequest request, CancellationToken ct)
         {
             return await sender.Send(request.ToQuery(), ct);
+        }
+
+        [HttpGet("{id:Guid}")]
+        public async Task<ActionResult<ContactDetailDto>> GetContact(Guid id, CancellationToken ct)
+        {
+            return Ok(await sender.Send(new GetContactQuery(id), ct));
         }
     }
 }

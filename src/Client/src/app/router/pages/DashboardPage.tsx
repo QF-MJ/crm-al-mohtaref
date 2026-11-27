@@ -62,7 +62,7 @@ export function DashboardPage() {
         }
       />
 
-      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+      <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
         <div className="grid gap-6 lg:grid-cols-[1.35fr_1fr]">
           <div>
             <h2 className="font-semibold text-slate-900">{t('dashboard.workspaceTitle')}</h2>
@@ -84,7 +84,7 @@ export function DashboardPage() {
           </div>
 
           <dl className="grid content-start gap-3 sm:grid-cols-2 lg:grid-cols-1">
-            <div className="rounded-xl border border-slate-200/70 bg-slate-50 p-4">
+            <div className="rounded-lg border border-slate-200/70 bg-slate-50 p-4">
               <dt className="text-xs text-slate-500">{t('dashboard.scope')}</dt>
               <dd className="mt-1 text-sm font-medium text-slate-800">
                 {access.isAdmin
@@ -94,7 +94,7 @@ export function DashboardPage() {
                     : t('dashboard.scopeOwn')}
               </dd>
             </div>
-            <div className="rounded-xl border border-slate-200/70 bg-slate-50 p-4">
+            <div className="rounded-lg border border-slate-200/70 bg-slate-50 p-4">
               <dt className="text-xs text-slate-500">{t('dashboard.accessLevel')}</dt>
               <dd className="mt-1 text-sm font-medium text-slate-800">
                 {access.isAdmin
@@ -117,7 +117,7 @@ export function DashboardPage() {
               <Link
                 key={shortcut.to}
                 to={shortcut.to}
-                className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4 transition-colors hover:border-slate-300 hover:bg-slate-50"
+                className="flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-4 transition-colors hover:border-slate-300 hover:bg-slate-50"
               >
                 <Icon aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-teal-700" />
                 <span className="min-w-0">

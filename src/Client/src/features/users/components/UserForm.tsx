@@ -68,12 +68,12 @@ export function UserForm({
     <form
       onSubmit={handleSubmit(onSubmit)}
       noValidate
-      className="space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7"
+      className="space-y-5 rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-7"
     >
       {errorMessage && (
         <div
           role="alert"
-          className="flex items-start gap-3 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800"
+          className="flex items-start gap-3 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800"
         >
           <AlertCircle aria-hidden="true" className="mt-0.5 size-[18px] shrink-0" />
           <p className="leading-6">{errorMessage}</p>
@@ -169,7 +169,7 @@ export function UserForm({
         </div>
 
         {fields.length === 0 ? (
-          <p className="rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          <p className="rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-800">
             {t('users.noPermissions')}
           </p>
         ) : (
@@ -177,7 +177,7 @@ export function UserForm({
             {fields.map((field, index) => (
               <li
                 key={field.id}
-                className="grid gap-3 rounded-xl border border-slate-200 bg-slate-50/50 p-3 sm:grid-cols-[1fr_1fr_auto]"
+                className="grid gap-3 rounded-lg border border-slate-200 bg-slate-50/50 p-3 sm:grid-cols-[1fr_1fr_auto]"
               >
                 <Field label={t('users.role')} htmlFor={`permissions.${index}.role`}>
                   <Controller

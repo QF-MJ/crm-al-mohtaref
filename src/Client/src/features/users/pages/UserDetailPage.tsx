@@ -30,7 +30,7 @@ export function UserDetailPage() {
       <section className="space-y-5">
         <PageHeader breadcrumb={t('users.breadcrumb')} title={t('users.detailTitle')} />
         <div
-          className="space-y-3 rounded-2xl border border-slate-200 bg-white p-6"
+          className="space-y-3 rounded-lg border border-slate-200 bg-white p-6"
           aria-busy="true"
         >
           {Array.from({ length: 5 }, (_, index) => (
@@ -45,7 +45,7 @@ export function UserDetailPage() {
     return (
       <section className="space-y-5">
         <PageHeader breadcrumb={t('users.breadcrumb')} title={t('users.detailTitle')} />
-        <div className="rounded-2xl border border-slate-200 bg-white">
+        <div className="rounded-lg border border-slate-200 bg-white">
           <ErrorState error={userQuery.error} onRetry={() => void userQuery.refetch()} />
         </div>
         <BackLink />
@@ -78,7 +78,7 @@ export function UserDetailPage() {
       />
 
       <div className="grid gap-5 lg:grid-cols-[1.2fr_1fr]">
-        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
           <h2 className="flex items-center gap-2 font-semibold text-slate-900">
             <UserRound aria-hidden="true" className="size-4 text-slate-400" />
             {t('users.accountDetails')}
@@ -104,7 +104,7 @@ export function UserDetailPage() {
           </dl>
         </section>
 
-        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
           <h2 className="flex items-center gap-2 font-semibold text-slate-900">
             <KeyRound aria-hidden="true" className="size-4 text-slate-400" />
             {t('users.permissionsTitle')}
@@ -114,7 +114,7 @@ export function UserDetailPage() {
           </p>
 
           {user.permissions.length === 0 ? (
-            <p className="mt-4 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            <p className="mt-4 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-800">
               {t('users.noPermissions')}
             </p>
           ) : (
@@ -122,7 +122,7 @@ export function UserDetailPage() {
               {user.permissions.map((permission) => (
                 <li
                   key={permission.id}
-                  className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50/60 px-4 py-3 text-sm"
+                  className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-slate-50/60 px-4 py-3 text-sm"
                 >
                   <span className="font-medium text-slate-800">{permission.roleName}</span>
                   <span className="text-xs text-slate-500">{permission.departmentName}</span>

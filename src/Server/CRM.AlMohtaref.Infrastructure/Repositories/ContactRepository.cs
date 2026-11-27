@@ -3,6 +3,7 @@ using CRM.AlMohtaref.Application.Features.Contacts;
 using CRM.AlMohtaref.Application.Features.Contacts.GetContacts;
 using CRM.AlMohtaref.Application.Interfaces;
 using CRM.AlMohtaref.Domain.Entities.Contacts;
+using CRM.AlMohtaref.Domain.Extensions;
 using CRM.AlMohtaref.Infrastructure.Data;
 using CRM.AlMohtaref.Infrastructure.ExternalServices;
 using Microsoft.EntityFrameworkCore;
@@ -70,6 +71,79 @@ namespace CRM.AlMohtaref.Infrastructure.Repositories
             }
 
             return new ContactsPageDto(items, page);
+        }
+
+        public async Task<ContactDetailDto?> GetDetailAsync(Guid id, CancellationToken ct)
+        {
+            // المتاح حالياً في المخطط: جهة التواصل، الطلاب، وفرص الحملات.
+            // الأقسام التي لا يوجد لها جدول بعد تُعاد بحالة empty بدل بيانات وهمية.
+            var contact = await db.Contacts
+                .AsNoTracking()
+                .AsSplitQuery()
+                .Where(c => c.Id == id)
+                .Select(c => new
+                {
+                    c.Id,
+                    c.FullName,
+                    c.PhoneNumber,
+                    Students = c.Students.Select(s => new
+                    {
+                        s.Id,
+                        s.FullName,
+                        Leads = s.CampaignLeads.Select(cl => new
+                        {
+                            CampaignTitle = cl.Campaign.Title,
+                            TrackName = cl.Campaign.Track.Name,
+                            Status = cl.Status
+                        }).ToList()
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync(ct);
+
+            if (contact is null)
+                return null;
+
+            return new ContactDetailDto
+            {
+                Id = contact.Id,
+                Name = contact.FullName ?? string.Empty,
+                PhoneNumber = contact.PhoneNumber,
+                Students = contact.Students.Select(student => new ContactDetailStudentDto
+                {
+                    Id = student.Id,
+                    Name = student.FullName ?? string.Empty,
+                    Sections = BuildSections(student.Leads.Select(lead => new ContactLeadRowDto
+                    {
+                        CampaignTitle = lead.CampaignTitle,
+                        TrackName = lead.TrackName,
+                        Status = lead.Status
+                    }).ToList())
+                }).ToList()
+            };
+        }
+
+        private static List<ContactProfileSectionDto> BuildSections(List<ContactLeadRowDto> leads)
+        {
+            var opportunityRows = leads.Select(lead => new ContactProfileRowDto
+            {
+                Title = lead.CampaignTitle,
+                Description = lead.TrackName,
+                Meta = lead.Status.ToLeadStatusString()
+            }).ToList();
+
+            return new List<ContactProfileSectionDto>
+            {
+                new()
+                {
+                    Key = "opportunities",
+                    State = opportunityRows.Count > 0 ? "loaded" : "empty",
+                    Rows = opportunityRows
+                },
+                new() { Key = "communications", State = "empty" },
+                new() { Key = "subscriptions", State = "empty" },
+                new() { Key = "guidance", State = "empty" },
+                new() { Key = "support", State = "empty" },
+            };
         }
     }
 }

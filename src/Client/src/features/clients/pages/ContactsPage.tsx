@@ -1,6 +1,8 @@
 import { useState, type FormEvent } from 'react'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Check, Info, Search, UsersRound, X } from 'lucide-react'
+import { paths } from '@/app/router/paths'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
@@ -160,7 +162,7 @@ export function ContactsPage() {
         description={t('contacts.subtitle')}
       />
 
-      <div className="flex items-start gap-3 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-900">
+      <div className="flex items-start gap-3 rounded-lg border border-s-4 border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-900">
         <Info aria-hidden="true" className="mt-0.5 size-[18px] shrink-0" />
         <p className="leading-6">{t('contacts.dataScopeNote')}</p>
       </div>
@@ -170,9 +172,22 @@ export function ContactsPage() {
           noValidate
           onSubmit={applyFilters}
           aria-label={t('contacts.filters')}
-          className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5"
+          className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm"
         >
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 px-4 py-3 sm:px-5">
+            <h2 className="text-sm font-semibold text-slate-800">{t('contacts.filters')}</h2>
+            {hasFilters && (
+              <button
+                type="button"
+                onClick={clearFilters}
+                className="rounded-md text-xs font-medium text-teal-700 underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600/30"
+              >
+                {t('contacts.clearFilters')}
+              </button>
+            )}
+          </div>
+
+          <div className="grid gap-3 p-4 sm:grid-cols-2 xl:grid-cols-3 sm:p-5">
             <TextField
               label={t('contacts.contactName')}
               value={draft.contactName}
@@ -211,7 +226,7 @@ export function ContactsPage() {
             />
 
             {tags.length > 0 && (
-              <div className="sm:col-span-2 xl:col-span-3 rounded-xl border border-slate-200 bg-slate-50/50 p-3.5 sm:p-4">
+              <div className="rounded-lg border border-slate-200 bg-slate-50/50 p-3.5 sm:col-span-2 sm:p-4 xl:col-span-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-semibold text-slate-700">
@@ -315,12 +330,12 @@ export function ContactsPage() {
           </div>
 
           {lookupsQuery.isError && (
-            <p role="alert" className="mt-3 text-sm text-destructive">
+            <p role="alert" className="px-4 pb-3 text-sm text-destructive sm:px-5">
               {t('contacts.lookupsError')}
             </p>
           )}
 
-          <div className="mt-4 flex flex-wrap justify-center gap-2">
+          <div className="flex flex-wrap items-center justify-end gap-2 border-t border-slate-100 px-4 py-3 sm:px-5">
             <Button type="submit" size="sm">
               <Search aria-hidden="true" />
               {t('actions.search')}
@@ -332,10 +347,10 @@ export function ContactsPage() {
         </form>
       )}
 
-      <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <section className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
         <header className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 px-4 py-4 sm:px-5">
           <div>
-            <h2 className="font-semibold text-slate-900">{t('contacts.results')}</h2>
+            <h2 className="text-base font-semibold text-slate-900">{t('contacts.results')}</h2>
             <p className="mt-1 text-xs leading-6 text-slate-500">
               {t('contacts.resultsDescription')}
             </p>
@@ -419,9 +434,9 @@ export function ContactsPage() {
           <>
             <div className="overflow-x-auto">
               <table className="w-full min-w-[680px] text-start text-sm">
-                <thead className="bg-slate-50 text-xs font-medium text-slate-500">
+                <thead className="bg-slate-50 text-xs font-semibold text-slate-600">
                   <tr>
-                    <th scope="col" className="w-12 px-4 py-3">
+                    <th scope="col" className="w-12 px-4 py-2.5">
                       <input
                         type="checkbox"
                         checked={allOnPageSelected}
@@ -433,13 +448,13 @@ export function ContactsPage() {
                         className="size-4 cursor-pointer rounded border-slate-300 accent-teal-700"
                       />
                     </th>
-                    <th scope="col" className="px-4 py-3 text-start">
+                    <th scope="col" className="px-4 py-2.5 text-start">
                       {t('contacts.contactName')}
                     </th>
-                    <th scope="col" className="px-4 py-3 text-start">
+                    <th scope="col" className="px-4 py-2.5 text-start">
                       {t('contacts.students')}
                     </th>
-                    <th scope="col" className="px-4 py-3 text-start">
+                    <th scope="col" className="px-4 py-2.5 text-start">
                       {t('contacts.studentsCountLabel')}
                     </th>
                   </tr>
@@ -494,7 +509,7 @@ function ContactRow({
     <tr
       className={`align-top transition-colors ${selected ? 'bg-teal-50/60' : 'hover:bg-teal-50/40'}`}
     >
-      <td className="px-4 py-3">
+      <td className="px-4 py-2.5">
         <input
           type="checkbox"
           checked={selected}
@@ -503,13 +518,17 @@ function ContactRow({
           className="mt-0.5 size-4 cursor-pointer rounded border-slate-300 accent-teal-700"
         />
       </td>
-      <td className="px-4 py-3">
-        <p className="font-medium text-slate-800" dir="auto">
+      <td className="px-4 py-2.5">
+        <Link
+          to={paths.client(contact.id)}
+          dir="auto"
+          className="font-medium text-slate-800 hover:text-primary hover:underline"
+        >
           {displayName}
-        </p>
+        </Link>
         <p className="mt-1 text-xs text-slate-400">{t('contacts.parentAccount')}</p>
       </td>
-      <td className="px-4 py-3">
+      <td className="px-4 py-2.5">
         {contact.students.length === 0 ? (
           <span className="text-xs text-slate-400">{t('contacts.noStudents')}</span>
         ) : (
@@ -517,7 +536,7 @@ function ContactRow({
             {contact.students.map((student) => (
               <li
                 key={student.id}
-                className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs text-slate-700"
+                className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs text-slate-700"
                 dir="auto"
               >
                 {student.name?.trim() || '—'}
@@ -526,7 +545,7 @@ function ContactRow({
           </ul>
         )}
       </td>
-      <td className="px-4 py-3">
+      <td className="px-4 py-2.5">
         <Badge variant={contact.students.length > 0 ? 'info' : 'neutral'}>
           {contact.students.length}
         </Badge>
@@ -547,7 +566,7 @@ function TextField({
   dir?: 'ltr' | 'rtl'
 }) {
   return (
-    <label className="space-y-1.5 text-xs font-medium text-slate-500">
+    <label className="space-y-1.5 text-xs font-semibold text-slate-600">
       <span>{label}</span>
       <Input dir={dir} value={value} onChange={(event) => onChange(event.target.value)} />
     </label>
@@ -568,7 +587,7 @@ function SelectField({
   onChange: (value: string) => void
 }) {
   return (
-    <label className="space-y-1.5 text-xs font-medium text-slate-500">
+    <label className="space-y-1.5 text-xs font-semibold text-slate-600">
       <span>{label}</span>
       <Select value={value} onValueChange={onChange} options={options} disabled={disabled} />
     </label>

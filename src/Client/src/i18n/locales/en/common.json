@@ -198,7 +198,47 @@
     "importUnavailable": "Importing contacts isn't available yet.",
     "profileTitle": "Contact details",
     "profileUnavailable": "Contact details aren't available yet.",
-    "leadStatusField": "Lead status"
+    "leadStatusField": "Lead status",
+    "profile": {
+      "breadcrumb": "Clients / Contacts / Unified profile",
+      "title": "Unified customer profile",
+      "subtitle": "The contact and each linked student in one read-only dossier.",
+      "readOnly": "Read only",
+      "readOnlyHint": "This dossier is read-only; nothing can be edited here.",
+      "notFound": "Contact not found",
+      "notFoundHint": "The requested record couldn't be found. Go back to the client list and check the selected contact.",
+      "accessDenied": "You can't view this profile",
+      "accessDeniedHint": "Your permissions don't cover this record, or it's outside your data scope.",
+      "students": "Linked students",
+      "studentsHint": "Select a student to view only that student's operational records",
+      "noStudents": "No students are linked to this contact.",
+      "noStudentsHint": "The contact details stay visible above, and the remaining sections are still available.",
+      "recordCount": "{{count}} sections",
+      "scopeNote": "Showing data for {{name}} only. Other students' records are not shown here.",
+      "contactHint": "Contact — the aggregation root of the dossier",
+      "studentsCount": "{{count}} linked students",
+      "phone": "Phone",
+      "email": "Email",
+      "city": "City",
+      "lastUpdated": "Last updated",
+      "sectionsNav": "Dossier sections",
+      "sectionNote": "Each section shows its state: loaded, empty, or failed to load.",
+      "sections": {
+        "opportunities": "Enrollment opportunities & campaign",
+        "communications": "Communication log",
+        "subscriptions": "Subscriptions",
+        "guidance": "Academic guidance",
+        "support": "Customer service log"
+      },
+      "states": {
+        "loaded": "Loaded",
+        "empty": "Empty",
+        "unavailable": "Failed to load"
+      },
+      "unavailableSection": "This section couldn't be loaded. The other sections are available.",
+      "emptySection": "No records in this section for this student.",
+      "backToList": "Back to clients"
+    }
   },
   "validation": {
     "required": "This field is required",

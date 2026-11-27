@@ -58,7 +58,7 @@ export function CreateUserPage() {
       <section className="space-y-5">
         <PageHeader breadcrumb={t('users.breadcrumb')} title={t('users.createTitle')} />
         <div
-          className="space-y-3 rounded-2xl border border-slate-200 bg-white p-6"
+          className="space-y-3 rounded-lg border border-slate-200 bg-white p-6"
           aria-busy="true"
         >
           {Array.from({ length: 6 }, (_, index) => (
@@ -73,7 +73,7 @@ export function CreateUserPage() {
     return (
       <section className="space-y-5">
         <PageHeader breadcrumb={t('users.breadcrumb')} title={t('users.createTitle')} />
-        <div className="rounded-2xl border border-slate-200 bg-white">
+        <div className="rounded-lg border border-slate-200 bg-white">
           <ErrorState error={lookupsQuery.error} onRetry={() => void lookupsQuery.refetch()} />
         </div>
         <BackLink />

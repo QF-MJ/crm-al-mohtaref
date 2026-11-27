@@ -83,7 +83,7 @@ export function UserFormPage() {
       <section className="space-y-5">
         <PageHeader breadcrumb={t('users.breadcrumb')} title={t('users.editTitle')} />
         <div
-          className="space-y-3 rounded-2xl border border-slate-200 bg-white p-6"
+          className="space-y-3 rounded-lg border border-slate-200 bg-white p-6"
           aria-busy="true"
         >
           {Array.from({ length: 6 }, (_, index) => (
@@ -98,7 +98,7 @@ export function UserFormPage() {
     return (
       <section className="space-y-5">
         <PageHeader breadcrumb={t('users.breadcrumb')} title={t('users.editTitle')} />
-        <div className="rounded-2xl border border-slate-200 bg-white">
+        <div className="rounded-lg border border-slate-200 bg-white">
           <ErrorState
             error={userQuery.error ?? lookupsQuery.error}
             onRetry={() => {
@@ -117,7 +117,7 @@ export function UserFormPage() {
     return (
       <section className="space-y-5">
         <PageHeader breadcrumb={t('users.breadcrumb')} title={t('users.editTitle')} />
-        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6">
+        <div className="rounded-lg border border-amber-200 bg-amber-50 p-6">
           <h2 className="flex items-center gap-2 font-semibold text-amber-900">
             <AlertTriangle aria-hidden="true" className="size-5" />
             {t('users.permissionLookupTitle')}

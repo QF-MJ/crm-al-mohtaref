@@ -128,7 +128,7 @@ export function UsersPage() {
           access.can('users.create') ? (
             <Link
               to={paths.usersNew}
-              className="inline-flex h-9 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+              className="inline-flex h-9 items-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
             >
               <UserPlus aria-hidden="true" className="size-4" />
               {t('users.add')}
@@ -138,7 +138,7 @@ export function UsersPage() {
       />
 
       {!access.isAdmin && (
-        <div className="flex items-start gap-3 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-900">
+        <div className="flex items-start gap-3 rounded-lg border border-s-4 border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-900">
           <ShieldCheck aria-hidden="true" className="mt-0.5 size-[18px] shrink-0" />
           <p className="leading-6">{t('users.scopeNote')}</p>
         </div>
@@ -147,9 +147,22 @@ export function UsersPage() {
       <form
         onSubmit={applyFilters}
         aria-label={t('users.filters')}
-        className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5"
+        className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm"
       >
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 px-4 py-3 sm:px-5">
+          <h2 className="text-sm font-semibold text-slate-800">{t('users.filters')}</h2>
+          {hasFilters && (
+            <button
+              type="button"
+              onClick={clearFilters}
+              className="rounded-md text-xs font-medium text-teal-700 underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600/30"
+            >
+              {t('users.clearFilters')}
+            </button>
+          )}
+        </div>
+
+        <div className="grid gap-3 p-4 sm:grid-cols-2 xl:grid-cols-3 sm:p-5">
           <TextField
             label={t('users.fullName')}
             value={draft.name}
@@ -191,12 +204,12 @@ export function UsersPage() {
         </div>
 
         {lookupsQuery.isError && (
-          <p role="alert" className="mt-3 text-sm text-destructive">
+          <p role="alert" className="px-4 pb-3 text-sm text-destructive sm:px-5">
             {t('users.lookupsError')}
           </p>
         )}
 
-        <div className="mt-4 flex flex-wrap justify-center gap-2">
+        <div className="flex flex-wrap items-center justify-end gap-2 border-t border-slate-100 px-4 py-3 sm:px-5">
           <Button type="submit" size="sm" disabled={!canQuery}>
             <Search aria-hidden="true" />
             {t('actions.search')}
@@ -207,10 +220,10 @@ export function UsersPage() {
         </div>
       </form>
 
-      <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <section className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
         <header className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 px-4 py-4 sm:px-5">
           <div>
-            <h2 className="font-semibold text-slate-900">{t('users.listTitle')}</h2>
+            <h2 className="text-base font-semibold text-slate-900">{t('users.listTitle')}</h2>
             <p className="mt-1 text-xs leading-6 text-slate-500">{t('users.listDescription')}</p>
           </div>
           {usersQuery.data && (
@@ -269,21 +282,21 @@ export function UsersPage() {
           <>
             <div className="overflow-x-auto">
               <table className="w-full min-w-[720px] text-start text-sm">
-                <thead className="bg-slate-50 text-xs font-medium text-slate-500">
+                <thead className="bg-slate-50 text-xs font-semibold text-slate-600">
                   <tr>
-                    <th scope="col" className="px-4 py-3 text-start">
+                    <th scope="col" className="px-4 py-2.5 text-start">
                       {t('users.fullName')}
                     </th>
-                    <th scope="col" className="px-4 py-3 text-start">
+                    <th scope="col" className="px-4 py-2.5 text-start">
                       {t('users.username')}
                     </th>
-                    <th scope="col" className="px-4 py-3 text-start">
+                    <th scope="col" className="px-4 py-2.5 text-start">
                       {t('users.email')}
                     </th>
-                    <th scope="col" className="px-4 py-3 text-start">
+                    <th scope="col" className="px-4 py-2.5 text-start">
                       {t('users.status')}
                     </th>
-                    <th scope="col" className="px-4 py-3 text-start">
+                    <th scope="col" className="px-4 py-2.5 text-start">
                       {t('users.actions')}
                     </th>
                   </tr>
@@ -322,7 +335,7 @@ function UserRow({ user, canEdit }: { user: UserListItem; canEdit: boolean }) {
 
   return (
     <tr className="transition-colors hover:bg-teal-50/50">
-      <td className="px-4 py-3 font-medium text-slate-800">
+      <td className="px-4 py-2.5 font-medium text-slate-800">
         <Link
           to={paths.user(user.id)}
           className="hover:text-primary hover:underline"
@@ -332,13 +345,13 @@ function UserRow({ user, canEdit }: { user: UserListItem; canEdit: boolean }) {
           {user.fullName?.trim() || '—'}
         </Link>
       </td>
-      <td className="px-4 py-3 text-slate-600" dir="ltr">
+      <td className="px-4 py-2.5 text-slate-600" dir="ltr">
         {user.accountName}
       </td>
-      <td className="px-4 py-3 text-slate-500" dir="ltr">
+      <td className="px-4 py-2.5 text-slate-500" dir="ltr">
         {user.email || '—'}
       </td>
-      <td className="px-4 py-3">
+      <td className="px-4 py-2.5">
         {user.isActive ? (
           <Badge variant="success" dot>
             {t('users.active')}
@@ -349,18 +362,18 @@ function UserRow({ user, canEdit }: { user: UserListItem; canEdit: boolean }) {
           </Badge>
         )}
       </td>
-      <td className="px-4 py-3">
+      <td className="px-4 py-2.5">
         <div className="flex flex-wrap gap-2">
           <Link
             to={paths.user(user.id)}
-            className="inline-flex h-8 items-center rounded-lg border border-slate-200 bg-white px-3 text-xs font-medium text-slate-700 hover:bg-slate-50"
+            className="inline-flex h-8 items-center rounded-md border border-slate-200 bg-white px-3 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-50"
           >
             {t('actions.view')}
           </Link>
           {canEdit && (
             <Link
               to={paths.userEdit(user.id)}
-              className="inline-flex h-8 items-center rounded-lg border border-teal-200 bg-teal-50 px-3 text-xs font-medium text-teal-800 hover:bg-teal-100"
+              className="inline-flex h-8 items-center rounded-md border border-teal-200 bg-teal-50 px-3 text-xs font-medium text-teal-800 transition-colors hover:bg-teal-100"
             >
               {t('actions.edit')}
             </Link>
@@ -381,7 +394,7 @@ function TextField({
   onChange: (value: string) => void
 }) {
   return (
-    <label className="space-y-1.5 text-xs font-medium text-slate-500">
+    <label className="space-y-1.5 text-xs font-semibold text-slate-600">
       <span>{label}</span>
       <Input value={value} onChange={(event) => onChange(event.target.value)} />
     </label>
@@ -402,7 +415,7 @@ function SelectField({
   disabled?: boolean
 }) {
   return (
-    <label className="space-y-1.5 text-xs font-medium text-slate-500">
+    <label className="space-y-1.5 text-xs font-semibold text-slate-600">
       <span>{label}</span>
       <Select value={value} onValueChange={onChange} options={options} disabled={disabled} />
     </label>

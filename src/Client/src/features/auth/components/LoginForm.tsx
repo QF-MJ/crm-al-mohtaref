@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AlertCircle, Eye, EyeOff, LoaderCircle } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { useCharacterInteraction } from '@/features/auth/context/characterInteraction'
+import { useCharacterInteraction } from '../context/characterInteraction'
 import { cn } from '@/lib/utils'
 import { loginSchema, type LoginForm as LoginFormValues } from '../schemas/login.schema'
 
@@ -14,7 +14,7 @@ interface LoginFormProps {
 }
 
 const FIELD_CLASS =
-  'mt-1.5 h-11 w-full rounded-xl border border-border bg-muted/60 px-3.5 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:bg-card focus:ring-4 focus:ring-primary/10 disabled:cursor-not-allowed disabled:opacity-60'
+  'mt-1.5 h-11 w-full rounded-md border border-border bg-muted/60 px-3.5 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary focus:bg-card focus:ring-4 focus:ring-primary/10 disabled:cursor-not-allowed disabled:opacity-60'
 
 export function LoginForm({ onSubmit, isPending, errorMessage }: LoginFormProps) {
   const { t } = useTranslation('auth')
@@ -37,7 +37,7 @@ export function LoginForm({ onSubmit, isPending, errorMessage }: LoginFormProps)
           <span aria-hidden="true" className="size-1.5 rounded-full bg-primary" />
           {t('formEyebrow')}
         </p>
-        <h1 className="text-[1.65rem] font-bold tracking-tight text-foreground">{t('title')}</h1>
+        <h1 className="text-[1.65rem] font-bold leading-tight text-foreground">{t('title')}</h1>
         <p className="text-sm leading-6 text-muted-foreground">{t('subtitle')}</p>
       </header>
 
@@ -45,7 +45,7 @@ export function LoginForm({ onSubmit, isPending, errorMessage }: LoginFormProps)
         <div
           role="alert"
           aria-live="polite"
-          className="mt-5 flex items-start gap-2.5 rounded-xl border border-destructive/20 bg-destructive/5 px-3.5 py-3 text-sm text-destructive"
+          className="mt-5 flex items-start gap-2.5 rounded-lg border border-destructive/20 bg-destructive/5 px-3.5 py-3 text-sm text-destructive"
         >
           <AlertCircle aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
           <p className="leading-6">{errorMessage}</p>
@@ -109,7 +109,7 @@ export function LoginForm({ onSubmit, isPending, errorMessage }: LoginFormProps)
               aria-label={showPassword ? t('hidePassword') : t('showPassword')}
               aria-pressed={showPassword}
               disabled={isPending}
-              className="absolute right-1.5 top-1/2 grid size-8 -translate-y-1/2 place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 disabled:opacity-50"
+              className="absolute right-1.5 top-1/2 grid size-8 -translate-y-1/2 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 disabled:opacity-50"
             >
               {showPassword ? (
                 <EyeOff aria-hidden="true" className="size-[18px]" />
@@ -129,7 +129,7 @@ export function LoginForm({ onSubmit, isPending, errorMessage }: LoginFormProps)
       <button
         type="submit"
         disabled={isPending}
-        className="mt-6 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-primary text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card disabled:cursor-not-allowed disabled:opacity-60"
+        className="mt-6 flex h-11 w-full items-center justify-center gap-2 rounded-md bg-primary text-sm font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card disabled:cursor-not-allowed disabled:opacity-60"
       >
         {isPending && <LoaderCircle aria-hidden="true" className="size-4 animate-spin" />}
         {t(isPending ? 'submitting' : 'submit')}

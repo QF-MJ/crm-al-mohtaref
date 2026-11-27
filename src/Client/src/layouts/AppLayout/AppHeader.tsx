@@ -33,7 +33,7 @@ export function AppHeader({ className, navigationExpanded, onToggleNavigation }:
           type="button"
           variant="ghost"
           size="icon"
-          className="lg:hidden"
+          className="rounded-md lg:hidden"
           onClick={onToggleNavigation}
           aria-label={
             navigationExpanded ? t('actions.closeNavigation') : t('actions.openNavigation')
@@ -71,7 +71,7 @@ export function AppHeader({ className, navigationExpanded, onToggleNavigation }:
           size="sm"
           onClick={() => void i18n.changeLanguage(nextLanguage)}
           aria-label={t('actions.switchLanguage')}
-          className="gap-2 text-slate-600"
+          className="gap-2 rounded-md text-slate-600"
         >
           <Languages aria-hidden="true" />
           <span className="hidden sm:inline">

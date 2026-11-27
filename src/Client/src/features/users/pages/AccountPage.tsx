@@ -28,7 +28,7 @@ export function AccountPage() {
       />
 
       <div className="grid gap-5 lg:grid-cols-[1.3fr_1fr]">
-        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
           <h2 className="flex items-center gap-2 font-semibold text-slate-900">
             <UserRound aria-hidden="true" className="size-4 text-slate-400" />
             {t('account.details')}
@@ -63,7 +63,7 @@ export function AccountPage() {
           )}
         </section>
 
-        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
           <h2 className="flex items-center gap-2 font-semibold text-slate-900">
             <ShieldCheck aria-hidden="true" className="size-4 text-slate-400" />
             {t('account.accessTitle')}
@@ -85,7 +85,7 @@ export function AccountPage() {
         </section>
       </div>
 
-      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+      <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
         <h2 className="flex items-center gap-2 font-semibold text-slate-900">
           <KeyRound aria-hidden="true" className="size-4 text-slate-400" />
           {t('account.permissionsTitle')}
@@ -95,7 +95,7 @@ export function AccountPage() {
         </p>
 
         {permissions.length === 0 ? (
-          <p className="mt-4 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          <p className="mt-4 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-800">
             {t('permissions.none')}
           </p>
         ) : (
@@ -103,7 +103,7 @@ export function AccountPage() {
             {permissions.map((permission) => (
               <li
                 key={`${permission.id}-${permission.departmentName}-${permission.roleName}`}
-                className="rounded-xl border border-slate-200 bg-slate-50/60 p-4"
+                className="rounded-lg border border-slate-200 bg-slate-50/60 p-4"
               >
                 <p className="text-sm font-semibold text-slate-800">{permission.roleName}</p>
                 <p className="mt-1 text-xs text-slate-500">

@@ -69,7 +69,7 @@ export function NotificationsMenu() {
         <div
           role="dialog"
           aria-label={t('notifications.title')}
-          className="absolute end-0 top-[calc(100%+1.25rem)] z-40 w-[min(20rem,calc(100vw-2rem))] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg shadow-slate-900/5"
+          className="absolute end-0 top-[calc(100%+1.25rem)] z-40 w-[min(20rem,calc(100vw-2rem))] overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg shadow-slate-900/5"
         >
           <header className="flex items-center justify-between gap-2 border-b border-slate-100 px-4 py-3">
             <p className="text-sm font-semibold text-slate-900">{t('notifications.title')}</p>

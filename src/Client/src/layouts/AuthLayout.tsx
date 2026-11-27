@@ -35,7 +35,7 @@ const PEEK_FOCUS_LEFT =
 // فقاعة كلام تظهر فوق رأس الشخصية: تبقى فوق حافة الكرت تماماً حتى لا يحجبها الكرت،
 // وتُحصَر داخل عرض الشاشة على الموبايل بسقف max-w.
 const PEEK_BUBBLE =
-  'pointer-events-none absolute bottom-full z-[2] w-max max-w-[200px] -translate-x-1/2 rounded-2xl bg-white px-3 py-2 text-center text-xs font-medium leading-5 text-slate-700 shadow-md ring-1 ring-slate-900/5 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] motion-reduce:transition-none dark:bg-slate-800 dark:text-slate-100 dark:ring-white/10 max-sm:max-w-[120px] max-sm:px-2.5 max-sm:text-[11px]'
+  'pointer-events-none absolute bottom-full z-[2] w-max max-w-[200px] -translate-x-1/2 rounded-lg bg-white px-3 py-2 text-center text-xs font-medium leading-5 text-slate-700 shadow-md ring-1 ring-slate-900/5 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] motion-reduce:transition-none dark:bg-slate-800 dark:text-slate-100 dark:ring-white/10 max-sm:max-w-[120px] max-sm:px-2.5 max-sm:text-[11px]'
 
 const PEEK_BUBBLE_ARROW =
   'absolute -bottom-1 left-1/2 size-2.5 -translate-x-1/2 rotate-45 rounded-[2px] bg-white shadow-[1px_1px_2px_rgba(15,23,42,0.06)] dark:bg-slate-800'
@@ -109,7 +109,7 @@ export function AuthLayout() {
           <button
             type="button"
             onClick={() => void i18n.changeLanguage(nextLanguage)}
-            className="inline-flex h-9 items-center gap-1.5 rounded-lg px-2.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
+            className="inline-flex h-9 items-center gap-1.5 rounded-md px-2.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
             aria-label={t('actions.switchLanguage')}
           >
             <Languages aria-hidden="true" className="size-4" />
@@ -154,7 +154,7 @@ export function AuthLayout() {
               </div>
             </div>
 
-            <div className="relative z-10 overflow-hidden rounded-3xl border border-border bg-card p-6 shadow-[0_20px_55px_-38px_rgba(11,60,55,0.45)] sm:p-8">
+            <div className="relative z-10 overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-[0_20px_55px_-38px_rgba(11,60,55,0.45)] sm:p-8">
               <span
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-primary/45 to-transparent"

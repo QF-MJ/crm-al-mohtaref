@@ -16,7 +16,7 @@ export function ErrorState({ error, onRetry, isRetrying }: ErrorStateProps) {
 
   return (
     <div role="alert" className="flex flex-col items-center gap-4 px-6 py-12 text-center">
-      <span className="grid size-12 place-items-center rounded-2xl bg-rose-50 text-rose-600">
+      <span className="grid size-12 place-items-center rounded-lg bg-rose-50 text-rose-600 ring-1 ring-inset ring-rose-200">
         <AlertTriangle aria-hidden="true" className="size-6" />
       </span>
       <p className="max-w-md text-sm leading-6 text-rose-800">{text}</p>
