@@ -32,11 +32,17 @@ const roles = [
 
 // الباك يرسل قيمة تعداد الدور (Employee | Manager)، والموك يخزّن الاسم العربي.
 const ROLE_NAMES: Record<string, string> = { Employee: 'موظف', Manager: 'مدير' }
-const roleNameFor = (value: string | undefined) => (value ? (ROLE_NAMES[value] ?? value) : undefined)
+const roleNameFor = (value: string | undefined) =>
+  value ? (ROLE_NAMES[value] ?? value) : undefined
 
 const tracks = [
   { id: guid(301), name: 'البرمجة للأطفال' },
   { id: guid(302), name: 'اللغة الإنجليزية للأطفال' },
+]
+
+const campaigns = [
+  { id: guid(351), name: 'حملة الصيف' },
+  { id: guid(352), name: 'حملة العودة للمدرسة' },
 ]
 
 const leadStatuses = [
@@ -202,6 +208,7 @@ export const usersHandlers = [
       tracks: includes('Tracks') ? tracks : undefined,
       leadStatuses: includes('LeadStatuses') ? leadStatuses : undefined,
       tags: includes('Tags') ? tags : undefined,
+      campaigns: includes('Campaigns') ? campaigns : undefined,
       campaignStatuses: includes('CampaignStatuses') ? campaignStatuses : undefined,
       platforms: includes('Platforms') ? platforms : undefined,
     }

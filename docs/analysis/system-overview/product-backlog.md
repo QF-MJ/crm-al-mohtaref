@@ -1,8 +1,8 @@
 # CRM — Product Backlog: Epics & User Stories
 
-> Structured product backlog for the CRM platform, prepared for **GitHub** documentation and **Jira** task assignment. It is derived from the CRM use case diagrams and is organized into **10 Epics** and **59 User Stories**, each with a priority, dependencies, and acceptance criteria.
+> Structured product backlog for the CRM platform, prepared for **GitHub** documentation and **Jira** task assignment. It is derived from the CRM use case diagrams and is organized into **11 Epics** and **72 User Stories**, each with a priority, dependencies, and acceptance criteria.
 
-![User Management](https://img.shields.io/badge/EPIC--01-User%20Management-B3DAF2?style=for-the-badge) ![Customer Management](https://img.shields.io/badge/EPIC--02-Customer%20Management-28A745?style=for-the-badge) ![Task Management](https://img.shields.io/badge/EPIC--03-Task%20Management-C9B6F2?style=for-the-badge) ![Notification Management](https://img.shields.io/badge/EPIC--04-Notification%20Management-9E9E9E?style=for-the-badge) ![External Integration](https://img.shields.io/badge/EPIC--05-External%20Integration-0B3D91?style=for-the-badge) ![Sales Management](https://img.shields.io/badge/EPIC--06-Sales%20Management-FFC27A?style=for-the-badge) ![Campaign Management](https://img.shields.io/badge/EPIC--07-Campaign%20Management-E8D8B9?style=for-the-badge) ![Customer Service](https://img.shields.io/badge/EPIC--08-Customer%20Service-D73A49?style=for-the-badge) ![Academic Follow-up](https://img.shields.io/badge/EPIC--09-Academic%20Follow--up-800020?style=for-the-badge) ![Reporting](https://img.shields.io/badge/EPIC--10-Reporting-00BFFF?style=for-the-badge)
+![User Management](https://img.shields.io/badge/EPIC--01-User%20Management-B3DAF2?style=for-the-badge) ![Customer Management](https://img.shields.io/badge/EPIC--02-Customer%20Management-28A745?style=for-the-badge) ![Task Management](https://img.shields.io/badge/EPIC--03-Task%20Management-C9B6F2?style=for-the-badge) ![Notification Management](https://img.shields.io/badge/EPIC--04-Notification%20Management-9E9E9E?style=for-the-badge) ![External Integration](https://img.shields.io/badge/EPIC--05-External%20Integration-0B3D91?style=for-the-badge) ![Sales Management](https://img.shields.io/badge/EPIC--06-Sales%20Management-FFC27A?style=for-the-badge) ![Campaign Management](https://img.shields.io/badge/EPIC--07-Campaign%20Management-E8D8B9?style=for-the-badge) ![Customer Service](https://img.shields.io/badge/EPIC--08-Customer%20Service-D73A49?style=for-the-badge) ![Academic Follow-up](https://img.shields.io/badge/EPIC--09-Academic%20Follow--up-800020?style=for-the-badge) ![Reporting](https://img.shields.io/badge/EPIC--10-Reporting-00BFFF?style=for-the-badge) ![Course Management](https://img.shields.io/badge/EPIC--11-Course%20Management-008080?style=for-the-badge)
 
 ## Table of Contents
 
@@ -21,6 +21,7 @@
   - [EPIC-08 · Customer Service](#epic-08--customer-service)
   - [EPIC-09 · Academic Follow-up](#epic-09--academic-follow-up)
   - [EPIC-10 · Reporting](#epic-10--reporting)
+  - [EPIC-11 · Course Management](#epic-11--course-management)
 - [Delivery Roadmap and Jira Assignment Order](#delivery-roadmap-and-jira-assignment-order)
 
 ## Project Overview
@@ -75,6 +76,7 @@ Story IDs are permanent identifiers: they are not renumbered or reused when stor
 | ![Customer Service](https://img.shields.io/badge/EPIC--08-Customer%20Service-D73A49?style=for-the-badge) | Red | `#D73A49` |
 | ![Academic Follow-up](https://img.shields.io/badge/EPIC--09-Academic%20Follow--up-800020?style=for-the-badge) | Burgundy | `#800020` |
 | ![Reporting](https://img.shields.io/badge/EPIC--10-Reporting-00BFFF?style=for-the-badge) | Sky Blue | `#00BFFF` |
+| ![Course Management](https://img.shields.io/badge/EPIC--11-Course%20Management-008080?style=for-the-badge) | Teal | `#008080` |
 
 ## Roles and Access Model
 
@@ -98,8 +100,8 @@ flowchart BT
 | User | — | Login, logout, password, notifications, own tasks (EPIC-01, 03, 04) |
 | Sales Employee | User | Customers, payment and subscription (EPIC-02, 06) |
 | Marketing Employee | User | Limited customer view, view campaigns (EPIC-02, 07) |
-| Customer Service Employee | User | Customer file, tickets, subscribed customers (EPIC-02, 08, 09) |
-| Academic Advisor | User | Subscribed customers, placement, student file (EPIC-09) |
+| Customer Service Employee | User | Customer file, tickets, subscribed students (EPIC-02, 08, 09) |
+| Academic Advisor | User | Subscribed students, placement, student file (EPIC-09) |
 | Sales Manager | Sales Employee | Distribution, assignment, import, tasks, sales reports (EPIC-03, 05, 06, 10) |
 | Marketing Manager | Marketing Employee | Campaign management, tasks, marketing reports (EPIC-03, 07, 10) |
 | Customer Service Manager | Customer Service Employee | All tickets, escalations, tasks, service reports (EPIC-03, 08, 10) |
@@ -110,16 +112,17 @@ flowchart BT
 
 | Epic | Color | Priority | Stories | Key Actors |
 |---|---|---|---|---|
-| ![User Management](https://img.shields.io/badge/EPIC--01-User%20Management-B3DAF2?style=for-the-badge) | `#B3DAF2` | ⏫ Highest | 10 | User, Admin |
-| ![Customer Management](https://img.shields.io/badge/EPIC--02-Customer%20Management-28A745?style=for-the-badge) | `#28A745` | ⏫ Highest | 10 | Sales Employee, Customer Service Employee, Marketing Employee |
-| ![Task Management](https://img.shields.io/badge/EPIC--03-Task%20Management-C9B6F2?style=for-the-badge) | `#C9B6F2` | ▶️ Medium | 5 | User, Task Manager (Sales / Marketing / Customer Service Manager) |
+| ![User Management](https://img.shields.io/badge/EPIC--01-User%20Management-B3DAF2?style=for-the-badge) | `#B3DAF2` | ⏫ Highest | 11 | User, Admin |
+| ![Customer Management](https://img.shields.io/badge/EPIC--02-Customer%20Management-28A745?style=for-the-badge) | `#28A745` | ⏫ Highest | 12 | Sales Employee, Customer Service Employee, Marketing Employee |
+| ![Task Management](https://img.shields.io/badge/EPIC--03-Task%20Management-C9B6F2?style=for-the-badge) | `#C9B6F2` | ▶️ Medium | 6 | User, Task Manager (Sales / Marketing / Customer Service Manager) |
 | ![Notification Management](https://img.shields.io/badge/EPIC--04-Notification%20Management-9E9E9E?style=for-the-badge) | `#9E9E9E` | 🔼 High | 3 | User, Notification Service, Scheduler |
 | ![External Integration](https://img.shields.io/badge/EPIC--05-External%20Integration-0B3D91?style=for-the-badge) | `#0B3D91` | 🔼 High | 5 | Sales Manager, Scheduler, Google Sheets, WhatsApp |
-| ![Sales Management](https://img.shields.io/badge/EPIC--06-Sales%20Management-FFC27A?style=for-the-badge) | `#FFC27A` | ⏫ Highest | 5 | Sales Employee, Sales Manager |
-| ![Campaign Management](https://img.shields.io/badge/EPIC--07-Campaign%20Management-E8D8B9?style=for-the-badge) | `#E8D8B9` | 🔼 High | 5 | Marketing Employee, Marketing Manager, Google Sheets |
-| ![Customer Service](https://img.shields.io/badge/EPIC--08-Customer%20Service-D73A49?style=for-the-badge) | `#D73A49` | 🔼 High | 7 | Customer Service Employee, Customer Service Manager |
+| ![Sales Management](https://img.shields.io/badge/EPIC--06-Sales%20Management-FFC27A?style=for-the-badge) | `#FFC27A` | ⏫ Highest | 7 | Sales Employee, Sales Manager |
+| ![Campaign Management](https://img.shields.io/badge/EPIC--07-Campaign%20Management-E8D8B9?style=for-the-badge) | `#E8D8B9` | 🔼 High | 6 | Marketing Employee, Marketing Manager, Google Sheets |
+| ![Customer Service](https://img.shields.io/badge/EPIC--08-Customer%20Service-D73A49?style=for-the-badge) | `#D73A49` | 🔼 High | 9 | Customer Service Employee, Customer Service Manager |
 | ![Academic Follow-up](https://img.shields.io/badge/EPIC--09-Academic%20Follow--up-800020?style=for-the-badge) | `#800020` | ⏫ Highest | 3 | Academic Advisor, Academic Advising Manager |
 | ![Reporting](https://img.shields.io/badge/EPIC--10-Reporting-00BFFF?style=for-the-badge) | `#00BFFF` | ▶️ Medium | 6 | Sales Manager, Marketing Manager, Customer Service Manager, Admin |
+| ![Course Management](https://img.shields.io/badge/EPIC--11-Course%20Management-008080?style=for-the-badge) | `#008080` | 🔼 High | 4 | Admin, Sales Manager |
 
 ### Epic flow
 
@@ -137,6 +140,7 @@ flowchart LR
     CS["EPIC-08<br/>Customer Service"]
     AF["EPIC-09<br/>Academic Follow-up"]
     RP["EPIC-10<br/>Reporting"]
+    CR["EPIC-11<br/>Course Management"]
     style UM fill:#B3DAF2,stroke:#333,color:#000
     style CM fill:#28A745,stroke:#333,color:#000
     style TM fill:#C9B6F2,stroke:#333,color:#000
@@ -147,7 +151,10 @@ flowchart LR
     style CS fill:#D73A49,stroke:#333,color:#fff
     style AF fill:#800020,stroke:#333,color:#fff
     style RP fill:#00BFFF,stroke:#333,color:#000
+    style CR fill:#008080,stroke:#333,color:#fff
     UM --> CM
+    UM --> CR
+    CR --> SL
     CM --> SL
     SL --> AF
     IN --> CM
@@ -177,7 +184,7 @@ Authentication, account lifecycle, and role-based access control for every CRM u
 | **GitHub label** | `epic:user-management` |
 | **Epic priority** | ⏫ Highest |
 | **Actors** | User, Admin |
-| **Stories** | 10 |
+| **Stories** | 11 |
 
 | ID | Title | Actor | Priority | Depends on |
 |---|---|---|---|---|
@@ -191,6 +198,7 @@ Authentication, account lifecycle, and role-based access control for every CRM u
 | **UM-08** | Freeze / deactivate user | Admin | 🔼 High | UM-05 |
 | **UM-09** | Reset user password | Admin | 🔼 High | UM-05 |
 | **UM-10** | Define role permissions | Admin | ⏫ Highest | UM-01 |
+| **UM-11** | View user details | Admin | 🔼 High | UM-04 |
 
 <details>
 <summary><b>Story details and acceptance criteria — EPIC-01</b></summary>
@@ -295,6 +303,16 @@ Authentication, account lifecycle, and role-based access control for every CRM u
   - [ ] Changes apply to every user holding that role.
   - [ ] Role inheritance is respected (see the Roles section).
 
+#### UM-11 — View user details
+
+> As an **Admin**, I want to view the details of a specific user, so that I can review an account's data, role, and status before managing it.
+
+- **Priority:** 🔼 High &nbsp;|&nbsp; **Depends on:** UM-04
+- **Acceptance criteria:**
+  - [ ] The details display the user's profile data, assigned role and permissions, and account status.
+  - [ ] The details are opened from the users list (UM-04).
+  - [ ] The details are accessible to Admin only.
+
 </details>
 
 ### EPIC-02 · Customer Management
@@ -310,7 +328,7 @@ The customer lifecycle from first contact to subscription: profile data, student
 | **GitHub label** | `epic:customer-management` |
 | **Epic priority** | ⏫ Highest |
 | **Actors** | Sales Employee, Customer Service Employee, Marketing Employee |
-| **Stories** | 10 |
+| **Stories** | 12 |
 
 | ID | Title | Actor | Priority | Depends on |
 |---|---|---|---|---|
@@ -324,6 +342,8 @@ The customer lifecycle from first contact to subscription: profile data, student
 | **CM-08** | Change customer status | Sales Employee | ⏫ Highest | CM-01 |
 | **CM-10** | Log customer contact | Sales Employee, Customer Service Employee | 🔼 High | CM-06 |
 | **CM-11** | Limited customer view for marketing | Marketing Employee | ▶️ Medium | CM-05, UM-10 |
+| **CM-12** | Edit customer note | Sales Employee, Customer Service Employee | ▶️ Medium | CM-04 |
+| **CM-13** | Edit student data | Sales Employee, Customer Service Employee | 🔼 High | AF-03 |
 
 <details>
 <summary><b>Story details and acceptance criteria — EPIC-02</b></summary>
@@ -426,6 +446,26 @@ The customer lifecycle from first contact to subscription: profile data, student
   - [ ] Marketing employees see customers by source and status only.
   - [ ] Data beyond the permitted scope is hidden.
 
+#### CM-12 — Edit customer note
+
+> As a **Sales Employee or Customer Service Employee**, I want to edit a note on a customer's file, so that notes stay accurate and up to date.
+
+- **Priority:** ▶️ Medium &nbsp;|&nbsp; **Depends on:** CM-04
+- **Acceptance criteria:**
+  - [ ] Authorized users can update the text of an existing note.
+  - [ ] The original author and timestamp of the note are preserved.
+  - [ ] The updated note is displayed in the unified customer profile.
+
+#### CM-13 — Edit student data
+
+> As a **Sales Employee or Customer Service Employee**, I want to edit a student's data, so that the student's information remains accurate.
+
+- **Priority:** 🔼 High &nbsp;|&nbsp; **Depends on:** AF-03
+- **Acceptance criteria:**
+  - [ ] Authorized users can update the student fields.
+  - [ ] The link to the student's guardian remains intact after the edit.
+  - [ ] Updated values are immediately visible in the student file (AF-03).
+
 </details>
 
 ### EPIC-03 · Task Management
@@ -441,26 +481,28 @@ Creation, assignment, and tracking of employee tasks. Managers create and edit t
 | **GitHub label** | `epic:task-management` |
 | **Epic priority** | ▶️ Medium |
 | **Actors** | User, Task Manager (Sales / Marketing / Customer Service Manager) |
-| **Stories** | 5 |
+| **Stories** | 6 |
 
 | ID | Title | Actor | Priority | Depends on |
 |---|---|---|---|---|
-| **TM-01** | View my tasks | User | ▶️ Medium | UM-01 |
+| **TM-01** | View my tasks and department tasks | User | ▶️ Medium | UM-01 |
 | **TM-02** | Change task status | User | ▶️ Medium | TM-01, TM-05 |
 | **TM-03** | Add task | Task Manager | ▶️ Medium | UM-10, NT-02 |
 | **TM-04** | Edit task | Task Manager | ▶️ Medium | TM-03, NT-02 |
 | **TM-05** | View task details | User | ▶️ Medium | TM-01 |
+| **TM-06** | Delete task | Task Manager | ▶️ Medium | TM-03 |
 
 <details>
 <summary><b>Story details and acceptance criteria — EPIC-03</b></summary>
 
-#### TM-01 — View my tasks
+#### TM-01 — View my tasks and department tasks
 
-> As a **User**, I want to view the tasks assigned to me, so that I know what needs to be done.
+> As a **User**, I want to view the tasks assigned to me and, if I am a manager, the tasks of my department, so that I know what needs to be done.
 
 - **Priority:** ▶️ Medium &nbsp;|&nbsp; **Depends on:** UM-01
 - **Acceptance criteria:**
-  - [ ] The user sees only tasks assigned to them.
+  - [ ] An employee sees only the tasks assigned to them.
+  - [ ] A manager sees their own tasks and the tasks of the employees in their department.
   - [ ] Each task displays its title, details, and current status.
 
 #### TM-02 — Change task status
@@ -504,6 +546,16 @@ Creation, assignment, and tracking of employee tasks. Managers create and edit t
 - **Acceptance criteria:**
   - [ ] The user can open any task assigned to them.
   - [ ] The details include the title, description, due date, and current status.
+
+#### TM-06 — Delete task
+
+> As a **Task Manager**, I want to delete a task, so that tasks created by mistake or no longer needed are removed.
+
+- **Priority:** ▶️ Medium &nbsp;|&nbsp; **Depends on:** TM-03
+- **Acceptance criteria:**
+  - [ ] A task manager can delete an existing task.
+  - [ ] A confirmation is requested before the task is deleted.
+  - [ ] A deleted task no longer appears in the assignee's task list.
 
 </details>
 
@@ -658,7 +710,7 @@ Customer distribution and assignment, payment recording, and course subscription
 | **GitHub label** | `epic:sales-management` |
 | **Epic priority** | ⏫ Highest |
 | **Actors** | Sales Employee, Sales Manager |
-| **Stories** | 5 |
+| **Stories** | 7 |
 
 | ID | Title | Actor | Priority | Depends on |
 |---|---|---|---|---|
@@ -667,6 +719,8 @@ Customer distribution and assignment, payment recording, and course subscription
 | **SL-05** | Distribute customers automatically | Sales Manager | 🔼 High | CM-05 |
 | **SL-07** | Assign customers manually | Sales Manager | 🔼 High | CM-05 |
 | **SL-09** | Record payment | Sales Employee | 🔼 High | CM-01 |
+| **SL-10** | Edit enrollment | Sales Employee | 🔼 High | SL-03 |
+| **SL-11** | Edit payment | Sales Employee | 🔼 High | SL-09 |
 
 
 <details>
@@ -692,7 +746,7 @@ Customer distribution and assignment, payment recording, and course subscription
 - **Acceptance criteria:**
   - [ ] The transfer runs automatically once SL-03 completes.
   - [ ] No manual re-entry is required.
-  - [ ] The customer appears in the subscribed customers list (AF-01).
+  - [ ] The student appears in the subscribed students list (AF-01).
 
 #### SL-05 — Distribute customers automatically
 
@@ -723,6 +777,26 @@ Customer distribution and assignment, payment recording, and course subscription
   - [ ] Payment details (amount, date, and method) are recorded against the customer.
   - [ ] The payment is visible in the customer's file.
 
+#### SL-10 — Edit enrollment
+
+> As a **Sales Employee**, I want to edit a customer's enrollment in a course, so that registration data reflects the real state of the customer.
+
+- **Priority:** 🔼 High &nbsp;|&nbsp; **Depends on:** SL-03
+- **Acceptance criteria:**
+  - [ ] The enrollment status can be changed, including cancelling the subscription.
+  - [ ] Every change is recorded with the previous status, the new status, the user, and the date/time.
+  - [ ] The updated registration is visible in the student file (AF-03).
+
+#### SL-11 — Edit payment
+
+> As a **Sales Employee**, I want to edit a recorded payment, so that payment records remain correct.
+
+- **Priority:** 🔼 High &nbsp;|&nbsp; **Depends on:** SL-09
+- **Acceptance criteria:**
+  - [ ] Payment details (amount, date, and method) can be corrected.
+  - [ ] Every edit is recorded with the user and the date.
+  - [ ] The updated payment is visible in the customer's file.
+
 </details>
 
 ### EPIC-07 · Campaign Management
@@ -738,7 +812,7 @@ Registration and tracking of advertising campaigns, including linking a campaign
 | **GitHub label** | `epic:campaign-management` |
 | **Epic priority** | 🔼 High |
 | **Actors** | Marketing Employee, Marketing Manager, Google Sheets |
-| **Stories** | 5 |
+| **Stories** | 6 |
 
 | ID | Title | Actor | Priority | Depends on |
 |---|---|---|---|---|
@@ -747,6 +821,7 @@ Registration and tracking of advertising campaigns, including linking a campaign
 | **CP-03** | Edit campaign data | Marketing Manager | ▶️ Medium | CP-02 |
 | **CP-04** | Update campaign status | Marketing Manager | ▶️ Medium | CP-02 |
 | **CP-05** | Link campaign to Google Sheets | Marketing Manager, Google Sheets | ▶️ Medium | CP-02, IN-01 |
+| **CP-06** | View campaign details | Marketing Employee | ▶️ Medium | CP-01 |
 
 <details>
 <summary><b>Story details and acceptance criteria — EPIC-07</b></summary>
@@ -798,6 +873,15 @@ Registration and tracking of advertising campaigns, including linking a campaign
   - [ ] The link is stored with the campaign data.
   - [ ] Connection errors are reported to the user.
 
+#### CP-06 — View campaign details
+
+> As a **Marketing Employee**, I want to view the details of a specific campaign, so that I understand its data and current status.
+
+- **Priority:** ▶️ Medium &nbsp;|&nbsp; **Depends on:** CP-01
+- **Acceptance criteria:**
+  - [ ] The details display the campaign data and its current status.
+  - [ ] The details are opened from the campaigns list (CP-01).
+
 </details>
 
 ### EPIC-08 · Customer Service
@@ -813,7 +897,7 @@ Ticket-based issue management: creation, follow-up, action logging, status chang
 | **GitHub label** | `epic:customer-service` |
 | **Epic priority** | 🔼 High |
 | **Actors** | Customer Service Employee, Customer Service Manager |
-| **Stories** | 7 |
+| **Stories** | 9 |
 
 | ID | Title | Actor | Priority | Depends on |
 |---|---|---|---|---|
@@ -824,6 +908,8 @@ Ticket-based issue management: creation, follow-up, action logging, status chang
 | **CS-08** | View customer's previous issues | Customer Service Employee | ▶️ Medium | CS-01 |
 | **CS-09** | View and track all issues | Customer Service Manager | 🔼 High | CS-01 |
 | **CS-10** | Handle an escalated issue | Customer Service Manager | ▶️ Medium | CS-09 |
+| **CS-11** | View ticket details | Customer Service Employee, Customer Service Manager | 🔼 High | CS-09 |
+| **CS-12** | Edit ticket details | Customer Service Employee | 🔼 High | CS-11 |
 
 <details>
 <summary><b>Story details and acceptance criteria — EPIC-08</b></summary>
@@ -893,6 +979,25 @@ Ticket-based issue management: creation, follow-up, action logging, status chang
   - [ ] Escalated tickets are routed to the designated handler.
   - [ ] The handler can log actions and close the ticket.
 
+#### CS-11 — View ticket details
+
+> As a **Customer Service Employee or Customer Service Manager**, I want to view the details of a specific ticket, so that I understand the issue and how it has been handled.
+
+- **Priority:** 🔼 High &nbsp;|&nbsp; **Depends on:** CS-09
+- **Acceptance criteria:**
+  - [ ] The details display the customer, issue type, priority, status, creator, and creation date.
+  - [ ] The actions logged on the ticket are visible in its history.
+
+#### CS-12 — Edit ticket details
+
+> As a **Customer Service Employee**, I want to edit the details of a ticket, so that the issue information remains accurate.
+
+- **Priority:** 🔼 High &nbsp;|&nbsp; **Depends on:** CS-11
+- **Acceptance criteria:**
+  - [ ] Authorized users can update the ticket fields, such as issue type and priority.
+  - [ ] Updated values are immediately visible in the ticket details.
+  - [ ] Every change is recorded with the user and the date.
+
 </details>
 
 ### EPIC-09 · Academic Follow-up
@@ -912,7 +1017,7 @@ Student tracking after subscription: placement into groups and the student file 
 
 | ID | Title | Actor | Priority | Depends on |
 |---|---|---|---|---|
-| **AF-01** | View subscribed customers | Academic Advisor | ⏫ Highest | SL-04 |
+| **AF-01** | View subscribed students | Academic Advisor | ⏫ Highest | SL-04 |
 | **AF-02** | Place student in a group | Academic Advisor | ⏫ Highest | AF-01 |
 | **AF-03** | View student file | Academic Advisor | ⏫ Highest | AF-01 |
 
@@ -920,14 +1025,14 @@ Student tracking after subscription: placement into groups and the student file 
 <details>
 <summary><b>Story details and acceptance criteria — EPIC-09</b></summary>
 
-#### AF-01 — View subscribed customers
+#### AF-01 — View subscribed students
 
-> As an **Academic Advisor**, I want to view the list of subscribed customers, so that I know which students require academic placement.
+> As an **Academic Advisor**, I want to view the list of subscribed students, so that I know which students require academic placement.
 
 - **Priority:** ⏫ Highest &nbsp;|&nbsp; **Depends on:** SL-04
 - **Note:** Shared with the Customer Service Employee role.
 - **Acceptance criteria:**
-  - [ ] Only customers whose status is Subscribed are listed.
+  - [ ] Only students of customers whose status is Subscribed are listed.
   - [ ] Customer Service Employees can also view this list.
 
 #### AF-02 — Place student in a group
@@ -1036,6 +1141,69 @@ Management indicators and dashboards for sales, marketing, and customer service,
 
 </details>
 
+### EPIC-11 · Course Management
+
+![Course Management](https://img.shields.io/badge/EPIC--11-Course%20Management-008080?style=for-the-badge)
+
+Management of the courses offered by the organization: adding a course, editing it, and viewing the course list and course details.
+
+| Attribute | Value |
+|---|---|
+| **Epic key** | `EPIC-11` |
+| **Color** | Teal (`#008080`) |
+| **GitHub label** | `epic:course-management` |
+| **Epic priority** | 🔼 High |
+| **Actors** | Admin, Sales Manager |
+| **Stories** | 4 |
+
+| ID | Title | Actor | Priority | Depends on |
+|---|---|---|---|---|
+| **CR-01** | Add course | Admin | 🔼 High | UM-10 |
+| **CR-02** | Edit course | Admin | ▶️ Medium | CR-01 |
+| **CR-03** | View courses | Admin, Sales Manager | 🔼 High | CR-01 |
+| **CR-04** | View course | Admin, Sales Manager | ▶️ Medium | CR-03 |
+
+<details>
+<summary><b>Story details and acceptance criteria — EPIC-11</b></summary>
+
+#### CR-01 — Add course
+
+> As an **Admin**, I want to add a new course, so that the courses offered by the organization are available for subscription.
+
+- **Priority:** 🔼 High &nbsp;|&nbsp; **Depends on:** UM-10
+- **Acceptance criteria:**
+  - [ ] Required course fields are validated on save.
+  - [ ] The new course appears in the course list immediately after creation.
+
+#### CR-02 — Edit course
+
+> As an **Admin**, I want to edit an existing course, so that course information remains accurate and up to date.
+
+- **Priority:** ▶️ Medium &nbsp;|&nbsp; **Depends on:** CR-01
+- **Acceptance criteria:**
+  - [ ] Authorized users can update course fields.
+  - [ ] Updated values are immediately visible in the course list and course details.
+
+#### CR-03 — View courses
+
+> As an **Admin or Sales Manager**, I want to view the list of courses, so that I can see all the courses offered.
+
+- **Priority:** 🔼 High &nbsp;|&nbsp; **Depends on:** CR-01
+- **Acceptance criteria:**
+  - [ ] Courses are listed with their key data.
+  - [ ] The list is accessible to Admin and Sales Manager only.
+
+#### CR-04 — View course
+
+> As an **Admin or Sales Manager**, I want to view the details of a specific course, so that I can review its data before managing it.
+
+- **Priority:** ▶️ Medium &nbsp;|&nbsp; **Depends on:** CR-03
+- **Acceptance criteria:**
+  - [ ] The course details display all of the course's data.
+  - [ ] The details are opened from the course list (CR-03).
+
+</details>
+
 ## Delivery Roadmap and Jira Assignment Order
 
 Assign stories to Jira in the order listed inside each Sprint.
@@ -1060,16 +1228,19 @@ Assign stories to Jira in the order listed inside each Sprint.
 | # | Story | Epic | Priority | Depends on |
 |---|---|---|---|---|
 | 1 | **UM-04** — View users list | EPIC-01 | 🔼 High | UM-01 |
-| 2 | **CP-01** — View ad campaigns | EPIC-07 | ▶️ Medium | CP-02 |
-| 3 | **TM-01** — View my tasks | EPIC-03 | ▶️ Medium | UM-01 |
-| 4 | **TM-03** — Add task | EPIC-03 | ▶️ Medium | TM-01 |
-| 5 | **TM-04** — Edit task | EPIC-03 | ▶️ Medium | TM-03 |
-| 6 | **TM-02** — Change task status | EPIC-03 | ▶️ Medium | TM-01 |
-| 7 | **CM-06** — View unified customer profile | EPIC-02 | 🔼 High | CM-05 |
-| 8 | **CM-03** — Edit customer data | EPIC-02 | 🔼 High | CM-06 |
-| 9 | **CM-04** — Add note to customer | EPIC-02 | ▶️ Medium | CM-06 |
-| 10 | **CM-08** — Change customer status | EPIC-02 | ⏫ Highest | CM-05 |
-| 11 | **UM-09** — Reset user password | EPIC-01 | 🔼 High | UM-05 |
+| 2 | **UM-11** — View user details | EPIC-01 | 🔼 High | UM-04 |
+| 3 | **CP-01** — View ad campaigns | EPIC-07 | ▶️ Medium | CP-02 |
+| 4 | **CP-06** — View campaign details | EPIC-07 | ▶️ Medium | CP-01 |
+| 5 | **TM-01** — View my tasks and department tasks | EPIC-03 | ▶️ Medium | UM-01 |
+| 6 | **TM-03** — Add task | EPIC-03 | ▶️ Medium | TM-01 |
+| 7 | **TM-04** — Edit task | EPIC-03 | ▶️ Medium | TM-03 |
+| 8 | **TM-02** — Change task status | EPIC-03 | ▶️ Medium | TM-01 |
+| 9 | **TM-06** — Delete task | EPIC-03 | ▶️ Medium | TM-03 |
+| 10 | **CM-06** — View unified customer profile | EPIC-02 | 🔼 High | CM-05 |
+| 11 | **CM-03** — Edit customer data | EPIC-02 | 🔼 High | CM-06 |
+| 12 | **CM-04** — Add note to customer | EPIC-02 | ▶️ Medium | CM-06 |
+| 13 | **CM-08** — Change customer status | EPIC-02 | ⏫ Highest | CM-05 |
+| 14 | **UM-09** — Reset user password | EPIC-01 | 🔼 High | UM-05 |
 
 ### Sprint 3 — Core Business Flow
 
@@ -1077,12 +1248,17 @@ Assign stories to Jira in the order listed inside each Sprint.
 |---|---|---|---|---|
 | 1 | **SL-05** — Distribute customers automatically | EPIC-06 | 🔼 High | CM-05, TM-03 |
 | 2 | **SL-09** — Record payment | EPIC-06 | 🔼 High | CM-06 |
-| 3 | **SL-03** — Subscribe customer to a course | EPIC-06 | ⏫ Highest | CM-08 |
-| 4 | **AF-01** — View subscribed customers | EPIC-09 | ⏫ Highest | SL-03 |
-| 5 | **AF-03** — View student file | EPIC-09 | ⏫ Highest | AF-01 |
-| 6 | **CS-01** — Create ticket | EPIC-08 | 🔼 High | CM-06 |
-| 7 | **CS-09** — View and track all issues | EPIC-08 | 🔼 High | CS-01 |
-| 8 | **CS-06** — Change issue status | EPIC-08 | 🔼 High | CS-01 |
+| 3 | **SL-11** — Edit payment | EPIC-06 | 🔼 High | SL-09 |
+| 4 | **SL-03** — Subscribe customer to a course | EPIC-06 | ⏫ Highest | CM-08 |
+| 5 | **SL-10** — Edit enrollment | EPIC-06 | 🔼 High | SL-03 |
+| 6 | **AF-01** — View subscribed students | EPIC-09 | ⏫ Highest | SL-03 |
+| 7 | **AF-03** — View student file | EPIC-09 | ⏫ Highest | AF-01 |
+| 8 | **CS-01** — Create ticket | EPIC-08 | 🔼 High | CM-06 |
+| 9 | **CS-09** — View and track all issues | EPIC-08 | 🔼 High | CS-01 |
+| 10 | **CS-06** — Change issue status | EPIC-08 | 🔼 High | CS-01 |
+| 11 | **CS-11** — View ticket details | EPIC-08 | 🔼 High | CS-09 |
+| 12 | **CR-01** — Add course | EPIC-11 | 🔼 High | UM-10 |
+| 13 | **CR-03** — View courses | EPIC-11 | 🔼 High | CR-01 |
 
 ### Sprint 4 — Notifications & Reporting
 
@@ -1096,6 +1272,11 @@ Assign stories to Jira in the order listed inside each Sprint.
 | 6 | **RP-03** — View lead sources and campaign effectiveness | EPIC-10 | ▶️ Medium | CP-02 |
 | 7 | **RP-04** — View customer service indicators | EPIC-10 | ▶️ Medium | CS-09 |
 | 8 | **RP-05** — View consolidated dashboard | EPIC-10 | ▶️ Medium | RP-01, RP-03, RP-04 |
+| 9 | **CM-12** — Edit customer note | EPIC-02 | ▶️ Medium | CM-04 |
+| 10 | **CM-13** — Edit student data | EPIC-02 | 🔼 High | AF-03 |
+| 11 | **CR-02** — Edit course | EPIC-11 | ▶️ Medium | CR-01 |
+| 12 | **CR-04** — View course | EPIC-11 | ▶️ Medium | CR-03 |
+| 13 | **CS-12** — Edit ticket details | EPIC-08 | 🔼 High | CS-11 |
 
 ### Backlog
 
@@ -1112,16 +1293,17 @@ Assign stories to Jira in the order listed inside each Sprint.
 
 ### Epic distribution across Sprints
 
-| Epic | **Sprint 1**<br>10 stories | **Sprint 2**<br>11 stories | **Sprint 3**<br>8 stories | **Sprint 4**<br>8 stories | **Backlog**<br>8 stories |
+| Epic | **Sprint 1**<br>10 stories | **Sprint 2**<br>14 stories | **Sprint 3**<br>13 stories | **Sprint 4**<br>13 stories | **Backlog**<br>8 stories |
 |---|---|---|---|---|---|
-| ![User Management](https://img.shields.io/badge/EPIC--01-User%20Management-B3DAF2?style=for-the-badge) | UM-01, UM-02, UM-05, UM-07 | UM-04, UM-09 | — | UM-03 | UM-10 |
-| ![Customer Management](https://img.shields.io/badge/EPIC--02-Customer%20Management-28A745?style=for-the-badge) | CM-05 | CM-03, CM-04, CM-06, CM-08 | — | — | CM-01, CM-02, CM-10 |
-| ![Task Management](https://img.shields.io/badge/EPIC--03-Task%20Management-C9B6F2?style=for-the-badge) | — | TM-01, TM-02, TM-03, TM-04 | — | — | — |
+| ![User Management](https://img.shields.io/badge/EPIC--01-User%20Management-B3DAF2?style=for-the-badge) | UM-01, UM-02, UM-05, UM-07 | UM-04, UM-09, UM-11 | — | UM-03 | UM-10 |
+| ![Customer Management](https://img.shields.io/badge/EPIC--02-Customer%20Management-28A745?style=for-the-badge) | CM-05 | CM-03, CM-04, CM-06, CM-08 | — | CM-12, CM-13 | CM-01, CM-02, CM-10 |
+| ![Task Management](https://img.shields.io/badge/EPIC--03-Task%20Management-C9B6F2?style=for-the-badge) | — | TM-01, TM-02, TM-03, TM-04, TM-06 | — | — | — |
 | ![Notification Management](https://img.shields.io/badge/EPIC--04-Notification%20Management-9E9E9E?style=for-the-badge) | — | — | — | NT-01, NT-02 | — |
 | ![External Integration](https://img.shields.io/badge/EPIC--05-External%20Integration-0B3D91?style=for-the-badge) | IN-01, IN-02 | — | — | — | IN-04, IN-05 |
-| ![Sales Management](https://img.shields.io/badge/EPIC--06-Sales%20Management-FFC27A?style=for-the-badge) | — | — | SL-03, SL-05, SL-09 | — | — |
-| ![Campaign Management](https://img.shields.io/badge/EPIC--07-Campaign%20Management-E8D8B9?style=for-the-badge) | CP-02, CP-03, CP-04 | CP-01 | — | — | — |
-| ![Customer Service](https://img.shields.io/badge/EPIC--08-Customer%20Service-D73A49?style=for-the-badge) | — | — | CS-01, CS-06, CS-09 | — | CS-04 |
+| ![Sales Management](https://img.shields.io/badge/EPIC--06-Sales%20Management-FFC27A?style=for-the-badge) | — | — | SL-03, SL-05, SL-09, SL-10, SL-11 | — | — |
+| ![Campaign Management](https://img.shields.io/badge/EPIC--07-Campaign%20Management-E8D8B9?style=for-the-badge) | CP-02, CP-03, CP-04 | CP-01, CP-06 | — | — | — |
+| ![Customer Service](https://img.shields.io/badge/EPIC--08-Customer%20Service-D73A49?style=for-the-badge) | — | — | CS-01, CS-06, CS-09, CS-11 | CS-12 | CS-04 |
 | ![Academic Follow-up](https://img.shields.io/badge/EPIC--09-Academic%20Follow--up-800020?style=for-the-badge) | — | — | AF-01, AF-03 | — | — |
 | ![Reporting](https://img.shields.io/badge/EPIC--10-Reporting-00BFFF?style=for-the-badge) | — | — | — | RP-01, RP-02, RP-03, RP-04, RP-05 | RP-06 |
+| ![Course Management](https://img.shields.io/badge/EPIC--11-Course%20Management-008080?style=for-the-badge) | — | — | CR-01, CR-03 | CR-02, CR-04 | — |
 
