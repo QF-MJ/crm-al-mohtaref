@@ -33,8 +33,7 @@ public sealed class GetTasksQueryValidator : AbstractValidator<GetTasksQuery>
             .WithMessage("تاريخ النهاية مطلوب");
 
         RuleFor(x => x.EndTime)
-            .Must((x, end) => end!.Value.Date >= x.StartTime!.Value.Date)
-            .When(x => x.StartTime.HasValue && x.EndTime.HasValue)
+            .Must((x, end) => end.Date >= x.StartTime.Date)
             .WithMessage("تاريخ النهاية يجب أن يكون أكبر من أو يساوي تاريخ البداية");
 
         RuleFor(x => x.AssignedToUserId )

@@ -186,26 +186,24 @@ public class GetTasksQueryValidatorTests
         _validator.TestValidate(query).ShouldNotHaveValidationErrorFor(x => x.EndTime);
     }
 
-    // Per the API spec StartTime and EndTime are required.
-    // Expected to FAIL today: both are nullable and the rule is skipped when null.
     [Fact]
     public void StartTime_Missing_Fails()
     {
-        var query = Valid() with { StartTime = null, EndTime = Start };
+        var query = Valid() with { StartTime = default, EndTime = Start };
         _validator.TestValidate(query).ShouldHaveValidationErrorFor(x => x.StartTime);
     }
 
     [Fact]
     public void EndTime_Missing_Fails()
     {
-        var query = Valid() with { StartTime = Start, EndTime = null };
+        var query = Valid() with { StartTime = Start, EndTime = default };
         _validator.TestValidate(query).ShouldHaveValidationErrorFor(x => x.EndTime);
     }
 
     [Fact]
     public void BothDates_Missing_Fails()
     {
-        var result = _validator.TestValidate(Valid() with { StartTime = null, EndTime = null });
+        var result = _validator.TestValidate(Valid() with { StartTime = default, EndTime = default });
 
         result.ShouldHaveValidationErrorFor(x => x.StartTime);
         result.ShouldHaveValidationErrorFor(x => x.EndTime);

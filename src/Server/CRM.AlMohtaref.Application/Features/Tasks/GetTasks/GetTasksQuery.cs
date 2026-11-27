@@ -10,7 +10,7 @@ public sealed record GetTasksQuery(
     int PageNumber = 1,
     string? Title = null,
     TaskType? Type = null,
-    DateTime? StartTime = default,
-    DateTime? EndTime = default,
+    DateTime StartTime = default,
+    DateTime EndTime = default,
     bool GroupBySubTask = false
 ) : PagedQuery(PageNumber), IRequest<TasksPageDto>;

@@ -22,7 +22,7 @@ public class DeleteTaskCommandHandlerTests
 
     public DeleteTaskCommandHandlerTests()
     {
-        _handler = new DeleteTaskCommandHandler(_tasks.Object, _currentUser.Object, _unitOfWork.Object);
+        _handler = new DeleteTaskCommandHandler(_tasks.Object);
         _currentUser.SetupGet(c => c.UserId).Returns(_callerId);
         _currentUser.Setup(c => c.IsAdministrationManager()).Returns(false);
     }
@@ -47,7 +47,7 @@ public class DeleteTaskCommandHandlerTests
 
     private void VerifyNothingDeleted()
     {
-        _tasks.Verify(r => r.DeleteByIdAsync(It.IsAny<TaskEntity>(), It.IsAny<CancellationToken>()), Times.Never);
+        _tasks.Verify(r => r.DeleteByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()), Times.Never);
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
@@ -123,7 +123,7 @@ public class DeleteTaskCommandHandlerTests
 
         await _handler.Handle(Command(), default);
 
-        _tasks.Verify(r => r.DeleteByIdAsync(task, It.IsAny<CancellationToken>()), Times.Once);
+        _tasks.Verify(r => r.DeleteByIdAsync(_taskId, It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
 
@@ -146,7 +146,7 @@ public class DeleteTaskCommandHandlerTests
 
         await _handler.Handle(Command(), default);
 
-        _tasks.Verify(r => r.DeleteByIdAsync(task, It.IsAny<CancellationToken>()), Times.Once);
+        _tasks.Verify(r => r.DeleteByIdAsync(_taskId, It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
 
@@ -176,7 +176,7 @@ public class DeleteTaskCommandHandlerTests
 
         await _handler.Handle(Command(), default);
 
-        _tasks.Verify(r => r.DeleteByIdAsync(task, It.IsAny<CancellationToken>()), Times.Once);
+        _tasks.Verify(r => r.DeleteByIdAsync(_taskId, It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
 
@@ -283,7 +283,7 @@ public class DeleteTaskCommandHandlerTests
 
         await _handler.Handle(Command(), cts.Token);
 
-        _tasks.Verify(r => r.DeleteByIdAsync(task, cts.Token), Times.Once);
+        _tasks.Verify(r => r.DeleteByIdAsync(_taskId, It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWork.Verify(u => u.SaveChangesAsync(cts.Token), Times.Once);
     }
 
@@ -292,7 +292,7 @@ public class DeleteTaskCommandHandlerTests
     {
         var calls = new List<string>();
         GivenTask(Task(_callerId));
-        _tasks.Setup(r => r.DeleteByIdAsync(It.IsAny<TaskEntity>(), It.IsAny<CancellationToken>()))
+        _tasks.Setup(r => r.DeleteByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
               .Callback(() => calls.Add("delete"));
         _unitOfWork.Setup(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()))
                    .Callback(() => calls.Add("save"));

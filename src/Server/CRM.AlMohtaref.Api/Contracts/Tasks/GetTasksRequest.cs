@@ -9,9 +9,9 @@ public class GetTasksRequest : PagedRequest
 
     public TaskType? Type { get; set; }
 
-    public DateTime? StartTime { get; set; }
+    public DateTime StartTime { get; set; }
 
-    public DateTime? EndTime { get; set; }
+    public DateTime EndTime { get; set; }
 
     public Guid AssignedToUserId  { get; set; }
 

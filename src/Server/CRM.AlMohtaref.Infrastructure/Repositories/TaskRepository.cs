@@ -145,9 +145,8 @@ public class TaskRepository(AppDbContext db)
             .AsNoTracking()
             .Where(t => t.AssignedToUserId == query.AssignedToUserId
                 && (string.IsNullOrWhiteSpace(query.Title) || t.Title.Contains(query.Title.Trim()))
-                && (query.Type == null || t.TaskType == query.Type)
-                && (query.StartTime == default || t.StartTime >= query.StartTime)
-                && (query.EndTime == default || t.EndTime <= query.EndTime)
+                && (t.StartTime >= query.StartTime)
+                && (t.EndTime <= query.EndTime)
             );
 
         PageDto page = new PageDto(query.PageNumber, false);
@@ -155,7 +154,9 @@ public class TaskRepository(AppDbContext db)
         if (query.GroupBySubTask)
         {
             var rawSubTasks = await baseQuery
-                .Where(t => t.TaskType == TaskType.SubTask && t.ParentTaskId != null)
+                .Where(t => t.TaskType == TaskType.SubTask
+                && (t.ParentTaskId != null 
+                && (query.Type == null || t.ParentTask!.TaskType == query.Type)))
                 .OrderByDescending(t => t.EndTime)
                 .Skip((query.PageNumber - 1) * PaginationSettings.PageSize)
                 .Take(PaginationSettings.PageSize + 1)
@@ -200,7 +201,8 @@ public class TaskRepository(AppDbContext db)
         }
 
         var rawTasks = await baseQuery
-            .Where(t => t.TaskType != TaskType.SubTask)
+            .Where(t => t.TaskType != TaskType.SubTask
+             && (query.Type == null || t.TaskType == query.Type))
             .OrderByDescending(t => t.EndTime)
             .Skip((query.PageNumber - 1) * PaginationSettings.PageSize)
             .Take(PaginationSettings.PageSize + 1)
@@ -249,8 +251,9 @@ public class TaskRepository(AppDbContext db)
             .ExecuteDeleteAsync(ct);
     }
 
-    public Task<bool> ExistsAsync(Guid id, CancellationToken ct = default)
+    public async Task<bool> ExistsAsync(Guid id, CancellationToken ct = default)
     {
-        throw new NotImplementedException();
+        return await db.Tasks
+            .AnyAsync(t => t.Id == id, ct);
     }
 }
